@@ -76,7 +76,7 @@ export default function ContactAndSocial({
 				<a
 					href={`https://annuaire-entreprises.data.gouv.fr/etablissement/${siret}`}
 					target="_blank"
-					title="Fiche entreprise sur l'annuaire officiel des entreprises"
+					title="Fiche de l'établissement sur l'annuaire officiel des entreprises"
 					style={css`
 						display: flex;
 						align-items: center;
@@ -93,7 +93,7 @@ export default function ContactAndSocial({
 						width={14}
 						height={14}
 					/>
-					<span>fiche entreprise</span>
+					<span>fiche de l'établissement</span>
 				</a>
 			)}
 		</div>
