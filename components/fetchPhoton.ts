@@ -6,9 +6,10 @@ import {
 	omit,
 	replaceArrayIndex,
 } from '@/components/utils/utils'
+import { photonServerUrl } from '@/app/serverUrls'
 
 //const photonBaseUrl = 'https://photon.komoot.io'
-const photonBaseUrl = 'https://serveur.cartes.app/photon'
+const photonBaseUrl = photonServerUrl
 
 function fetchPhoton(v, setState, stepIndex, local, zoom, setSearchParams) {
 	/*
