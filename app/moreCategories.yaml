@@ -86,40 +86,6 @@
   icon: https://cdn.jsdelivr.net/gh/mapbox/maki/icons/music.svg
   category: Loisirs
 
-- name: piscine
-  category: Sports
-  dictionary:
-    - bain
-    - nage
-      # basin only  query: '[leisure=swimming_pool][access=yes]'
-  query: '[leisure=sports_centre][sport=swimming]'
-  icon: https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/sport/swimming_indoor.svg
-- name: stade
-  category: Sports
-  dictionary:
-    - foot
-    - athlétisme
-  query: '[leisure=pitch]'
-  icon: https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/sport/stadium.svg
-- name: gymnase
-  category: Sports
-  dictionary:
-    - badminton
-    - tennis
-    - salle de sport
-    - basket
-    - hand
-  query: '[leisure=sports_centre]'
-  icon: https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/sport/gymnasium.svg
-- name: fitness
-  category: Sports
-  dictionary:
-    - exercice
-    - entrainement
-    - muscu
-  query: '[fitness_station]'
-  icon: https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/sport/fitness_station.svg
-
 - name: plage
   category: Tourisme
   query: '[natural=beach]'
@@ -136,11 +102,6 @@
     - '[landuse=recreation_ground]'
     - '[attraction=carousel]'
   icon: playground
-
-- name: Surf
-  category: Sports
-  query: '[sport=surfing]'
-  icon: surf
 
 ################################
 
@@ -345,6 +306,8 @@
   icon: parcel_locker
 
 #######################
+# DÉPLACEMENTS
+#######################
 
 - name: gare
   category: Déplacements
@@ -458,6 +421,359 @@
     - fauteuil
   query: '[parking_space=disabled]'
   icon: https://cdn.jsdelivr.net/gh/mapbox/maki@8.0.1/icons/wheelchair.svg
+
+#######################
+# SPORTS
+#######################
+
+# ÉQUIPEMENTS GÉNÉRALISTES
+
+- name: Complexe sportif
+  category: Sports
+  dictionary:
+    - Complexe
+    - sportif
+    - sport
+    - ⚽
+    - 🥅
+    - 🎾
+    - 🏉
+    - 🏀
+  query: '[leisure=sports_centre]["sport"!="swimming"]'
+  icon: https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/sport/pitch.svg
+
+- name: Gymnase
+  category: Sports
+  dictionary:
+    - gymnase
+    - gym
+    - halle
+    - sport
+    - 🤸
+    - 🤸‍♂️
+    - 🤸‍♀️
+    - 🤼
+    - 🤼‍♂️
+    - 🤼‍♀️
+    - 🤾
+    - 🤾‍♂️
+    - 🤾‍♀️
+  query: '[leisure=sports_hall]'
+  icon: https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/sport/gymnasium.svg
+
+- name: Terrain multisport
+  category: Sports
+  dictionary:
+    - football
+    - basketball
+    - city stade
+    - terrain
+    - enfant
+    - 🏟️
+    - ⚽
+    - 🥅
+    - 🏀
+  query: '[leisure=pitch][sport=multi]'
+  icon: https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/sport/pitch.svg
+
+- name: Stade
+  category: Sports
+  dictionary:
+    - stade
+    - foot
+    - sport
+    - ⚽
+    - 🥅
+    - 🏉
+  query: '[leisure=stadium]'
+  icon: https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/sport/stadium.svg
+
+- name: Tennis
+  category: Sports
+  dictionary:
+    - tennis
+    - 🎾
+    - 🥎
+    - balle
+  query: '["leisure"="pitch"][sport=tennis]'
+  icon: https://cdn.jsdelivr.net/gh/mapbox/maki/icons/tennis.svg
+
+- name: Piscine
+  category: Sports
+  dictionary:
+    - piscine
+    - natation
+    - bain
+    - nage
+    - aquatique
+    - eau
+    - baigner
+    - 🏊
+    - 🏊‍♂️
+    - 🏊‍♀️
+    - 🤽
+    - 🤽‍♂️
+    - 🤽‍♀️
+      # basin only  query: '[leisure=swimming_pool][access=yes]'
+  query: '[leisure=sports_centre][sport=swimming]'
+  icon: https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/sport/swimming_outdoor.svg
+
+- name: Salle de musculation
+  category: Sports
+  dictionary:
+    - exercice
+    - entrainement
+    - muscu
+    - crossfit
+    - cardio
+    - 🏋️
+    - 🏋️‍♂️
+    - 🏋️‍♀️
+  query: '["leisure"="fitness_centre"]'
+  icon: https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/sport/fitness_centre.svg
+
+- title: Équipements de fitness
+  name: equipements+de+fitness
+  category: Sports
+  dictionary:
+    - exercice
+    - entrainement
+    - muscu
+    - 🏋️
+    - 🏋️‍♂️
+    - 🏋️‍♀️
+  query:
+    - '[fitness_station]'
+    - '["leisure"="fitness_station"]'
+  icon: https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/sport/fitness_station.svg
+
+- name: Golf
+  category: Sports
+  dictionary:
+    - green
+    - golf
+    - ⛳
+    - 🏌️‍♀️
+    - 🏌️‍♂️
+    - 🏌️
+    - 🚩
+  query: '["leisure"="golf_course"]'
+  icon: https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/sport/golf.svg
+
+- title: Centre équestre
+  name: centre+equestre
+  category: Sports
+  dictionary:
+    - équitation
+    - cheval
+    - manège
+    - 🏇
+    - 🐴
+    - 🐎
+  query:
+    - '["leisure"="horse_riding"]'
+    - '[leisure=sports_centre][sport=equestrian]'
+  icon: https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/sport/horse_riding.svg
+
+- name: Dojo
+  category: Sports
+  dictionary:
+    - combat
+    - judo
+    - tatami
+    - karate
+    - kung fu
+    - aikido
+    - tatami
+    - 🥋
+    - 🤼
+    - 🤼‍♂️
+    - 🤼‍♀️
+  query: '["amenity"="dojo"]'
+  icon: https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/sport/judo.svg
+
+- name: Patinoire
+  category: Sports
+  dictionary:
+    - glace
+    - patin
+    - ⛸️
+    - 🏒
+    - 🧊
+  query:
+    - '["leisure"="ice_rink"]'
+    - '[sport=ice_skating]'
+  icon: https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/sport/iceskating.svg
+
+- name: Skatepark
+  category: Sports
+  dictionary:
+    - skate
+    - roller
+    - skateboard
+    - bmx
+    - enfant
+    - 🛼
+    - 🛴
+    - 🛹
+  query:
+    - '["leisure"="pitch"][sport=skateboard]'
+  icon: https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/sport/skateboard.svg
+
+- name: Pumptrack
+  category: Sports
+  dictionary:
+    - skate
+    - roller
+    - skateboard
+    - trottinette
+    - enfant
+    - 🛼
+    - 🛴
+    - 🛹
+  query:
+    - '["cycling"="pump_track"]'
+  icon: https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/sport/skateboard.svg
+
+# PAR SPORTS
+
+- name: Football
+  category: Sports
+  dictionary:
+    - foot
+    - ballon
+    - terrain
+    - ⚽
+    - 🥅
+  query:
+    - '["leisure"="pitch"][sport=football]'
+    - '[leisure=pitch][sport=multi]'
+  icon: https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/sport/soccer.svg
+
+- name: Basketball
+  category: Sports
+  dictionary:
+    - basket
+    - ballon
+    - 🏀
+    - ⛹️
+    - ⛹️‍♂️
+    - ⛹️‍♀️
+  query:
+    - '["leisure"="pitch"][sport=basketball]'
+    - '[leisure=pitch][sport=multi]'
+  icon: https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/sport/basketball.svg
+
+- name: Judo
+  category: Sports
+  dictionary:
+    - combat
+    - judo
+    - tatami
+    - 🥋
+    - 🤼
+    - 🤼‍♂️
+    - 🤼‍♀️
+  query:
+    - '["sport"="judo"]'
+    - '["amenity"="dojo"]'
+  icon: https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/sport/judo.svg
+
+- title: Pétanque
+  name: petanque
+  category: Sports
+  dictionary:
+    - pétanque
+    - boules
+    - lyonnaise
+  query: '["leisure"="pitch"][sport=boules]'
+  icon: boules.svg
+
+- name: Rugby
+  category: Sports
+  dictionary:
+    - rugby
+    - 🏉
+  query:
+    - '["leisure"="pitch"][sport=rugby]'
+  icon: https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/sport/rugby_union.svg
+
+- name: Handball
+  category: Sports
+  dictionary:
+    - handball
+    - ballon
+    - 🥅
+    - 🤾
+    - 🤾‍♂️
+    - 🤾‍♀️
+  query:
+    - '["leisure"="pitch"][sport=handball]'
+    - '[leisure=pitch][sport=multi]'
+  icon: https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/sport/handball.svg
+
+- title: Canoë-Kayak
+  name: canoe+kayak
+  category: Sports
+  dictionary:
+    - canoë
+    - kayak
+    - bateau
+    - 🛶
+    - 🌊
+    - 🚣‍♀️
+    - 🚣
+  query: '[sport=canoe]'
+  icon: https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/sport/canoe.svg
+
+- name: Ping-Pong
+  category: Sports
+  dictionary:
+    - ping
+    - pong
+    - tennis de table
+    - 🏓
+  query: '[sport=table_tennis]'
+  icon: https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/sport/table_tennis.svg
+
+- name: Escalade
+  category: Sports
+  dictionary:
+    - grimpe
+    - varape
+    - 🧗‍♀️
+    - 🧗‍♂️
+    - 🧗
+    - 🪨
+    - ⛰️
+  query: '[sport=climbing]'
+  icon: https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/sport/hillclimbing.svg
+
+- title: Athlétisme
+  name: athletisme
+  category: Sports
+  dictionary:
+    - course
+    - piste
+    - running
+    - 🏃‍♀️
+    - 🏃‍♂️
+    - 🏃
+  query: '[sport=athletics]'
+  icon: https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/sport/athletics.svg
+
+- name: Surf
+  category: Sports
+  dictionary:
+    - surf
+    - vague
+    - 🌊
+    - planche
+    - 🏄
+    - 🏄🏻
+    - 🏄‍♀️
+  query: '[sport=surfing]'
+  icon: surf
 
 ################################
 
