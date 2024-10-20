@@ -1,11 +1,12 @@
 import { buildPhotonItem } from '../fetchPhoton'
 import { debounce } from '../utils/utils'
+import { photonServerUrl } from '@/app/serverUrls'
 
 const regexp = /^de\s(.+)\s(?:à|a)(.+)$/i
 
 function fetchPhotonRaw(v, localSearch, zoom) {
 	return fetch(
-		`https://photon.komoot.io/api/?q=${encodeURIComponent(v)}&limit=30&lang=fr${
+		`${photonServerUrl}/api/?q=${encodeURIComponent(v)}&limit=30&lang=fr${
 			localSearch ? `&lat=${localSearch[0]}&lon=${localSearch[1]}` : ''
 		}${zoom ? `&zoom=${Math.round(zoom)}` : ''}`
 	).then((res) => res.json())
