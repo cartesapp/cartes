@@ -137,23 +137,32 @@ export default function useFetchItinerary(
 				date,
 				multiplePoints
 			)
-			const json = await computeMotisTrip(lonLats[0], lonLats[1], date)
+
+			const json = await computeMotisTrip(
+				lonLats[0],
+				lonLats[1],
+				date,
+				searchParams
+			)
 
 			console.log('lightgreen motis', json)
 
 			if (json.state === 'error') return json
 
 			if (!json?.content) return null
-			const notTransitType = ['Walk', 'Cycle']
+			const notTransitType = ['Walk', 'Cycle', 'Car']
 			const { connections } = json.content
-			if (
-				connections.every((connection) =>
-					connection.transports.every((transport) =>
+			const transitConnections = connections.filter(
+				(connection) =>
+					!connection.transports.every((transport) =>
 						notTransitType.includes(transport.move_type)
 					)
-				)
 			)
-				return null
+			if (transitConnections.length === 0)
+				return {
+					state: 'error',
+					reason: 'Pas de transport en commun trouvé :/',
+				}
 			/*
 			return sections.map((el) => ({
 				type: 'Feature',
@@ -161,7 +170,7 @@ export default function useFetchItinerary(
 				geometry: { coordinates: el.geojson.coordinates, type: 'LineString' },
 			}))
 			*/
-			return json.content
+			return { ...json.content, connections: transitConnections }
 		}
 		//TODO fails is 3rd point is closer to 1st than 2nd, use reduce that sums
 		const itineraryDistance = distance(points[0], points.slice(-1)[0])
@@ -170,9 +179,21 @@ export default function useFetchItinerary(
 		fetchTransitRoute(points, itineraryDistance, date).then((transit) =>
 			setRoutes((routes) => ({ ...routes, transit }))
 		)
-	}, [points, setRoutes, date])
+	}, [
+		points,
+		setRoutes,
+		date,
+		searchParams.correspondances,
+		searchParams.debut,
+	])
 
 	const resetItinerary = () =>
-		setSearchParams({ allez: undefined, mode: undefined, choix: undefined })
+		setSearchParams({
+			allez: undefined,
+			mode: undefined,
+			choix: undefined,
+			debut: undefined,
+			fin: undefined,
+		})
 	return [resetItinerary, routes, date]
 }

@@ -60,13 +60,11 @@ export default function BestConnection({ bestConnection }) {
 					.
 				</p>
 				<p>
-					⌚️{' '}
-					{capitalise0(
-						bestConnection.nextDepartures
-							.slice(0, 4)
-							.map((departure) => departure.toLowerCase())
-							.join(', ')
-					)}
+					⌚️ Partir{' '}
+					{bestConnection.nextDepartures
+						.slice(0, 4)
+						.map((departure) => departure.toLowerCase())
+						.join(', ')}
 					.
 				</p>
 			</div>

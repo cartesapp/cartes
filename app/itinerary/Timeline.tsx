@@ -1,8 +1,8 @@
 import useSetSearchParams from '@/components/useSetSearchParams'
-import { Line } from './transit/Transit'
-import { defaultRouteColor, nowStamp } from './transit/motisRequest'
 import Link from 'next/link'
+import { Line } from './transit/Transit'
 import TransitSummary from './transit/TransitSummary'
+import { nowStamp } from './transit/utils'
 
 export default function Timeline({ itinerary }) {
 	console.log('lightgreen timeline', itinerary)

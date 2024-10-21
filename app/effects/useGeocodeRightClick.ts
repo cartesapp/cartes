@@ -9,15 +9,19 @@ export default function useGeocodeRightClick(stringClickedPoint) {
 		}
 		const clickedPoint = stringClickedPoint.split('|')
 
+		const latitude = +clickedPoint[0],
+			longitude = +clickedPoint[1]
+
+		setData({ latitude, longitude, data: null })
 		const doFetch = async () => {
 			const request = await fetch(
-				`https://photon.komoot.io/reverse?lon=${clickedPoint[1]}&lat=${clickedPoint[0]}`
+				`https://serveur.cartes.app/photon/reverse?lon=${clickedPoint[1]}&lat=${clickedPoint[0]}`
 			)
 			const json = await request.json()
 
 			const result = {
-				latitude: +clickedPoint[0],
-				longitude: +clickedPoint[1],
+				latitude,
+				longitude,
 				data: json,
 			}
 			setData(result)

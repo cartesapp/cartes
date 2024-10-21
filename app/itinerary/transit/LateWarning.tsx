@@ -1,4 +1,4 @@
-import { stamp } from './motisRequest'
+import { stamp } from '@/app/itinerary/transit/utils'
 
 export const LateWarning = ({ date, firstDate }) => {
 	const diffHours = (firstDate - stamp(date)) / (60 * 60)

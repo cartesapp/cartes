@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+
+<svg
+   width="800px"
+   height="800px"
+   viewBox="0 0 48 48"
+   fill="none"
+   version="1.1"
+   id="svg404"
+   sodipodi:docname="wheelchair.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs408" />
+  <sodipodi:namedview
+     id="namedview406"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="0.388388"
+     inkscape:cx="369.47589"
+     inkscape:cy="489.20152"
+     inkscape:window-width="1920"
+     inkscape:window-height="1055"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg404" />
+  <rect
+     width="38.239124"
+     height="38.239124"
+     fill="#ffffff"
+     fill-opacity="0.01"
+     id="rect394"
+     x="6.1208067"
+     y="5.6052184"
+     style="stroke-width:0.796648" />
+  <path
+     d="m 29.719048,33.487994 c -1.061216,4.123134 -4.804109,7.169756 -9.258569,7.169756 -5.279708,0 -9.559781,-4.279994 -9.559781,-9.559702 0,-3.858168 2.285537,-7.182582 5.576539,-8.693027"
+     stroke="#000000"
+     stroke-width="3.18659"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="path396" />
+  <path
+     d="m 20.460479,15.165 1.593297,14.339672 11.949727,-0.796649 2.389945,8.763133 h 2.389945"
+     stroke="#000000"
+     stroke-width="3.18659"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="path398" />
+  <path
+     d="m 23.647073,11.978406 c 0,1.759876 -1.426718,3.186594 -3.186594,3.186594 -1.759876,0 -3.186594,-1.426718 -3.186594,-3.186594 0,-1.759908 1.426718,-3.1865943 3.186594,-3.1865943 1.759876,0 3.186594,1.4266863 3.186594,3.1865943 z"
+     fill="#2F88FF"
+     stroke="#000000"
+     stroke-width="3.18659"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="path400"
+     style="fill:none" />
+  <path
+     d="m 26.037018,21.538187 h 6.373188"
+     stroke="#000000"
+     stroke-width="3.18659"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="path402" />
+</svg>

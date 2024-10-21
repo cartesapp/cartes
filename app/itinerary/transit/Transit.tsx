@@ -1,4 +1,6 @@
-import { isOverflowX, isWhiteColor } from '@/components/css/utils'
+import { isOverflowX } from '@/components/css/utils'
+import DetailsButton from '@/components/transit/DetailsButton'
+import TransitInstructions from '@/components/transit/TransitInstructions'
 import useSetSearchParams from '@/components/useSetSearchParams'
 import { findContrastedTextColor } from '@/components/utils/colors'
 import Image from 'next/image'
@@ -13,6 +15,7 @@ import {
 	TransitScopeLimit,
 } from './NoTransitMessages'
 import TransitLoader from './TransitLoader'
+import TransitOptions from '@/components/transit/TransitOptions'
 import TransportMoveBlock from './TransportMoveBlock'
 import findBestConnection from './findBestConnection'
 import {
@@ -27,8 +30,30 @@ import {
  * decisions are stabilized. We don't have many users yet */
 
 export default function Transit({ itinerary, searchParams }) {
-	const data = itinerary.routes.transit,
-		date = itinerary.date
+	const date = itinerary.date
+
+	return (
+		<div
+			css={`
+				margin-top: 0.4rem;
+				ul {
+					list-style-type: none;
+				}
+				input {
+					margin: 0 0 0 auto;
+					display: block;
+				}
+			`}
+		>
+			<DateSelector date={date} />
+			<TransitOptions searchParams={searchParams} />
+			<TransitContent {...{ itinerary, searchParams, date }} />
+		</div>
+	)
+}
+
+const TransitContent = ({ itinerary, searchParams, date }) => {
+	const data = itinerary.routes.transit
 	if (!data) return
 	if (data.state === 'loading') return <TransitLoader />
 	if (data.state === 'error') return <NoTransit reason={data.reason} />
@@ -37,6 +62,8 @@ export default function Transit({ itinerary, searchParams }) {
 		return <TransitScopeLimit />
 
 	const nextConnections = filterNextConnections(data.connections, date)
+
+	console.log('lightpurple transit', data.connections, nextConnections)
 	if (nextConnections.length < 1) return <NoMoreTransitToday date={date} />
 
 	const firstDate = connectionStart(nextConnections[0]) // We assume Motis orders them by start date, when you start to walk. Could also be intersting to query the first end date
@@ -54,20 +81,9 @@ export default function Transit({ itinerary, searchParams }) {
 			)
 		)
 
+	const chosen = searchParams.details === 'oui' && searchParams.choix
 	return (
-		<div
-			css={`
-				margin-top: 1rem;
-				ul {
-					list-style-type: none;
-				}
-				input {
-					margin: 0 0 0 auto;
-					display: block;
-				}
-			`}
-		>
-			<DateSelector date={data.date} />
+		<section>
 			<div
 				css={`
 					p {
@@ -77,18 +93,25 @@ export default function Transit({ itinerary, searchParams }) {
 			>
 				<LateWarning firstDate={firstDate} date={data.date} />
 			</div>
-			{bestConnection && <BestConnection bestConnection={bestConnection} />}
+			{!chosen ? (
+				<section>
+					{bestConnection && <BestConnection bestConnection={bestConnection} />}
 
-			<TransitTimeline
-				connections={nextConnections}
-				date={data.date}
-				selectedConnection={searchParams.choix || 0}
-				connectionsTimeRange={{
-					from: firstStop,
-					to: lastStop,
-				}}
-			/>
-		</div>
+					<TransitTimeline
+						connections={nextConnections}
+						date={data.date}
+						choix={searchParams.choix}
+						selectedConnection={searchParams.choix || 0}
+						connectionsTimeRange={{
+							from: firstStop,
+							to: lastStop,
+						}}
+					/>
+				</section>
+			) : (
+				<TransitInstructions connection={nextConnections[chosen]} />
+			)}
+		</section>
 	)
 }
 
@@ -97,6 +120,7 @@ const TransitTimeline = ({
 	date,
 	connectionsTimeRange,
 	selectedConnection,
+	choix,
 }) => {
 	const setSearchParams = useSetSearchParams()
 
@@ -126,6 +150,7 @@ const TransitTimeline = ({
 				overflow-x: scroll;
 				> ul {
 					width: ${((range * 0.6) / quickest) * 100}%;
+					min-width: 100%;
 				}
 			`}
 		>
@@ -138,6 +163,7 @@ const TransitTimeline = ({
 						selected={+selectedConnection === index}
 						setSelectedConnection={(choix) => setSearchParams({ choix })}
 						index={index}
+						choix={choix}
 						connectionsTimeRange={connectionsTimeRange}
 					/>
 				))}
@@ -154,6 +180,7 @@ const Connection = ({
 	date,
 	setSelectedConnection,
 	index,
+	choix,
 	connectionsTimeRange,
 	selected,
 }) => {
@@ -168,6 +195,7 @@ const Connection = ({
 			`}
 			onClick={() => setSelectedConnection(index)}
 		>
+			{' '}
 			<Line
 				connectionsTimeRange={connectionsTimeRange}
 				transports={connection.transports}
@@ -176,6 +204,9 @@ const Connection = ({
 					connectionStart(connection),
 					connectionEnd(connection),
 				]}
+				choix={choix}
+				index={index}
+				componentMode="transit"
 			/>
 		</li>
 	)
@@ -186,8 +217,12 @@ export const Line = ({
 	connection,
 	connectionRange: [from, to],
 	transports,
+	choix,
+	index,
+	componentMode,
 }) => {
-	console.log('lightgreen line', transports)
+	const setSearchParams = useSetSearchParams()
+	console.log('lightgreen line', transports, setSearchParams)
 	const { from: absoluteFrom, to: absoluteTo } = connectionsTimeRange
 	const length = absoluteTo - absoluteFrom
 
@@ -248,6 +283,26 @@ export const Line = ({
 						</li>
 					))}
 				</ul>
+
+				{componentMode === 'transit' &&
+					((!choix && index === 0) || choix == index) && (
+						<div
+							css={`
+								position: absolute;
+								right: -3rem;
+								top: 50%;
+								transform: translateY(-50%);
+								font-size: 200%;
+								a {
+									text-decoration: none;
+								}
+							`}
+						>
+							<DetailsButton
+								link={setSearchParams({ choix, details: 'oui' }, true)}
+							/>
+						</div>
+					)}
 				<div
 					css={`
 						margin-top: 0.1rem;
@@ -262,7 +317,9 @@ export const Line = ({
 							color: #555;
 						`}
 					>
-						{barWidth > 30 ? humanDuration(connection.seconds).single : ' - '}
+						{to - from > 25 * 60 // 10 minutes TODO this should be calculated : does it fit ?? show '-' and title=
+							? humanDuration(connection.seconds).single
+							: ' - '}
 					</small>
 					<small>{formatMotis(to)}</small>
 				</div>
@@ -277,12 +334,7 @@ export const Line = ({
 export const TimelineTransportBlock = ({ transport }) => {
 	console.log('lightgreen TimelineTransportBlock', transport)
 	const [constraint, setConstraint] = useState('none')
-	const background = transport.route_color,
-		color = transport.route_text_color
-
-	const textColor =
-		(color && (color !== background ? color : null)) ||
-		findContrastedTextColor(background, true)
+	const background = transport.route_color
 
 	const ref = useRef<HTMLDivElement>(null)
 	const { width = 0, height = 0 } = useResizeObserver({
@@ -292,7 +344,6 @@ export const TimelineTransportBlock = ({ transport }) => {
 	const isOverflow = isOverflowX(ref.current)
 
 	const displayImage = constraint === 'none'
-	const name = transport.shortName?.toUpperCase().replace(/TRAM\s?/g, 'T')
 
 	useEffect(() => {
 		if (isOverflow)
@@ -338,7 +389,7 @@ export const TimelineTransportBlock = ({ transport }) => {
 			} ${transport.route_long_name || ''}`}
 		>
 			{transport.move?.name ? (
-				<TransportMoveBlock {...{ transport, background, textColor, name }} />
+				<TransportMoveBlock transport={transport} />
 			) : transport.move_type === 'Walk' &&
 			  transport.move?.mumo_type === 'car' ? (
 				<Image

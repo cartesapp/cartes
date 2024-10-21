@@ -1,19 +1,29 @@
 import Image from 'next/image'
 import { transportTypeIcon } from './transportIcon'
 import { isWhiteColor } from '@/components/css/utils'
+import { findContrastedTextColor } from '@/components/utils/colors'
 
-export default function TransportMoveBlock({
-	transport,
-	background,
-	textColor,
-	name,
-	route = null,
-}) {
+export default function TransportMoveBlock({ transport }) {
+	const name = transport.shortName?.toUpperCase().replace(/TRAM\s?/g, 'T')
+	const background = transport.route_color,
+		color = transport.route_text_color
+	const textColor =
+		(color && (color !== background ? color : null)) ||
+		findContrastedTextColor(background, true)
 	return (
 		<span
 			css={`
 				display: flex;
 				align-items: center;
+				background: ${background};
+				width: fit-content;
+				padding: 0 0.2rem;
+				img {
+					display: block;
+					height: 0.8rem;
+					width: auto;
+					margin-right: 0.2rem;
+				}
 			`}
 		>
 			<Image

@@ -1,7 +1,7 @@
-import { stamp } from './motisRequest'
-
 export const filterNextConnections = (connections, date) =>
-	connections.filter((connection) => connectionStart(connection) > stamp(date))
+	connections.filter(
+		(connection) => connectionStart(connection) > stamp(date) - 60 // motis ontrip requests should not be filtered out
+	)
 
 export const connectionStart = (connection) =>
 	connection.stops[0].departure.time
@@ -54,3 +54,18 @@ export const startDateFormatter = Intl.DateTimeFormat('fr-FR', {
 	hour: 'numeric',
 	minute: 'numeric',
 })
+
+export const datePlusHours = (date, hours) => {
+	const today = new Date(date)
+	const newToday = today.setHours(today.getHours() + hours)
+	return Math.round(newToday / 1000)
+}
+
+export const nowStamp = () => Math.round(Date.now() / 1000)
+
+export const stamp = (date) => Math.round(new Date(date).getTime() / 1000)
+
+export const defaultRouteColor = '#d3b2ee'
+
+export const hours = (num) => num * 60 * 60,
+	minutes = (num) => num * 60

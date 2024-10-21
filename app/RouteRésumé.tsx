@@ -4,7 +4,7 @@ import LightsWarning from './LightsWarning'
 import ProfileChooser from './ProfileChooser'
 import ValhallaRésumé from './itinerary/ValhallaRésumé'
 import TransitLoader from './itinerary/transit/TransitLoader'
-import { nowStamp } from './itinerary/transit/motisRequest'
+import { nowStamp } from './itinerary/transit/utils'
 import ElevationGraph from '@/components/itinerary/ElevationGraph'
 
 export default function RouteRésumé({

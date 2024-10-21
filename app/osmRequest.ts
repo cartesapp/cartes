@@ -128,6 +128,7 @@ const buildRelationMultiPolygon = (relation, elements) => {
 	return polygon
 }
 */
+
 export const enrichOsmFeatureWithPolyon = (element, elements) => {
 	const polygon =
 		element.type === 'way'
@@ -140,8 +141,15 @@ export const enrichOsmFeatureWithPolyon = (element, elements) => {
 			: undefined
 
 	if (polygon === undefined) {
-		const message = 'Tried to enrich wrong OSM type element'
-		throw new Error(message)
+		const message =
+			'Tried to enrich wrong OSM type element, or relation has no polygons, only LineStrings for instance, e.g. r2969716, a LineString river. TODO'
+		console.error(
+			message,
+			element.type,
+			osmToGeojson({ elements }).features.map((feature) => feature.geometry)
+		)
+		//throw new Error(message + ' ' + element.type)
+		return element
 	}
 
 	const center = centerOfMass(polygon)

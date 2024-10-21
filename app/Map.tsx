@@ -7,7 +7,7 @@ import { sortGares } from './gares'
 import MapButtons from '@/components/MapButtons'
 import { goodIconSize, useComputeMapPadding } from '@/components/mapUtils'
 import useSetSearchParams from '@/components/useSetSearchParams'
-import useAddMap, { defaultSky } from './effects/useAddMap'
+import useAddMap from './effects/useAddMap'
 import useDrawQuickSearchFeatures from './effects/useDrawQuickSearchFeatures'
 import { getStyle } from './styles/styles'
 import useHoverOnMapFeatures from './useHoverOnMapFeatures'
@@ -23,6 +23,7 @@ import useDrawElectionClusterResults from './effects/useDrawElectionCluserResult
 import useDrawPanoramaxPosition, {
 	useAddPanoramaxLayer,
 } from './effects/useDrawPanoramaxPosition'
+import useDrawRightClickMarker from './effects/useDrawRightClickMarker'
 import useDrawSearchResults from './effects/useDrawSearchResults'
 import useDrawTransport from './effects/useDrawTransport'
 import useImageSearch from './effects/useImageSearch'
@@ -76,6 +77,7 @@ export default function Map({
 	quickSearchFeatures,
 	trackedSnap,
 	panoramaxPosition,
+	geocodedClickedPoint,
 	setMapLoaded,
 	wikidata,
 }) {
@@ -331,6 +333,7 @@ export default function Map({
 		zoom
 	)
 	*/
+	useDrawRightClickMarker(map, geocodedClickedPoint)
 
 	/* Abandoned code that should be revived. Traveling with train + bike is an
 	 * essential objective of Cartes */

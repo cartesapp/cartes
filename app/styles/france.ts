@@ -5,6 +5,7 @@ import { getFetchUrlBase, pmtilesServerUrl } from '../serverUrls'
 //['Roboto Regular', 'Noto Sans Regular'],
 //['Roboto Italic', 'Noto Sans Italic'],
 //['Roboto Medium Regular', 'Noto Sans Regular'],
+//['Roboto Bold', 'Noto Sans Bold']
 //
 //
 

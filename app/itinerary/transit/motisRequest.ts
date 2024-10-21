@@ -1,79 +1,97 @@
-import { lightenColor } from '@/components/utils/colors'
-import transportIcon from './transportIcon'
-import { distance, point } from '@turf/turf'
 import { gtfsServerUrl, motisServerUrl } from '@/app/serverUrls'
+import { lightenColor } from '@/components/utils/colors'
+import { distance, point } from '@turf/turf'
+import transportIcon from './transportIcon'
+import {
+	datePlusHours,
+	defaultRouteColor,
+	hours,
+	nowStamp,
+	stamp,
+} from './utils'
+import {
+	decodeStepModeParams,
+	stepModeParamsToMotis,
+} from '@/components/transit/modes'
 
-const datePlusHours = (date, hours) => {
-	const today = new Date(date)
-	const newToday = today.setHours(today.getHours() + hours)
-	return Math.round(newToday / 1000)
-}
+// For onTrip, see https://github.com/motis-project/motis/issues/471#issuecomment-2247099832
+const buildRequestBody = (start, destination, date, searchParams) => {
+	const { correspondances, planification, tortue } = searchParams
 
-export const nowStamp = () => Math.round(Date.now() / 1000)
+	// TODO How to set planification ? How to trigger the appearance of the setter
+	// button ?
+	const forceOnTrip = planification === 'oui'
 
-export const stamp = (date) => Math.round(new Date(date).getTime() / 1000)
+	const now = nowStamp(),
+		dateStamp = stamp(date),
+		difference = dateStamp - now,
+		threshold = 60 * 60 //... seconds = 1h
 
-export const defaultRouteColor = '#d3b2ee'
+	const onTrip =
+		forceOnTrip ||
+		//!debut && // not sure why debut
+		difference < threshold // I'm afraid the onTrip mode, though way quicker, could result in only one result in some cases. We should switch to preTrip in thoses cases, to search again more thoroughly
 
-export const buildRequestBody = (start, destination, date) => {
 	const begin = Math.round(new Date(date).getTime() / 1000),
-		end = datePlusHours(date, 2) // TODO This parameter should probably be modulated depending on the transit offer in the simulation setup. Or, query for the whole day at once, and filter them in the UI
+		end = datePlusHours(date, 1) // TODO This parameter should probably be modulated depending on the transit offer in the simulation setup. Or, query for the whole day at once, and filter them in the UI
+
+	console.log(
+		'lightgreen motis time range',
+		new Date(begin * 1000),
+		new Date(end * 1000)
+	)
 
 	const requestDistance = distance(
 		point([start.lng, start.lat]),
 		point([destination.lng, destination.lat])
 	)
 
+	const { start: startModeParam } = decodeStepModeParams(searchParams)
+	const symmetricModes = stepModeParamsToMotis(startModeParam, requestDistance)
+
 	console.log('itinerary distance', requestDistance)
-
-	// See https://github.com/laem/cartes/issues/416
-	// 1h of bike ~= 20km
-	// So with 2h and 40 km, we should cover most of the hexagone
-	const bikeTrainSearchDistance = //0 * 60
-		(requestDistance < 50 ? 0 : requestDistance < 200 ? 1 : 2) * 60 * 60
-
-	console.log({
-		requestDistance,
-		bikeTrainSearchDistance: bikeTrainSearchDistance / 60 + ' min',
-	})
-
-	const symetricModes = [
-		{
-			mode_type: 'FootPPR',
-			mode: {
-				search_options: { profile: 'distance_only', duration_limit: 15 * 60 },
-			},
-		},
-		bikeTrainSearchDistance > 0 && {
-			mode_type: 'Bike',
-			mode: {
-				max_duration: bikeTrainSearchDistance,
-			},
-		},
-	].filter(Boolean)
 
 	const body = {
 		destination: { type: 'Module', target: '/intermodal' },
 		content_type: 'IntermodalRoutingRequest',
 		content: {
-			start_type: 'IntermodalPretripStart',
-			start: {
-				position: start,
-				interval: {
-					begin,
-					end,
-				},
-				min_connection_count: 5,
-				extend_interval_earlier: true,
-				extend_interval_later: true,
-			},
-			start_modes: symetricModes,
+			start_type: onTrip ? 'IntermodalOntripStart' : 'IntermodalPretripStart',
+			start: onTrip
+				? {
+						position: start,
+						departure_time: begin,
+				  }
+				: {
+						position: start,
+						interval: {
+							begin,
+							end,
+						},
+						min_connection_count: 1,
+						/* I do not understand these options. E.g. in Rennes, from 16h30 to
+						 * 18h30, setting this and min_connection_count to 5 leads to results
+						 * at 23h30 ! Way too much.
+						 * https://motis-project.de/docs/features/routing.html#intermodal-and-timetable-routing-from-door-to-door
+						 * Also this issue : https://github.com/motis-project/motis/issues/443#issuecomment-1951297984
+						 * Is 5 "pareto optimal" connections asking much ? I don't understand
+						 * what it is. Hence we set it to 1.
+						 */
+						extend_interval_earlier: true,
+						extend_interval_later: true,
+				  },
+			start_modes: symmetricModes,
 			destination_type: 'InputPosition',
 			destination,
-			destination_modes: symetricModes,
+			destination_modes: symmetricModes,
 			search_type: 'Default',
 			search_dir: 'Forward',
 			router: '',
+			max_transfers: correspondances == null ? -1 : +correspondances,
+			...(tortue
+				? {
+						transfer_time_factor: tortue,
+				  }
+				: {}),
 		},
 	}
 	return body
@@ -83,8 +101,13 @@ const errorCorrespondance = {
 	'access: timestamp not in schedule':
 		'Notre serveur a eu un problème de mise à jour des données de transport en commun :-/',
 }
-export const computeMotisTrip = async (start, destination, date) => {
-	const body = buildRequestBody(start, destination, date)
+export const computeMotisTrip = async (
+	start,
+	destination,
+	date,
+	searchParams
+) => {
+	const body = buildRequestBody(start, destination, date, searchParams)
 
 	try {
 		const request = await fetch(motisServerUrl, {
@@ -138,7 +161,9 @@ export const computeMotisTrip = async (start, destination, date) => {
 							}
 						}
 						const gtfsAttributes = await doFetch()
-						const { route_color, route_text_color } = gtfsAttributes
+						const { route_color, route_text_color, route_type } =
+								gtfsAttributes,
+							isTrain = route_type === 2
 
 						const isBretagneTGV = trip?.id.id.startsWith('bretagne_SNCF2')
 
@@ -149,6 +174,7 @@ export const computeMotisTrip = async (start, destination, date) => {
 							trip?.id.station_id.includes('TGV INOUI') ||
 							trip?.id.target_station_id.includes('TGV INOUI') // well, on fait avec ce qu'on a
 						const isTGV = isTGVStop || isBretagneTGV
+
 						//TODO this should be a configuration file that sets not only main
 						//colors, but gradients, icons (ouigo, inoui, tgv, ter, etc.)
 						const sourceGtfs = trip?.id.id.split('_')[0],
@@ -158,10 +184,14 @@ export const computeMotisTrip = async (start, destination, date) => {
 								: isTGV
 								? 'TGV'
 								: prefix
-								? prefix === 'ter'
+								? prefix === 'fr-x-sncf-ter'
 									? 'TER'
-									: prefix === 'tgv'
+									: prefix === 'fr-x-sncf-tgv'
 									? 'TGV'
+									: prefix === 'fr-x-sncf-intercites'
+									? 'INTERCITES'
+									: isTrain && !prefix.startsWith('fr-x-sncf')
+									? 'TER'
 									: null
 								: null
 
@@ -258,3 +288,4 @@ export function handleColor(rawColor, defaultColor) {
 	console.log('Unrecognized route color', rawColor)
 	return defaultColor
 }
+export { stamp }

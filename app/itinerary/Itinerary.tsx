@@ -59,10 +59,15 @@ export default function Itinerary({
 				<div>
 					<ol
 						css={`
+							margin-top: 0.1rem;
+							margin-left: 0;
+							padding-left: 0;
 							list-style-type: none;
 							display: flex;
 							align-items: center;
-							justify-content: space-evenly;
+							justify-content: start;
+							gap: 1rem;
+							width: 80%;
 							li {
 								margin: 0 0.4rem;
 							}
