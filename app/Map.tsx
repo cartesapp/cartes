@@ -7,7 +7,12 @@ import { sortGares } from './gares'
 import MapButtons from '@/components/MapButtons'
 import { goodIconSize, useComputeMapPadding } from '@/components/mapUtils'
 import useSetSearchParams from '@/components/useSetSearchParams'
-import useAddMap, { defaultSky } from './effects/useAddMap'
+import useAddMap, {
+	defaultLight,
+	defaultSky,
+	globeLight,
+	highZoomLight,
+} from './effects/useAddMap'
 import useDrawQuickSearchFeatures from './effects/useDrawQuickSearchFeatures'
 import { getStyle } from './styles/styles'
 import useHoverOnMapFeatures from './useHoverOnMapFeatures'
@@ -30,6 +35,8 @@ import useMapClick from './effects/useMapClick'
 import useRightClick from './effects/useRightClick'
 import useSearchLocalTransit from './effects/useSearchLocalTransit'
 import useDrawItinerary from './itinerary/useDrawItinerary'
+import { useWhatChanged } from '@/components/utils/useWhatChanged'
+import { computeCenterFromBbox } from './utils'
 
 if (process.env.NEXT_PUBLIC_MAPTILER == null) {
 	throw new Error('You have to configure env NEXT_PUBLIC_MAPTILER, see README')
@@ -40,51 +47,56 @@ if (process.env.NEXT_PUBLIC_MAPTILER == null) {
  * interactions. Components that can be rendered server side to make beautiful and useful meta previews of URLs must be written in the Container component or above
  *******/
 
-export default function Map({
-	searchParams,
-	state,
-	vers,
-	target,
-	zoom,
-	osmFeature,
-	isTransportsMode,
-	transportStopData,
-	transportsData,
-	agencyAreas,
-	clickedStopData,
-	itinerary,
-	bikeRouteProfile,
-	showOpenOnly,
-	category,
-	bbox,
-	setBbox,
-	gares,
-	clickGare,
-	clickedGare,
-	setBboxImages,
-	focusImage,
-	styleKey,
-	safeStyleKey,
-	setSafeStyleKey,
-	styleChooser,
-	setStyleChooser,
-	setZoom,
-	setGeolocation,
-	center,
-	setState,
-	setLatLngClicked,
-	quickSearchFeatures,
-	trackedSnap,
-	panoramaxPosition,
-	setMapLoaded,
-	wikidata,
-}) {
+export default function Map(props) {
+	const {
+		searchParams,
+		state,
+		vers,
+		target,
+		zoom,
+		osmFeature,
+		isTransportsMode,
+		transportStopData,
+		transportsData,
+		agencyAreas,
+		clickedStopData,
+		itinerary,
+		bikeRouteProfile,
+		showOpenOnly,
+		category,
+		bbox,
+		setBbox,
+		gares,
+		clickGare,
+		clickedGare,
+		setBboxImages,
+		focusImage,
+		styleKey,
+		safeStyleKey,
+		setSafeStyleKey,
+		styleChooser,
+		setStyleChooser,
+		setZoom,
+		setGeolocation,
+		center,
+		setState,
+		setLatLngClicked,
+		quickSearchFeatures,
+		trackedSnap,
+		panoramaxPosition,
+		setMapLoaded,
+		wikidata,
+		setLastGeolocation,
+		lastGeolocation,
+	} = props
+	useWhatChanged(props, 'Map')
 	const mapContainerRef = useRef(null)
 	const stepsLength = state.filter((step) => step?.key).length
 	const [autoPitchPreference, setAutoPitchPreference] = useLocalStorage(
 		'autoPitchPreference',
 		null
 	)
+
 	const autoPitchPreferenceIsNo = autoPitchPreference === 'no'
 
 	const style = useMemo(() => getStyle(styleKey), [styleKey]),
@@ -96,7 +108,9 @@ export default function Map({
 		setBbox,
 		mapContainerRef,
 		setGeolocation,
-		setMapLoaded
+		setMapLoaded,
+		center,
+		zoom
 	)
 	const setSearchParams = useSetSearchParams()
 
@@ -207,16 +221,35 @@ export default function Map({
 		if (Math.round(map.getZoom()) === zoom) return
 		map.flyTo({ zoom })
 	}, [zoom, map])
+
+	const [lightType, setLightType] = useState('highZoom')
 	useEffect(() => {
 		if (!map) return
 		map.on('zoom', () => {
 			const approximativeZoom = Math.round(map.getZoom())
 			if (approximativeZoom !== zoom) setZoom(approximativeZoom)
+			setLastGeolocation({
+				center: lastGeolocation.center,
+				zoom: approximativeZoom,
+			})
+
+			if (approximativeZoom < 6 && lightType === 'highZoom') {
+				setLightType('globeLight')
+				map.setLight(globeLight)
+			}
+			if (approximativeZoom >= 6 && lightType === 'globeLight') {
+				setLightType('highZoom')
+				map.setLight(highZoomLight)
+			}
 		})
 		map.on('moveend', () => {
 			setBbox(map.getBounds().toArray())
+			setLastGeolocation({
+				center: computeCenterFromBbox(bbox),
+				zoom: lastGeolocation.zoom,
+			})
 		})
-	}, [zoom, setZoom, map, setBbox])
+	}, [zoom, setZoom, map, setBbox, setLightType, lightType])
 
 	useEffect(() => {
 		if (!map) return

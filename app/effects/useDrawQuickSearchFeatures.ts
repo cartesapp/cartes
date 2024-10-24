@@ -14,7 +14,8 @@ export default function useDrawQuickSearchFeatures(
 	showOpenOnly,
 	category,
 	setOsmFeature = () => null,
-	backgroundColor
+	backgroundColor,
+	invert = false
 ) {
 	const setSearchParams = useSetSearchParams()
 	useEffect(() => {
@@ -95,15 +96,32 @@ export default function useDrawQuickSearchFeatures(
 							.filter((f) => f.polygon)
 							.map((f) => {
 								const tags = f.tags || {}
-								return {
+								const feature = {
 									type: 'Feature',
-									geometry: f.polygon.geometry,
+									geometry: !invert
+										? f.polygon.geometry
+										: // thanks ! https://stackoverflow.com/questions/43561504/mapbox-how-to-get-a-semi-transparent-mask-everywhere-but-on-a-specific-area
+										  {
+												type: 'Polygon',
+												coordinates: [
+													[
+														[-180, -90],
+														[-180, 90],
+														[180, 90],
+														[180, -90],
+														[-180, -90],
+													],
+													f.polygon.geometry.coordinates[0],
+												],
+										  },
 									properties: {
 										id: f.id,
 										tags,
 										name: tags.name,
 									},
 								}
+								console.log('ocean', feature)
+								return feature
 							}),
 					},
 				})

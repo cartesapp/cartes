@@ -23,7 +23,7 @@
  * bbox
  **/
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 
 import { getCategory } from '@/components/categories'
 import ModalSwitch from './ModalSwitch'
@@ -34,10 +34,10 @@ import useSetItineraryModeFromUrl from './itinerary/useSetItineraryModeFromUrl'
 import { mapLibreBboxToOverpass } from '@/components/mapUtils'
 import useSetSearchParams from '@/components/useSetSearchParams'
 import { useDebounce } from '@/components/utils'
-import dynamic from 'next/dynamic'
 import { useLocalStorage } from 'usehooks-ts'
 import FocusedImage from './FocusedImage'
 import { initialSnap } from './ModalSheet'
+import PanoramaxLoader from './PanoramaxLoader'
 import SafeMap from './SafeMap'
 import { defaultZoom } from './effects/useAddMap'
 import useFetchTransportMap, {
@@ -50,25 +50,31 @@ import useFetchItinerary from './itinerary/useFetchItinerary'
 import Meteo from './meteo/Meteo'
 import { getStyle } from './styles/styles'
 import useTransportStopData from './transport/useTransportStopData'
-import PanoramaxLoader from './PanoramaxLoader'
 import useWikidata from './useWikidata'
+import { useSearchParams } from 'next/navigation'
+import { useWhatChanged } from '@/components/utils/useWhatChanged'
+import { computeCenterFromBbox } from './utils'
 
-// Map is forced as dynamic since it can't be rendered by nextjs server-side.
-// There is almost no interest to do that anyway, except image screenshots
-const Map = dynamic(() => import('./Map'), {
-	ssr: false,
-})
+// We don't want to redraw <Content instantaneously on map zoom or drag
+const contentDebounceDelay = 500
 
-export default function Container({
-	searchParams,
-	state: givenState,
-	agencyEntry,
-}) {
+export default function Container(props) {
+	const { state: givenState, agencyEntry } = props
+
 	const setSearchParams = useSetSearchParams()
+	const clientSearchParams = useSearchParams(),
+		searchParams = Object.fromEntries(clientSearchParams.entries())
+
 	const [focusedImage, focusImage] = useState(null)
 	const [isMapLoaded, setMapLoaded] = useState(false)
+	const [lastGeolocation, setLastGeolocation] = useLocalStorage(
+		'lastGeolocation',
+		{ center: null, zoom: null }
+	)
 	const [bbox, setBbox] = useState(null)
-	const [zoom, setZoom] = useState(defaultZoom)
+	const debouncedBbox = useDebounce(bbox, contentDebounceDelay)
+	const [zoom, setZoom] = useState(lastGeolocation.zoom || defaultZoom)
+	const debouncedZoom = useDebounce(zoom, contentDebounceDelay)
 	const [bboxImages, setBboxImages] = useState([])
 	const [latLngClicked, setLatLngClicked] = useState(null)
 	const resetClickedPoint = () => setSearchParams({ clic: undefined })
@@ -93,9 +99,8 @@ export default function Container({
 			setSearchParams({ 'choix du style': state ? 'oui' : undefined })
 
 	const center = useMemo(
-		() =>
-			bbox && [(bbox[0][0] + bbox[1][0]) / 2, (bbox[0][1] + bbox[1][1]) / 2],
-		[bbox]
+		() => (bbox ? computeCenterFromBbox(bbox) : lastGeolocation.center),
+		[bbox, lastGeolocation.center]
 	)
 	// In this query param is stored an array of points. If only one, it's just a
 	// place focused on.
@@ -209,9 +214,9 @@ export default function Container({
 	/* The bbox could be computed from the URL hash, for this to run on the
 	 * server but I'm not sure we want it, and I'm not sure Next can get the hash
 	 * server-side, it's a client-side html element */
-	const simpleArrayBbox = useDebounce(
-		bbox && mapLibreBboxToOverpass(bbox),
-		200 // TODO Ideally, just above https://maplibre.org/maplibre-gl-js/docs/API/type-aliases/FlyToOptions/
+	const simpleArrayBbox = useMemo(
+		() => debouncedBbox && mapLibreBboxToOverpass(debouncedBbox), // TODO Ideally, just above https://maplibre.org/maplibre-gl-js/docs/API/type-aliases/FlyToOptions/
+		[debouncedBbox]
 	)
 
 	const [quickSearchFeatures] = useOverpassRequest(simpleArrayBbox, category)
@@ -240,7 +245,7 @@ export default function Container({
 							zoneImages,
 							panoramaxImages,
 							resetZoneImages,
-							zoom,
+							zoom: debouncedZoom,
 							setZoom,
 							searchParams,
 							style,
@@ -255,7 +260,7 @@ export default function Container({
 							agencyAreas,
 							geolocation,
 							bboxImages,
-							bbox,
+							bbox: debouncedBbox,
 							focusImage,
 							vers,
 							osmFeature,
@@ -315,6 +320,8 @@ export default function Container({
 						panoramaxPosition,
 						setMapLoaded,
 						wikidata,
+						setLastGeolocation,
+						lastGeolocation,
 					}}
 				/>
 			</MapContainer>

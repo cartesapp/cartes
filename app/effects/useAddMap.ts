@@ -6,6 +6,7 @@ import { Protocol as ProtomapsProtocol } from 'pmtiles'
 import useGeolocation from './useGeolocation'
 import frenchMaplibreLocale from '@/components/map/frenchMaplibreLocale.ts'
 import { Protocol as CartesProtocol } from '@/components/map/CartesProtocol.ts'
+import useEffectDebugger from '@/components/useEffectDebugger'
 
 /*
  *
@@ -41,11 +42,18 @@ export const defaultProjection = {
 }
 // TODO I haven't yet understood how to handle this. With the globe mode, we
 // should let the light follow the real sun, and enable the user to tweak it
-const defaultLight = {
+export const globeLight = {
 	anchor: 'viewport',
-	color: 'white',
-	intensity: 0.9,
+	color: 'pink',
+	intensity: 0.1,
 	position: [1.55, 180, 180],
+}
+
+export const highZoomLight = {
+	anchor: 'viewport',
+	color: '#ffffff',
+	intensity: 0.5,
+	position: [1.15, 210, 30],
 }
 
 const defaultCenter =
@@ -62,11 +70,16 @@ export default function useAddMap(
 	setBbox,
 	mapContainerRef,
 	setGeolocation,
-	setMapLoaded
+	setMapLoaded,
+	// This for hot reload, I don't why this hook gets called again losing the map
+	// state, very annoying
+	center,
+	zoom
 ) {
 	const [map, setMap] = useState(null)
 	const [geolocate, setGeolocate] = useState(null)
 	const isMobile = useMediaQuery('(max-width: 800px)')
+
 	const geolocation = useGeolocation({
 		latitude: defaultCenter[1],
 		longitude: defaultCenter[0],
@@ -122,15 +135,15 @@ export default function useAddMap(
 		}
 	}, [map, autoPitchPreference, setAutoPitchPreference])
 
-	useEffect(() => {
+	useEffectDebugger(() => {
 		if (!mapContainerRef.current) return undefined
 
 		const newMap = new maplibregl.Map({
 			container: mapContainerRef.current,
 			style: styleUrl,
 			maxPitch: 85,
-			center: defaultCenter,
-			zoom: defaultZoom,
+			center: center || defaultCenter,
+			zoom: zoom || defaultZoom,
 			hash: true,
 			attributionControl: false,
 			locale: frenchMaplibreLocale,
@@ -170,7 +183,7 @@ export default function useAddMap(
 		newMap.on('style.load', () => {
 			newMap.setSky(defaultSky)
 			newMap.setProjection(defaultProjection)
-			newMap.setLight(defaultLight)
+			newMap.setLight(highZoomLight)
 		})
 
 		newMap.on('moveend', (e) => {

@@ -1,9 +1,8 @@
 import { useMediaQuery } from 'usehooks-ts'
 
+import { useEffect, useState } from 'react'
 import ModalSheet from './ModalSheet'
 import SideSheet from './SideSheet'
-import { useEffect, useState } from 'react'
-import Content from './Content'
 
 export default function ModalSwitch(props) {
 	const [mode, setMode] = useState('no-js')

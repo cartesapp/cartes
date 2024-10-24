@@ -13,11 +13,13 @@ rules:
   react/display-name: 0
   react-hooks/rules-of-hooks: error
   react-hooks/exhaustive-deps: warn
+  react-compiler/react-compiler: error
 parser: babel-eslint
 
 plugins:
   - react
   - react-hooks
+  - eslint-plugin-react-compiler
 env:
   browser: true
   commonjs: true

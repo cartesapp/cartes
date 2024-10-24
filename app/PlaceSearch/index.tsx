@@ -72,8 +72,13 @@ export default function PlaceSearch({
 		setTimeout(() => instantaneousSetIsMyInputFocused(value), 300)
 	}
 
-	const hash = window.location.hash,
-		local = hash && hash.split('/').slice(1, 3),
+	const [hash, setHash] = useState(null)
+
+	useEffect(() => {
+		setHash(window.location.hash)
+	}, [searchParams])
+
+	const local = hash && hash.split('/').slice(1, 3),
 		localSearch = isLocalSearch && local
 
 	// Should this function be coded as a useCallback ? I get an infinite loop

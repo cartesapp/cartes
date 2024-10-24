@@ -69,7 +69,9 @@ export default function Steps({
 			>
 				{steps.map((step, index) => (
 					<Item
-						key={step?.key}
+						key={
+							console.log('step key', step?.key || index) || step?.key || index
+						}
 						{...{
 							index,
 							step,

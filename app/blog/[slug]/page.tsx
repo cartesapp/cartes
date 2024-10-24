@@ -2,7 +2,7 @@ import { allArticles } from '@/.contentlayer/generated'
 import Article from '@/components/Article'
 import BlueskyComments from '@/components/BlueskyComments'
 import css from '@/components/css/convertToJs'
-import { useMDXComponent } from 'next-contentlayer2/hooks'
+import { getMDXComponent } from 'next-contentlayer2/hooks'
 import Image from 'next/image'
 import Link from 'next/link'
 import Contribution from '../Contribution'
@@ -10,7 +10,8 @@ import OtherArticles from '../OtherArticles'
 import { mdxComponents } from '../mdxComponents'
 import { dateCool, getLastEdit } from '../utils'
 
-export const generateMetadata = async ({ params }) => {
+export const generateMetadata = async (props) => {
+	const params = await props.params
 	const post = allArticles.find(
 		(post) => post._raw.flattenedPath === params.slug
 	)
@@ -28,12 +29,14 @@ export const generateMetadata = async ({ params }) => {
 	}
 }
 
-export default async function Post({ params }: Props) {
+export default async function Post(props: Props) {
+	const params = await props.params
+	console.log('SLUG', params.slug)
 	const post = allArticles.find(
 		(post) => post._raw.flattenedPath === params.slug
 	)
 
-	const MDXContent = useMDXComponent(post.body.code)
+	const MDXContent = getMDXComponent(post.body.code)
 	const lastEdit = await getLastEdit(params.slug)
 
 	const sameEditDate =

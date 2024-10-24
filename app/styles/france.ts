@@ -1882,7 +1882,7 @@ const layers = [
 				type: 'identity',
 				property: 'render_min_height',
 			},
-			'fill-extrusion-color': 'hsl(44,14%,79%)',
+			'fill-extrusion-color': ['string', ['get', 'colour'], 'hsl(44,84%,99%)'],
 			'fill-extrusion-height': {
 				type: 'identity',
 				property: 'render_height',

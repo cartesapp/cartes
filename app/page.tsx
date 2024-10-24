@@ -1,20 +1,24 @@
 // Server components here
-import { ResolvingMetadata } from 'next/dist/lib/metadata/types/metadata-interface'
-import { Props } from 'next/script'
-import Container from './Container'
-import { stepOsmRequest } from './stepOsmRequest'
-import getName from './osm/getName'
 import fetchOgImage from '@/components/fetchOgImage'
-import getUrl from './osm/getUrl'
 import buildDescription from '@/components/osm/buildDescription'
 import fetchAgency, {
 	buildAgencyMeta,
 } from '@/components/transport/fetchAgency'
+import { ResolvingMetadata } from 'next/dist/lib/metadata/types/metadata-interface'
+import { Props } from 'next/script'
+import Container from './Container'
+import getName from './osm/getName'
+import getUrl from './osm/getUrl'
+import { stepOsmRequest } from './stepOsmRequest'
+import { Suspense } from 'react'
 
 export async function generateMetadata(
-	{ params, searchParams }: Props,
+	props: Props,
 	parent: ResolvingMetadata
 ): Promise<Metadata> {
+	console.log('Rendering server side app/page')
+	const searchParams = await props.searchParams
+
 	if (searchParams.style === 'elections')
 		return {
 			title:
@@ -65,7 +69,8 @@ export async function generateMetadata(
 	return metadata
 }
 
-const Page = async ({ searchParams }) => {
+const Page = async (props) => {
+	const searchParams = await props.searchParams
 	const allez = searchParams.allez ? searchParams.allez.split('->') : []
 
 	const newPoints = allez.map((point) => stepOsmRequest(point))
@@ -84,11 +89,13 @@ const Page = async ({ searchParams }) => {
 				minHeight: '100vh',
 			}}
 		>
-			<Container
-				searchParams={searchParams}
-				state={state}
-				agencyEntry={agencyEntry}
-			/>
+			<Suspense>
+				<Container
+					searchParams={searchParams}
+					state={state}
+					agencyEntry={agencyEntry}
+				/>
+			</Suspense>
 		</main>
 	)
 }

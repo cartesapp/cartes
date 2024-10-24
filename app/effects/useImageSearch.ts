@@ -124,7 +124,7 @@ export default function useImageSearch(
 		[imageCache, bboxString]
 	)
 	useEffect(() => {
-		setBboxImages(bboxImages)
+		if (bboxImages.length > 0) setBboxImages(bboxImages)
 	}, [bboxImages])
 
 	useEffect(() => {

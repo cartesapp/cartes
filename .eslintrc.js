@@ -17,6 +17,7 @@ module.exports = {
   plugins: [
     "react",
     "react-hooks",
+		    'eslint-plugin-react-compiler',
   ],
   rules: {
     "quotes": [
@@ -41,6 +42,7 @@ module.exports = {
     "react-hooks/exhaustive-deps": "warn",
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
+		    'react-compiler/react-compiler': "error",
   },
   settings: {
     "react": {

@@ -1,6 +1,6 @@
 # Cartes
 
-> Venez discuter du projet sur le [canal matrix](https://matrix.to/#/#cartes:matrix.org) ! 
+> Venez discuter du projet sur le [canal matrix](https://matrix.to/#/#cartes:matrix.org) !
 
 ## Kesako ?
 
@@ -13,9 +13,9 @@ Deux objectifs :
 
 Découvrez [nos motivations](https://cartes.app/blog/un-beau-voyage) et les dernières nouveautés dans [le blog](https://cartes.app/blog).
 
-## Comment contribuer ? 
+## Comment contribuer ?
 
-C'est par ici : [guide de contribution](https://github.com/laem/cartes/blob/master/CONTRIBUTING.md) ! 
+C'est par ici : [guide de contribution](https://github.com/laem/cartes/blob/master/CONTRIBUTING.md) !
 Vous pouvez aussi poser des questions sur la section issues ou sur le [canal matrix](https://matrix.to/#/#cartes:matrix.org) pour les questions plus informelles.
 
 ## Et techniquement
@@ -31,7 +31,7 @@ The app is based on :
 To set it up on your local computer, just run :
 
 ```
-npm install --legacy-peer-deps
+bun install # We're using bun because npm can't handle the experimental react 19 version, it breaks the install
 ```
 
 You'll have to create your free MapTiler key and put it in a `.env.local` file at the root of the cartes folder:
@@ -40,9 +40,9 @@ You'll have to create your free MapTiler key and put it in a `.env.local` file a
 NEXT_PUBLIC_MAPTILER=YOUR_KEY
 ```
 
-## Contact 
+## Contact
 
-If you have any problem contributing (PR, vercel deployments, etc) feel free to contact me @maelito:matrix.org if I dont answer your issues quickly. 
+If you have any problem contributing (PR, vercel deployments, etc) feel free to contact me @maelito:matrix.org if I dont answer your issues quickly.
 
 ## Similar projects
 

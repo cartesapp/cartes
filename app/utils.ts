@@ -39,3 +39,8 @@ export const atOrUrl = (_key: string, domain: string) => {
 		? `https://${key}`
 		: `${domain}/${key}`
 }
+
+export const computeCenterFromBbox = (bbox) => [
+	(bbox[0][0] + bbox[1][0]) / 2,
+	(bbox[0][1] + bbox[1][1]) / 2,
+]

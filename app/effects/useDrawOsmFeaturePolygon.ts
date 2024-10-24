@@ -12,5 +12,6 @@ export default function useDrawOsmFeaturePolygon(map, osmFeature) {
 		}),
 		[code]
 	)
-	useDrawQuickSearchFeatures(map, features, false, category)
+	const invert = true
+	useDrawQuickSearchFeatures(map, features, false, category, null, null, invert)
 }

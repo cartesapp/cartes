@@ -1,5 +1,7 @@
+import { Loader } from '@/components/loader'
 import useSetSearchParams from '@/components/useSetSearchParams'
 import { getThumb } from '@/components/wikidata'
+import Link from 'next/link'
 import { useEffect } from 'react'
 import { useLocalStorage } from 'usehooks-ts'
 import BookmarkButton from './BookmarkButton'
@@ -22,54 +24,56 @@ import Itinerary from './itinerary/Itinerary'
 import { getHasStepBeingSearched } from './itinerary/Steps'
 import getUrl from './osm/getUrl'
 import StyleChooser from './styles/StyleChooser'
-import { defaultTransitFilter } from './transport/TransitFilter'
 import { defaultAgencyFilter } from './transport/AgencyFilter'
+import { defaultTransitFilter } from './transport/TransitFilter'
 import TransportMap from './transport/TransportMap'
 import useOgImageFetcher from './useOgImageFetcher'
-import Link from 'next/link'
-import { Loader } from '@/components/loader'
 
 const getMinimumQuickSearchZoom = (mobile) => (mobile ? 10.5 : 12) // On a small screen, 70 %  of the tiles are not visible, hence this rule
 
-export default function Content({
-	latLngClicked,
-	setLatLngClicked,
-	clickedGare,
-	bikeRoute,
-	setBikeRouteProfile,
-	bikeRouteProfile,
-	clickGare,
-	zoneImages,
-	bboxImages,
-	bbox,
-	panoramaxImages,
-	resetZoneImages,
-	state,
-	setState,
-	zoom,
-	setZoom,
-	sideSheet, // This gives us the indication that we're on the desktop version, where the Content is on the left, always visible, as opposed to the mobile version where a pull-up modal is used
-	searchParams,
-	snap,
-	setSnap = (snap) => null,
-	openSheet = () => null,
-	setStyleChooser,
-	style,
-	styleKey,
-	styleChooser,
-	itinerary,
-	transportStopData,
-	geocodedClickedPoint,
-	resetClickedPoint,
-	transportsData,
-	geolocation,
-	focusImage,
-	vers,
-	osmFeature,
-	quickSearchFeaturesLoaded,
-	setDisableDrag,
-	wikidata,
-}) {
+export default function Content(props) {
+	const {
+		latLngClicked,
+		setLatLngClicked,
+		clickedGare,
+		bikeRoute,
+		setBikeRouteProfile,
+		bikeRouteProfile,
+		clickGare,
+		zoneImages,
+		bboxImages,
+		bbox,
+		panoramaxImages,
+		resetZoneImages,
+		state,
+		setState,
+		zoom,
+		setZoom,
+		sideSheet, // This gives us the indication that we're on the desktop version, where the Content is on the left, always visible, as opposed to the mobile version where a pull-up modal is used
+		searchParams,
+		snap,
+		setSnap = (snap) => null,
+		openSheet = () => null,
+		setStyleChooser,
+		style,
+		styleKey,
+		styleChooser,
+		itinerary,
+		transportStopData,
+		geocodedClickedPoint,
+		resetClickedPoint,
+		transportsData,
+		geolocation,
+		focusImage,
+		vers,
+		osmFeature,
+		quickSearchFeaturesLoaded,
+		setDisableDrag,
+		wikidata,
+	} = props
+
+	//useWhatChanged(props, 'Content')
+
 	const tags = osmFeature?.tags
 	const url = tags && getUrl(tags)
 

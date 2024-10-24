@@ -1,6 +1,5 @@
 import Image from 'next/image'
 import SearchResultsContainer from './SearchResultsContainer'
-import { useLocalStorage } from 'usehooks-ts'
 
 export default ({
 	sideSheet,
