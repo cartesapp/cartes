@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { photonReverseServerUrl } from '@/app/serverUrls'
+import { photonServerUrl } from '../serverUrls'
 
 export default function useGeocodeRightClick(stringClickedPoint) {
 	const [data, setData] = useState(null)
@@ -12,7 +12,7 @@ export default function useGeocodeRightClick(stringClickedPoint) {
 
 		const doFetch = async () => {
 			const request = await fetch(
-				`${photonReverseServerUrl}/reverse?lon=${clickedPoint[1]}&lat=${clickedPoint[0]}`
+				`${photonServerUrl}/reverse?lon=${clickedPoint[1]}&lat=${clickedPoint[0]}`
 			)
 			const json = await request.json()
 

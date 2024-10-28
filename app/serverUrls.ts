@@ -15,9 +15,6 @@ export const motisServerUrl =
 
 export const photonServerUrl = process.env.NEXT_PUBLIC_PHOTON_SERVER_URL
 
-export const photonReverseServerUrl =
-	process.env.NEXT_PUBLIC_PHOTON_REVERSE_SERVER_URL
-
 export const getFetchUrlBase = () => {
 	const branchUrl = process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL
 	const isMaster = branchUrl?.includes('-git-master-')
