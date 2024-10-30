@@ -36,7 +36,7 @@ export default function Panoramax({ id, onMove }) {
 			console.log('panoramax event', e)
 			onMove((position) => ({
 				...position,
-				angle: e.detail.x - panoramax.psv.getPictureOriginalHeading(),
+				angle: e.detail.x,
 			}))
 		})
 		panoramax.addEventListener('psv:picture-loading', (e) => {
@@ -46,7 +46,7 @@ export default function Panoramax({ id, onMove }) {
 				...position,
 				longitude: lon,
 				latitude: lat,
-				angle: e.detail.x - panoramax.psv.getPictureOriginalHeading(),
+				angle: e.detail.x,
 			}))
 		})
 
