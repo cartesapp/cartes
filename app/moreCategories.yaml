@@ -145,7 +145,21 @@
     - animaux
   query: '[amenity=veterinary]'
   icon: veterinary
-
+-name: Soins
+  category: Santé
+  dictionary:
+    - médecine alternative
+    - médecine complémentaire
+    - médecine naturelle
+    - conseil
+    - sage-femme
+    - infirmière
+    - physiothérapeute
+    - podologue
+    - psychothérapeute  
+  query:
+  - '["healthcare"~"alternative|audiologist|counselling|midwife|nurse|physiotherapist|podiatrist|psychotherapist"]
+  icon: https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/health/healthcare.svg
 ################################
 
 - name: compost
