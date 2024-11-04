@@ -815,3 +815,22 @@
     - lacets
   query: '[craft=shoemaker]'
   icon: shoes
+-name: Justice
+  category: Divers
+  dictionary:
+      - avocat
+      - huissier de justice
+      - notaire
+  query:
+    - '["office"~"lawyer|notary"]
+  icon: https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/office/lawyer.svg  
+-name: Finance
+  category: Divers
+  dictionary:
+      - comptable
+      - conseiller en investissement
+      - agent d'assurance
+  query:
+    - '["office"~"accountant|financial_advisor|insurance"]
+  icon: https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/office/financial.svg
+  
