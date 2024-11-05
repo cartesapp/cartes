@@ -128,6 +128,19 @@
     - généraliste
   query: '[amenity=doctors]'
   icon: https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/health/doctors3.svg
+
+- name: Infirmière-et-sage-femme
+  title: Infirmière et sage femme
+  category: Santé
+  dictionary:
+    - sage-femme
+    - sagefemme
+    - infirmière
+    query:
+    - '[healthcare=midwife]'
+    - '[healthcare=nurse]'
+  icon: nurse
+  
 - name: Pharmacie
   category: Santé
   query: '[amenity=pharmacy]'
