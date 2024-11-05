@@ -145,6 +145,33 @@
     - animaux
   query: '[amenity=veterinary]'
   icon: veterinary
+- name: Infirmiere
+  category: Santé
+  dictionary:
+    - sage-femme
+    - infirmière
+  query:
+  - '["healthcare"~"midwife|nurse"]
+  icon: https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/health/nurse.svg
+- name: médecine alternative
+  category: Santé
+  dictionary:
+    - médecine alternative
+    - médecine complémentaire
+    - médecine naturelle
+    - conseil
+  query:
+  - '["healthcare"~"alternative|counselling"]
+  icon: https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/health/healthcare.svg
+- name: Spécialistes
+  category: Santé
+  dictionary:
+    - physiothérapeute
+    - podologue
+    - psychothérapeute 
+  query:
+  - '["healthcare"~"physiotherapist|podiatrist|psychotherapist"]
+  icon: https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/health/doctors3.svg
 
 ################################
 
