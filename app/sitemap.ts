@@ -36,7 +36,7 @@ const generateAgencies = async () => {
 
 export default async function sitemap(): MetadataRoute.Sitemap {
 	const isVercel = process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL
-	const fetchNewNodes = true || isVercel
+	const fetchNewNodes = false || isVercel
 	let newNodes = []
 	if (fetchNewNodes) {
 		newNodes = await getRecentInterestingNodes()
