@@ -12,10 +12,10 @@ importers:
         specifier: ^4.4.0
         version: 4.4.0
       '@atproto/api':
-        specifier: ^0.13.12
+        specifier: ^0.13.15
         version: 0.13.15
       '@babel/runtime':
-        specifier: ^7.25.9
+        specifier: ^7.26.0
         version: 7.26.0
       '@dwayneparton/geojson-to-gpx':
         specifier: ^0.2.0
@@ -24,16 +24,16 @@ importers:
         specifier: ^1.2.1
         version: 1.2.1
       '@mapbox/sphericalmercator':
-        specifier: ^2.0.0
+        specifier: ^2.0.1
         version: 2.0.1
       '@mdx-js/loader':
         specifier: ^3.1.0
         version: 3.1.0(acorn@8.14.0)(webpack@5.96.1(esbuild@0.24.0))
       '@next/eslint-plugin-next':
-        specifier: ^15.0.0
+        specifier: ^15.0.3
         version: 15.0.3
       '@next/mdx':
-        specifier: ^15.0.0
+        specifier: ^15.0.3
         version: 15.0.3(@mdx-js/loader@3.1.0(acorn@8.14.0)(webpack@5.96.1(esbuild@0.24.0)))(@mdx-js/react@3.1.0(@types/react@18.3.11)(react@19.0.0-rc-fb9a90fa48-20240614))
       '@openstreetmap/id-tagging-schema':
         specifier: ^6.8.1
@@ -72,7 +72,7 @@ importers:
         specifier: ^7.1.0
         version: 7.1.0
       '@vercel/analytics':
-        specifier: ^1.3.1
+        specifier: ^1.3.2
         version: 1.3.2(next@15.0.1(@babel/core@7.26.0)(@opentelemetry/api@1.9.0)(babel-plugin-react-compiler@19.0.0-beta-9ee70a1-20241017)(react-dom@19.0.0-rc-fb9a90fa48-20240614(react@19.0.0-rc-fb9a90fa48-20240614))(react@19.0.0-rc-fb9a90fa48-20240614))(react@19.0.0-rc-fb9a90fa48-20240614)
       '@vercel/edge':
         specifier: ^1.1.2
@@ -81,7 +81,7 @@ importers:
         specifier: ^0.6.3
         version: 0.6.3
       babel-plugin-react-compiler:
-        specifier: ^19.0.0-beta-6fc168f-20241025
+        specifier: 19.0.0-beta-9ee70a1-20241017
         version: 19.0.0-beta-9ee70a1-20241017
       babel-plugin-webpack-alias:
         specifier: ^2.1.2
@@ -93,7 +93,7 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0
       eslint-config-next:
-        specifier: ^15.0.0
+        specifier: ^15.0.3
         version: 15.0.3(eslint@9.14.0)(typescript@5.6.3)
       framer-motion:
         specifier: 12.0.0-alpha.1
@@ -126,10 +126,10 @@ importers:
         specifier: ^15.0.0
         version: 15.0.0
       osmtogeojson:
-        specifier: ^3.0.0-beta.5
+        specifier: 3.0.0-beta.5
         version: 3.0.0-beta.5
       pmtiles:
-        specifier: ^3.2.0
+        specifier: ^3.2.1
         version: 3.2.1
       process:
         specifier: ^0.11.10
@@ -138,10 +138,10 @@ importers:
         specifier: ^4.0.1
         version: 4.0.1
       react:
-        specifier: ^19.0.0-rc-45804af1-20241021
+        specifier: 19.0.0-rc-fb9a90fa48-20240614
         version: 19.0.0-rc-fb9a90fa48-20240614
       react-dom:
-        specifier: ^19.0.0-rc-45804af1-20241021
+        specifier: 19.0.0-rc-fb9a90fa48-20240614
         version: 19.0.0-rc-fb9a90fa48-20240614(react@19.0.0-rc-fb9a90fa48-20240614)
       react-highlight-words:
         specifier: ^0.20.0
@@ -199,7 +199,7 @@ importers:
         version: 3.1.0(react@19.0.0-rc-fb9a90fa48-20240614)
     devDependencies:
       '@babel/core':
-        specifier: ^7.25.9
+        specifier: ^7.26.0
         version: 7.26.0
       '@babel/plugin-proposal-class-properties':
         specifier: ^7.18.6
@@ -214,25 +214,25 @@ importers:
         specifier: ^7.21.0
         version: 7.21.0(@babel/core@7.26.0)
       '@babel/plugin-syntax-import-assertions':
-        specifier: ^7.25.9
+        specifier: ^7.26.0
         version: 7.26.0(@babel/core@7.26.0)
       '@babel/preset-env':
-        specifier: ^7.25.9
+        specifier: ^7.26.0
         version: 7.26.0(@babel/core@7.26.0)
       '@babel/preset-react':
         specifier: ^7.25.9
         version: 7.25.9(@babel/core@7.26.0)
       '@babel/preset-typescript':
-        specifier: ^7.25.9
+        specifier: ^7.26.0
         version: 7.26.0(@babel/core@7.26.0)
       '@types/react':
         specifier: 18.3.11
         version: 18.3.11
       '@typescript-eslint/eslint-plugin':
-        specifier: ^8.11.0
+        specifier: ^8.13.0
         version: 8.13.0(@typescript-eslint/parser@8.13.0(eslint@9.14.0)(typescript@5.6.3))(eslint@9.14.0)(typescript@5.6.3)
       '@typescript-eslint/parser':
-        specifier: ^8.11.0
+        specifier: ^8.13.0
         version: 8.13.0(eslint@9.14.0)(typescript@5.6.3)
       babel-eslint:
         specifier: ^10.1.0
@@ -247,13 +247,13 @@ importers:
         specifier: ^3.0.5
         version: 3.0.5
       eslint:
-        specifier: ^9.13.0
+        specifier: ^9.14.0
         version: 9.14.0
       eslint-config-prettier:
         specifier: ^9.1.0
         version: 9.1.0(eslint@9.14.0)
       eslint-plugin-react:
-        specifier: ^7.37.1
+        specifier: ^7.37.2
         version: 7.37.2(eslint@9.14.0)
       typescript:
         specifier: ^5.6.3
