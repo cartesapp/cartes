@@ -1,4 +1,4 @@
-import { SphericalMercator } from '@mapbox/sphericalmercator'
+import SphericalMercator from '@mapbox/sphericalmercator'
 import { RequestParameters } from 'maplibre-gl'
 import { PMTiles } from 'pmtiles'
 

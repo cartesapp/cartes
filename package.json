@@ -51,7 +51,7 @@
 		"@babel/runtime": "^7.26.0",
 		"@dwayneparton/geojson-to-gpx": "^0.2.0",
 		"@mapbox/polyline": "^1.2.1",
-		"@mapbox/sphericalmercator": "^2.0.1",
+		"@mapbox/sphericalmercator": "^1.2.0",
 		"@mdx-js/loader": "^3.1.0",
 		"@next/eslint-plugin-next": "^15.0.3",
 		"@next/mdx": "^15.0.3",
