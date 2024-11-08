@@ -1,13 +1,13 @@
+import { Protocol as CartesProtocol } from '@/components/map/CartesProtocol'
+import frenchMaplibreLocale from '@/components/map/frenchMaplibreLocale'
+import useEffectDebugger from '@/components/useEffectDebugger'
+import { isLocalStorageAvailable } from '@/components/utils/utils'
 import maplibregl, { ScaleControl } from 'maplibre-gl'
+import { Protocol as ProtomapsProtocol } from 'pmtiles'
 import { useEffect, useMemo, useState } from 'react'
 import { useLocalStorage, useMediaQuery } from 'usehooks-ts'
 import { styles } from '../styles/styles'
-import { Protocol as ProtomapsProtocol } from 'pmtiles'
 import useGeolocation from './useGeolocation'
-import frenchMaplibreLocale from '@/components/map/frenchMaplibreLocale.ts'
-import { Protocol as CartesProtocol } from '@/components/map/CartesProtocol.ts'
-import useEffectDebugger from '@/components/useEffectDebugger'
-import { isLocalStorageAvailable } from '@/components/utils/utils'
 
 /*
  *
