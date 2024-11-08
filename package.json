@@ -109,5 +109,6 @@
 		"svg-path-parser": "^1.1.0",
 		"swr": "^2.2.5",
 		"usehooks-ts": "^3.1.0"
-	}
+	},
+	"packageManager": "pnpm@latest"
 }
