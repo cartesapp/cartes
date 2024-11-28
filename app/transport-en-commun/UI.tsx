@@ -1,5 +1,5 @@
 'use client'
-import styled from 'styled-components'
+import {styled} from 'next-styled-components'
 
 export const Ul = styled.ul`
 	padding-left: 1rem;

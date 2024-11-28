@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import {styled} from 'next-styled-components'
 
 export const InputStyle = styled.span`
 	input,

@@ -1,5 +1,5 @@
 'use client'
-import styled from 'styled-components'
+import {styled} from 'next-styled-components'
 export default function TransitLoader({
 	text = 'Calcul des transports en commun',
 }) {

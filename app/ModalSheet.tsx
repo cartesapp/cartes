@@ -1,6 +1,6 @@
 import { Sheet, SheetRef } from '@/components/react-modal-sheet'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import styled from 'styled-components'
+import {styled} from 'next-styled-components'
 import Content from './Content'
 import ModalSheetReminder from './ModalSheetReminder'
 import { useDimensions } from '@/components/react-modal-sheet/hooks'

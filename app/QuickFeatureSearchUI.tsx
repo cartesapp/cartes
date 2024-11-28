@@ -1,6 +1,6 @@
 'use client'
 
-import styled from 'styled-components'
+import {styled} from 'next-styled-components'
 
 const quickSearchButtonwidth = '2.2rem'
 

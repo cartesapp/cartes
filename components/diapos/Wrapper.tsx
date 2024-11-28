@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import styled from 'styled-components'
+import {styled} from 'next-styled-components'
 
 export const DiapoWrapper = styled.div`
 	color: var(--darkerColor);

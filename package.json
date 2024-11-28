@@ -84,6 +84,7 @@
 		"next": "15.0.3",
 		"next-contentlayer2": "0.5.1",
 		"next-mdx-remote": "^5.0.0",
+		"next-styled-components": "^0.0.5",
 		"opening_hours": "^3.8.0",
 		"openmoji": "^15.0.0",
 		"osmtogeojson": "^3.0.0-beta.5",

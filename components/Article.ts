@@ -1,5 +1,5 @@
 'use client'
-import styled from 'styled-components'
+import {styled} from 'next-styled-components'
 
 const Article = styled.article`
 	max-width: 700px;

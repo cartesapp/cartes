@@ -6,7 +6,7 @@ import css from '@/components/css/convertToJs'
 import useSetSearchParams from '@/components/useSetSearchParams'
 import { omit } from '@/components/utils/utils'
 import Link from 'next/link'
-import styled from 'styled-components'
+import {styled} from 'next-styled-components'
 import ItineraryButton, { ResetIcon } from './itinerary/ItineraryButton'
 
 export const mapButtonSize = '2.15rem'

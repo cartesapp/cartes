@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import {styled} from 'next-styled-components'
 import DateSelector from '../DateSelector'
 import noTransports from '@/public/no-transports.svg'
 import Image from 'next/image'

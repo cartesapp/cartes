@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic'
 import { Suspense, useState } from 'react'
-import styled from 'styled-components'
+import {styled} from 'next-styled-components'
 
 const DownloadGPX = dynamic(() => import('./DownloadGPX'), {
 	ssr: false,

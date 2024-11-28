@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import panoramaxIcon from '@/public/panoramax-simple.svg'
 import panoramaxIconChecked from '@/public/panoramax-simple-choisi.svg'
-import styled from 'styled-components'
+import {styled} from 'next-styled-components'
 
 export default function ({ searchParams, setSearchParams, setZoom, zoom }) {
 	const checked = searchParams.panoramax != null || searchParams.rue === 'oui'

@@ -1,6 +1,6 @@
 // Inspired by https://github.com/zbycz/osmapp/blob/master/src/services/helpers.ts#L107
 
-import styled from 'styled-components'
+import {styled} from 'next-styled-components'
 import { buildAddress } from './osm/buildAddress'
 
 export const addressKeys = [

@@ -1,6 +1,6 @@
 'use client'
 
-import styled from 'styled-components'
+import {styled} from 'next-styled-components'
 import CTA from '../presentation/CTA'
 
 export const List = styled.ol`
