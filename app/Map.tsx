@@ -34,6 +34,7 @@ import useSearchLocalTransit from './effects/useSearchLocalTransit'
 import useDrawItinerary from './itinerary/useDrawItinerary'
 import { computeCenterFromBbox } from './utils'
 import useGeolocationAutofocus from './effects/useGeolocationAutofocus'
+import { css, styled } from 'next-yak'
 
 if (process.env.NEXT_PUBLIC_MAPTILER == null) {
 	throw new Error('You have to configure env NEXT_PUBLIC_MAPTILER, see README')
@@ -304,8 +305,8 @@ export default function Map(props) {
 
 		const tailoredZoom = //TODO should be defined by the feature's polygon if any
 			/* ['city'].includes(vers.choice.type)
-			? 12
-			: */
+ 			? 12
+ 			: */
 			Math.max(15, zoom)
 		console.log(
 			'blue',
@@ -345,16 +346,16 @@ export default function Map(props) {
 	/* TODO Transform this to handle the last itinery point if alone (just a POI url),
 	 * but also to add markers to all the steps of the itinerary */
 	/* Should be merged with the creation of route markers
-	useSetTargetMarkerAndZoom(
-		map,
-		target,
-		state.vers.marker,
-		state.vers.choice.type,
-		setState,
-		setLatLngClicked,
-		zoom
-	)
-	*/
+ 	useSetTargetMarkerAndZoom(
+ 		map,
+ 		target,
+ 		state.vers.marker,
+ 		state.vers.choice.type,
+ 		setState,
+ 		setLatLngClicked,
+ 		zoom
+ 	)
+ 	*/
 	useDrawRightClickMarker(map, geocodedClickedPoint, padding)
 
 	/* Abandoned code that should be revived. Traveling with train + bike is an
@@ -368,11 +369,11 @@ export default function Map(props) {
 			const element = document.createElement('div')
 			const factor = { 1: 0.9, 2: 1.1, 3: 1.3 }[gare.niveau] || 0.7
 			element.style.cssText = `
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				cursor: help;
-			`
+ 				display: flex;
+ 				flex-direction: column;
+ 				align-items: center;
+ 				cursor: help;
+ 			`
 			const size = goodIconSize(zoom, factor) + 'px'
 
 			const image = document.createElement('img')
@@ -435,34 +436,31 @@ export default function Map(props) {
 					}}
 				/>
 			)}
-			<div
-				ref={mapContainerRef}
-				css={`
-					.maplibregl-ctrl
-						button.maplibregl-ctrl-compass
-						.maplibregl-ctrl-icon {
-						background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='29' height='29' fill='crimson' viewBox='0 0 29 29'%3E%3Cpath d='m10.5 14 4-8 4 8z'/%3E%3Cpath fill='%23ccc' d='m10.5 16 4 8 4-8z'/%3E%3C/svg%3E");
-					}
-
-					@media (max-width: 800px) {
-						.maplibregl-ctrl-bottom-left .maplibregl-ctrl-scale {
-							margin-left: 3.6rem;
-							border-right: none;
-							border-left: none;
-							line-height: 1rem;
-							background: none;
-							border-bottom-color: var(--darkColor);
-							color: var(--darkColor);
-							font-weight: 600;
-							filter: drop-shadow(0px 0px 2px #ffffffa6);
-						}
-					}
-					.maplibregl-ctrl-top-right button {
-						width: ${mapButtonSize};
-						height: ${mapButtonSize};
-					}
-				`}
-			/>
+			<MapContainer ref={mapContainerRef} $mapButtonSize={mapButtonSize} />
 		</>
 	)
 }
+
+const MapContainer = styled.div`
+	.maplibregl-ctrl button.maplibregl-ctrl-compass .maplibregl-ctrl-icon {
+		background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='29' height='29' fill='crimson' viewBox='0 0 29 29'%3E%3Cpath d='m10.5 14 4-8 4 8z'/%3E%3Cpath fill='%23ccc' d='m10.5 16 4 8 4-8z'/%3E%3C/svg%3E");
+	}
+
+	@media (max-width: 800px) {
+		.maplibregl-ctrl-bottom-left .maplibregl-ctrl-scale {
+			margin-left: 3.6rem;
+			border-right: none;
+			border-left: none;
+			line-height: 1rem;
+			background: none;
+			border-bottom-color: var(--darkColor);
+			color: var(--darkColor);
+			font-weight: 600;
+			filter: drop-shadow(0px 0px 2px #ffffffa6);
+		}
+	}
+	.maplibregl-ctrl-top-right button {
+		width: 2.5rem;
+		height: 2.5rem;
+	}
+`

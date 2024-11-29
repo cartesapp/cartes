@@ -1,4 +1,5 @@
 import parseOpeningHours from 'opening_hours'
+import { css, styled } from 'next-yak'
 
 const getStartOfToday = (date) => {
 	const startOfToday = date || new Date()
@@ -86,7 +87,7 @@ export const OpeningHours = ({ opening_hours }) => {
 	console.log(ohPerDay)
 	return (
 		<div
-			css={`
+			css={css`
 				margin: 0.2rem 0;
 				display: flex;
 				align-items: center;
@@ -112,7 +113,7 @@ export const OpeningHours = ({ opening_hours }) => {
 
 				{intervals != null && !ohPerDay.error ? (
 					<ul
-						css={`
+						css={css`
 							padding-left: 2rem;
 							width: 100%;
 							> li {
@@ -134,14 +135,14 @@ export const OpeningHours = ({ opening_hours }) => {
 						{Object.entries(ohPerDay).map(
 							([day, ranges]) =>
 								day !== 'error' && (
-									<li key={day} css={!ranges.length && `color: gray`}>
+									<li key={day} style={!ranges.length ? { color: 'gray' } : {}}>
 										<span>{day}</span>
 										<ul>
 											{ranges.length > 0 ? (
 												ranges.map((hour) => <li key={hour}>{hour}</li>)
 											) : (
 												<span
-													css={`
+													css={css`
 														margin-right: 0.4rem;
 													`}
 												>
@@ -162,15 +163,17 @@ export const OpeningHours = ({ opening_hours }) => {
 }
 
 export const OpenIndicator = ({ isOpen }) => (
-	<span
-		css={`
-			display: inline-block;
-			margin: 0 0.4rem;
-			width: 1rem;
-			height: 1rem;
-			border-radius: 2rem;
-			background: ${isOpen ? '#37c267' : '#b5325d'};
-		`}
+	<OpenIndicatorContainer
+		$isOpen={isOpen}
 		title={isOpen ? 'Ouvert actuellement' : 'Fermé actuellement'}
-	></span>
+	></OpenIndicatorContainer>
 )
+
+const OpenIndicatorContainer = styled.span`
+	display: inline-block;
+	margin: 0 0.4rem;
+	width: 1rem;
+	height: 1rem;
+	border-radius: 2rem;
+	background: ${(p) => (p.$isOpen ? '#37c267' : '#b5325d')};
+`

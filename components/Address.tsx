@@ -1,6 +1,6 @@
 // Inspired by https://github.com/zbycz/osmapp/blob/master/src/services/helpers.ts#L107
 
-import styled from 'styled-components'
+import { css, styled } from 'next-yak'
 import { buildAddress } from './osm/buildAddress'
 
 export const addressKeys = [
@@ -17,18 +17,13 @@ export const addressKeys = [
 ]
 
 export default function Address({ tags, noPrefix }) {
-	return (
-		<address
-			css={`
-				line-height: 1.4rem;
-				font-size: 90%;
-				font-style: normal;
-			`}
-		>
-			{buildAddress(tags, noPrefix)}
-		</address>
-	)
+	return <AddressElement>{buildAddress(tags, noPrefix)}</AddressElement>
 }
+const AddressElement = styled.address`
+	line-height: 1.4rem;
+	font-size: 90%;
+	font-style: normal;
+`
 
 export const AddressDisc = ({ t, noPrefix = false }) => {
 	const g = (key) => {

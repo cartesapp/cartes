@@ -1,10 +1,11 @@
+import { css } from 'next-yak'
 import Content from './Content'
 import { modalSheetBoxShadow } from './ModalSheetReminder'
 
 export default function SideSheet(props) {
 	return (
 		<div
-			css={`
+			css={css`
 				background-color: var(--lightestColor2) !important;
 				width: 26rem;
 				margin-top: 1rem;

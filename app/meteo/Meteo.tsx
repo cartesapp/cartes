@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useMediaQuery } from 'usehooks-ts'
+import { css, styled } from 'next-yak'
 
 const buildIconUrl = (icon) =>
 	'https://meteofrance.com/modules/custom/mf_tools_common_theme_public/svg/weather/' +
@@ -101,88 +102,10 @@ export default function Meteo({ coordinates }) {
 
 	const temperature = Math.round(thisHour.T.value)
 	return (
-		<div
+		<MeteoWrapper
 			onClick={() => extend(!extended)}
-			css={`
-				position: fixed;
-				padding: 0.1rem;
-				width: 2rem;
-				padding: 0.3rem 0;
-				height: 4.8rem;
-				right: 0.7rem;
-				bottom: 2.8rem;
-				> small {
-					display: none !important;
-				}
-				> div {
-					display: flex;
-					flex-direction: column;
-					align-items: center;
-					justify-content: space-evenly;
-				}
-
-				${extended &&
-				`
-					bottom: 1rem;
-					right: 0rem;
-					width: 6.5rem;
-					padding: .4rem 0;
-					height: 4.2rem;
-					> small {
-						display: block !important;
-					}
-
-					> div {
-						align-items: center;
-						justify-content: center;
-						flex-direction: row;
-					}
-				`}
-				transform: translateX(-50%) translateY(-50%);
-				img {
-					width: 1.8rem;
-					height: auto;
-					margin: 0 0.2rem;
-					display: inline-block;
-				}
-				z-index: 10;
-				filter: drop-shadow(0 0 0.75rem white);
-
-				background: #ffffff85;
-				border: 0px solid lightgrey;
-				text-align: center;
-				border-radius: 4px;
-				box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-				> small,
-				> a small {
-					white-space: nowrap;
-					overflow-x: scroll;
-					scrollbar-width: none; /* Firefox */
-
-					max-width: 100%;
-					display: block;
-					height: 1.6rem;
-					margin-top: 0.3rem;
-				}
-				> small::-webkit-scrollbar {
-					display: none; /* Safari and Chrome */
-				}
-				> a {
-					${extended
-						? `
-					color: inherit;
-					display: flex;
-					align-items: center;
-					justify-content: center;
-					img {
-						width: 1.2rem;
-						height: auto;
-					}
-					`
-						: `display: none`}
-				}
-			`}
 			title={weatherText}
+			$extended={extended}
 		>
 			{codePostal ? (
 				<Link
@@ -196,14 +119,7 @@ export default function Meteo({ coordinates }) {
 				<small>{weather.position.name}</small>
 			)}
 			<div>
-				<small
-					css={`
-						color: #555;
-						font-size: 80%;
-					`}
-				>
-					{temperature}°
-				</small>
+				<small>{temperature}°</small>
 				<Image
 					src={buildIconUrl(thisHour.weather.icon)}
 					alt={thisHour.weather.desc}
@@ -215,13 +131,101 @@ export default function Meteo({ coordinates }) {
 					width="10"
 					height="10"
 					alt={rainAlt}
-					css={`
+					css={css`
 						background: var(--lighterColor);
 						border-radius: 1rem;
 						width: 1.3rem !important;
 					`}
 				/>
 			</div>
-		</div>
+		</MeteoWrapper>
 	)
 }
+
+const MeteoWrapper = styled.section`
+	position: fixed;
+	padding: 0.1rem;
+	width: 2rem;
+	padding: 0.3rem 0;
+	height: 4.8rem;
+	right: 0.7rem;
+	bottom: 2.8rem;
+	> div > small {
+		color: #555;
+		font-size: 80%;
+	}
+	> small {
+		display: none !important;
+	}
+	> div {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: space-evenly;
+	}
+
+	${({ $extended }) =>
+		$extended &&
+		css`
+			bottom: 1rem;
+			right: 0rem;
+			width: 6.5rem;
+			padding: 0.4rem 0;
+			height: 4.2rem;
+			> small {
+				display: block !important;
+			}
+
+			> div {
+				align-items: center;
+				justify-content: center;
+				flex-direction: row;
+			}
+		`}
+	transform: translateX(-50%) translateY(-50%);
+	img {
+		width: 1.8rem;
+		height: auto;
+		margin: 0 0.2rem;
+		display: inline-block;
+	}
+	z-index: 10;
+	filter: drop-shadow(0 0 0.75rem white);
+
+	background: #ffffff85;
+	border: 0px solid lightgrey;
+	text-align: center;
+	border-radius: 4px;
+	box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+	> small,
+	> a small {
+		white-space: nowrap;
+		overflow-x: scroll;
+		scrollbar-width: none; /* Firefox */
+
+		max-width: 100%;
+		display: block;
+		height: 1.6rem;
+		margin-top: 0.3rem;
+	}
+	> small::-webkit-scrollbar {
+		display: none; /* Safari and Chrome */
+	}
+	> a {
+		${({ $extended }) =>
+			$extended
+				? css`
+						color: inherit;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						img {
+							width: 1.2rem;
+							height: auto;
+						}
+				  `
+				: css`
+						display: none;
+				  `}
+	}
+`

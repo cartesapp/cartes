@@ -1,4 +1,4 @@
-import css from '@/components/css/convertToJs'
+import { css, styled } from 'next-yak'
 
 export default function Brand({ brand, brandWikidata, brandWikipedia }) {
 	if (!(brand || brandWikidata || brandWikipedia)) return null
@@ -16,7 +16,7 @@ export default function Brand({ brand, brandWikidata, brandWikipedia }) {
 				alt="Logo de Wikipedia"
 				width="20"
 				height="20"
-				style={css`
+				css={css`
 					vertical-align: middle;
 				`}
 			/>{' '}
@@ -29,22 +29,17 @@ export default function Brand({ brand, brandWikidata, brandWikipedia }) {
 }
 
 export const Wikidata = ({ id }) => (
-	<span
-		style={css`
-			margin-left: 0.8rem;
-		`}
-	>
-		<img
-			src={'/wikidata.svg'}
-			alt="Logo de Wikidata"
-			width="20"
-			height="20"
-			style={css`
-				vertical-align: middle;
-			`}
-		/>{' '}
+	<WikidataWrapper>
+		<img src={'/wikidata.svg'} alt="Logo de Wikidata" width="20" height="20" />{' '}
 		<a href={`https://wikidata.org/wiki/${id}`} target="_blank">
 			<small>wikidata</small>
 		</a>
-	</span>
+	</WikidataWrapper>
 )
+
+const WikidataWrapper = styled.section`
+	margin-left: 0.8rem;
+	img {
+		vertical-align: middle;
+	}
+`

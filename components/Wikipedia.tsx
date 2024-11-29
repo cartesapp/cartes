@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import css from '../css/convertToJs'
 import Image from 'next/image'
 import wikipediaLogo from '@/public/wikipedia.svg'
+import { css, styled } from 'next-yak'
 
 export default function Wikipedia({ name }) {
 	const [text, setText] = useState(null)
@@ -28,53 +28,7 @@ export default function Wikipedia({ name }) {
 	const shortenText = text && text.split(' ').slice(0, 50).join(' ')
 
 	return (
-		<div
-			css={`
-			margin-top: .4rem;
-				position: relative;
-				${
-					shortenText?.length > 100 &&
-					`
-				&:after {
-					position: absolute;
-					bottom: 0;
-					height: 100%;
-					width: 100%;
-					content: '';
-					background: linear-gradient(
-						to bottom,
-						color-mix(in srgb, var(--lightestColor2) 0%, transparent) 20%,
-						color-mix(in srgb, var(--lightestColor2) 100%, transparent) 80%
-					);
-					pointer-events: none; /* so the text is still selectable */
-				`
-				}
-				}
-				p {
-					line-height: 1.2rem;
-					${
-						shortenText?.length > 100
-							? ''
-							: `
-				    margin-bottom: .8rem`
-					}
-				}
-				> p > img {
-					vertical-align: text-bottom;
-					margin-right: 0.3rem;
-				}
-				p > a {
-				${
-					shortenText?.length > 100
-						? `
-					z-index: 2;
-					position: absolute;
-					right: 0;
-					`
-						: `float: right; `
-				};}
-			`}
-		>
+		<Wrapper $shortenText={shortenText}>
 			<p>
 				<Image
 					src={wikipediaLogo}
@@ -88,6 +42,50 @@ export default function Wikipedia({ name }) {
 					<small>Wikipedia</small>
 				</a>
 			</p>
-		</div>
+		</Wrapper>
 	)
 }
+
+const Wrapper = styled.section`
+	margin-top: 0.4rem;
+	position: relative;
+	${(p) =>
+		p.$shortenText?.length > 100 &&
+		css`
+			&:after {
+				position: absolute;
+				bottom: 0;
+				height: 100%;
+				width: 100%;
+				content: '';
+				background: linear-gradient(
+					to bottom,
+					color-mix(in srgb, var(--lightestColor2) 0%, transparent) 20%,
+					color-mix(in srgb, var(--lightestColor2) 100%, transparent) 80%
+				);
+				pointer-events: none; /* so the text is still selectable */
+			}
+		`}
+	> p {
+		line-height: 1.2rem;
+		${(p) =>
+			p.$shortenText?.length > 100
+				? ''
+				: `
+ 				    margin-bottom: .8rem`}
+	}
+	> p > img {
+		vertical-align: text-bottom;
+		margin-right: 0.3rem;
+	}
+	p > a {
+		${(p) =>
+			p.$shortenText?.length > 100
+				? `
+ 					z-index: 2;
+ 					position: absolute;
+ 					right: 0;
+ 					`
+				: `float: right; `};
+	}
+`

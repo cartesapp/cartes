@@ -1,9 +1,9 @@
-import Boussole from './Boussole'
-
-export default function BoussolePage() {
-	return (
-		<main>
-			<Boussole />
-		</main>
-	)
-}
+ import Boussole from './Boussole'
+ 
+ export default function BoussolePage() {
+ 	return (
+ 		<main>
+ 			<Boussole />
+ 		</main>
+ 	)
+ }

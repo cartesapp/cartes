@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import { styled } from 'next-yak'
 
 export const InputStyle = styled.span`
 	input,
@@ -39,12 +39,12 @@ export const InputStyle = styled.span`
 	${(props) =>
 		props.suffixed &&
 		`
-	input {
-		text-align: right;
-	}
-	`}
+ 	input {
+ 		text-align: right;
+ 	}
+ 	`}
 	input:focus,
-	select:focus {
+ 	select:focus {
 		border-color: var(--color);
 	}
 
@@ -52,4 +52,16 @@ export const InputStyle = styled.span`
 		opacity: 0.75;
 		color: var(--lighterColor);
 	}
+	color: white;
+	input {
+		max-width: 22rem;
+		width: 83vw;
+		background: var(--lightestColor);
+		color: var(--darkColor);
+		border: none;
+		margin-bottom: 0;
+		outline: 0.15rem solid
+			${(p) => (p.stateBeingSearched ? 'yellow' : 'var(--lightColor)')} !important;
+	}
+	position: relative;
 `

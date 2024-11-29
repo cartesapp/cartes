@@ -9,6 +9,7 @@ import {
 import TransitLoader from './TransitLoader'
 import findBestConnection from './findBestConnection'
 import { connectionStart, filterNextConnections } from './utils'
+import { css } from 'next-yak'
 
 export default function TransitSummary({ itinerary }) {
 	const data = itinerary.routes.transit
@@ -18,7 +19,12 @@ export default function TransitSummary({ itinerary }) {
 		return (
 			<section>
 				<NoTransit reason={data.reason} solution={data.solution} />
-				<button css="margin: 0 0 0 auto; display: block">
+				<button
+					css={css`
+						margin: 0 0 0 auto;
+						display: block;
+					`}
+				>
 					→ Choisir une date
 				</button>
 			</section>
@@ -38,7 +44,7 @@ export default function TransitSummary({ itinerary }) {
 	if (bestConnection) return <BestConnection bestConnection={bestConnection} />
 	return (
 		<div
-			css={`
+			css={css`
 				display: flex;
 				align-items: center;
 				flex-wrap: wrap;

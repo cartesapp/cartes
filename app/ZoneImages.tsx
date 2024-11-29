@@ -10,6 +10,7 @@ import {
 import useSetSearchParams from '@/components/useSetSearchParams'
 import Link from 'next/link'
 import panoramaxIcon from '@/public/panoramax.svg'
+import { css } from 'next-yak'
 
 export function useZoneImages({
 	latLngClicked,
@@ -126,7 +127,7 @@ export function ZoneImages({
 	const panoramaxImage = panoramaxImages && panoramaxImages[0]
 	return (
 		<div
-			css={`
+			css={css`
 				margin-top: 1rem;
 				overflow: scroll;
 				white-space: nowrap;
@@ -137,7 +138,7 @@ export function ZoneImages({
 		>
 			{(panoramaxImages || images?.length > 0) && (
 				<ul
-					css={`
+					css={css`
 						margin: 0 0 0.4rem 0;
 						display: flex;
 						list-style-type: none;
@@ -155,7 +156,7 @@ export function ZoneImages({
 							href={setSearchParams({ panoramax: panoramaxImage.id }, true)}
 						>
 							<div
-								css={`
+								css={css`
 									position: relative;
 									> img:first-child {
 										position: absolute;
@@ -188,7 +189,7 @@ export function ZoneImages({
 								<li key={url}>
 									<button
 										onClick={() => focusImage(image)}
-										css={`
+										css={css`
 											margin: 0;
 											padding: 0;
 										`}
@@ -208,7 +209,7 @@ export function ZoneImages({
 			{zoneImages?.length > 0 && (
 				<div>
 					<small
-						css={`
+						css={css`
 							color: #88aed4;
 							margin-bottom: 0.6rem;
 						`}

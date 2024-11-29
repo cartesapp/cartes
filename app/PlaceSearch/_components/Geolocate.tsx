@@ -1,11 +1,12 @@
 import useSetSearchParams from '@/components/useSetSearchParams'
+import { css } from 'next-yak'
 
 export function Geolocate() {
 	const setSearchParams = useSetSearchParams()
 	return (
 		<button onClick={() => setSearchParams({ geoloc: 'oui' })}>
 			<span
-				css={`
+				css={css`
 					background-position: 50%;
 					background-repeat: no-repeat;
 					display: block;

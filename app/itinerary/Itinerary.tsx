@@ -9,6 +9,7 @@ import ClickItineraryInstruction from './ClickItineraryInstruction'
 import Steps from './Steps'
 import Timeline from './Timeline'
 import Transit from './transit/Transit'
+import { css } from 'next-yak'
 
 export const modes = [
 	['cycling', { label: 'Vélo', query: 'velo' }],
@@ -42,7 +43,11 @@ export default function Itinerary({
 	if (!itinerary.isItineraryMode) return null
 
 	return (
-		<ContentSection css="margin-bottom: 1rem">
+		<ContentSection
+			css={css`
+				margin-bottom: 1rem;
+			`}
+		>
 			<h1>Itinéraire</h1>
 			<ModalCloseButton title="Fermer l'encart itinéraire" onClick={close} />
 			<Steps
@@ -57,7 +62,7 @@ export default function Itinerary({
 			) : (
 				<div>
 					<ol
-						css={`
+						css={css`
 							margin-top: 0.1rem;
 							margin-left: 0;
 							padding-left: 0;

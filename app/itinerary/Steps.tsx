@@ -1,12 +1,14 @@
 import useSetSearchParams from '@/components/useSetSearchParams'
-import {replaceArrayIndex} from '@/components/utils/utils'
+import { replaceArrayIndex } from '@/components/utils/utils'
 import addIcon from '@/public/add-circle-stroke.svg'
 import closeIcon from '@/public/remove-circle-stroke.svg'
-import {Reorder, useDragControls} from 'framer-motion'
+import { Reorder, useDragControls } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import {useState} from 'react'
-import {removeStatePart} from '../SetDestination'
+import { useState } from 'react'
+import { removeStatePart } from '../SetDestination'
+import { css, styled } from 'next-yak'
+import { StepList } from '../itineraire/StepsUI'
 
 export default function Steps({
 	setState,
@@ -35,33 +37,12 @@ export default function Steps({
 				url={setSearchParams({ allez: '->' + allez }, true)}
 				title={'Ajouter un point comme départ'}
 			/>
-			<Reorder.Group
+			<StepList
 				axis="y"
 				values={steps.map((step) => step?.key)}
 				onReorder={(newItems) =>
 					setSearchParams({ allez: newItems.join('->') })
 				}
-				css={`
-					width: 100%;
-					background: var(--lightestColor);
-					border-radius: 0.4rem;
-					padding: 0.2rem 0.3rem;
-					list-style-type: none;
-					position: relative;
-					z-index: 8;
-					border: 1px solid var(--lighterColor);
-					li {
-						padding: 0.3rem 0.4rem;
-						border-bottom: 1px solid var(--lighterColor);
-						background: var(--lightestColor);
-						display: flex;
-						align-items: center;
-						justify-content: space-between;
-					}
-					li:last-child {
-						border-bottom: none;
-					}
-				`}
 			>
 				{steps.map((step, index) => (
 					<Item
@@ -80,7 +61,7 @@ export default function Steps({
 						}}
 					/>
 				))}
-			</Reorder.Group>
+			</StepList>
 			<AddStepButton
 				url={setSearchParams({ allez: allez + '->' }, true)}
 				title={'Ajouter un point comme destination'}
@@ -88,41 +69,34 @@ export default function Steps({
 		</section>
 	)
 }
+const AddStepButtonWrapper = styled.div`
+	z-index: 7;
+	display: flex;
+	align-items: center;
+	justify-content: end;
+	height: 0.55rem;
+	margin-right: 1.8rem;
+	img {
+		width: 1.2rem;
+		height: auto;
+		vertical-align: sub;
+		opacity: 0.4;
+	}
+`
 const AddStepButton = ({ url, title, style }) => (
-	<div
-		css={`
-			z-index: 7;
-			display: flex;
-			align-items: center;
-			justify-content: end;
-			height: 0.55rem;
-			margin-right: 1.8rem;
-		`}
-	>
-		<Link
-			href={url}
-			title={title}
-			css={`
-				text-decoration: none;
-				margin: 0rem 0.7rem;
-				display: inline-block;
-				${style}
-			`}
-		>
-			<Image
-				src={addIcon}
-				alt="Supprimer cette étape"
-				css={`
-					width: 1.2rem;
-					height: auto;
-					vertical-align: sub;
-					opacity: 0.4;
-				`}
-			/>
-		</Link>
-	</div>
+	<AddStepButtonWrapper>
+		<StepLink href={url} title={title} $style={style}>
+			<Image src={addIcon} alt="Supprimer cette étape" />
+		</StepLink>
+	</AddStepButtonWrapper>
 )
 
+const StepLink = styled(Link)`
+	text-decoration: none;
+	margin: 0rem 0.7rem;
+	display: inline-block;
+	${(p) => p.$style}
+`
 const Item = ({
 	index,
 	step,
@@ -148,15 +122,16 @@ const Item = ({
 			value={key}
 			dragListener={false}
 			dragControls={controls}
-			css={`
-				${beingSearched &&
-				`
-				background: yellow !important;
-				`}
-			`}
+			style={
+				beingSearched
+					? {
+							background: 'yellow !important',
+					  }
+					: {}
+			}
 		>
 			<div
-				css={`
+				css={css`
 					display: flex;
 					justify-content: start;
 					align-items: center;
@@ -178,19 +153,11 @@ const Item = ({
 					}}
 				>
 					<StepIcon text={letterFromIndex(index)} />{' '}
-					<span
-						css={`
-							min-width: 6rem;
-							cursor: text;
-							${!step || !step.name
-								? `font-weight: 300; color: var(--darkColor); font-style: italic`
-								: ''}
-						`}
-					>
+					<StepName $hasName={!step || !step.name}>
 						{beingSearched
 							? `Choisissez ${stepDefaultName}`
 							: step?.name || `Cliquez pour choisir ${stepDefaultName}`}
-					</span>
+					</StepName>
 				</span>
 				{undoValue != null && beingSearched && (
 					<span>
@@ -205,7 +172,7 @@ const Item = ({
 								width="10"
 								height="10"
 								alt="Icône croix"
-								css={`
+								css={css`
 									margin-left: 0.4rem;
 									filter: invert(1);
 								`}
@@ -216,7 +183,7 @@ const Item = ({
 				)}
 			</div>
 			<div
-				css={`
+				css={css`
 					position: relative;
 					&,
 					a {
@@ -232,12 +199,12 @@ const Item = ({
 					<AddStepButton
 						url={setSearchParams({ allez: allez.replace('->', '->->') }, true)}
 						title={'Ajouter un point intermédiaire'}
-						style={`
-					top: 1rem;
-  position: absolute;
-  right: 1.1rem;
-  background: var(--lightestColor);
-  border-radius: 1.8rem;
+						style={css`
+							top: 1rem;
+							position: absolute;
+							right: 1.1rem;
+							background: var(--lightestColor);
+							border-radius: 1.8rem;
 						`}
 					/>
 				)}
@@ -256,7 +223,7 @@ const Item = ({
 					</div>
 				) : (
 					<div
-						css={`
+						css={css`
 							width: 1.6rem;
 						`}
 					></div>
@@ -275,7 +242,7 @@ const RemoveStepLink = ({ setSearchParams, stepKey, state }) => {
 	return (
 		<Link
 			href={setSearchParams({ allez: removeStatePart(stepKey, state) }, true)}
-			css={`
+			css={css`
 				position: absolute;
 				right: -1.6rem;
 				top: 0.15rem;
@@ -286,7 +253,7 @@ const RemoveStepLink = ({ setSearchParams, stepKey, state }) => {
 			<Image
 				src={closeIcon}
 				alt="Supprimer cette étape"
-				css={`
+				css={css`
 					width: 1rem;
 					height: auto;
 					opacity: 0.6;
@@ -298,7 +265,7 @@ const RemoveStepLink = ({ setSearchParams, stepKey, state }) => {
 
 export const StepIcon = ({ text }) => (
 	<span
-		css={`
+		css={css`
 			display: inline-block;
 			margin: 0 0.4rem 0 0;
 			background: var(--color);
@@ -316,7 +283,7 @@ export const StepIcon = ({ text }) => (
 
 const Dots = () => (
 	<span
-		css={`
+		css={css`
 			cursor: pointer;
 			display: inline-flex;
 			width: 1.4rem;
@@ -340,6 +307,19 @@ const Dots = () => (
 		))}
 	</span>
 )
+
+const StepName = styled.span`
+	min-width: 6rem;
+	cursor: text;
+	${(p) =>
+		p.$hasName
+			? css`
+					font-weight: 300;
+					color: var(--darkColor);
+					font-style: italic;
+			  `
+			: ''}
+`
 
 export const letterFromIndex = (index) => String.fromCharCode(65 + (index % 26))
 

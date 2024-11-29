@@ -4,6 +4,7 @@ import { ContentSection } from '@/app/ContentUI'
 import { ModalCloseButton } from '@/app/UI'
 import { useEffect, useState } from 'react'
 import { useLocalStorage } from 'usehooks-ts'
+import { css, styled } from 'next-yak'
 
 export default function PaymentBlock({ setSearchParams, openSheet }) {
 	const [choice, setChoice] = useState(false)
@@ -59,39 +60,39 @@ export default function PaymentBlock({ setSearchParams, openSheet }) {
 				</p>
 				{!choice && (
 					<section>
-						<h3 css="font-size: 110%">Comment nous soutenir ? </h3>
-						<section
-							css={`
-								display: flex;
-								flex-wrap: wrap;
-								gap: 1rem;
-								justify-content: end;
-								button {
-									padding: 0.2rem 1rem;
-									background: linear-gradient(
-										90deg,
-										rgba(41, 136, 230, 1) 0%,
-										rgba(24, 90, 189, 1) 100%
-									);
-									color: white;
-									box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 6px;
-								}
+						<h3
+							css={css`
+								font-size: 110%;
 							`}
 						>
+							Comment nous soutenir ?{' '}
+						</h3>
+						<Buttons>
 							<button onClick={() => setChoice('05-mois')}>
 								50 centimes par mois
 							</button>
 							<button onClick={() => setChoice('6-an')}>6 € par an</button>
 							<button onClick={() => setChoice('0')}>Pas pour l'instant</button>
-						</section>
-						<p css="text-align: right; margin-top: 1rem">
+						</Buttons>
+						<p
+							css={css`
+								text-align: right;
+								margin-top: 1rem;
+							`}
+						>
 							<small>Sans engagement, évidemment.</small>
 						</p>
 					</section>
 				)}
 				{choice &&
 					(message ? (
-						<p css="margin-top: 1rem">{message}</p>
+						<p
+							css={css`
+								margin-top: 1rem;
+							`}
+						>
+							{message}
+						</p>
 					) : (
 						<p>Appel en cours...</p>
 					))}
@@ -99,3 +100,20 @@ export default function PaymentBlock({ setSearchParams, openSheet }) {
 		</section>
 	)
 }
+
+const Buttons = styled.section`
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+	justify-content: end;
+	button {
+		padding: 0.2rem 1rem;
+		background: linear-gradient(
+			90deg,
+			rgba(41, 136, 230, 1) 0%,
+			rgba(24, 90, 189, 1) 100%
+		);
+		color: white;
+		box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 6px;
+	}
+`

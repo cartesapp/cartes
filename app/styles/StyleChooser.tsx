@@ -1,4 +1,4 @@
-import css from '@/components/css/convertToJs'
+import { css, styled } from 'next-yak'
 import useSetSearchParams from '@/components/useSetSearchParams'
 import informationIcon from '@/public/information.svg'
 import Image from 'next/image'
@@ -29,7 +29,7 @@ export default function StyleChooser({
 
 	return (
 		<section
-			css={`
+			css={css`
 				h1 {
 					font-size: 160%;
 					font-weight: 300;
@@ -47,12 +47,7 @@ export default function StyleChooser({
 				}}
 			/>
 			<h1>Fond de carte</h1>
-			<section
-				css={`
-					display: flex;
-					padding: 0 2rem;
-				`}
-			>
+			<StyleOptions>
 				<PanoramaxChooser
 					{...{ searchParams, setSearchParams, setZoom, zoom }}
 				/>
@@ -65,7 +60,7 @@ export default function StyleChooser({
 						styleKey: style.key,
 					}}
 				/>
-			</section>
+			</StyleOptions>
 			<Styles
 				styleList={styleList.filter(([, el]) => !el.secondary)}
 				setSearchParams={setSearchParams}
@@ -74,7 +69,7 @@ export default function StyleChooser({
 			/>
 			<details>
 				<summary
-					css={`
+					css={css`
 						color: #aaa;
 						text-align: right;
 						margin: 1.4rem 1.4rem 0.8rem 0;
@@ -94,6 +89,10 @@ export default function StyleChooser({
 	)
 }
 
+const StyleOptions = styled.section`
+	display: flex;
+	padding: 0 2rem;
+`
 const Styles = ({
 	style,
 	styleList,
@@ -102,16 +101,7 @@ const Styles = ({
 	setLocalStorageStyleKey,
 }) => {
 	return (
-		<ul
-			style={css`
-				display: flex;
-				justify-content: center;
-				flex-wrap: wrap;
-				align-items: center;
-				list-style-type: none;
-				margin-top: 1rem;
-			`}
-		>
+		<StyleList>
 			{styleList.map(
 				([k, { name, imageAlt, title, image: imageProp, description }]) => {
 					const image = (imageProp || k) + '.png'
@@ -127,52 +117,25 @@ const Styles = ({
 							true
 						)
 					return (
-						<li
-							key={k}
-							css={`
-								margin: 0.6rem 0.25rem;
-							`}
-						>
+						<li key={k}>
 							{/* Was previously a Link but for some reason probably after the
-						client useSetSearchParams change, the link reloads the page. Maybe solve this with an object href ? */}
-							<button
+ 						client useSetSearchParams change, the link reloads the page. Maybe solve this with an object href ? */}
+							<Button
+								$active={style.key === k}
 								onClick={() => {
 									setStyleUrl()
 									setLocalStorageStyleKey(k)
 								}}
 								title={'Passer au style ' + (title || name)}
-								css={`
-									padding: 0;
-									display: flex;
-									flex-direction: column;
-									justify-content: center;
-									align-items: center;
-									text-decoration: none;
-									color: inherit;
-									${style.key === k && `color: var(--color); font-weight: bold`}
-									background: white;
-									border-radius: 0.4rem;
-									border: 1px solid var(--lightestColor);
-								`}
 							>
 								<img
 									src={'/styles/' + image}
 									width="50"
 									height="50"
 									alt={imageAlt}
-									css={`
-										width: 6rem;
-										height: 5rem;
-										object-fit: cover;
-										border-top-left-radius: 0.4rem;
-										border-top-right-radius: 0.4rem;
-										${style.key === k &&
-										`border: 3px solid var(--color);
-								`}
-									`}
 								/>
 								<div
-									css={`
+									css={css`
 										position: relative;
 										width: 100%;
 										text-align: center;
@@ -201,11 +164,45 @@ const Styles = ({
 										</aside>
 									)}
 								</div>
-							</button>
+							</Button>
 						</li>
 					)
 				}
 			)}
-		</ul>
+		</StyleList>
 	)
 }
+
+const Button = styled.button`
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-decoration: none;
+	color: inherit;
+	${(p) => p.$active && `color: var(--color); font-weight: bold`}
+	background: white;
+	border-radius: 0.4rem;
+	border: 1px solid var(--lightestColor);
+	> img {
+		width: 6rem;
+		height: 5rem;
+		object-fit: cover;
+		border-top-left-radius: 0.4rem;
+		border-top-right-radius: 0.4rem;
+		${(p) => p.$active && `border: 3px solid var(--color);`}
+	}
+`
+
+const StyleList = styled.div`
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	align-items: center;
+	list-style-type: none;
+	margin-top: 1rem;
+	li {
+		margin: 0.6rem 0.25rem;
+	}
+`

@@ -30,6 +30,7 @@ import { defaultTransitFilter } from './transport/TransitFilter'
 import TransportMap from './transport/TransportMap'
 import useOgImageFetcher from './useOgImageFetcher'
 import PaymentBlock from '@/components/PaymentBlock'
+import { css } from 'next-yak'
 
 export default function Content(props) {
 	const {
@@ -264,7 +265,7 @@ export default function Content(props) {
 							<FeatureImage
 								src={mainImage}
 								onError={() => setFeatureImageError(true)}
-								css={`
+								css={css`
 									width: 100%;
 									height: 6rem;
 									@media (min-height: 800px) {
@@ -277,7 +278,7 @@ export default function Content(props) {
 						{wikiFeatureImage && (
 							<FeatureImage
 								src={wikiFeatureImage}
-								css={`
+								css={css`
 									width: 100%;
 									height: 6rem;
 									@media (min-height: 800px) {
@@ -320,7 +321,7 @@ export default function Content(props) {
 						)}
 						{searchParams.chargement && (
 							<div
-								css={`
+								css={css`
 									margin: 1rem 0;
 									p {
 										text-align: center;
@@ -357,7 +358,7 @@ export default function Content(props) {
 							!clickTipRead && (
 								<div>
 									<p
-										css={`
+										css={css`
 											max-width: 20rem;
 										`}
 									>

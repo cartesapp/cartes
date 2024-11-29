@@ -1,19 +1,21 @@
 import { categorySeparator, getCategories } from '@/components/categories'
+import CategoryResults from '@/components/categories/CategoryResults'
 import useSetSearchParams from '@/components/useSetSearchParams'
 import { omit } from '@/components/utils/utils'
 import Fuse from 'fuse.js/basic'
+import { css } from 'next-yak'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useMemo, useState } from 'react'
 import MoreCategories from './MoreCategories'
 import {
+	FeatureList,
+	FeatureListWrapper,
+	QuickSearchElement,
 	SpinningDiscBorder,
-	goldCladding,
-	quickSearchButtonStyle,
 } from './QuickFeatureSearchUI'
 import categories from './categories.yaml'
 import moreCategories from './moreCategories.yaml'
-import CategoryResults from '@/components/categories/CategoryResults'
 
 export const categoryIconUrl = (category) => {
 	if (!category.icon)
@@ -92,54 +94,24 @@ export default function QuickFeatureSearch({
 	)
 	return (
 		<div
-			css={`
+			css={css`
 				margin-top: 0.8rem;
-			`}
-		>
-			<div
-				css={`
+				> div {
 					display: flex;
 					align-items: center;
-					> div {
-					}
-				`}
-			>
-				<div
-					css={`
-						overflow: hidden;
-						overflow-x: scroll;
-						touch-action: pan-x;
-						white-space: nowrap;
-						scrollbar-width: none;
-						&::-webkit-scrollbar {
-							width: 0px;
-							height: 0px;
-							background: transparent; /* Disable scrollbar Chrome/Safari/Webkit */
-						}
-						width: calc(100% - 3rem);
-					`}
-				>
-					<ul
-						css={`
-							padding: 0;
-							list-style-type: none;
-							display: flex;
-							align-items: center;
-							${showMore &&
-							`
-							flex-wrap: wrap;
-							li {margin-bottom: .3rem}
-
-							`}
-						`}
-					>
+				}
+			`}
+		>
+			<div>
+				<FeatureListWrapper>
+					<FeatureList $showMore={showMore}>
 						{!doFilter && (
 							<>
-								<li
+								<QuickSearchElement
 									key="photos"
-									css={`
-										${quickSearchButtonStyle(searchParams.photos != null)}
-									`}
+									{...{
+										$clicked: searchParams.photos != null,
+									}}
 								>
 									<Link
 										href={setSearchParams(
@@ -153,19 +125,19 @@ export default function QuickFeatureSearch({
 									>
 										<img src={'/icons/photo.svg'} />
 									</Link>
-								</li>
+								</QuickSearchElement>
 							</>
 						)}
 						{filteredCategories.map((category) => {
 							const active = categoriesSet.includes(category.name)
 							return (
-								<li
+								<QuickSearchElement
 									key={category.name}
-									css={`
-										${quickSearchButtonStyle(active)};
-										${category.score < exactThreshold && goldCladding}
-									`}
 									title={category.title || category.name}
+									{...{
+										$clicked: active,
+										$setGoldCladding: category.score < exactThreshold,
+									}}
 								>
 									{active && !quickSearchFeaturesMap[category.name] && (
 										<SpinningDiscBorder />
@@ -177,20 +149,18 @@ export default function QuickFeatureSearch({
 									>
 										<img src={categoryIconUrl(category)} />
 									</Link>
-								</li>
+								</QuickSearchElement>
 							)
 						})}
-					</ul>
-				</div>
+					</FeatureList>
+				</FeatureListWrapper>
 				{!doFilter && (
-					<div
-						css={`
-							${quickSearchButtonStyle(
-								showMore,
-								'var(--darkerColor)',
-								!showMore ? 'invert(1)' : ''
-							)}
-						`}
+					<QuickSearchElement
+						{...{
+							$clicked: showMore,
+							$background: 'var(--darkerColor)',
+							$filter: showMore ? '' : 'invert(1)',
+						}}
 					>
 						<button
 							onClick={() => {
@@ -205,7 +175,7 @@ export default function QuickFeatureSearch({
 								alt="Voir plus de catégories de recherche"
 							/>
 						</button>
-					</div>
+					</QuickSearchElement>
 				)}
 			</div>
 			{(showMore || (doFilter && filteredMoreCategories.length > 0)) && (

@@ -24,6 +24,8 @@ import {
 	formatMotis,
 	humanDuration,
 } from './utils'
+import { css, styled } from 'next-yak'
+import { Line } from './Line'
 
 /* This is a megacomponent. Don't worry, it'll stay like this until the UX
  * decisions are stabilized. We don't have many users yet */
@@ -35,7 +37,7 @@ export default function Transit({ itinerary, searchParams }) {
 
 	return (
 		<div
-			css={`
+			css={css`
 				margin-top: 0.4rem;
 				ul {
 					list-style-type: none;
@@ -87,7 +89,7 @@ const TransitContent = ({ itinerary, searchParams, date }) => {
 	return (
 		<section>
 			<div
-				css={`
+				css={css`
 					p {
 						text-align: right;
 					}
@@ -117,6 +119,14 @@ const TransitContent = ({ itinerary, searchParams, date }) => {
 	)
 }
 
+const TransitTimelineWrapper = styled.div`
+	margin-top: 1rem;
+	overflow-x: scroll;
+	> ul {
+		width: ${(p) => p.$width}%;
+		min-width: 100%;
+	}
+`
 const TransitTimeline = ({
 	connections,
 	date,
@@ -146,16 +156,7 @@ const TransitTimeline = ({
 	 * range -> total %
 	 * */
 	return (
-		<div
-			css={`
-				margin-top: 1rem;
-				overflow-x: scroll;
-				> ul {
-					width: ${((range * 0.6) / quickest) * 100}%;
-					min-width: 100%;
-				}
-			`}
-		>
+		<TransitTimelineWrapper $width={((range * 0.6) / quickest) * 100}>
 			<ul>
 				{connections.map((el, index) => (
 					<Connection
@@ -171,12 +172,24 @@ const TransitTimeline = ({
 					/>
 				))}
 			</ul>
-		</div>
+		</TransitTimelineWrapper>
 	)
 }
 
 const correspondance = { Walk: 'Marche', Transport: 'Transport' }
 
+const ConnectionLi = styled.li`
+	margin-bottom: 0.1rem;
+	cursor: pointer;
+	> div {
+		${(p) =>
+			p.$selected &&
+			css`
+				border: 2px solid var(--lighterColor);
+				background: var(--lightestColor);
+			`}
+	}
+`
 const Connection = ({
 	connection,
 	endTime,
@@ -188,16 +201,8 @@ const Connection = ({
 	selected,
 }) => {
 	return (
-		<li
-			css={`
-				margin-bottom: 0.1rem;
-				cursor: pointer;
-				> div {
-					${selected &&
-					`border: 2px solid var(--lighterColor);
-					background: var(--lightestColor)`}
-				}
-			`}
+		<ConnectionLi
+			$selected={selected}
 			onClick={() => setSelectedConnection(index)}
 		>
 			<Line
@@ -212,131 +217,39 @@ const Connection = ({
 				index={index}
 				componentMode="transit"
 			/>
-		</li>
+		</ConnectionLi>
 	)
 }
 
-export const Line = ({
-	connectionsTimeRange,
-	connection,
-	connectionRange: [from, to],
-	transports,
-	choix,
-	index,
-	componentMode,
-}) => {
-	const setSearchParams = useSetSearchParams()
-	console.log('lightgreen line', transports, setSearchParams)
-	const { from: absoluteFrom, to: absoluteTo } = connectionsTimeRange
-	const length = absoluteTo - absoluteFrom
-
-	const barWidth = ((to - from) / length) * 100,
-		left = ((from - absoluteFrom) / length) * 100
-
-	const animatedScrollRef = useRef()
-	return (
-		<div
-			onClick={() =>
-				animatedScrollRef.current.scrollIntoView({
-					behavior: 'smooth',
-					inline: 'start',
-					block: 'center',
-				})
+const TimelineTransportBlockWrapper = styled.span`
+	${(p) =>
+		p.$constraint == 'smallest' &&
+		css`
+			strong {
+				border: 2px solid white;
+				z-index: 1;
 			}
-			css={`
-				height: 4rem;
-				width: calc(100% - 1rem);
-				padding: 0.4rem 0;
-				margin: 0;
-				margin-top: 0.3rem;
-				position: relative;
-				display: flex;
-				align-items: center;
-				background: white;
-			`}
-		>
-			<div
-				ref={animatedScrollRef}
-				css={`
-					position: absolute;
-					left: calc(0.6rem + ${left}%);
-					width: calc(${barWidth}% - 1rem);
-					top: 50%;
-					transform: translateY(-50%);
-				`}
-			>
-				<ul
-					css={`
-						display: flex;
-						justify-content: space-evenly;
-						list-style-type: none;
-						align-items: center;
-						width: 100%;
-					`}
-				>
-					{transports.map((transport) => (
-						<li
-							key={
-								transport.shortName || transport.move_type + transport.seconds
-							}
-							css={`
-								width: ${(transport.seconds / connection.seconds) * 100}%;
-								height: 1.8rem;
-								border-right: 2px solid white;
-							`}
-						>
-							<TimelineTransportBlock transport={transport} />
-						</li>
-					))}
-				</ul>
-
-				{componentMode === 'transit' &&
-					((!choix && index === 0) || choix == index) && (
-						<div
-							css={`
-								position: absolute;
-								right: -3rem;
-								top: 50%;
-								transform: translateY(-50%);
-								font-size: 200%;
-								a {
-									text-decoration: none;
-								}
-							`}
-						>
-							<DetailsButton
-								link={setSearchParams(
-									{ choix: choix || 0, details: 'oui' },
-									true
-								)}
-							/>
-						</div>
-					)}
-				<div
-					css={`
-						margin-top: 0.1rem;
-						display: flex;
-						justify-content: space-between;
-						line-height: 1.2rem;
-					`}
-				>
-					<small>{formatMotis(from)}</small>
-					<small
-						css={`
-							color: #555;
-						`}
-					>
-						{to - from > 25 * 60 // 10 minutes TODO this should be calculated : does it fit ?? show '-' and title=
-							? humanDuration(connection.seconds).single
-							: ' - '}
-					</small>
-					<small>{formatMotis(to)}</small>
-				</div>
-			</div>
-		</div>
-	)
-}
-
+		`}
+	display: inline-block;
+	width: 100%;
+	background: ${(p) => p.$background};
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	padding: 0.2rem 0;
+	border-radius: 0.2rem;
+	img {
+		display: ${(p) => (p.$displayImage ? 'block' : 'none')};
+		height: 0.8rem;
+		width: auto;
+		margin-right: 0.2rem;
+	}
+	${(p) =>
+		p.$moveType === 'Walk' &&
+		css`
+			border-bottom: 4px dotted #5c0ba0;
+		`}
+`
 // The code in this component is a mess. We're handling Motis's transport types
 // + our own through brouter and valhalla. A refactoring should be done at some
 // point
@@ -360,32 +273,12 @@ export const TimelineTransportBlock = ({ transport }) => {
 	}, [setConstraint, isOverflow, constraint])
 
 	return (
-		<span
+		<TimelineTransportBlockWrapper
+			$background={background}
+			$constraint={constraint}
+			$displayImage={displayImage}
+			$moveType={transport.move_type}
 			ref={ref}
-			css={`
-				${constraint == 'smallest' &&
-				`
-		  strong {
-			  border: 2px solid white;
-				z-index: 1
-		  }
-			`}
-				display: inline-block;
-				width: 100%;
-				background: ${background};
-				height: 100%;
-				display: flex;
-				justify-content: center;
-				padding: 0.2rem 0;
-				border-radius: 0.2rem;
-				img {
-					display: ${displayImage ? 'block' : 'none'};
-					height: 0.8rem;
-					width: auto;
-					margin-right: 0.2rem;
-				}
-				${transport.move_type === 'Walk' && `border-bottom: 4px dotted #5c0ba0`}
-			`}
 			title={`${humanDuration(transport.seconds).single} de ${
 				transport.frenchTrainType ||
 				transport.move?.name ||
@@ -406,7 +299,7 @@ export const TimelineTransportBlock = ({ transport }) => {
 					alt="Icône d'une voiture"
 					width="100"
 					height="100"
-					css={`
+					css={css`
 						height: 1.4rem !important;
 
 						margin: 0 !important;
@@ -420,7 +313,7 @@ export const TimelineTransportBlock = ({ transport }) => {
 					alt="Icône d'un vélo"
 					width="100"
 					height="100"
-					css={`
+					css={css`
 						height: 1.6rem !important;
 						margin: -0.1rem 0 0 0 !important;
 						filter: invert(1);
@@ -433,7 +326,7 @@ export const TimelineTransportBlock = ({ transport }) => {
 					alt="Icône d'une personne qui marche"
 					width="100"
 					height="100"
-					css={`
+					css={css`
 						height: 1.4rem !important;
 						margin: -0.1rem 0 0 0 !important;
 					`}
@@ -441,6 +334,6 @@ export const TimelineTransportBlock = ({ transport }) => {
 			) : (
 				correspondance[transport.move_type]
 			)}
-		</span>
+		</TimelineTransportBlockWrapper>
 	)
 }

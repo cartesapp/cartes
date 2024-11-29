@@ -46,7 +46,6 @@
 		"yaml-loader": "^0.8.1"
 	},
 	"dependencies": {
-		"@adobe/css-tools": "^4.4.0",
 		"@atproto/api": "^0.13.12",
 		"@babel/runtime": "^7.25.9",
 		"@dwayneparton/geojson-to-gpx": "^0.2.0",
@@ -84,10 +83,12 @@
 		"next": "15.0.3",
 		"next-contentlayer2": "0.5.1",
 		"next-mdx-remote": "^5.0.0",
+		"next-yak": "3.0.1",
 		"opening_hours": "^3.8.0",
 		"openmoji": "^15.0.0",
 		"osmtogeojson": "^3.0.0-beta.5",
 		"pmtiles": "^3.2.0",
+		"postcss-nested": "^7.0.2",
 		"process": "^0.11.10",
 		"rbush": "^4.0.1",
 		"react": "^19.0.0-rc-45804af1-20241021",
@@ -105,10 +106,10 @@
 		"rss": "^1.2.2",
 		"sharp": "^0.33.5",
 		"string-replace-to-array": "^2.1.1",
-		"styled-components": "^6.1.13",
 		"suncalc": "^1.9.0",
 		"svg-path-parser": "^1.1.0",
 		"swr": "^2.2.5",
 		"usehooks-ts": "^3.1.0"
-	}
+	},
+	"packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
