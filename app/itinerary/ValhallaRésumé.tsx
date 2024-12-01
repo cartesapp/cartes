@@ -47,8 +47,8 @@ export default function ({ data }) {
 				`}
 			>
 				⚠️ La voiture détruit les conditions de vie sur notre planète et pourrit
-				nos villes. Remplissez-là 👥👥 au maximum et privilégiez les voitures de
-				location ⚡️ électriques.
+				nos villes. 👥👥 Remplissez-la au maximum et privilégiez les voitures de
+				location électriques ⚡️.
 			</p>
 		</div>
 	)
