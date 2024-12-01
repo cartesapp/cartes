@@ -46,9 +46,9 @@ export default function ({ data }) {
 					font-size: 85%;
 				`}
 			>
-				⚠️ La voiture détruit les conditions de vie sur notre planète et pourrit
-				nos villes. 👥👥 Remplissez-la au maximum et privilégiez les voitures de
-				location électriques ⚡️.
+				⚠️ Pour préserver l'environnement, réduisons l'usage de la voiture
+				individuelle. 👥 Avez-vous pensé au covoiturage et aux véhicules
+				électriques de location ? ⚡️.
 			</p>
 		</div>
 	)
