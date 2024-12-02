@@ -48,7 +48,7 @@ export default function ({ data }) {
 			>
 				⚠️ Pour préserver l'environnement, réduisons l'usage de la voiture
 				individuelle. 👥 Avez-vous pensé au covoiturage et aux véhicules
-				électriques de location ? ⚡️.
+				électriques en location ? ⚡️.
 			</p>
 		</div>
 	)
