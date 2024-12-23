@@ -323,7 +323,7 @@
 
 - name: gare
   category: Déplacements
-  title: Gare SNCF
+  title: Gare
   dictionary:
     - réparation
     - bicyclette
