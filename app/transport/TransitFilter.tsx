@@ -1,5 +1,5 @@
 import { capitalise0, sortBy } from '@/components/utils/utils'
-import { css, styled } from 'next-yak'
+import { styled } from 'next-yak'
 
 export const defaultTransitFilter = 'plan général'
 // these are filter functions that select lines depending on properties

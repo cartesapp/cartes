@@ -5,7 +5,7 @@ import {
 	tagNameCorrespondance,
 	tagValueCorrespondance,
 } from '@/app/osmTagLabels'
-import { css, styled } from 'next-yak'
+import { styled } from 'next-yak'
 
 const beginningsOfSecondaryTags = ['source', 'fixme:', 'note', 'ref:']
 

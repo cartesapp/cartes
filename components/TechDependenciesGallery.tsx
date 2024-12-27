@@ -1,5 +1,5 @@
 import dependencies from '@/components/dependencies.yaml'
-import { css, styled } from 'next-yak'
+import { styled } from 'next-yak'
 
 export default function TechDependenciesGallery({ additionalCss }) {
 	return (

@@ -1,5 +1,5 @@
 import getIcons from './getIcons'
-import { css, styled } from 'next-yak'
+import { styled } from 'next-yak'
 
 export default function Icons({ tags }) {
 	const icons = typeof tags === 'string' ? [tags] : getIcons(tags)

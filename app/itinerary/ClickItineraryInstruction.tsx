@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import itineraryIcon from '@/public/itinerary-circle-plain.svg'
 import { useMediaQuery } from 'usehooks-ts'
-import { css, styled } from 'next-yak'
+import { styled } from 'next-yak'
 
 export default function ClickItineraryInstruction({ state }) {
 	const stepKeys = state?.map((step) => step != null && step.key),
