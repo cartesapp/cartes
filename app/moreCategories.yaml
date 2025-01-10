@@ -840,3 +840,111 @@
     - lacets
   query: '[craft=shoemaker]'
   icon: shoes
+
+  
+#######################
+# EN LIBRE-SERVICE
+#######################
+
+- name: Distributeurs de boissons
+  category: En libre-service
+  dictionary:
+    - canette
+    - soda
+    - boire
+  query: '[amenity=vending_machine][vending=drinks]'
+  icon: vending_drinks
+
+- name: Distributeurs de CBD
+  category: En libre-service
+  dictionary:
+    - fumer
+    - cibidy
+    - cannabis
+  query: '[amenity=vending_machine][vending=cbd]'
+  icon: smoking_yes
+
+- name: Distributeurs de glaçons
+  category: En libre-service
+  dictionary:
+    - glace
+    - froid
+  query: '[amenity=vending_machine][vending=ice_cubes]'
+  icon: frozen_food
+
+- name: Distributeurs de nourriture
+  category: En libre-service
+  dictionary:
+    - en-cas
+    - barre
+    - confiserie
+    - sucrerie
+  query: '[amenity=vending_machine][vending=food]'
+  icon: vending_sweets
+
+- name: Distributeurs de préservatifs
+  category: En libre-service
+  dictionary:
+    - capote
+    - sida
+    - protection
+  query: '[amenity=vending_machine][vending=condoms]'
+  icon: vending_condoms
+
+- name: Distributeurs de protections hygiéniques
+  category: En libre-service
+  dictionary:
+    - serviette
+    - tampon
+    - cup
+    - menstruelle
+    - règle
+    - marguerite
+  query:
+    - '[amenity=vending_machine][vending=feminine_hygiene]'
+    - '["toilets:menstrual_products"="yes|limited"]'
+  icon: waterfall
+
+- name: Distributeurs de pains
+  category: En libre-service
+  dictionary:
+    - baguette
+    - boulanger
+  query: '[amenity=vending_machine][vending=bread]'
+  icon: bread
+
+- name: Distributeurs de pizzas
+  category: En libre-service
+  dictionary:
+    - italien
+  query: '[amenity=vending_machine][vending=pizza]'
+  icon: pizza
+
+- name: Distributeurs de sacs à déjection
+  category: En libre-service
+  dictionary:
+    - caca
+    - crotte
+    - chien
+  query: '[amenity=vending_machine][vending=excrement_bags]'
+  icon: vending_excrement_bags
+
+- name: Machine à laver
+  category: En libre-service
+  dictionary:
+    - lave
+    - linge
+    - miele
+  query:
+    - '[amenity=washing_machine]'
+    - '[shop=laundry][self_service=yes]'
+  icon: mx_shop_laundry
+
+- name: Photomaton
+  category: En libre-service
+  dictionary:
+    - identité
+    - photo
+    - cabine
+  query: '[amenity=photo_booth]'
+  icon: photo_booth
