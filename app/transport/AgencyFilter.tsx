@@ -1,5 +1,5 @@
 import { area, bboxPolygon } from '@turf/turf'
-import { css, styled } from 'next-yak'
+import { styled } from 'next-yak'
 
 export const defaultAgencyFilter = 'urbain'
 // these are filter functions that select lines depending on properties

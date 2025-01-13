@@ -2,7 +2,7 @@
 import icons from '@/app/icons/icons.json'
 import { omit } from './utils/utils'
 import Highlighter from 'react-highlight-words'
-import { css, styled } from 'next-yak'
+import { styled } from 'next-yak'
 import { buildAddress } from './osm/buildAddress'
 
 // Beware, this file is shared by the Map app, and the carbon footprint / € calculators
