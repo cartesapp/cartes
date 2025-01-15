@@ -36,3 +36,4 @@ source/data
 !.placeMapImages/.gitkeep
 
 cache.sqlite*
+public/indoorequal/

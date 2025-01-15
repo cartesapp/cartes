@@ -1,6 +1,6 @@
 import maplibregl, { ScaleControl } from 'maplibre-gl'
 import { useEffect, useMemo, useState } from 'react'
-import { useLocalStorage, useMediaQuery } from 'usehooks-ts'
+import { useLocalStorage, useMediaQuery, useTimeout } from 'usehooks-ts'
 import { styles } from '../styles/styles'
 import { Protocol as ProtomapsProtocol } from 'pmtiles'
 import useGeolocation from './useGeolocation'
@@ -8,6 +8,8 @@ import frenchMaplibreLocale from '@/components/map/frenchMaplibreLocale.ts'
 import { Protocol as CartesProtocol } from '@/components/map/CartesProtocol.ts'
 import useEffectDebugger from '@/components/useEffectDebugger'
 import { isLocalStorageAvailable } from '@/components/utils/utils'
+import IndoorEqual from 'maplibre-gl-indoorequal'
+import 'maplibre-gl-indoorequal/maplibre-gl-indoorequal.css'
 
 /*
  *
@@ -232,12 +234,24 @@ export default function useAddMap(
 			unit: 'metric',
 		})
 		map.addControl(scale)
+
+		setTimeout(() => {
+			console.log('go indoor')
+			const indoorEqual = new IndoorEqual(map, {
+				apiKey: process.env.NEXT_PUBLIC_INDOOREQUAL,
+			})
+
+			indoorEqual.loadSprite('indoorequal/indoorequal')
+			map.addControl(indoorEqual)
+		}, 4000)
+
 		return () => {
 			if (!map || !scale) return
 			try {
 				map.removeControl(scale)
 				map.removeControl(navigationControl)
 				map.removeControl(geolocate)
+				map.removeControl(indoorEqual)
 			} catch (e) {
 				console.log('Error removing scale')
 			}
