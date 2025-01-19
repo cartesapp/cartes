@@ -842,3 +842,82 @@
     - lacets
   query: '[craft=shoemaker]'
   icon: shoes
+
+#######################
+# PETIT PATRIMOINE
+#######################
+
+- name: Arbre remarquable
+  category: Petit patrimoine
+  dictionary:
+    - arbre
+    - laïcité
+  query:
+    - '[natural=tree][denotation]'
+    - '[natural=tree][name]'
+  icon: tree
+
+- name: Calvaire
+  category: Petit patrimoine
+  dictionary:
+    - croix
+    - Jésus
+  query: '[historic=wayside_cross]'
+  icon: christian
+
+- name: Lavoir
+  category: Petit patrimoine
+  dictionary:
+    - eau
+    - lavandière
+  query: '[amenity=lavoir]
+  icon: lavoir
+
+- name: Memorial
+  category: Petit patrimoine
+  dictionary:
+    - souvenir
+    - plaque
+    - stèle
+    - commémoration
+    - arbre
+  query:
+    - '[historic=memorial]'
+    - '[denotation=memorial]'
+  icon: memorial
+
+- name: Monument aux morts
+  category: Petit patrimoine
+  dictionary:
+    - souvenir
+    - plaque
+    - stèle
+    - commémoration
+    - guerre
+    - poilus
+  query: '[memorial=war_memorial]'
+  icon: war_memorial
+
+- name: Objet historique
+  category: Petit patrimoine
+  dictionary:
+    - fontaine
+  query: '[historic][!memorial]'
+  icon: clock
+
+- name: Oratoire
+  category: Petit patrimoine
+  dictionary:
+    - vierge
+    - marie
+  query: '[historic=wayside_shrine]'
+  icon: wayside_shrine
+
+- name: Statue de la Vierge
+  category: Petit patrimoine
+  dictionary:
+    - marie
+  query: '[historic=wayside_shrine][artwork_type=statue]'
+  icon: statue
+
+
