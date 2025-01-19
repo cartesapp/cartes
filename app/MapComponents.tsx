@@ -6,6 +6,7 @@ import useDrawOsmFeaturePolygon from './effects/useDrawOsmFeaturePolygon'
 import useDrawTransportAreas from './effects/useDrawTransportAreas'
 import { AddTerrain } from './styles/TerrainChooser'
 import { defaultAgencyFilter } from './transport/AgencyFilter'
+import MapContent from '@/components/MapContent'
 
 // These hooks won't need to handle an undefined "map" object
 function MapComponents({
@@ -23,6 +24,7 @@ function MapComponents({
 	//useDrawCycleHighways(map) now from pmtiles in france.ts
 	useDrawBookmarks(map)
 	useDrawOsmFeaturePolygon(map, vers?.osmFeature, safeStyleKey)
+
 	return (
 		<>
 			<DrawCategories
@@ -58,6 +60,7 @@ function MapComponents({
 			{safeStyleKey === 'france' && (
 				<AddTerrain {...{ map, active: searchParams.relief }} />
 			)}
+			<MapContent map={map} />
 		</>
 	)
 }

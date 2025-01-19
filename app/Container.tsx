@@ -88,6 +88,9 @@ export default function Container(props) {
 		contentDebounceDelay
 	)
 
+	const [mapContent, setMapContent] = useState()
+	console.log('yoyo', mapContent)
+
 	const [bbox, setBbox] = useState(null)
 	const debouncedBbox = useDebounce(bbox, contentDebounceDelay)
 
@@ -176,7 +179,6 @@ export default function Container(props) {
 	const similarNodes = useFetchSimilarNodes(osmFeature, givenSimilarNodes)
 
 	const wikidata = useWikidata(osmFeature, state)
-
 
 	const panoramaxOsmTag = osmFeature?.tags?.panoramax
 
@@ -286,6 +288,7 @@ export default function Container(props) {
 						wikidata,
 						setLatLngClicked,
 						center: debouncedCenter,
+						mapContent,
 					}}
 				/>
 				<Meteo coordinates={debouncedApproximateCenter} />
@@ -331,6 +334,7 @@ export default function Container(props) {
 						wikidata,
 						setLastGeolocation,
 						geolocation,
+						setMapContent,
 					}}
 				/>
 			</MapContainer>

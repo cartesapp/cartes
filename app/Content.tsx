@@ -30,6 +30,7 @@ import { defaultAgencyFilter } from './transport/AgencyFilter'
 import { defaultTransitFilter } from './transport/TransitFilter'
 import TransportMap from './transport/TransportMap'
 import useOgImageFetcher from './useOgImageFetcher'
+import MapContent from '@/components/MapContent'
 
 export default function Content(props) {
 	const {
@@ -66,6 +67,7 @@ export default function Content(props) {
 		setDisableDrag,
 		wikidata,
 		center,
+		mapContent,
 	} = props
 
 	useWhatChanged(props, 'Render component Content')
@@ -114,6 +116,7 @@ export default function Content(props) {
 		searchParams.gare,
 		searchParams.abonnement,
 		searchParams.chargement,
+		mapContent,
 	]
 
 	const hasContent = content.some(
@@ -356,6 +359,7 @@ export default function Content(props) {
 								</div>
 							)
 						)}
+						<MapContent content={mapContent} />
 					</ContentSection>
 				)
 			)}

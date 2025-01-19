@@ -34,6 +34,7 @@ import useRightClick from './effects/useRightClick'
 import useSearchLocalTransit from './effects/useSearchLocalTransit'
 import useDrawItinerary from './itinerary/useDrawItinerary'
 import { computeCenterFromBbox } from './utils'
+import useMapContent from '@/components/map/useMapContent'
 
 if (process.env.NEXT_PUBLIC_MAPTILER == null) {
 	throw new Error('You have to configure env NEXT_PUBLIC_MAPTILER, see README')
@@ -82,6 +83,7 @@ export default function Map(props) {
 		wikidata,
 		setLastGeolocation,
 		geolocation,
+		setMapContent,
 	} = props
 
 	useWhatChanged(props, 'Render component Map')
@@ -109,6 +111,7 @@ export default function Map(props) {
 		setGeolocation,
 		setMapLoaded
 	)
+	useMapContent(map, bbox, setMapContent)
 	const setSearchParams = useSetSearchParams()
 
 	const shouldGeolocate = searchParams.geoloc
