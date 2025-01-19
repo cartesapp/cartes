@@ -1,5 +1,5 @@
 import osmLogo from '@/public/openstreetmap.svg'
-import { css, styled } from 'next-yak'
+import { styled } from 'next-yak'
 import Image from 'next/image'
 
 export default function OsmLinks({

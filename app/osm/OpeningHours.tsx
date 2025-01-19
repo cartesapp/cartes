@@ -1,5 +1,5 @@
 import parseOpeningHours from 'opening_hours'
-import { css, styled } from 'next-yak'
+import { styled } from 'next-yak'
 
 const getStartOfToday = (date) => {
 	const startOfToday = date || new Date()

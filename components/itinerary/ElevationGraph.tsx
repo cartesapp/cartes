@@ -1,5 +1,5 @@
 import computeDistance from '@turf/distance'
-import { YakThemeProvider, styled } from 'next-yak'
+import { styled } from 'next-yak'
 
 export default function ElevationGraph({ feature }) {
 	console.log('purple', feature)
