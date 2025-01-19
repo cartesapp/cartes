@@ -842,3 +842,148 @@
     - lacets
   query: '[craft=shoemaker]'
   icon: shoes
+
+#######################
+# ANIMAUX
+#######################
+
+- name: Animalerie
+  category: Animaux
+  dictionary:
+    - croquettes
+    - jouet
+    - graines
+    - poisson
+    - oiseau
+    - chat
+    - chien
+    - hamster
+  query: '[shop=pet]'
+  icon: pet
+
+- name: Bar à chats
+  category: Animaux
+  dictionary:
+    - félin
+  query: '[theme=cat]'
+  icon: cat
+
+- name: Canisette
+  category: Animaux
+  dictionary:
+    - caca
+    - crotte
+    - toilettes
+    - vespachien
+    - vespachienne
+    - crottoir
+  query: '[amenity=dog_toilet]'
+  icon: dog
+
+#- title: Centre équestre
+  name: centre+equestre
+  category: Sports
+  dictionary:
+    - équitation
+    - cheval
+    - manège
+  query:
+    - '["leisure"="horse_riding"]'
+    - '[leisure=sports_centre][sport=equestrian]'
+  icon: horse_riding
+
+- name: Parc canin
+  category: Animaux
+  dictionary:
+    - chien
+    - caniparc
+    - promener
+  query: '[leisure=dog_park]'
+  icon: dog
+
+- name: Parcours d'entraînement
+  category: Animaux
+  dictionary:
+    - chien
+    - obstacle
+    - canin
+  query: '[amenity=animal_training]'
+  icon: dog
+
+- name: Pension animalière 
+  category: Animaux
+  dictionary:
+    - chien
+    - hôtel
+    - chat
+    - recueil
+  query: '[amenity=animal_boarding]'
+  icon: animal_boarding
+
+- name: Refuge
+  category: Animaux
+  dictionary:
+    - chien
+    - SPA
+    - chat
+    - abandon
+  query: '[amenity=animal_shelter]'
+  icon: mx_animal_shelter
+
+- name: Refuge
+  category: Animaux
+  dictionary:
+    - chien
+    - SPA
+    - chat
+    - abandon
+  query: '[amenity=animal_shelter]'
+  icon: mx_animal_shelter
+
+- name: Sacs à déjections
+  category: Animaux
+  dictionary:
+    - chien
+    - crotte
+    - canisac
+    - toutounet
+  query: '[vending=excrement_bags]'
+  icon: vending_excrement_bags
+
+- name: Salon de toilettage
+  category: Animaux
+  dictionary:
+    - chien
+    - chien
+    - nettoyage
+  query: '[shop=pet_grooming]'
+  icon: pet_grooming
+
+- name: Vétérinaire
+  category: Animaux
+  dictionary:
+    - chien
+    - chat
+    - soin
+    - véto
+  query: '[amenity=veterinary]'
+  icon: veterinary
+
+- name: Zone interdite aux chiens
+  category: Animaux
+  dictionary:
+    - chien
+  query: '[dog=no]'
+  icon: dog
+
+- name: Zoo
+  category: Animaux
+  dictionary:
+    - animalier
+    - girafe
+    - âne
+    - lion
+    - cochon
+    - tortues
+  query: '[tourism=zoo]'
+  icon: zoo
