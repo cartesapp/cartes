@@ -93,7 +93,7 @@ export const tagNameCorrespondance = (key: string) => {
 		short_name: 'Diminutif',
 		tobacco: 'Vente de tabac',
 		'toilets:wheelchair': 'Toilettes accessibles aux PMR',
-		'toilets:access': 'Accès au toilettes',
+		'toilets:access': 'Accès aux toilettes',
 		'website:menu': 'Menu',
 		'wheelchair:description': "Description de l'accès PMR",
 		'ref:INSEE': 'Code INSEE',
