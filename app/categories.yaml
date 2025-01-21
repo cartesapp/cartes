@@ -7,7 +7,7 @@
   #emoji: 🥖
   query: '[shop=bakery]'
   icon: bakery
-  category: Manger et boire
+  category: Alimentation
 - name: restaurant
   dictionary:
     - resto
@@ -20,7 +20,7 @@
     - '[amenity=restaurant]'
     - '[vending=pizza]'
   icon: restaurant
-  category: Manger et boire
+  category: Alimentation
 - name: cafe
   title: Café, bar et pub
   dictionary:
@@ -36,7 +36,7 @@
     - '["amenity"="cafe"]'
     - '["amenity"="pub"]'
   icon: cafe
-  category: Manger et boire
+  category: Bars et boisson
 - name: épicerie
   dictionary:
     - supermarché

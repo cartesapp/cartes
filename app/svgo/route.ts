@@ -5,18 +5,19 @@ import { optimize } from 'svgo'
 export async function GET(request) {
 	const requestUrl = new URL(request.url),
 		svgFilename = requestUrl.searchParams.get('svgFilename'),
-		background = requestUrl.searchParams.get('background')
+		background = requestUrl.searchParams.get('background'),
+		format = requestUrl.searchParams.get('format')
 
 	const data = fs.readFileSync('./public/icons/' + svgFilename + '.svg', 'utf8')
 
 	const result = optimize(data, {})
 
 	const optimizedSvgString = result.data
-	const imgSrc = fromSvgToImgSrc(optimizedSvgString, background)
+	const imgSrc = fromSvgToImgSrc(optimizedSvgString, background, format)
 	return new Response(imgSrc)
 }
 
-const fromSvgToImgSrc = (imageText, background) => {
+const fromSvgToImgSrc = (imageText, background, format = 'imageData') => {
 	console.log('SVGOSVGO', typeof background, background)
 	const svg = fromHTML(imageText)
 
@@ -49,17 +50,21 @@ const fromSvgToImgSrc = (imageText, background) => {
 	}
 
 	const xyr = svgSize / 2
+	const transformX = svgSize * 0.25
+	const transformY = transformX
 	const backgroundDisk = `<circle
      style="fill:${encodeURIComponent(background)};fill-rule:evenodd"
      cx="${xyr}"
      cy="${xyr}"
      r="${xyr}" />`
-	const newInner = `${backgroundDisk}<g style="fill:white;" transform="scale(.7)" transform-origin="center" transform-box="fill-box">${svg.innerHTML}</g>`
+	const newInner = `${backgroundDisk}<g style="fill:white;" transform="scale(.7) translate(${transformX} ${transformY})">${svg.innerHTML}</g>`
 	svg.innerHTML = newInner
 	//console.log('svg', newInner)
 	//console.log('svg', svg.outerHTML)
 	const svgTextRaw = svg.outerHTML
 	const svgText = svgTextRaw.replace('stroke:#000', 'stroke:#fff')
+
+	if (format === 'svg') return svgText
 
 	const formatted = svgText
 		.replaceAll(/#/g, '%23')
