@@ -108,6 +108,14 @@
     - '["food:pizza"=yes]'
   icon: pizza
 
+- name: Saladerie
+  category: Restaurants
+  dictionary:
+    - salade
+  query:
+    - '[cuisine~salad]'
+  icon: restaurant
+  
 - name: Sushis
   category: Restaurants
   dictionary:
@@ -118,6 +126,15 @@
     - '[amenity=restaurant][cuisine~sushi]'
   icon: sushi
 
+- name: Tapas
+  category: Restaurants
+  dictionary:
+    - apéro
+    - espagne
+    - apéritif
+  query: '[cuisine=tapas]'
+  icon: restaurant
+  
 - name: Végé
   category: Restaurants
   description: Repas et cafés végétarien ou végan
@@ -200,6 +217,14 @@
   query: '["amenity"="hookah_lounge"]'
   icon: cigarette
 
+  - name: Bar à jeux
+  category: Bars et boisson
+  dictionary:
+    - société
+    - baraka
+  query: '["cafe"="board_game"]'
+  icon: games
+
 - name: Bar à vin
   category: Bars et boisson
   dictionary:
@@ -257,7 +282,7 @@
   icon: tea
 
 #######################
-# COMMERCES DE BOUCHE
+# ALIMENTATION
 #######################
 
 - name: Boulangerie
@@ -391,6 +416,16 @@
     - menthe
   query: '[shop=tea]'
   icon: tea
+
+  - name: Traiteur
+  category: Alimentation
+  dictionary:
+    - nourriture
+    - emporter
+    - restaurateur
+    - buffet
+  query: '[craft=caterer]'
+  icon: caterer
 
 ################################
 
