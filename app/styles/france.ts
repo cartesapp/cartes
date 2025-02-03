@@ -2089,13 +2089,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 		paint: {
 			'fill-color': 'hsl(30,6%,73%)',
 			'fill-opacity': 0.3,
-			'fill-outline-color': {
-				base: 1,
-				stops: [
-					[13, 'hsla(35, 6%, 79%, 0.3)'],
-					[14, 'hsl(35, 6%, 79%)'],
-				],
-			},
+			'fill-outline-color': theme.buildingOutline,
 		},
 		metadata: {},
 	},
