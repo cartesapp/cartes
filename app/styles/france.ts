@@ -219,7 +219,7 @@ const layers = (theme) => [
 			visibility: 'visible',
 		},
 		paint: {
-			'fill-color': '#b6dcc1',
+			'fill-color': theme.grass,
 			'fill-opacity': ['interpolate', ['linear'], ['zoom'], 10, 1, 11, 0],
 		},
 	},
@@ -233,7 +233,7 @@ const layers = (theme) => [
 			visibility: 'visible',
 		},
 		paint: {
-			'fill-color': '#f3ede0',
+			'fill-color': theme.rock,
 			'fill-opacity': ['interpolate', ['linear'], ['zoom'], 10, 1, 11, 0],
 		},
 	},
@@ -247,7 +247,7 @@ const layers = (theme) => [
 			visibility: 'visible',
 		},
 		paint: {
-			'fill-color': 'white',
+			'fill-color': theme.glacier,
 			'fill-opacity': ['interpolate', ['linear'], ['zoom'], 10, 1, 11, 0],
 		},
 	},
@@ -261,7 +261,7 @@ const layers = (theme) => [
 			visibility: 'visible',
 		},
 		paint: {
-			'fill-color': '#d4e6b9',
+			'fill-color': theme.grass,
 			'fill-opacity': ['interpolate', ['linear'], ['zoom'], 10, 1, 11, 0],
 		},
 	},
@@ -272,7 +272,7 @@ const layers = (theme) => [
 		'source-layer': 'landcover',
 		filter: ['==', ['get', 'kind'], 'Tree'],
 		paint: {
-			'fill-color': '#94d2a5',
+			'fill-color': theme.park,
 			'fill-opacity': ['interpolate', ['linear'], ['zoom'], 10, 1, 11, 0],
 		},
 	},
@@ -410,7 +410,7 @@ const layers = (theme) => [
 		'source-layer': 'landcover',
 		layout: { visibility: 'visible' },
 		paint: {
-			'fill-color': '#d0cbbc',
+			'fill-color': theme.rock,
 			'fill-opacity': 1,
 			'fill-antialias': false,
 		},
@@ -424,7 +424,7 @@ const layers = (theme) => [
 		'source-layer': 'landcover',
 		layout: { visibility: 'visible' },
 		paint: {
-			'fill-color': '#fbf4ab',
+			'fill-color': theme.sand,
 			'fill-opacity': 1,
 			'fill-antialias': false,
 		},
@@ -440,7 +440,7 @@ const layers = (theme) => [
 			visibility: 'visible',
 		},
 		paint: {
-			'fill-color': '#61b6cb40',
+			'fill-color': theme.wetland,
 			'fill-opacity': {
 				stops: [
 					[7, 0.5],
@@ -638,7 +638,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 		'source-layer': 'landcover',
 		layout: { visibility: 'visible' },
 		paint: {
-			'fill-color': '#c6ddaa',
+			'fill-color': theme.grass,
 			'fill-opacity': 0.6,
 			'fill-antialias': false,
 		},
