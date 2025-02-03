@@ -572,7 +572,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 		source: 'openmaptiles',
 		'source-layer': 'transportation',
 		layout: { visibility: 'visible' },
-		paint: { 'fill-color': '#feecdf', 'fill-opacity': 0.9 },
+		paint: { 'fill-color': theme.pedestrian, 'fill-opacity': 0.9 },
 		metadata: {},
 		filter: [
 			'all',
@@ -2087,7 +2087,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 		maxzoom: 15,
 		layout: { visibility: 'visible' },
 		paint: {
-			'fill-color': 'hsl(30,6%,73%)',
+			'fill-color': theme.buildingFill,
 			'fill-opacity': 0.3,
 			'fill-outline-color': theme.buildingOutline,
 		},
@@ -3335,7 +3335,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 			'text-letter-spacing': 0.1,
 		},
 		paint: {
-			'text-color': 'hsl(48,4%,44%)',
+			'text-color': theme.stateLabel,
 			'text-opacity': [
 				'step',
 				['zoom'],
@@ -3546,7 +3546,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 			'text-letter-spacing': 0.07,
 		},
 		paint: {
-			'text-color': 'hsl(0, 0%, 20%)',
+			'text-color': theme.countryLabel,
 			'text-opacity': [
 				'interpolate',
 				['linear', 1],
