@@ -1905,7 +1905,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 				['exponential', 1],
 				['zoom'],
 				8,
-				'#916BD4',
+				theme.railway,
 				19,
 				'hsl(0, 0%, 70%)',
 			],
