@@ -10,10 +10,31 @@ import { cycleHighwayLayers, cycleHighwayMaxZoom } from './cycleHighwayLayers'
 //
 //
 
-const highwayColor = '#cebcbc'
-const highwayOutlineColor = '#cebcbc'
+export const colors = {
+	light: {
+		highway: '#cebcbc',
+		highwayOutline: '#cebcbc',
+		land: '#dbedb7',
+		residential: 'hsl(54, 45%, 91%)',
+		ocean: '#71a0e9',
+		background: '#dbedb7',
+	},
+	dark: {
+		highway: '#404040',
+		highwayOutline: '#505050',
+		land: '#202020',
+		residential: 'hsl(54, 15%, 15%)',
+		ocean: '#152238',
+		background: '#202020',
+	},
+}
 
-export default function franceStyle(transportMode, noVariableTiles = false) {
+export default function franceStyle(
+	transportMode,
+	noVariableTiles = false,
+	dark = false
+) {
+	const theme = dark ? colors.dark : colors.light
 	const openmaptilesUrl = // see the protocol CartesProtocol
 		!noVariableTiles
 			? 'cartes://hybrid'
@@ -56,7 +77,7 @@ export default function franceStyle(transportMode, noVariableTiles = false) {
 				url: 'pmtiles://' + pmtilesServerUrl + '/bathymetry.pmtiles',
 			},
 		},
-		layers: transportMode ? lightenLayers(layers) : layers,
+		layers: transportMode ? lightenLayers(layers(theme)) : layers(theme),
 		//		Voir nos villes juste avec les arbres
 		//layers: layers.filter(({ id }) => id === 'Background' || id === 'Trees'),
 		glyphs: getFetchUrlBase() + '/fonts/glyphs/{fontstack}/{range}.pbf',
@@ -133,13 +154,10 @@ const hasNameExpression = [
 
 export const name = 'name:fr'
 
-export const oceanColor = '#71a0e9'
-//'#6688dd' past color, darker. Could be cool to vary in the day, dawn color ?
+export const getOceanColor = (dark) =>
+	dark ? colors.dark.ocean : colors.light.ocean
 
-const landColor = '#dbedb7',
-	residentialColor = 'hsl(54, 45%, 91%)'
-
-const layers = [
+const layers = (theme) => [
 	{
 		id: 'Background',
 		type: 'background',
@@ -148,8 +166,8 @@ const layers = [
 			'background-color': {
 				base: 1,
 				stops: [
-					[1, landColor],
-					[15, residentialColor],
+					[1, theme.background],
+					[15, theme.residential],
 				],
 			},
 		},
@@ -302,7 +320,7 @@ const layers = [
 				base: 1,
 				stops: [
 					[1, '#efede6'],
-					[16, residentialColor],
+					[16, theme.residential],
 				],
 			},
 		},
@@ -316,7 +334,7 @@ const layers = [
 		'source-layer': 'water',
 		layout: { visibility: 'visible' },
 		paint: {
-			'fill-color': oceanColor,
+			'fill-color': theme.ocean,
 			'fill-opacity': ['match', ['get', 'intermittent'], 1, 0.85, 1],
 			'fill-antialias': true,
 		},
@@ -344,7 +362,7 @@ const layers = [
 				-9000,
 				'#260167',
 				0,
-				oceanColor,
+				theme.ocean,
 			],
 		},
 	},
@@ -1330,7 +1348,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 		},
 		paint: {
 			//'line-color': 'Silver',
-			'line-color': highwayOutlineColor,
+			'line-color': theme.highwayOutline,
 			'line-width': [
 				'interpolate',
 				['linear', 2],
@@ -1393,9 +1411,9 @@ On n'est pas à l'abri d'effets secondaires ici.
 				'match',
 				['get', 'class'],
 				'motorway_construction',
-				highwayColor,
+				theme.highway,
 				['trunk_construction', 'primary_construction'],
-				highwayColor,
+				theme.highway,
 				'hsl(0,0%,100%)',
 			],
 			'line-width': [
@@ -1713,7 +1731,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 		},
 		paint: {
 			//'line-color': 'LightGray',
-			'line-color': highwayColor,
+			'line-color': theme.highway,
 			'line-width': [
 				'interpolate',
 				['linear', 2],
@@ -2901,10 +2919,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 			'text-halo-width': 1,
 		},
 		metadata: {},
-		filter: [
-			'all',
-			['!in', 'class', 'hospital', 'parking', 'railway', 'park'],
-		],
+		filter: ['all', ['!in', 'class', 'hospital', 'parking', 'railway', 'park']],
 	},
 	// TODO this should be done way better. Should be areas with boundaries.
 	// Should include large areas like Parc naturel régional d'armorique

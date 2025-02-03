@@ -17,7 +17,7 @@ export const styles = {
 	 * purposes (50 to 100 €/month in june !)
 	 */
 	france: {
-		url: franceStyle(false),
+		url: franceStyle(false, false, true),
 		name: 'France',
 		description: `Notre style maison, avec des bonus inédits : rail visible à haut niveau, arbres, et plein de futures nouveautés. Hébergé sur nos serveurs, contrairement aux autres il ne nous coûte rien. C'est le futur.`,
 		attribution:

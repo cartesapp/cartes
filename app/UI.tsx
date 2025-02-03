@@ -1,13 +1,15 @@
 import closeIcon from '@/public/close-circle-stroke.svg'
 import Image from 'next/image'
 import { styled, css } from 'next-yak'
-import { oceanColor } from './styles/france'
+import { colors } from './styles/france'
+
+const oceanColor = colors.light.ocean
 
 export const MapContainer = styled.div`
 	${(p) =>
 		!p.$isMapLoaded
 			? css`
-					background: ${oceanColor};
+					background: #71a0e9;
 			  `
 			: css`
 					background: black;
