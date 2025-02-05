@@ -22,11 +22,14 @@ export const getFetchUrlBase = () => {
 	if (givenDomain) return 'https://' + givenDomain
 
 	const domainObject = process.env.DOKPLOY_DEPLOY_URL
+	console.log('YOYO', JSON.stringify(domainObject))
 	const dokployDomain =
 		domainObject &&
 		`${domainObject.https ? 'https' : 'http'}://${domainObject.host}`
 
+	console.log('YOYO', dokployDomain)
 	const branchUrl = dokployDomain || process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL
+	console.log('YOYO', dokployDomain)
 	const isMaster = branchUrl?.includes('-git-master-')
 	const domain = isMaster ? process.env.NEXT_PUBLIC_BASE_DOMAIN : branchUrl
 
