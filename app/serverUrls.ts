@@ -21,21 +21,24 @@ export const getFetchUrlBase = () => {
 	// Coolify has a similar way to Vercel to inject the domain, but Dokploy has not
 	if (givenDomain) return 'https://' + givenDomain
 
+	//	DOKPLOY_DEPLOY_URL: 'preview-cartes-web-master-fpkogn-itwaqo-51-159-213-23.traefik.me',
 	const dokployHost = process.env.DOKPLOY_DEPLOY_URL
 	const dokployDomain = 'https://' + dokployHost
 
-	console.log('YOYO', dokployDomain)
 	const branchUrl = dokployDomain || process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL
 	console.log('YOYO', dokployDomain)
 	const isMaster = branchUrl?.includes('-git-master-')
 	const domain = isMaster ? process.env.NEXT_PUBLIC_BASE_DOMAIN : branchUrl
+	console.log('YAYA', dokployDomain)
 
+	console.log('YOUOU', domain?.startsWith('http'))
 	const urlBase =
 		process.env.NEXT_PUBLIC_NODE_ENV === 'development'
 			? 'http://localhost:8080'
 			: domain?.startsWith('http')
 			? domain
 			: 'https://' + domain
+	console.log('YIYI', dokployDomain)
 	return urlBase
 }
 

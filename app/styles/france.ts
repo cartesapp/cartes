@@ -2901,10 +2901,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 			'text-halo-width': 1,
 		},
 		metadata: {},
-		filter: [
-			'all',
-			['!in', 'class', 'hospital', 'parking', 'railway', 'park'],
-		],
+		filter: ['all', ['!in', 'class', 'hospital', 'parking', 'railway', 'park']],
 	},
 	// TODO this should be done way better. Should be areas with boundaries.
 	// Should include large areas like Parc naturel régional d'armorique
