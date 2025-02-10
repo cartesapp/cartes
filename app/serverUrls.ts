@@ -22,7 +22,7 @@ export const getFetchUrlBase = () => {
 	if (givenDomain) return 'https://' + givenDomain
 
 	//	DOKPLOY_DEPLOY_URL: 'preview-cartes-web-master-fpkogn-itwaqo-51-159-213-23.traefik.me',
-	const dokployHost = process.env.DOKPLOY_DEPLOY_URL
+	const dokployHost = process.env.NEXT_PUBLIC_DOKPLOY_DEPLOY_URL
 	const dokployDomain = 'https://' + dokployHost
 
 	const branchUrl = dokployDomain || process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL
