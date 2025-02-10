@@ -1,4 +1,4 @@
-# OMT MapLibre Tile Data image name -> cartesapp category icon names
+﻿# OMT MapLibre Tile Data image name -> cartesapp category icon names
 town_hall: classical-building
 bar: beer
 garden: tree
@@ -21,6 +21,8 @@ wine: grapes
 swimming: swimming_outdoor
 swimming_pool: swimming_outdoor
 school: college
+library: book
+alcohol: bottle
 #place_of_worship:
 
 # TODO c'est important ça comme recherche
@@ -40,3 +42,7 @@ small:
   entrance: indoorequal-entrance
   railway:
   oneway: arrow-up
+  shelter:
+  gate:
+  lift-gate:
+  waste_basket:
