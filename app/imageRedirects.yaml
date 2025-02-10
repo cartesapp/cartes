@@ -23,6 +23,9 @@ swimming_pool: swimming_outdoor
 school: college
 library: book
 alcohol: bottle
+coworking_space: coworking
+pinic_site: picnic
+cycling: bicycle
 #place_of_worship:
 
 # TODO c'est important ça comme recherche
@@ -46,3 +49,4 @@ small:
   gate:
   lift-gate:
   waste_basket:
+  cycle_barrier:
