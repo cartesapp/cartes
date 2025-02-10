@@ -23,11 +23,13 @@ export default function useTrackUser() {
 		//but don't want to pay yet, since Umami does the job on our server
 
 		const logMissingImages = async () => {
+			if (typeof window === undefined || !window.missingImages) return
+
 			try {
 				const traceUrl = `${analyticsUrl}/mapImagesMissing`
 				const traceRequest = await fetch(traceUrl, {
 					method: 'POST',
-					body: typeof window !== undefined && window.missingImages,
+					body: JSON.stringify(window.missingImages),
 				})
 				const result = await traceRequest.json()
 
