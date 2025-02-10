@@ -20,6 +20,7 @@ camp_site: camping
 wine: grapes
 swimming: swimming_outdoor
 swimming_pool: swimming_outdoor
+school: college
 #place_of_worship:
 
 # TODO c'est important ça comme recherche
