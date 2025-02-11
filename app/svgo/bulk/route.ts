@@ -20,27 +20,23 @@ const groups = categories.reduce((memo, next) => {
 }, {})
 
 // on parcourt les groupes
-
 const icons = Object.entries(groups).map(([group, groupCategories]) => {
-	const groupColor = categoryColors[group] // on récupère la couleur du groupe
+	// on récupère la couleur du groupe
+	const groupColor = categoryColors[group]
 	// on parcourt les catégories
-
 	return groupCategories.map((category) => {
-		const imageFilename = category.icon // le nom du fichier svg en entrée
-		const imageFinalFilename = category['icon name'] // l'ID à utiliser en sortie (pour gérer les usages multiples d'un même svg d'entrée)
-		const imageName =
-			'cartesapp-' + // avoid collisions
-			(imageFinalFilename || imageFilename)
+		// on choisit le nom de l'icone : l'alias si précisé, sinon le nom du svg
+		const iconName = (category['icon alias'] || category.icon)
 		try {
 			// on récupère l'image svg et on ajoute le background correspondant à sa catégorie
 			const data = fs.readFileSync(
-				'./public/icons/' + imageFilename + '.svg',
+				'./public/icons/' + category.icon + '.svg',
 				'utf8'
 			)
 			const result = optimize(data, {})
 			const optimizedSvgString = result.data
 			const imgSrc = fromSvgToImgSrc(optimizedSvgString, groupColor)
-			return [imageName, imgSrc]
+			return [iconName, imgSrc]
 		} catch (e) {
 			console.error(e)
 		}
@@ -52,11 +48,11 @@ const fromCategories = icons.flat()
 // ETAPE 2/3 : icones hors catégories (listées dans imageRedirects.yaml : not in categories)
 
 const notInCategories = Object.entries(imageRedirects['not in categories'])
-	.map(([k, v]) => {
+	.map(([iconName, svgFilename]) => {
 		try {
 			// on récupère l'image svg et on ajoute le background correspondant à la catégorie "Divers"
 			const data = fs.readFileSync(
-				'./public/icons/' + (v || k) + '.svg',
+				'./public/icons/' + (svgFilename || iconName) + '.svg',
 				'utf8'
 			)
 			const result = optimize(data, {})
@@ -65,7 +61,7 @@ const notInCategories = Object.entries(imageRedirects['not in categories'])
 				optimizedSvgString,
 				categoryColors['Divers']
 			)
-			return ['cartesapp-' + k, imgSrc]
+			return [iconName, imgSrc]
 		} catch (e) {
 			console.error(e)
 		}
@@ -75,17 +71,17 @@ const notInCategories = Object.entries(imageRedirects['not in categories'])
 // ETAPE 3/3 : icones sans fond coloré (listées dans imageRedirects.yaml : small)
 
 const small = Object.entries(imageRedirects['small'])
-	.map(([k, v]) => {
+	.map(([iconName, svgFilename]) => {
 		try {
 			// on récupère l'image svg et on la laisse telle quelle
 			const data = fs.readFileSync(
-				'./public/icons/' + (v || k) + '.svg',
+				'./public/icons/' + (svgFilename || iconName) + '.svg',
 				'utf8'
 			)
 			const result = optimize(data, {})
 			const optimizedSvgString = result.data
-			const src = svgTextToDataImage(optimizedSvgString)
-			return ['cartesapp-' + k, src]
+			const imgSrc = svgTextToDataImage(optimizedSvgString)
+			return [iconName, imgSrc]
 		} catch (e) {
 			console.error(e)
 		}
