@@ -23,28 +23,33 @@ export default function Blog({ articles }) {
 				attendez-vous à quelques bugs.
 			</p>
 			<List>
-				{articles.map(({ url, date, titre, lang, image, description }) => (
-					<li key={url}>
-						{image && (
-							<Image src={image} alt={description} width="50" height="50" />
-						)}
-						<div>
-							<Link
-								href={url}
-								dangerouslySetInnerHTML={{ __html: titre.html }}
-							/>
-						</div>
-						<small>publié le {dateCool(date)}</small>
-						{lang && lang === 'en' && (
-							<span
-								style={{ marginLeft: '.4rem' }}
-								title="This article is written in english"
-							>
-								🇬🇧
-							</span>
-						)}
-					</li>
-				))}
+				{articles.map(
+					({ url, date, titre, lang, image, description, tags }) => (
+						<li key={url}>
+							{image && (
+								<Image src={image} alt={description} width="50" height="50" />
+							)}
+							<div>
+								<Link
+									href={url}
+									dangerouslySetInnerHTML={{ __html: titre.html }}
+								/>
+							</div>
+							<small>publié le {dateCool(date)}</small>
+							{lang && lang === 'en' && (
+								<span
+									style={{ marginLeft: '.4rem' }}
+									title="This article is written in english"
+								>
+									🇬🇧
+								</span>
+							)}
+							{tags && tags.includes('version') && (
+								<small>📌 Notes de version</small>
+							)}
+						</li>
+					)
+				)}
 			</List>
 		</main>
 	)

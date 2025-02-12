@@ -2,91 +2,83 @@
 titre: 'Voyage v0.3'
 date: '2023-12-01'
 image: /blog-images/poi-images.png
+tags:
+  - version
 description: |
   Dans cette troisième version de Voyage, découvrez la vue satellite, un fond de carte qui relègue les routes majeures au second plan. Mais aussi, la mesure des distances, de meilleurs fiches pour les commerces et points d'intérêt, plus de filtres de recherche rapide de commerces et lieux, ainsi que le choix de la date du tableau d'horaires du train.
-
 ---
 
 > En bref : dans cette troisième version de Voyage, nous avançons vers le jeu de fonctionnalités basiques que requiert une appli de cartes en 2023.
 > Découvrez la vue satellite, un fond de carte qui relègue les routes au 2nd plan. Mais aussi, la mesure des distances, de meilleurs fiches pour les commerces, plus de filtres de recherche rapide, ainsi que le choix de la date du tableau d'horaires du train.
 
-## Un nouveau fond de carte 
+## Un nouveau fond de carte
 
-Nous sommes habitués à voir nos villes sous le prisme de la circulation automobile. 
+Nous sommes habitués à voir nos villes sous le prisme de la circulation automobile.
 
-Comment repérer en un clin d'oeil le périmètre d'une ville ? Simple : le périphérique (aussi appelé rocade) la délimite via une grosse ligne circulaire jaune. 
+Comment repérer en un clin d'oeil le périmètre d'une ville ? Simple : le périphérique (aussi appelé rocade) la délimite via une grosse ligne circulaire jaune.
 
-Pourtant, si l'on adopte le mode de vie sans voiture, cela n'a aucun intérêt : c'est une voie qu'on ne peut pas emprunter, et c'est une fracture urbaine qui n'a aucune raison d'être mise en avant, un peu comme un grand paté de maison infranchissable. 
+Pourtant, si l'on adopte le mode de vie sans voiture, cela n'a aucun intérêt : c'est une voie qu'on ne peut pas emprunter, et c'est une fracture urbaine qui n'a aucune raison d'être mise en avant, un peu comme un grand paté de maison infranchissable.
 
-Il en est de même pour les grands boulevards dans les villes : ils sont hostiles au vélo. Nous ne les affichons en évidence, en bleu, que s'ils sont équipés d'une voie cyclable digne de ce nom. 
+Il en est de même pour les grands boulevards dans les villes : ils sont hostiles au vélo. Nous ne les affichons en évidence, en bleu, que s'ils sont équipés d'une voie cyclable digne de ce nom.
 
 ![](/blog-images/qwant-routes.png)
-*Ce fond de carte de Qwant Maps est dédié à 90 % à la bagnole (et à la boutique Haribo)*
+_Ce fond de carte de Qwant Maps est dédié à 90 % à la bagnole (et à la boutique Haribo)_
 
 ![](/blog-images/qwant-routes-2.png)
-*Même quand on zoom, les routes majeures sont les formes les plus visibles*
+_Même quand on zoom, les routes majeures sont les formes les plus visibles_
 ![](/blog-images/voyage-routes-2.png)
-*Nous faisons apparaitre le train, le métro, les voies cyclables davantage que les routes*
+_Nous faisons apparaitre le train, le métro, les voies cyclables davantage que les routes_
 
-Vous remarquerez que ça donne l'impression d'une ville pas finie. Oui, c'est bien la réalité : les voies cyclables même à Rennes sont rares et discontinues, contrairement aux routes voiture qui forment un réseau complet et cohérent ; le métro ne couvre qu'une petite partie de la ville. Dans une prochaine version, l'affichage des lignes de bus viendra compléter une partie de ces trous. 
+Vous remarquerez que ça donne l'impression d'une ville pas finie. Oui, c'est bien la réalité : les voies cyclables même à Rennes sont rares et discontinues, contrairement aux routes voiture qui forment un réseau complet et cohérent ; le métro ne couvre qu'une petite partie de la ville. Dans une prochaine version, l'affichage des lignes de bus viendra compléter une partie de ces trous.
 
-## Une vue satellite 
+## Une vue satellite
 
 Il est toujours intéressant de passer en mode satellite pour observer des choses que l'on ne voit pas sur une carte vectorielle. Comme la beauté du Finistère et sa péninsule de Crozon en forme de girafe, par exemple 😇.
 
 ![](/blog-images/crozon-satellite.png)
 
-
 ## Un outil de mesure de distance
 
-Faute de pouvoir faire des calculs d'itinéraire complets (à vélo, à pied, en transport en commun), on peut au moins calculer des distances à volonté sur la carte ! 
+Faute de pouvoir faire des calculs d'itinéraire complets (à vélo, à pied, en transport en commun), on peut au moins calculer des distances à volonté sur la carte !
 
 ![](/blog-images/distances-1.png)
 
 ## Un meilleur outil de recherche
 
-
 Pourquoi essayer d'être aussi fort que Google quand on peut simplement demander à l'utilisateur s'il fait une recherche dans les environs de la carte actuellement à l'écran, ou pas ?
 
-[À vous de nous dire](https://elk.zone/boitam.eu/@maeool/111495317297907443) : soit vous cherchez dans le monde entier, soit vous cherchez près de la carte actuellement affichée à l'écran. Ça nous aide beaucoup ! 
+[À vous de nous dire](https://elk.zone/boitam.eu/@maeool/111495317297907443) : soit vous cherchez dans le monde entier, soit vous cherchez près de la carte actuellement affichée à l'écran. Ça nous aide beaucoup !
 
 Prochaine étape : mieux afficher les types de lieux trouvés : quartiers, villes, commerces, etc.
 
-
 ![](/blog-images/recherche-saint-malo.png)
 
-## Partage de liens vers les points d'intérêt 
+## Partage de liens vers les points d'intérêt
 
 Quand on clique sur un POI (point d'intérêt), on obtient un lien dans l'URL. Exemple avec [une somptueuse crêperie à Locmaria-Plouzané](https://futur.eco/voyage?lieu=n1290480807#18/48.353356/-4.667644/20/50)
-## 
+
+##
 
 ## Des points d'intérêt plus beaux
 
-Photos, attributs en français, accès directs au site web, numéro de téléphone, email, insta, facebook, etc : les briques basiques d'une appli de cartes modernes apparaissent peu à peu. 
+Photos, attributs en français, accès directs au site web, numéro de téléphone, email, insta, facebook, etc : les briques basiques d'une appli de cartes modernes apparaissent peu à peu.
 
 ![](/blog-images/poi-images.png)
 
-Bien sûr, tout cela dépend de la richesse des informations renseignées sur OpenStreetMap, alors contribuez :) 
+Bien sûr, tout cela dépend de la richesse des informations renseignées sur OpenStreetMap, alors contribuez :)
 
+## Choix de la date des horaires de train
 
-
-## Choix de la date des horaires de train 
-
-Quand vous cliquez sur une gare, on vous donnait le tableau des horaires de train dans le style SNCF. Maintenant, vous pouvez renseignez la date *dans le futur* à laquelle afficher les arrivées (ou les départs) des trains. 
+Quand vous cliquez sur une gare, on vous donnait le tableau des horaires de train dans le style SNCF. Maintenant, vous pouvez renseignez la date _dans le futur_ à laquelle afficher les arrivées (ou les départs) des trains.
 
 ![](/blog-images/date-train.png)
 
 En attendant d'avoir un calculateur d'itinéraire en train, c'est déjà pas mal non :) ?
 
+## Plus de boutons de recherche rapide
 
-## Plus de boutons de recherche rapide 
-
-
-Grâce à OpenStreetMap, il est très facile d'ajouter des types de recherche rapide. Cinémas, pharmacies, espaces de cotravail, le potentiel est très large. Nous en avons fait une petite sélection. 
-
-
+Grâce à OpenStreetMap, il est très facile d'ajouter des types de recherche rapide. Cinémas, pharmacies, espaces de cotravail, le potentiel est très large. Nous en avons fait une petite sélection.
 
 ![](/blog-images/plus-recherches-rapides.png)
-
 
 L'objectif sera à terme d'en faire un champ de recherche en français. Si vous voulez trouver les poubelles de type déchets recyclables, ou les bancs publics, pourquoi se priver ?
