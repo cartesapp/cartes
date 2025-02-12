@@ -4,13 +4,31 @@ import CTA from '../presentation/CTA'
 export const List = styled.ol`
 	margin-top: 2rem;
 	padding-left: 1rem;
-	list-style-type: circle;
+	list-style-type: none;
+	display: flex;
+	justify-content: start;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 2rem;
 	li {
-		margin-bottom: 0.8rem;
+		width: 18rem;
+		height: 10rem;
+		padding: 0.85rem 1.6rem;
+		background: var(--lightestColor);
 		p {
 			margin: 0;
 		}
 		a {
+		}
+		position: relative;
+		img {
+			width: 1.8rem;
+			height: 1.8rem;
+			object-fit: cover;
+			position: absolute;
+			top: -0.7rem;
+			left: -0.7rem;
+			border-radius: 2rem;
 		}
 	}
 	li small {
