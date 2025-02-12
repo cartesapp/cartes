@@ -138,9 +138,9 @@ const Category = styled.li`
 			: ''}
 `
 const MapIcon = ({ category, color, bulkImages }) => {
-	const src = bulkImages['cartesapp-' + category['icon']]
+	const src = bulkImages[category['icon alias'] || category['icon']]
 
-	const alt = 'Icône de la catégorie' + (category.title || category.name)
+	const alt = 'Icône de la catégorie ' + (category.title || category.name)
 
 	if (src) return <MapIconImage src={src} alt={alt} width="10" height="10" />
 }

@@ -402,7 +402,9 @@
   query: '[shop=tea]'
   icon: tea
 
-################################
+#######################
+# LOISIRS
+#######################
 
 - name: Musique
   dictionary:
@@ -458,7 +460,9 @@
     - '[amenity=place_of_worship]'
   icon: place_of_worship
 
-################################
+#######################
+# SANTE
+#######################
 
 - name: hôpital
   category: Santé
@@ -515,7 +519,9 @@
   query: '[healthcare=midwife]'
   icon: nurse
 
-################################
+#######################
+# POUBELLES
+#######################
 
 - name: compost
   category: Poubelles
@@ -561,7 +567,9 @@
   query: '[amenity=recycling]["recycling:batteries"=yes]'
   icon: recycling
 
-################################
+#######################
+# CULTURE
+#######################
 
 - name: Journaux
   category: Culture
@@ -586,7 +594,9 @@
   query: '[shop="books"]'
   icon: book
 
-################################
+#######################
+# TOURISME
+#######################
 
 - name: Œuvre d'art
   category: Tourisme
@@ -644,7 +654,9 @@
   query: '[tourism~"camp_site|caravan_site"]'
   icon: camping
 
-################################
+#######################
+# COMMERCES NON ALIMENTAIRES
+#######################
 
 - name: Vêtements
   category: Commerces
@@ -660,6 +672,7 @@
     - chaussures
   query: '[shop=shoes]'
   icon: shoes
+  icon alias: shop-shoes
 - name: Centre commercial
   category: Commerces
   dictionary:
@@ -1178,7 +1191,9 @@
   query: '[sport=surfing]'
   icon: surf
 
-################################
+#######################
+# DIVERS
+#######################
 
 - name: Police
   category: Divers
