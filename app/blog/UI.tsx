@@ -9,13 +9,12 @@ export const List = styled.ol`
 	justify-content: start;
 	align-items: center;
 	flex-wrap: wrap;
-	gap: 1rem;
+	gap: 2rem;
 	li {
 		width: 18rem;
 		height: 10rem;
 		padding: 0.85rem 1.6rem;
 		background: var(--lightestColor);
-		margin-bottom: 0.5rem;
 		p {
 			margin: 0;
 		}
