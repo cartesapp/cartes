@@ -60,18 +60,17 @@ export default function useMapIcons(map, styleUrl) {
 
 			console.log('imageRedirects', imageRedirects)
 
-			//const count = bulkIcons.length
-			//let iterator = 0
-
 			// on parcourt les 2 listes( /svgo/bulk + les redirections) pour ajouter chaque image à la carte
 			;[...imageRedirects, ...bulkIcons].map(([iconName, imgSrc]) => {
 
+				// on définit le nom d'icone que la carte verra
+				const mapImageName = 'cartesapp-' + iconName // avoid collisions
 				// on vérifie que la carte n'a pas déjà une image du même nom
-				const hasMapImage = map.hasImage(iconName)
+				const hasMapImage = map.hasImage(mapImageName)
 				if (hasMapImage) {
-					console.log('map has already image: ', iconName)
+					console.log('map has already image: ', mapImageName)
 				} else {
-					console.log('add image to the map: ', iconName)
+					console.log('add image to the map: ', mapImageName)
 					// on choisit la taille de l'image
 					const isSmall = Object.keys(imageRedirectsRaw['small']).find(
 						(k) => k === iconName
@@ -84,7 +83,7 @@ export default function useMapIcons(map, styleUrl) {
 
 					// une fois l'image chargée, on l'ajoute à la carte :
 					img.onload = () => {
-						map.addImage('cartesapp-' + iconName, img) // add prefix to iconName to avoid collisions
+						map.addImage(mapImageName, img) // add prefix to iconName to avoid collisions
 					}
 				}
 			})

@@ -24,146 +24,137 @@ export default function useDrawQuickSearchFeatures(
 
 	console.log('cyan debug drawquick', backgroundColor)
 	useEffect(() => {
+		// on annule si la carte ou les features sont manquants
 		if (!map) return
 		if (!features?.length) return
 
-		const imageFilename = category.icon
-		const imageFinalFilename = category['icon name']
-		const imageNameSuffix = imageFinalFilename || imageFilename
-		if (imageFilename.includes('http'))
-			throw new Error(
-				'Icons should be local in the public/icons foler. ' + category.icon
+		// on reconstruit le nom de l'icone : l'alias si précisé, sinon le nom du svg
+		const iconName = category['icon alias'] || category.icon
+		// et le nom avec lequel l'image a été ajoutée dans maplibre
+		const mapImageName = 'cartesapp-' + iconName // avoid collisions
+
+		console.log('useDrawQuickSearchFeatures add source ', baseId + 'points')
+
+		// on prépare les sources qui vont contenir les ways et les points renvoyés par overpass
+		const geojsonPlaceholder = { type: 'FeatureCollection', features: [] }
+		map.addSource(baseId + 'points', {
+			type: 'geojson',
+			data: geojsonPlaceholder,
+		})
+		map.addSource(baseId + 'ways', {
+			type: 'geojson',
+			data: geojsonPlaceholder,
+		})
+		setSources({
+			points: map.getSource(baseId + 'points'),
+			ways: map.getSource(baseId + 'ways'),
+		})
+
+		// on ajoute les layers qui vont permettre de dessiner les données
+		// l'intérieur des ways
+		map.addLayer({
+			id: baseId + 'ways',
+			type: 'fill',
+			source: baseId + 'ways',
+			layout: {},
+			paint: {
+				'fill-color': colors['lightestColor'],
+				'fill-opacity': 0.3,
+			},
+		})
+		// la bordure des ways
+		map.addLayer({
+			id: baseId + 'ways-outlines',
+			type: 'line',
+			source: baseId + 'ways',
+			layout: {},
+			paint: {
+				'line-color': colors['color'],
+				'line-width': 2,
+			},
+		})
+		// les points
+		map.addLayer({
+			id: baseId + 'points',
+			type: 'symbol',
+			source: baseId + 'points',
+			layout: {
+				'icon-image': mapImageName, // en utilisant l'image déjà chargée pour le fond de carte
+				'icon-size': 1,
+				'text-field': ['get', 'name'],
+				'text-offset': [0, 1.25],
+				'text-anchor': 'top',
+				'text-font': ['RobotoBold-NotoSansBold'],
+				'text-size': 15,
+			},
+			paint: {
+				'text-color': '#503f38',
+				'text-halo-blur': 0.5,
+				'text-halo-color': 'white',
+				'text-halo-width': 1,
+				'icon-halo-color': '#503f38',
+				'icon-halo-width': 100,
+				'icon-halo-blur': 0.5,
+			},
+		})
+		// les petits cercles pour indiquer si le lieu est ouvert
+		map.addLayer({
+			id: baseId + 'points-is-open',
+			type: 'circle',
+			source: baseId + 'points',
+			paint: {
+				'circle-radius': 4,
+				'circle-color': ['get', 'isOpenColor'],
+				'circle-stroke-color': colors['color'],
+				'circle-stroke-width': 1.5,
+				'circle-translate': [12, -12],
+			},
+			filter: ['!=', 'isOpenColor', false],
+		})
+
+		// gestion des actions en cas de de clic sur un POI
+		map.on('click', baseId + 'points', async (e) => {
+			// on charge les infos sur le POI
+			const feature = e.features[0]
+			const { lng: longitude, lat: latitude } = e.lngLat
+			const properties = feature.properties,
+				tagsRaw = properties.tags
+			console.log('quickSearchOSMfeatureClick', feature)
+			const tags =
+				typeof tagsRaw === 'string' ? JSON.parse(tagsRaw) : tagsRaw
+
+			// on change l'URL affichée dans le navigateur
+			setTimeout(
+				() =>
+					setSearchParams({
+						allez: buildAllezPart(
+							tags?.name || 'sans nom',
+							encodePlace(properties.featureType, properties.id),
+							longitude,
+							latitude
+						),
+					}),
+				200
 			)
 
-		buildSvgImage(
-			imageFilename,
-			imageFinalFilename,
-			(img) => {
-				// TODO this should be useless now that we've added all the icons in
-				// useAddMap, since they are also used to replace the sprites for tile
-				// icons
-				const imageName = 'cartesapp-' + imageNameSuffix // avoid collisions
-				const mapImage = map.getImage(imageName)
-				if (!mapImage) map.addImage(imageName, img)
+			// on charge les données et on les affiche ?
+			const osmFeature = { ...properties, tags }
+			console.log(
+				'will set OSMfeature after quickSearch marker click, ',
+				osmFeature
+			)
+			setOsmFeature(osmFeature)
+		})
 
-				console.log('useDrawQuickSearchFeatures add source ', baseId + 'points')
+		// change pointer when entering or leaving a POI
+		map.on('mouseenter', baseId + 'points', () => {
+			map.getCanvas().style.cursor = 'pointer'
+		})
+		map.on('mouseleave', baseId + 'points', () => {
+			map.getCanvas().style.cursor = ''
+		})
 
-				// Looks like buildSvgImage triggers multiple img.onload calls thus
-				// multiple map.addSource, hence an error
-				const geojsonPlaceholder = { type: 'FeatureCollection', features: [] }
-				map.addSource(baseId + 'points', {
-					type: 'geojson',
-					data: geojsonPlaceholder,
-				})
-
-				map.addSource(baseId + 'ways', {
-					type: 'geojson',
-					data: geojsonPlaceholder,
-				})
-
-				setSources({
-					points: map.getSource(baseId + 'points'),
-					ways: map.getSource(baseId + 'ways'),
-				})
-
-				// Add a symbol layer
-				map.addLayer({
-					id: baseId + 'ways',
-					type: 'fill',
-					source: baseId + 'ways',
-					layout: {},
-					paint: {
-						'fill-color': colors['lightestColor'],
-						'fill-opacity': 0.3,
-					},
-				})
-				map.addLayer({
-					id: baseId + 'ways-outlines',
-					type: 'line',
-					source: baseId + 'ways',
-					layout: {},
-					paint: {
-						'line-color': colors['color'],
-						'line-width': 2,
-					},
-				})
-				map.addLayer({
-					id: baseId + 'points',
-					type: 'symbol',
-					source: baseId + 'points',
-					layout: {
-						'icon-image': 'cartesapp-' + imageNameSuffix,
-						'icon-size': 1,
-						'text-field': ['get', 'name'],
-						'text-offset': [0, 1.25],
-						'text-anchor': 'top',
-						'text-font': ['RobotoBold-NotoSansBold'],
-						'text-size': 15,
-					},
-					paint: {
-						'text-color': '#503f38',
-						'text-halo-blur': 0.5,
-						'text-halo-color': 'white',
-						'text-halo-width': 1,
-						'icon-halo-color': '#503f38',
-						'icon-halo-width': 100,
-						'icon-halo-blur': 0.5,
-					},
-				})
-				map.addLayer({
-					id: baseId + 'points-is-open',
-					type: 'circle',
-					source: baseId + 'points',
-					paint: {
-						'circle-radius': 4,
-						'circle-color': ['get', 'isOpenColor'],
-						'circle-stroke-color': colors['color'],
-						'circle-stroke-width': 1.5,
-						'circle-translate': [12, -12],
-					},
-					filter: ['!=', 'isOpenColor', false],
-				})
-
-				map.on('click', baseId + 'points', async (e) => {
-					const feature = e.features[0]
-					const { lng: longitude, lat: latitude } = e.lngLat
-					const properties = feature.properties,
-						tagsRaw = properties.tags
-					console.log('quickSearchOSMfeatureClick', feature)
-					const tags =
-						typeof tagsRaw === 'string' ? JSON.parse(tagsRaw) : tagsRaw
-
-					setTimeout(
-						() =>
-							setSearchParams({
-								allez: buildAllezPart(
-									tags?.name || 'sans nom',
-									encodePlace(properties.featureType, properties.id),
-									longitude,
-									latitude
-								),
-							}),
-						200
-					)
-
-					const osmFeature = { ...properties, tags }
-					console.log(
-						'will set OSMfeature after quickSearch marker click, ',
-						osmFeature
-					)
-					setOsmFeature(osmFeature)
-				})
-				map.on('mouseenter', baseId + 'points', () => {
-					map.getCanvas().style.cursor = 'pointer'
-				})
-				// Change it back to a pointer when it leaves.
-				map.on('mouseleave', baseId + 'points', () => {
-					map.getCanvas().style.cursor = ''
-				})
-			},
-			backgroundColor
-		)
-
+		// for cleaning ?
 		const cleanup = () => {
 			safeRemove(map)(
 				[
@@ -180,6 +171,7 @@ export default function useDrawQuickSearchFeatures(
 	}, [map, category, baseId, setSources, setOsmFeature])
 
 	useEffect(() => {
+		// on annule si carte ou sources ou features pas encore chargés
 		if (!map) return
 		if (!sources) return
 		if (!features?.length) return
