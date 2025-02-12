@@ -25,7 +25,9 @@ export default function Blog({ articles }) {
 			<List>
 				{articles.map(({ url, date, titre, lang, image, description }) => (
 					<li key={url}>
-						<Image src={image} alt={description} width="50" height="50" />
+						{image && (
+							<Image src={image} alt={description} width="50" height="50" />
+						)}
 						<div>
 							<Link
 								href={url}
