@@ -14,7 +14,10 @@ import Link from 'next/link'
 
 export default async function Article({ post, slug }) {
 	const MDXContent = getMDXComponent(post.body.code)
+	const lastEdit = await getLastEdit(slug)
 
+	const sameEditDate =
+		!lastEdit || post.date.slice(0, 10) === lastEdit.slice(0, 10)
 	const translation = null // hasTranslation(post)
 	return (
 		<div>
@@ -33,6 +36,15 @@ export default async function Article({ post, slug }) {
 					)}
 					<h1 dangerouslySetInnerHTML={{ __html: post.titre.html }} />
 					<p>{post?.description}</p>
+					<small>
+						publié le <time dateTime={post.date}>{dateCool(post.date)}</time>
+						{!sameEditDate && (
+							<span>
+								, mis à jour{' '}
+								<time dateTime={lastEdit}>{dateCool(lastEdit)}</time>
+							</span>
+						)}
+					</small>
 					{translation && (
 						<Translation>
 							{translation.lang === 'en' ? (
