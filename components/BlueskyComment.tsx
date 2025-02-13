@@ -1,10 +1,20 @@
 import { dateCool } from '@/app/blog/utils'
 import { styled } from 'next-yak'
 
-export default function Comment({ data }) {
+export default function BlueskyComment({ data, i = 0 }) {
+	console.log('comment0')
 	const { text, createdAt } = data.post.record
 	const { handle, displayName, avatar } = data.post.author
 	const coolDate = dateCool(createdAt)
+	console.log(
+		'comment',
+		i,
+		handle,
+		displayName,
+		coolDate,
+		text,
+		data.replies.length
+	)
 	return (
 		<Li>
 			<section>
@@ -14,26 +24,22 @@ export default function Comment({ data }) {
 					<small>le {coolDate}</small>
 				</header>
 				<div>{text}</div>
-				{data.replies && data.replies.length > 0 && (
-					<ol>
-						{data.replies.map((reply) => (
-							<Comment key={reply.post.uri} data={reply} />
-						))}
-					</ol>
-				)}
+				<Replies replies={data.replies} i={i} />
 			</section>
 		</Li>
 	)
+}
 
-	/*
-	const response = await agent.getPostThread({ uri: data.post.uri })
-	const { data } = response
-	const thread = data.thread
-
-	if (!AppBskyFeedDefs.isThreadViewPost(data.thread)) {
-		return <p className="text-center">Could not find thread</p>
-	}
-	*/
+const Replies = ({ replies, i }) => {
+	if (replies && replies.length > 0)
+		return (
+			<ol>
+				{replies.map((reply) => (
+					<BlueskyComment key={reply.post.uri} data={reply} i={i + 1} />
+				))}
+			</ol>
+		)
+	return null
 }
 
 const Li = styled.li`
