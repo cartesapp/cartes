@@ -5,7 +5,7 @@ const agent = new BskyAgent({ service: 'https://public.api.bsky.app' })
 
 export default async function BlueskyComments({ uri }) {
 	const part = uri.split('app.bsky.feed.post/')[1]
-	const url = `https://bsky.app/profile/cartesapp.bsky.social/post/${part}`
+	const url = `https://bsky.app/profile/cartes.app/post/${part}`
 
 	if (!uri) return null
 	const response = await agent.getPostThread({ uri })
