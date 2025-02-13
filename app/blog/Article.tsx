@@ -3,7 +3,6 @@ import ArticleWrapper, {
 	BackToBlogLink,
 	Translation,
 } from '@/components/ArticleUI'
-import BlueskyComments from '@/components/BlueskyComments'
 import { getMDXComponent } from 'next-contentlayer2/hooks'
 import Image from 'next/image'
 import OtherArticles from './OtherArticles'
@@ -69,7 +68,6 @@ export default async function Article({ post, slug }) {
 				<Contribution slug={slug} />
 				<OtherArticles excludeUrl={post.url} />
 			</ArticleWrapper>
-			{post?.bluesky && <BlueskyComments uri={post.bluesky} />}
 		</div>
 	)
 }
