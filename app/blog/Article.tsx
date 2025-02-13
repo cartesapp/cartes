@@ -9,7 +9,7 @@ import Image from 'next/image'
 import OtherArticles from './OtherArticles'
 import { mdxComponents } from './mdxComponents'
 import { dateCool, getLastEdit } from './utils'
-//import { getSlug, hasTranslation } from './blogArticles'
+import { getSlug, hasTranslation } from './blogArticles'
 import Link from 'next/link'
 
 export default async function Article({ post, slug }) {
@@ -18,7 +18,7 @@ export default async function Article({ post, slug }) {
 
 	const sameEditDate =
 		!lastEdit || post.date.slice(0, 10) === lastEdit.slice(0, 10)
-	const translation = null // hasTranslation(post)
+	const translation = hasTranslation(post)
 	return (
 		<div>
 			<ArticleWrapper>
