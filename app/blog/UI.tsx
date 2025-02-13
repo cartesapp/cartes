@@ -75,6 +75,7 @@ export const OtherArticlesList = styled.div`
 				margin-top: 0.6rem;
 				margin-bottom: 1rem;
 				height: 5rem;
+				font-size: 120%;
 			}
 			small {
 				max-height: 6rem;
