@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { List, Nav } from './UI'
 import { description } from './metadata'
 import { dateCool } from './utils'
+import { allArticles } from './blogArticles'
 
 export default function Blog({ articles }) {
 	return (
@@ -24,31 +25,56 @@ export default function Blog({ articles }) {
 			</p>
 			<List>
 				{articles.map(
-					({ url, date, titre, lang, image, description, tags }) => (
-						<li key={url}>
-							{image && (
-								<Image src={image} alt={description} width="50" height="50" />
-							)}
-							<div>
-								<Link
-									href={url}
-									dangerouslySetInnerHTML={{ __html: titre.html }}
-								/>
-							</div>
-							<small>publié le {dateCool(date)}</small>
-							{lang && lang === 'en' && (
-								<span
-									style={{ marginLeft: '.4rem' }}
-									title="This article is written in english"
-								>
-									🇬🇧
-								</span>
-							)}
-							{tags && tags.includes('version') && (
-								<small>📌 Notes de version</small>
-							)}
-						</li>
-					)
+					({ url, date, titre, lang, image, description, tags }) => {
+						const enTranslation = allArticles.find(
+							(article) => article.original === url.replace('/blog/', '')
+						)
+
+						return (
+							<li key={url}>
+								{image && (
+									<Image src={image} alt={description} width="50" height="50" />
+								)}
+								<div>
+									<Link
+										href={url}
+										dangerouslySetInnerHTML={{ __html: titre.html }}
+									/>
+								</div>
+								<small>publié le {dateCool(date)}</small>
+								{lang && lang === 'en' && (
+									<span
+										style={{ marginLeft: '.4rem' }}
+										title="This article is written in english"
+									>
+										🇬🇧
+									</span>
+								)}
+								{enTranslation && (
+									<div
+										style={{
+											display: 'flex',
+											alignItems: 'center',
+											gap: '.4rem',
+											marginTop: '2rem',
+										}}
+										title="This article is written in english"
+									>
+										🇬🇧{' '}
+										<Link
+											href={enTranslation.url}
+											dangerouslySetInnerHTML={{
+												__html: enTranslation.titre.html,
+											}}
+										/>
+									</div>
+								)}
+								{tags && tags.includes('version') && (
+									<small>📌 Notes de version</small>
+								)}
+							</li>
+						)
+					}
 				)}
 			</List>
 		</main>

@@ -107,3 +107,19 @@ export const BackToBlogLink = styled(Link)`
 	margin-top: 0.6rem;
 	display: inline-block;
 `
+
+export const Translation = styled.div`
+	background: var(--lightestColor);
+	font-size: 90%;
+	text-align: center;
+	line-height: 1.1rem;
+	margin: 0 auto;
+	margin-top: 1rem;
+	margin-bottom: -1.6rem;
+	width: fit-content;
+	padding: 0 0.6rem;
+	a {
+		text-decoration: none;
+		color: inherit;
+	}
+`

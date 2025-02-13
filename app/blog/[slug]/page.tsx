@@ -24,11 +24,12 @@ export const generateMetadata = async (props) => {
 
 export default async function Post(props: Props) {
 	const params = await props.params
+	const { lang } = await props.searchParams
+
 	const post = allArticles.find(
 		(post) => post._raw.flattenedPath === params.slug
 	)
 
-	console.log('POSTOU', post, params.slug)
 	if (!post) return null
 
 	return <Article post={post} slug={params.slug} />

@@ -12,7 +12,6 @@ export default async function BlueskyComments({ uri }) {
 
 	const { data } = response
 	const thread = data.thread
-	console.log('SALUT', data)
 
 	if (!AppBskyFeedDefs.isThreadViewPost(data.thread)) {
 		return <p className="text-center">Could not find thread</p>
