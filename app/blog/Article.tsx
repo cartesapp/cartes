@@ -49,13 +49,13 @@ export default async function Article({ post, slug }) {
 						<Translation>
 							{translation.lang === 'en' ? (
 								<div>
-									<Link href={translation.url}>
+									<Link href={translation.url} prefetch={false}>
 										🇬🇧 &nbsp;This post is also available in English
 									</Link>
 								</div>
 							) : (
 								<div>
-									<Link href={translation.url}>
+									<Link href={translation.url} prefetch={false}>
 										🇫🇷 &nbsp;Cet article est aussi disponible en français
 									</Link>
 								</div>
