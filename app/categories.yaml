@@ -7,7 +7,7 @@
   #emoji: 🥖
   query: '[shop=bakery]'
   icon: bakery
-  category: Alimentation
+  group: Alimentation
 - name: restaurant
   dictionary:
     - resto
@@ -20,7 +20,7 @@
     - '[amenity=restaurant]'
     - '[vending=pizza]'
   icon: restaurant
-  category: Restaurants
+  group: Restaurants
 - name: cafe
   title: Café, bar et pub
   dictionary:
@@ -36,7 +36,7 @@
     - '["amenity"="cafe"]'
     - '["amenity"="pub"]'
   icon: cafe
-  category: Bars et boisson
+  group: Bars et boisson
 - name: épicerie
   dictionary:
     - supermarché
@@ -48,7 +48,7 @@
     - '["shop"~"convenience|supermarket"]'
     - '[amenity=marketplace]'
   icon: convenience
-  category: Commerces
+  group: Commerces
 - name: eau
   dictionary:
     - boire
@@ -60,7 +60,7 @@
     - '[drinking_water=yes]'
   icon: water
   open by default: true
-  category: Bars et boisson
+  group: Bars et boisson
 - name: toilettes
   dictionary:
     - WC
@@ -69,7 +69,7 @@
     - '[amenity=toilets]'
   icon: toilets
   open by default: true
-  category: Divers
+  group: Divers
 - name: parc
   dictionary:
     - verdure
@@ -80,13 +80,13 @@
     - '[boundary=national_park]'
   icon: tree
   open by default: true
-  category: Nature
+  group: Nature
 - name: bus
   title: Arrêt de bus ou tram
   query: '[public_transport=platform]'
   icon: bus
   open by default: true
-  category: Déplacements
+  group: Déplacements
 - name: billets
   dictionary:
     - banque
@@ -100,7 +100,7 @@
     - '[atm=yes]'
   open by default: true
   icon: bank
-  category: Divers
+  group: Divers
 - name: Hôtel
   dictionary:
     - chambre d'hôte
@@ -111,7 +111,7 @@
   query: '["tourism"~"hotel|chalet|guest_house|apartment"]'
   open by default: true
   icon: lodging
-  category: Tourisme
+  group: Tourisme
 - name: vue
   title: Point de vue
   dictionary:
@@ -119,11 +119,11 @@
   query: '[tourism=viewpoint]'
   open by default: true
   icon: viewpoint
-  category: Tourisme
+  group: Tourisme
 - name: Cinéma
   dictionary:
     - ciné
     - film
   query: '[amenity=cinema]'
   icon: cinema
-  category: Culture
+  group: Culture
