@@ -1,6 +1,6 @@
 import { computeHumanDistance } from '@/app/RouteRésumé'
 import { buildAllezPart } from '@/app/SetDestination'
-import categoryColors from '@/app/categoryColors.yaml'
+import categoryGroupColors from '@/app/categoryGroupColors.yaml'
 import { OpenIndicator, getOh } from '@/app/osm/OpeningHours'
 import { encodePlace } from '@/app/utils'
 import Image from 'next/image'
@@ -50,7 +50,7 @@ export default function CategoryResult({
 		<ResultLinkWrapper href={url}>
 			<header>
 				<div>
-					<ImageWrapper $background={categoryColors[category.category]}>
+					<ImageWrapper $background={categoryGroupColors[category.group]}>
 						<Image
 							src={
 								category.icon.startsWith('http')
