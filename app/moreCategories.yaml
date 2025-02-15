@@ -247,7 +247,7 @@
   icon: cafe
 
 - name: Point d'eau
-  category: Bars et boisson
+  category: Divers # dans "Divers" plutôt que Boissons car c'est un usage pratique, non commercial de la boisson, plutôt qu'un usage "plaisir"
   dictionary:
     - boire
     - fontaine
