@@ -22,6 +22,7 @@ const groups = categories.reduce((memo, next) => {
 // on parcourt les groupes
 //
 //
+
 const icons = Object.entries(groups).map(([group, groupCategories]) => {
 	const groupColor = categoryColors[group] // on récupère la couleur du groupe
 	// on parcourt les catégories
