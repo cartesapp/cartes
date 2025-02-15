@@ -6,7 +6,7 @@ import { overpassRequestSuffix } from '../osmRequest'
 const category = {
 	name: 'Arceaux vélo',
 	icon: 'parking',
-	category: 'Déplacements',
+	group: 'Déplacements',
 	'open by default': true,
 }
 
