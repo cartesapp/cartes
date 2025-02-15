@@ -22,7 +22,6 @@ export default function useDrawQuickSearchFeatures(
 
 	const [sources, setSources] = useState(null)
 
-	console.log('cyan debug drawquick', backgroundColor)
 	useEffect(() => {
 		// on annule si la carte ou les features sont manquants
 		if (!map) return
@@ -35,27 +34,38 @@ export default function useDrawQuickSearchFeatures(
 		// et le nom avec lequel l'image a été ajoutée dans maplibre
 		const mapImageName = 'cartesapp-' + iconName // avoid collisions
 
-		buildSvgImage(
-			imageFilename,
-			imageFinalFilename,
-			(img) => {
-				// TODO this should be useless now that we've added all the icons in
-				// useAddMap, since they are also used to replace the sprites for tile
-				// icons
-				const mapImage = map.getImage(mapImageName)
-				if (!mapImage) map.addImage(mapImageName, img)
+		if (safeStyleKey != null && safeStyleKey === 'france')
+			draw(
+				map,
+				baseId,
+				setSearchParams,
+				setSources,
+				mapImageName,
+				setOsmFeature
+			)
+		else {
+			buildSvgImage(
+				imageFilename,
+				imageFinalFilename,
+				(img) => {
+					// TODO this should be useless now that we've added all the icons in
+					// useAddMap, since they are also used to replace the sprites for tile
+					// icons
+					const mapImage = map.getImage(mapImageName)
+					if (!mapImage) map.addImage(mapImageName, img)
 
-				draw(
-					map,
-					baseId,
-					setSearchParams,
-					setSources,
-					mapImageName,
-					setOsmFeature
-				)
-			},
-			backgroundColor
-		)
+					draw(
+						map,
+						baseId,
+						setSearchParams,
+						setSources,
+						mapImageName,
+						setOsmFeature
+					)
+				},
+				backgroundColor
+			)
+		}
 
 		// for cleaning ?
 		const cleanup = () => {
