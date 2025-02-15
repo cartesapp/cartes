@@ -61,7 +61,6 @@ export default function useMapIcons(map, styleUrl) {
 				})
 				.filter(Boolean) // on filtre pour ne garder que les icones trouvées
 
-
 			// on parcourt les 2 listes( /svgo/bulk + les redirections) pour ajouter chaque image à la carte
 			;[...imageRedirects, ...bulkIcons].map(([iconName, imgSrc]) => {
 				// on définit le nom d'icone que la carte verra
@@ -81,11 +80,11 @@ export default function useMapIcons(map, styleUrl) {
 					// on crée l'image
 					const img = new Image(size, size)
 
-          const finalSrc = isSmall
-					? src.replace('<svg', "<svg opacity='.4'")
-					: src
+					const finalSrc = isSmall
+						? imgSrc.replace('<svg', "<svg opacity='.4'")
+						: imgSrc
 
-				img.src = finalSrc
+					img.src = finalSrc
 
 					// une fois l'image chargée, on l'ajoute à la carte :
 					img.onload = () => {
