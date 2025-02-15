@@ -58,7 +58,7 @@ export default function useMapIcons(map, styleUrl) {
 				const isSmall = Object.keys(imageRedirectsRaw['small']).find(
 					(k) => k === imageFinalName.replace('cartesapp-', '')
 				)
-				const size = isSmall ? 14 : 30
+				const size = isSmall ? 16 : 30
 				const img = new Image(size, size) // bonne taille pour être cohérent avec les sprites d'origine
 
 				img.src = src
