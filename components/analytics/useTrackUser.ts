@@ -40,6 +40,7 @@ export default function useTrackUser() {
 			}
 		}
 
+		return // disactivated. We've logged enough for now, our Deno Deploy KV is limited
 		const timeoutFunction = () => logMissingImages()
 		setTimeout(timeoutFunction, 10000)
 		return timeoutFunction
