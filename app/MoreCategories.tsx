@@ -1,4 +1,4 @@
-import categoryColors from '@/app/categoryColors.yaml'
+import categoryGroupColors from '@/app/categoryGroupColors.yaml'
 import { uncapitalise0 } from '@/components/utils/utils'
 import { css, styled } from 'next-yak'
 import Image from 'next/image'
@@ -18,7 +18,7 @@ export default function MoreCategories({
 	const groups = filteredMoreCategories.reduce((memo, next) => {
 		return {
 			...memo,
-			[next.category]: [...(memo[next.category] || []), next],
+			[next.group]: [...(memo[next.group] || []), next],
 		}
 	}, {})
 
@@ -36,7 +36,7 @@ export default function MoreCategories({
 		<Wrapper>
 			<ol>
 				{Object.entries(groups).map(([group, categories]) => {
-					const groupColor = categoryColors[group]
+					const groupColor = categoryGroupColors[group]
 					return (
 						<Group key={group} $groupColor={groupColor}>
 							<h2>{group}</h2>
