@@ -1,4 +1,3 @@
-
 # LIST OF ICON REDIRECTIONS
 # List of all the redirections to be applied from the class/subclass values in the tile schema (OpenMalTiles + complements) to the icon in cartes.app
 
@@ -41,7 +40,6 @@ in categories:
 #bbq:
 #community_centre:
 
-
 # part 2/3 : using new icons not already described in moreCategories.yaml (added with round gray background)
 not in categories:
   office: building
@@ -59,3 +57,4 @@ small:
   lift-gate:
   waste_basket:
   cycle_barrier:
+  dog_park:
