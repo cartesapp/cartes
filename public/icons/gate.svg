@@ -1,4 +1,91 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="15" height="15" viewBox="0 0 15 15" xmlns="http://www.w3.org/2000/svg" id="gate">
-  <path d="M1 2.75A.75.75 0 0 1 1.75 2h1.114c.09 0 .18.016.263.048l3.386 1.27A.75.75 0 0 1 7 4.02v5.96a.75.75 0 0 1-.487.702L3 12v.25a.75.75 0 0 1-.75.75h-.5a.75.75 0 0 1-.75-.75v-9.5Zm3 5.736v-4.87a.25.25 0 0 0-.162-.234l-.5-.187A.25.25 0 0 0 3 3.429v5.224c0 .17.167.291.33.237l.5-.166A.25.25 0 0 0 4 8.486ZM5 4.18v3.807a.25.25 0 0 0 .33.238l.5-.167A.25.25 0 0 0 6 7.82V4.366a.25.25 0 0 0-.162-.234l-.5-.187A.25.25 0 0 0 5 4.179Zm9-1.43a.75.75 0 0 0-.75-.75h-1.114a.75.75 0 0 0-.263.048l-3.386 1.27A.75.75 0 0 0 8 4.02v5.96a.75.75 0 0 0 .487.702L12 12v.25c0 .414.336.75.75.75h.5a.75.75 0 0 0 .75-.75v-9.5Zm-2.83 5.974a.25.25 0 0 1-.17-.238v-4.87a.25.25 0 0 1 .162-.234l.5-.187a.25.25 0 0 1 .338.234v5.224a.25.25 0 0 1-.33.237l-.5-.166ZM10 4.179v3.807a.25.25 0 0 1-.33.238l-.5-.167A.25.25 0 0 1 9 7.82V4.366a.25.25 0 0 1 .162-.234l.5-.187a.25.25 0 0 1 .338.234Z"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="15"
+   height="15"
+   viewBox="0 0 15 15"
+   id="gate"
+   version="1.1"
+   sodipodi:docname="gate.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs9265" />
+  <sodipodi:namedview
+     id="namedview9263"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="29.133333"
+     inkscape:cx="2.9691075"
+     inkscape:cy="5.7837529"
+     inkscape:window-width="1920"
+     inkscape:window-height="1055"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="gate" />
+  <g
+     id="g9457"
+     transform="translate(-19.311831,-6.1164915)">
+    <rect
+       style="stroke-width:1.36852"
+       id="rect9388"
+       width="13.596327"
+       height="2.5954208"
+       x="3.8082187"
+       y="0.6260283"
+       transform="rotate(35.589716)" />
+    <rect
+       style="stroke-width:1.36852"
+       id="rect9388-3"
+       width="13.596327"
+       height="2.5954208"
+       x="-5.1082325"
+       y="9.2727814"
+       transform="rotate(-35.152037)" />
+  </g>
+  <rect
+     style="stroke-width:1.66498"
+     id="rect9422"
+     width="2.4944701"
+     height="12.54944"
+     x="0.32258174"
+     y="1.2607259" />
+  <rect
+     style="stroke-width:1.66498"
+     id="rect9422-6"
+     width="2.4944701"
+     height="12.54944"
+     x="12.021622"
+     y="1.2251002" />
+  <rect
+     style="stroke-width:1.59934"
+     id="rect9459"
+     width="11.384047"
+     height="2.265023"
+     x="1.4592766"
+     y="2.3487833" />
+  <rect
+     style="stroke-width:1.45077"
+     id="rect9388-3-7"
+     width="12.186699"
+     height="2.5425801"
+     x="-2.9194431"
+     y="8.5321512"
+     transform="matrix(0.9095985,-0.41548836,0.49658946,0.86798554,0,0)" />
+  <rect
+     style="stroke-width:1.59934"
+     id="rect9461"
+     width="12.059809"
+     height="2.0503895"
+     x="1.0495313"
+     y="10.12575" />
 </svg>
