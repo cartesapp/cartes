@@ -73,7 +73,9 @@ export default function useMapClick(
 			const rawFeatures = map.queryRenderedFeatures(e.point),
 				features = rawFeatures.filter(
 					(f) =>
-						(f.source === 'openmaptiles' || f.source === 'maptiler_planet') && // maintain compatibility with two of our styles : the new protomaps style and the old maptiler styles
+						(f.source === 'openmaptiles' ||
+							f.source === 'maptiler_planet' ||
+							f.source === 'indoorequal') && // maintain compatibility with two of our styles : the new protomaps style and the old maptiler styles
 						allowedLayerProps(f)
 				)
 
@@ -100,12 +102,22 @@ export default function useMapClick(
 			// "node", it needs to be stripped. For a waterway like La Vilaine in
 			// Vitré https://www.openstreetmap.org/way/308377384, the OpenMapTiles id
 			// is the good one.
-			const id = hasNwr
+			//
+
+			const isIndoorequalFeature =
+				feature.properties?.level &&
+				feature.properties?.id.match(/^(node|way|relation):\d+$/)
+
+			const id = isIndoorequalFeature
+					? isIndoorequalFeature[0].split(':')[1]
+					: hasNwr
 					? feature.id
 					: ['waterway'].includes(feature.sourceLayer)
 					? openMapTilesId
 					: openMapTilesId.slice(null, -1),
-				featureType = hasNwr
+				featureType = isIndoorequalFeature
+					? isIndoorequalFeature[1]
+					: hasNwr
 					? { w: 'way', n: 'node', r: 'relation' }[
 							feature.properties?.nwr || 'r'
 					  ]

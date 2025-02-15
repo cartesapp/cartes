@@ -61,7 +61,6 @@ export default function useMapIcons(map, styleUrl) {
 				})
 				.filter(Boolean) // on filtre pour ne garder que les icones trouvées
 
-			console.log('imageRedirects', imageRedirects)
 
 			// on parcourt les 2 listes( /svgo/bulk + les redirections) pour ajouter chaque image à la carte
 			;[...imageRedirects, ...bulkIcons].map(([iconName, imgSrc]) => {
@@ -77,11 +76,16 @@ export default function useMapIcons(map, styleUrl) {
 					const isSmall = Object.keys(imageRedirectsRaw['small']).find(
 						(k) => k === iconName
 					)
-					const size = isSmall ? 14 : 30
+					const size = isSmall ? 16 : 30
 
 					// on crée l'image
 					const img = new Image(size, size)
-					img.src = imgSrc
+
+          const finalSrc = isSmall
+					? src.replace('<svg', "<svg opacity='.4'")
+					: src
+
+				img.src = finalSrc
 
 					// une fois l'image chargée, on l'ajoute à la carte :
 					img.onload = () => {

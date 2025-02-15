@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   version="1.1"
+   id="waste-basket"
+   width="15"
+   height="15"
+   viewBox="0 0 15 15"
+   sodipodi:docname="waste_basket.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs8745" />
+  <sodipodi:namedview
+     id="namedview8743"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="14.566667"
+     inkscape:cx="8.4782609"
+     inkscape:cy="10.949657"
+     inkscape:window-width="1920"
+     inkscape:window-height="1055"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="waste-basket" />
+  <path
+     d="M 12.41,6.3351488 11.07,13.7173 c -0.0433,0.2368 -0.2493,0.4091 -0.49,0.41 H 4.42 c -0.2407,-9e-4 -0.4467,-0.1732 -0.49,-0.41 L 2.59,6.3351488 c -0.0442,-0.2726 0.141,-0.5294 0.4135,-0.5736 0.0253,-0.0041 0.0509,-0.0062 0.0765,-0.0064 h 8.83 c 0.2761,-0.0036 0.5028,0.2174 0.5064,0.4935 4e-4,0.029 -0.0018,0.0579 -0.0064,0.0865 z M 13,3.7745995 c 0,0.2761 -0.2239,0.5 -0.5,0.5 h -10 c -0.2761,0 -0.5,-0.2239 -0.5,-0.5 0,-0.2761 0.2239,-0.9118993 0.5,-0.9118993 H 5 v -1.5 c 0,-0.2761 0.2239,-0.49999997 0.5,-0.49999997 h 4 c 0.2761,0 0.5,0.22389997 0.5,0.49999997 v 1.5 h 2.5 c 0.2761,0 0.5,0.6357993 0.5,0.9118993 z M 9,2.8627002 v -1 H 6 v 1 z"
+     id="path8740"
+     sodipodi:nodetypes="cccccccccccssssscsssscssccccc" />
+</svg>

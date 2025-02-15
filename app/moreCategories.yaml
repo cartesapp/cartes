@@ -598,6 +598,14 @@
 # TOURISME
 #######################
 
+- name: Musée
+  category: Tourisme
+  dictionary:
+    - musée
+  query:
+    - '[tourism=museum]'
+  icon: museum
+
 - name: Œuvre d'art
   category: Tourisme
   dictionary:
@@ -607,6 +615,7 @@
     - mosaïque
   query: '[tourism=artwork]'
   icon: artwork
+
 - name: Attraction
   category: Tourisme
   dictionary:
@@ -615,7 +624,6 @@
     - siècle
     - cathédrale
     - église
-    - musée
     - place
     - pont
   query:

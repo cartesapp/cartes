@@ -1,3 +1,4 @@
+
 # LIST OF ICON REDIRECTIONS
 # List of all the redirections to be applied from the class/subclass values in the tile schema (OpenMalTiles + complements) to the icon in cartes.app
 
@@ -27,6 +28,12 @@ in categories:
   wine: grapes
   swimming: swimming_outdoor
   swimming_pool: swimming_outdoor
+  school: college
+  library: book
+  alcohol: bottle
+  coworking_space: coworking
+  pinic_site: picnic
+  cycling: bicycle
   #place_of_worship:
 
 # TODO c'est important ça comme recherche
@@ -47,3 +54,8 @@ small:
   entrance: indoorequal-entrance
   railway:
   oneway: arrow-up
+  shelter:
+  gate:
+  lift-gate:
+  waste_basket:
+  cycle_barrier:

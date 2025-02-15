@@ -4,13 +4,44 @@
    viewBox="0 0 15 15"
    height="15"
    width="15"
-   opacity="0.4"
    id="svg150"
+   sodipodi:docname="bollard.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview151"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="16.3694"
+     inkscape:cx="7.2391167"
+     inkscape:cy="14.478233"
+     inkscape:window-width="1920"
+     inkscape:window-height="1080"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg150" />
   <defs
      id="defs154" />
   <path
-     d="m 5,3.5 c 0,-4 5,-4 5,0 C 10,4 5,4 5,3.5 Z M 5,6 v 8 c 0,0.5 5,0.5 5,0 V 6 C 10,6.5 5,6.5 5,6 Z"
-     id="path148" />
+     d="M 5,4.3967395 C 5,2.3027179 6.2291284,0.57494365 7.4685616,0.55738785 8.7289527,0.5395352 10,2.2673094 10,4.3967395 c 0,0.5279315 -5,0.5279315 -5,0 z M 4.9804061,6.5055437 5,11.781906 c 0.00196,0.527928 5.00196,0.527928 5,0 L 9.9804061,6.5055437 c 0,0.5279315 -5,0.5279315 -5,0 z"
+     id="path148"
+     sodipodi:nodetypes="sssscsscc"
+     style="stroke-width:1.02755" />
+  <rect
+     style="stroke:none;stroke-width:1.51181;stroke-dasharray:none;stroke-opacity:1"
+     id="rect3991"
+     width="11.186465"
+     height="3.4512937"
+     x="1.8534412"
+     y="11.137113" />
 </svg>
