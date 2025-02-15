@@ -1,3 +1,12 @@
+# CATEGORY LIST (GROUPED BY THEME)
+# with expected properties :
+# - name
+# - category : name of the group of categories
+# - dictionnary : terms for text search bar
+# - query : for overpass
+# - icon : name of the svg file to be loaded
+# - icon alias (facultative) : new name for the icon in case the same svg is used in different category groups
+
 #######################
 # RESTAURANTS
 #######################
@@ -238,7 +247,7 @@
   icon: cafe
 
 - name: Point d'eau
-  category: Bars et boisson
+  category: Divers # dans "Divers" plutôt que Boissons car c'est un usage pratique, non commercial de la boisson, plutôt qu'un usage "plaisir"
   dictionary:
     - boire
     - fontaine
@@ -317,7 +326,7 @@
     - delicatessen
   query: '[shop=deli]'
   icon: shop
-  icon name: shop-food
+  icon alias: shop-food
 
 - name: Fromagerie
   category: Alimentation
@@ -393,7 +402,9 @@
   query: '[shop=tea]'
   icon: tea
 
-################################
+#######################
+# LOISIRS
+#######################
 
 - name: Musique
   dictionary:
@@ -449,7 +460,9 @@
     - '[amenity=place_of_worship]'
   icon: place_of_worship
 
-################################
+#######################
+# SANTE
+#######################
 
 - name: hôpital
   category: Santé
@@ -506,7 +519,9 @@
   query: '[healthcare=midwife]'
   icon: nurse
 
-################################
+#######################
+# POUBELLES
+#######################
 
 - name: compost
   category: Poubelles
@@ -552,7 +567,9 @@
   query: '[amenity=recycling]["recycling:batteries"=yes]'
   icon: recycling
 
-################################
+#######################
+# CULTURE
+#######################
 
 - name: Journaux
   category: Culture
@@ -577,7 +594,9 @@
   query: '[shop="books"]'
   icon: book
 
-################################
+#######################
+# TOURISME
+#######################
 
 - name: Œuvre d'art
   category: Tourisme
@@ -635,7 +654,9 @@
   query: '[tourism~"camp_site|caravan_site"]'
   icon: camping
 
-################################
+#######################
+# COMMERCES NON ALIMENTAIRES
+#######################
 
 - name: Vêtements
   category: Commerces
@@ -651,6 +672,7 @@
     - chaussures
   query: '[shop=shoes]'
   icon: shoes
+  icon alias: shop-shoes
 - name: Centre commercial
   category: Commerces
   dictionary:
@@ -1169,7 +1191,9 @@
   query: '[sport=surfing]'
   icon: surf
 
-################################
+#######################
+# DIVERS
+#######################
 
 - name: Police
   category: Divers

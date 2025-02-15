@@ -1,13 +1,20 @@
 import { useEffect } from 'react'
 
+//chargement du yaml contenant la gestion des redirections
 import imageRedirectsRaw from '@/app/imageRedirects.yaml'
+
+export const shouldNotAddIconsToMapStyle = (styleUrl) =>
+	!styleUrl || typeof styleUrl !== 'object' || styleUrl.name !== 'France'
 
 export default function useMapIcons(map, styleUrl) {
 	useEffect(() => {
+		// on annule si la carte n'est pas chargée, ou si autre style que le style france.
 		if (!map) return
-		if (!styleUrl || typeof styleUrl !== 'object' || styleUrl.name !== 'France')
-			return
+		if (shouldNotAddIconsToMapStyle(styleUrl)) return
+
 		console.log('cyan will add map icons')
+
+		// surveillances des icones que la carte voudrait afficher mais qui manquent
 		const onImageMissing = (e) => {
 			const id = e.id // id of the missing image
 			console.log('imagemissing', id)
@@ -22,75 +29,63 @@ export default function useMapIcons(map, styleUrl) {
 
 		window.map = map
 		const doFetch = async () => {
+			// on charge le json contenant la liste de toutes les icones à ajouter
 			const request = await fetch('/svgo/bulk')
-			const nameSrcMap = await request.json()
-			console.log('nameSrcMap', nameSrcMap)
-			const imageRedirects = Object.entries(imageRedirectsRaw)
-				.filter(([k]) => !['not in categories', 'small'].includes(k))
+			const bulkIcons = await request.json()
+			console.log('bulkIcons', bulkIcons)
+			// on parcourt la liste des redirections à gérer
+			// (uniquement celle du cas 1 vers les icones définies dans les catégories
+			// car les cas 2 et 3 sont déjà inclus dans /svgo/bulk )
+			const imageRedirects = Object.entries(imageRedirectsRaw['in categories'])
 				.map(([from, to]) => {
+					// si l'icone n'est pas spécifiée, on prévient et on passe à la suivante
 					if (!to) {
 						console.log(
-							'imagemissing listed but no cartesapp icon correspondance'
+							'tile (sub)class value ' +
+								from +
+								' listed but no cartesapp icon correspondance'
 						)
 						return
 					}
-					const found = nameSrcMap.find(
-						([name, src]) => name.split('cartesapp-')[1] === to
-					)
+					// on cherche dans le json le nom d'icone qui correspond à la redirection
+					const found = bulkIcons.find(([iconName, imgSrc]) => iconName === to)
 
+					// si l'icone n'existe pas dans le json /svgo/bulk, on alerte
 					if (!found || !Array.isArray(found))
 						console.error(
 							`Problème avec la redirection d'icône ${found} ${from} ${to}`
 						)
 
-					const [name, src] = found
-					return ['cartesapp-' + from, src]
+					const [iconName, imgSrc] = found // on remplace l'item par vrai/faux
+					return [from, imgSrc] // on renvoit l'icone avec le nouveau nom
 				})
-				.filter(Boolean)
+				.filter(Boolean) // on filtre pour ne garder que les icones trouvées
 
-			console.log('missingRedirects', imageRedirects)
+			console.log('imageRedirects', imageRedirects)
 
-			const count = nameSrcMap.length
-			let iterator = 0
+			// on parcourt les 2 listes( /svgo/bulk + les redirections) pour ajouter chaque image à la carte
+			;[...imageRedirects, ...bulkIcons].map(([iconName, imgSrc]) => {
+				// on définit le nom d'icone que la carte verra
+				const mapImageName = 'cartesapp-' + iconName // avoid collisions
+				// on vérifie que la carte n'a pas déjà une image du même nom
+				const hasMapImage = map.hasImage(mapImageName)
+				if (hasMapImage) {
+					console.log('map has already image: ', mapImageName)
+				} else {
+					console.log('add image to the map: ', mapImageName)
+					// on choisit la taille de l'image
+					const isSmall = Object.keys(imageRedirectsRaw['small']).find(
+						(k) => k === iconName
+					)
+					const size = isSmall ? 14 : 30
 
-			;[...imageRedirects, ...nameSrcMap].map(([imageFinalName, src]) => {
-				//build svg image and add to map
-				const isSmall = Object.keys(imageRedirectsRaw['small']).find(
-					(k) => k === imageFinalName.replace('cartesapp-', '')
-				)
-				const size = isSmall ? 14 : 30
-				const img = new Image(size, size) // bonne taille pour être cohérent avec les sprites d'origine
+					// on crée l'image
+					const img = new Image(size, size)
+					img.src = imgSrc
 
-				img.src = src
-
-				img.onload = () => {
-					const hasMapImage = map.hasImage(imageFinalName)
-					console.log('addimage ', imageFinalName)
-					if (!hasMapImage) {
-						console.log('addimage ', imageFinalName)
-						map.addImage(imageFinalName, img)
-						iterator += 1
-						console.log('iterator', iterator, count)
-						if (iterator === count) {
-							console.log('PLOP')
-							//map.triggerRepaint() //not working
-							return
-							// not working either
-							map.setLayoutProperty('Other POI', 'icon-image', [
-								'coalesce',
-								['image', ['concat', 'cartesapp-', ['get', 'subclass']]],
-								['image', ['concat', 'cartesapp-', ['get', 'class']]],
-								// sinon on essaye les sprites standards du style d'origine
-								['image', ['get', 'subclass']],
-								['image', ['get', 'class']],
-								['image', 'dot'],
-							])
-
-							//map.setStyle(styleUrl) //triggers an error
-						}
-						//map.updateImage(imageFinalName, img) // this does not suffice. It's the style that must be reloaded...
-					} else {
-						iterator += 1
+					// une fois l'image chargée, on l'ajoute à la carte :
+					img.onload = () => {
+						map.addImage(mapImageName, img) // add prefix to iconName to avoid collisions
 					}
 				}
 			})

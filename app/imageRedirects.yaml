@@ -1,39 +1,47 @@
-# OMT MapLibre Tile Data image name -> cartesapp category icon names
-town_hall: classical-building
-bar: beer
-garden: tree
-park: tree
-books: book
-bicycle_rental: bicycle
-atm: bank
-biergarten: beer
-bus_station: bus
-clinic: hospital
-courthouse: classical-building
-dentist: tooth
-drinking_water: water
-ferry_terminal: ferry
-fire_station: fire
-food_court: restaurant
-grave_yard: cemetery
-camp_site: camping
-wine: grapes
-swimming: swimming_outdoor
-swimming_pool: swimming_outdoor
-#place_of_worship:
+# LIST OF ICON REDIRECTIONS
+# List of all the redirections to be applied from the class/subclass values in the tile schema (OpenMalTiles + complements) to the icon in cartes.app
+
+# expected values :
+# tile schema class/subclass name -> cartesapp icon name (case 1) or svg name (cases 2 and 3) (can be ommited if identical)
+
+# part 1/3 : using cartes.app icons already described in moreCategories.yaml (so already included in /svgo/bulk)
+in categories:
+  town_hall: classical-building
+  bar: beer
+  garden: tree
+  park: tree
+  books: book
+  bicycle_rental: bicycle
+  atm: bank
+  biergarten: beer
+  bus_station: bus
+  clinic: hospital
+  courthouse: classical-building
+  dentist: tooth
+  drinking_water: water
+  ferry_terminal: ferry
+  fire_station: fire
+  food_court: restaurant
+  grave_yard: cemetery
+  camp_site: camping
+  wine: grapes
+  swimming: swimming_outdoor
+  swimming_pool: swimming_outdoor
+  #place_of_worship:
 
 # TODO c'est important ça comme recherche
 # Manquants mais secondaires
 #bbq:
 #community_centre:
 
-## Not in categories but still to be added as icons in useMapIcons
+
+# part 2/3 : using new icons not already described in moreCategories.yaml (added with round gray background)
 not in categories:
   office: building
   gallery: art_gallery
   castle:
 
-  # to be added as small icons without circle
+# part 3/3 : to be added as small icons without circle
 small:
   bollard:
   entrance: indoorequal-entrance
