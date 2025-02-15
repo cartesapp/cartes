@@ -27,7 +27,7 @@ const icons = Object.entries(groups).map(([group, groupCategories]) => {
 	// on parcourt les catégories
 	return groupCategories.map((category) => {
 		// on choisit le nom de l'icone : l'alias si précisé, sinon le nom du svg
-		const iconName = (category['icon alias'] || category.icon)
+		const iconName = category['icon alias'] || category.icon
 		try {
 			// on récupère l'image svg et on ajoute le background correspondant à sa catégorie
 			const data = fs.readFileSync(
