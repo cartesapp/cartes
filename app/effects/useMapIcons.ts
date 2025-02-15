@@ -61,7 +61,11 @@ export default function useMapIcons(map, styleUrl) {
 				const size = isSmall ? 16 : 30
 				const img = new Image(size, size) // bonne taille pour être cohérent avec les sprites d'origine
 
-				img.src = src
+				const finalSrc = isSmall
+					? src.replace('<svg', "<svg opacity='.4'")
+					: src
+
+				img.src = finalSrc
 
 				img.onload = () => {
 					const hasMapImage = map.hasImage(imageFinalName)
