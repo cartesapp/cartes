@@ -3,12 +3,15 @@ import { useEffect } from 'react'
 //chargement du yaml contenant la gestion des redirections
 import imageRedirectsRaw from '@/app/imageRedirects.yaml'
 
+export const shouldNotAddIconsToMapStyle = (styleUrl) =>
+	!styleUrl || typeof styleUrl !== 'object' || styleUrl.name !== 'France'
+
 export default function useMapIcons(map, styleUrl) {
 	useEffect(() => {
 		// on annule si la carte n'est pas chargée, ou si autre style que le style france.
 		if (!map) return
-		if (!styleUrl || typeof styleUrl !== 'object' || styleUrl.name !== 'France')
-			return
+		if (shouldNotAddIconsToMapStyle(styleUrl)) return
+
 		console.log('cyan will add map icons')
 
 		// surveillances des icones que la carte voudrait afficher mais qui manquent
@@ -38,14 +41,14 @@ export default function useMapIcons(map, styleUrl) {
 					// si l'icone n'est pas spécifiée, on prévient et on passe à la suivante
 					if (!to) {
 						console.log(
-							'tile (sub)class value ' + from + ' listed but no cartesapp icon correspondance'
+							'tile (sub)class value ' +
+								from +
+								' listed but no cartesapp icon correspondance'
 						)
 						return
 					}
 					// on cherche dans le json le nom d'icone qui correspond à la redirection
-					const found = bulkIcons.find(
-						([iconName, imgSrc]) => iconName === to
-					)
+					const found = bulkIcons.find(([iconName, imgSrc]) => iconName === to)
 
 					// si l'icone n'existe pas dans le json /svgo/bulk, on alerte
 					if (!found || !Array.isArray(found))
@@ -62,7 +65,6 @@ export default function useMapIcons(map, styleUrl) {
 
 			// on parcourt les 2 listes( /svgo/bulk + les redirections) pour ajouter chaque image à la carte
 			;[...imageRedirects, ...bulkIcons].map(([iconName, imgSrc]) => {
-
 				// on définit le nom d'icone que la carte verra
 				const mapImageName = 'cartesapp-' + iconName // avoid collisions
 				// on vérifie que la carte n'a pas déjà une image du même nom
