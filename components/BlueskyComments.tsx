@@ -1,18 +1,23 @@
-import Comment from '@/components/BlueskyComment'
-import { AppBskyFeedDefs, BskyAgent } from '@atproto/api'
+import BlueskyComment from '@/components/BlueskyComment'
+import { AppBskyFeedDefs, AtpAgent } from '@atproto/api'
 import { styled } from 'next-yak'
-const agent = new BskyAgent({ service: 'https://public.api.bsky.app' })
+const agent = new AtpAgent({ service: 'https://public.api.bsky.app' })
 
 export default async function BlueskyComments({ uri }) {
 	const part = uri.split('app.bsky.feed.post/')[1]
-	const url = `https://bsky.app/profile/cartesapp.bsky.social/post/${part}`
+	const url = `https://bsky.app/profile/cartes.app/post/${part}`
 
 	if (!uri) return null
-	const response = await agent.getPostThread({ uri })
+	let response
+	try {
+		response = await agent.getPostThread({ uri })
+	} catch (e) {
+		console.error('Error fetching bluesky comments', e)
+		return null
+	}
 
 	const { data } = response
 	const thread = data.thread
-	console.log('SALUT', data)
 
 	if (!AppBskyFeedDefs.isThreadViewPost(data.thread)) {
 		return <p className="text-center">Could not find thread</p>
@@ -24,15 +29,20 @@ export default async function BlueskyComments({ uri }) {
 		<Wrapper>
 			<h2>Commentaires</h2>
 			<p>
-				Commentez <a href={url}>cet article</a> sur Bluesky, vos commentaires
-				apparaitront ici :)
+				Régissez à <a href={url}>cet article</a> sur Bluesky.
 			</p>
-			{noReplies ? null : (
-				<ol>
-					{thread.replies.map((data) => {
-						return <Comment key={data.post.uri} data={data} />
-					})}
-				</ol>
+			{false && ( // this fails in Next production... not in local. I don't understand why
+				<div>
+					<p>Vos commentaires apparaitront ici :)</p>
+
+					{noReplies ? null : (
+						<ol>
+							{thread.replies.map((data) => {
+								return <BlueskyComment key={data.post.uri} data={data} />
+							})}
+						</ol>
+					)}
+				</div>
 			)}
 		</Wrapper>
 	)

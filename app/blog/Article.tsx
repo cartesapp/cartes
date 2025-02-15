@@ -1,11 +1,16 @@
 import Contribution from '@/app/blog/Contribution'
-import ArticleWrapper, { BackToBlogLink } from '@/components/ArticleUI'
+import ArticleWrapper, {
+	BackToBlogLink,
+	Translation,
+} from '@/components/ArticleUI'
 import BlueskyComments from '@/components/BlueskyComments'
 import { getMDXComponent } from 'next-contentlayer2/hooks'
 import Image from 'next/image'
 import OtherArticles from './OtherArticles'
 import { mdxComponents } from './mdxComponents'
 import { dateCool, getLastEdit } from './utils'
+import { getSlug, hasTranslation } from './blogArticles'
+import Link from 'next/link'
 
 export default async function Article({ post, slug }) {
 	const MDXContent = getMDXComponent(post.body.code)
@@ -13,6 +18,7 @@ export default async function Article({ post, slug }) {
 
 	const sameEditDate =
 		!lastEdit || post.date.slice(0, 10) === lastEdit.slice(0, 10)
+	const translation = hasTranslation(post)
 	return (
 		<div>
 			<ArticleWrapper>
@@ -39,6 +45,24 @@ export default async function Article({ post, slug }) {
 							</span>
 						)}
 					</small>
+					{translation && (
+						<Translation>
+							{translation.lang === 'en' ? (
+								<div>
+									<Link href={translation.url} prefetch={false}>
+										🇬🇧 &nbsp;This post is also available in English
+									</Link>
+								</div>
+							) : (
+								<div>
+									<Link href={translation.url} prefetch={false}>
+										🇫🇷 &nbsp;Cet article est aussi disponible en français
+									</Link>
+								</div>
+							)}{' '}
+						</Translation>
+					)}
+
 					<hr />
 				</header>
 				<MDXContent components={mdxComponents} />
