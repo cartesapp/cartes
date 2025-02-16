@@ -6,7 +6,7 @@ import distance from '@turf/distance'
 // don't have a wikidata entry
 // It's also used to guess a picture for a destination by it's name since Photon
 // probably does not retrieve the wikidata tag
-// TODO retrieve more data ! Wikidata is reach
+// TODO retrieve more data ! Wikidata is rich
 export default function useWikidata(osmFeature, state) {
 	const lonLat = osmFeature && [osmFeature.lon, osmFeature.lat]
 

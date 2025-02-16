@@ -30,19 +30,15 @@ export default function Wikipedia({ name }) {
 
 	return (
 		<Wrapper $shortenText={shortenText}>
-			<p>
+			<p>{shortenText}</p>
+			<a href={url} target="_blank" title="Consulter l'article Wikipedia">
 				<Image
 					src={wikipediaLogo}
 					alt="Logo de Wikipedia"
 					width="25"
 					height="25"
 				/>
-				{shortenText}
-
-				<a href={url} target="_blank">
-					<small>Wikipedia</small>
-				</a>
-			</p>
+			</a>
 		</Wrapper>
 	)
 }
@@ -50,19 +46,49 @@ export default function Wikipedia({ name }) {
 const Wrapper = styled.section`
 	margin-top: 0.4rem;
 	position: relative;
+	a {
+		background: var(--color);
+		border-radius: 1rem;
+		width: 1.4rem;
+		height: 1.4rem;
+
+		text-align: center;
+		img {
+			filter: invert(1);
+			margin-top: 0.15rem;
+			width: 1.2rem;
+			height: 1.2rem;
+		}
+		${(p) =>
+			p.$shortenText?.length > 100
+				? css`
+						z-index: 2;
+						position: absolute;
+						right: 0.6rem;
+						bottom: 0.6rem;
+				  `
+				: css`
+						float: right;
+				  `};
+	}
+	p {
+		position: relative;
+		margin-bottom: 0;
+	}
 	${(p) =>
 		p.$shortenText?.length > 100 &&
 		css`
-			&:after {
+			p:after {
 				position: absolute;
 				bottom: 0;
+				left: 0;
 				height: 100%;
 				width: 100%;
 				content: '';
 				background: linear-gradient(
 					to bottom,
 					color-mix(in srgb, var(--lightestColor2) 0%, transparent) 20%,
-					color-mix(in srgb, var(--lightestColor2) 100%, transparent) 80%
+					color-mix(in srgb, var(--lightestColor2) 100%, transparent) 90%
 				);
 				pointer-events: none; /* so the text is still selectable */
 			}
@@ -78,15 +104,5 @@ const Wrapper = styled.section`
 	> p > img {
 		vertical-align: text-bottom;
 		margin-right: 0.3rem;
-	}
-	p > a {
-		${(p) =>
-			p.$shortenText?.length > 100
-				? `
-					z-index: 2;
-					position: absolute;
-					right: 0;
-					`
-				: `float: right; `};
 	}
 `
