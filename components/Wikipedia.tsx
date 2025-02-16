@@ -18,6 +18,7 @@ export default function Wikipedia({ name }) {
 		const doFetch = async () => {
 			const request = await fetch(ApiUrl),
 				json = await request.json()
+			console.log('brown', json)
 			const pages = json?.query?.pages
 			if (!pages) return
 			const { extract } = Object.values(pages)[0]

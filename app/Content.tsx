@@ -66,6 +66,8 @@ export default function Content(props) {
 		quickSearchFeaturesMap,
 		setDisableDrag,
 		wikidata,
+		wikipediaInfoboxImages,
+		resetWikipediaInfoboxImages,
 		center,
 		mapContent,
 	} = props
@@ -95,6 +97,7 @@ export default function Content(props) {
 
 	const wikidataPictureUrl = wikidata?.pictureUrl
 	const wikiFeatureImage =
+		!wikipediaInfoboxImages && // too much risk of collision. Wikipedia infobox images are awesome
 		!tagImage && // We can't easily detect if tagImage is the same as wiki* image
 		// e.g.
 		// https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Cathédrale Sainte-Croix d'Orléans 2008 PD 33.JPG&width=500
@@ -263,12 +266,13 @@ export default function Content(props) {
 									setSearchParams({ allez: undefined })
 									setLatLngClicked(null)
 									resetZoneImages()
+									resetWikipediaInfoboxImages()
 									console.log('will set default stat')
 									openSheet(false)
 								}}
 							/>
 						)}
-						{mainImage && !featureImageError && (
+						{!wikipediaInfoboxImages && mainImage && !featureImageError && (
 							<FeatureImage
 								src={mainImage}
 								onError={() => setFeatureImageError(true)}
@@ -277,6 +281,15 @@ export default function Content(props) {
 						)}
 						{wikiFeatureImage && (
 							<FeatureImage src={wikiFeatureImage} $isHeaderImage={true} />
+						)}
+						{wikipediaInfoboxImages && (
+							<ZoneImages
+								displayImages={false}
+								zoneImages={wikipediaInfoboxImages.map((title) => ({
+									title,
+								}))} // bbox includes zone, usually
+								focusImage={focusImage}
+							/>
 						)}
 						<ZoneImages
 							displayImages={searchParams.photos != null}

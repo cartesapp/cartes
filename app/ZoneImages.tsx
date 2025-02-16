@@ -17,7 +17,6 @@ export function useZoneImages({
 	setLatLngClicked,
 	panoramaxOsmTag,
 	panoramaxId,
-	wikidata,
 }) {
 	const setSearchParams = useSetSearchParams()
 	const [wikimedia, setWikimedia] = useState(null)
@@ -108,9 +107,9 @@ export function useZoneImages({
 
 export function ZoneImages({
 	zoneImages,
-	panoramaxImages,
+	panoramaxImages = null,
 	focusImage,
-	allPhotos,
+	allPhotos = null,
 	displayImages,
 }) {
 	const setSearchParams = useSetSearchParams()
@@ -126,9 +125,12 @@ export function ZoneImages({
 		})
 	//TODO handle multiple images ?
 	const panoramaxImage = panoramaxImages && panoramaxImages[0]
+
+	const hasImages = panoramaxImages || images?.length > 0
+	if (!hasImages && !displayImages) return null
 	return (
 		<Wrapper>
-			{(panoramaxImages || images?.length > 0) && (
+			{hasImages && (
 				<ul>
 					{panoramaxImage && (
 						<Link

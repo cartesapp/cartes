@@ -54,6 +54,7 @@ import Meteo from './meteo/Meteo'
 import { getStyle } from './styles/styles'
 import useTransportStopData from './transport/useTransportStopData'
 import useWikidata from './useWikidata'
+import useWikipediaInfoboxImages from './effects/useWikipediaInfoboxImages'
 import { computeCenterFromBbox } from './utils'
 
 // We don't want to redraw <Content instantaneously on map zoom or drag
@@ -179,6 +180,8 @@ export default function Container(props) {
 	const similarNodes = useFetchSimilarNodes(osmFeature, givenSimilarNodes)
 
 	const wikidata = useWikidata(osmFeature, state)
+	const [wikipediaInfoboxImages, resetWikipediaInfoboxImages] =
+		useWikipediaInfoboxImages(osmFeature, state)
 
 	const panoramaxOsmTag = osmFeature?.tags?.panoramax
 
@@ -188,7 +191,6 @@ export default function Container(props) {
 		setLatLngClicked,
 		panoramaxOsmTag,
 		panoramaxId,
-		wikidata,
 	})
 
 	const transportStopData = useTransportStopData(osmFeature)
@@ -286,6 +288,8 @@ export default function Container(props) {
 						trackedSnap,
 						setTrackedSnap,
 						wikidata,
+						wikipediaInfoboxImages,
+						resetWikipediaInfoboxImages,
 						setLatLngClicked,
 						center: debouncedCenter,
 						mapContent,

@@ -16,8 +16,10 @@ export default function useWikidata(osmFeature, state) {
 	useEffect(() => {
 		if (!osmFeature) return // We're waiting for osmFeature first, since it can contain the wikidata tag, way more precise than guessing the wikidata from the name, treated in the other hook
 		if (osmFeature.tags?.wikidata || osmFeature.tags?.wikimedia_commons) return
+
 		const osmName = osmFeature.tags?.name
 		const name = vers?.choice?.name || osmName
+		console.log('brown', name)
 		if (!name) return
 
 		setWikidata(null)
