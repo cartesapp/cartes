@@ -17,6 +17,10 @@ export async function GET(request) {
 
 	if (ogImageContent) return Response.json({ ogImageContent })
 
+	//TODO this can give false positives, like on metropole.rennes.fr the first
+	//image is an icon. We could watch for background-image. We should return
+	//a minimum definition to exclude logos. Could also analyse the colors : black
+	//- white- grey is uninteresting
 	const firstImage = doc.querySelector('img')
 	if (firstImage)
 		return Response.json({ ogImageContent: firstImage.getAttribute('src') })
