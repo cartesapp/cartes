@@ -22,6 +22,7 @@ import getName, { getNameKeys, getNames } from './osm/getName'
 import Brand, { Wikidata } from './tags/Brand'
 import Stop, { isNotTransportStop, transportKeys } from './transport/stop/Stop'
 import { computeSncfUicControlDigit } from './utils'
+import Website from '@/components/osm/Website'
 
 export default function OsmFeature(props) {
 	const { data, transportStopData, photonFeature, similarNodes } = props
@@ -181,17 +182,8 @@ export default function OsmFeature(props) {
 					</a>
 				</div>
 			)}
-			{website && (
-				<div>
-					<a
-						href={website.startsWith('http') ? website : 'https://' + website}
-						target="_blank"
-						title="Site Web"
-					>
-						<span style={{ fontSize: '130%' }}>🌍️</span> <span>Site web</span>
-					</a>
-				</div>
-			)}
+
+			{website && <Website website={website} />}
 			{menu && (
 				<div>
 					<a href={menu} target="_blank" title="Menu">
