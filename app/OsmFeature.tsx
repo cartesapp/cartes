@@ -23,6 +23,7 @@ import Brand, { Wikidata } from './tags/Brand'
 import Stop, { isNotTransportStop, transportKeys } from './transport/stop/Stop'
 import { computeSncfUicControlDigit } from './utils'
 import Website from '@/components/osm/Website'
+import CityData from '@/components/osm/CityData'
 
 export default function OsmFeature(props) {
 	const { data, transportStopData, photonFeature, similarNodes } = props
@@ -72,6 +73,12 @@ export default function OsmFeature(props) {
 		'contact:linkedin': linkedin,
 		'ref:FR:SIRET': siret,
 		brand: brand,
+		population,
+		postal_code: postalCode,
+		'ref:INSEE': inseeCode,
+		'source:postal_code': postalCodeSource,
+		'population:date': populationDate,
+		'source:population': populationSource,
 		'brand:wikidata': brandWikidata,
 		'brand:wikipedia': brandWikipedia,
 		'ref:FR:Allocine': allocine,
@@ -216,6 +223,16 @@ export default function OsmFeature(props) {
 				<Stop tags={tags} data={transportStopData} />
 			)}
 			<Heritage tags={tags} />
+			<CityData
+				{...{
+					population,
+					populationDate,
+					populationSource,
+					postalCode,
+					inseeCode,
+					postalCodeSource,
+				}}
+			/>
 			{allocine && (
 				<a
 					href={`https://www.allocine.fr/seance/salle_gen_csalle=${allocine}.html`}

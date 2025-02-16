@@ -4,17 +4,19 @@ import Image from 'next/image'
 
 // Credits for social network stylized icons : openmoji
 
-export default function ContactAndSocial({
-	bluesky,
-	mastodon,
-	email,
-	facebook,
-	instagram,
-	whatsapp,
-	youtube,
-	linkedin,
-	siret,
-}) {
+export default function ContactAndSocial(data) {
+	if (!Object.values(data).filter(Boolean).length) return null
+	const {
+		bluesky,
+		mastodon,
+		email,
+		facebook,
+		instagram,
+		whatsapp,
+		youtube,
+		linkedin,
+		siret,
+	} = data
 	return (
 		<Wrapper>
 			{email && (
