@@ -55,9 +55,9 @@ const Wrapper = styled.section`
 		text-align: center;
 		img {
 			filter: invert(1);
-			margin-top: 0.15rem;
-			width: 1.2rem;
-			height: 1.2rem;
+			margin-top: 0.2rem;
+			width: 1.1rem;
+			height: 1.1rem;
 		}
 		${(p) =>
 			p.$shortenText?.length > 100
