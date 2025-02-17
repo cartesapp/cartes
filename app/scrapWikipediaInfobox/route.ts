@@ -9,7 +9,11 @@ import { JSDOM } from 'jsdom'
 export async function GET(request) {
 	const requestUrl = new URL(request.url),
 		url = requestUrl.searchParams.get('url')
-	const response = await fetch(decodeURIComponent('https://' + url))
+	const response = await fetch(decodeURIComponent('https://' + url), {
+		headers: {
+			'User-Agent': 'Cartes.app',
+		},
+	})
 	const html = await response.text()
 
 	// Create a DOM element to parse the HTML
