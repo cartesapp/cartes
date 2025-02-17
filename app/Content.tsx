@@ -328,7 +328,13 @@ export default function Content(props) {
 							<ContentLoaderWrapper>
 								<Loader flexDirection="column">
 									<p>
-										Chargement de <strong>{chargement.name}</strong>
+										Chargement
+										{chargement.name && (
+											<span>
+												{' '}
+												de <strong>{chargement.name}</strong>
+											</span>
+										)}
 									</p>
 								</Loader>
 							</ContentLoaderWrapper>
