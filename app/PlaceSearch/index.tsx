@@ -52,6 +52,7 @@ export default function PlaceSearch({
 	snap,
 	quickSearchFeaturesMap,
 	center,
+	setChargement,
 }) {
 	console.log('lightgreen stepIndex', stepIndex, state)
 	console.log('lightgreen autofocus', autoFocus)
@@ -326,6 +327,8 @@ export default function PlaceSearch({
 											console.log('ici', newData)
 											const { osmId, featureType, longitude, latitude, name } =
 												newData.choice
+
+											setChargement({ id: osmId, featureType, name })
 
 											const address = buildAddress(newData.choice, true)
 											const isOsmFeature = osmId && featureType

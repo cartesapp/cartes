@@ -310,6 +310,7 @@ export default function Container(props) {
 						center: debouncedCenter,
 						mapContent,
 						chargement,
+						setChargement,
 					}}
 				/>
 				<Meteo coordinates={debouncedApproximateCenter} />

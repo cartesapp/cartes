@@ -71,6 +71,7 @@ export default function Content(props) {
 		center,
 		mapContent,
 		chargement,
+		setChargement,
 	} = props
 
 	useWhatChanged(props, 'Render component Content')
@@ -238,6 +239,7 @@ export default function Content(props) {
 							snap,
 							quickSearchFeaturesMap,
 							center,
+							setChargement,
 						}}
 					/>
 					{searchParams.favoris !== 'oui' &&
