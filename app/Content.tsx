@@ -219,6 +219,21 @@ export default function Content(props) {
 
 	return (
 		<ContentWrapper>
+			{chargement && (
+				<ContentLoaderWrapper>
+					<Loader flexDirection="column">
+						<p>
+							Chargement
+							{chargement.name && (
+								<span>
+									{' '}
+									de <strong>{chargement.name}</strong>
+								</span>
+							)}
+						</p>
+					</Loader>
+				</ContentLoaderWrapper>
+			)}
 			{showSearch && (
 				<section>
 					<PlaceSearch
@@ -248,6 +263,7 @@ export default function Content(props) {
 						)}
 				</section>
 			)}
+
 			{showIntroductionLink && (
 				<Link href={setSearchParams({ intro: true }, true)}>
 					À propos de Cartes
@@ -325,21 +341,6 @@ export default function Content(props) {
 									<ShareButton {...{ geocodedClickedPoint, osmFeature }} />
 								)}
 							</PlaceButtonList>
-						)}
-						{chargement && (
-							<ContentLoaderWrapper>
-								<Loader flexDirection="column">
-									<p>
-										Chargement
-										{chargement.name && (
-											<span>
-												{' '}
-												de <strong>{chargement.name}</strong>
-											</span>
-										)}
-									</p>
-								</Loader>
-							</ContentLoaderWrapper>
 						)}
 						{osmFeature ? (
 							<OsmFeature
