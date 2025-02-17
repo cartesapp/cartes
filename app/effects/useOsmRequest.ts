@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import { stepOsmRequest } from '../stepOsmRequest'
-import { isServer } from '../serverUrls'
 
 // TODO this function will enrich the array of steps stored in the URL
 // with an osm object if relevant and if it's not been done already

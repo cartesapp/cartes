@@ -70,6 +70,7 @@ export default function Content(props) {
 		resetWikipediaInfoboxImages,
 		center,
 		mapContent,
+		chargement,
 	} = props
 
 	useWhatChanged(props, 'Render component Content')
@@ -118,7 +119,7 @@ export default function Content(props) {
 		geocodedClickedPoint,
 		searchParams.gare,
 		searchParams.abonnement,
-		searchParams.chargement,
+		chargement,
 		mapContent,
 	]
 
@@ -170,9 +171,9 @@ export default function Content(props) {
 	}, [geocodedClickedPoint, setSnap])
 
 	useEffect(() => {
-		if (!searchParams.chargement) return
+		if (!chargement) return
 		if (snap > 1) setSnap(1)
-	}, [searchParams.chargement, setSnap])
+	}, [chargement, setSnap])
 
 	useEffect(() => {
 		if (!showSearch) return
@@ -323,11 +324,11 @@ export default function Content(props) {
 								)}
 							</PlaceButtonList>
 						)}
-						{searchParams.chargement && (
+						{chargement && (
 							<ContentLoaderWrapper>
 								<Loader flexDirection="column">
 									<p>
-										Chargement de <strong>{searchParams.chargement}</strong>
+										Chargement de <strong>{chargement.name}</strong>
 									</p>
 								</Loader>
 							</ContentLoaderWrapper>
