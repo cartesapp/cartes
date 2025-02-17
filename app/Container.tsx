@@ -183,7 +183,7 @@ export default function Container(props) {
 			state.find(
 				(step) =>
 					step.osmFeature &&
-					step.osmFeature.id === chargement.id &&
+					step.osmFeature.id == chargement.id &&
 					step.osmFeature.type === chargement.featureType
 			)
 		) {
