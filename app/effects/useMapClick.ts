@@ -107,6 +107,7 @@ export default function useMapClick(
 
 			const isIndoorequalFeature =
 				feature.properties?.level &&
+				typeof feature.properties?.id === 'string' && // some items have a level field but does not come from indoorequal
 				feature.properties?.id.match(/^(node|way|relation):\d+$/)
 
 			const id = isIndoorequalFeature
