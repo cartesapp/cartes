@@ -20,7 +20,8 @@ export default function useMapClick(
 	clickGare,
 	setSearchParams,
 	styleKey,
-	styleChooserOpen
+	styleChooserOpen,
+	setChargement
 ) {
 	// This hook lets the user click on the map to find OSM entities
 	// It also draws a polygon to show the search area for pictures
@@ -106,6 +107,7 @@ export default function useMapClick(
 
 			const isIndoorequalFeature =
 				feature.properties?.level &&
+				typeof feature.properties?.id === 'string' && // some items have a level field but does not come from indoorequal
 				feature.properties?.id.match(/^(node|way|relation):\d+$/)
 
 			const id = isIndoorequalFeature
@@ -143,7 +145,7 @@ export default function useMapClick(
 
 			console.log('clicked name ', name)
 
-			setSearchParams({ chargement: name })
+			setChargement({ id, featureType, name })
 			console.log('clicked name did set chargement', name)
 
 			const noDisambiguation = hasNwr
@@ -182,7 +184,6 @@ export default function useMapClick(
 						longitude,
 						latitude
 					),
-					chargement: undefined,
 				})
 				console.log('sill set OSMFeature', element)
 				// wait for the searchParam update to proceed

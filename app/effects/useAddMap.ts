@@ -242,21 +242,24 @@ export default function useAddMap(
 		// Add indoor plugin
 		console.log('go indoor')
 		const indoorSource = map.getSource('indoorequal')
-		if (indoorSource) return
-		const indoorEqual = new IndoorEqual(map, {
-			apiKey: process.env.NEXT_PUBLIC_INDOOREQUAL,
-			heatmap: true,
-			layers: indoorequalLayers,
-		})
 
-		//TODO using indoor's sprites makes the map ugly anywhere with a different
-		//set of sprites
-		// But using ours lets some things like elevators without icons, which is a big
-		// we'll add them later
-		// see indoorequalLayers
-		//indoorEqual.loadSprite('sprite/sprite')
-		//indoorEqual.loadSprite('indoorequal/indoorequal')
-		map.addControl(indoorEqual)
+		let indoorEqual
+		if (!indoorSource) {
+			indoorEqual = new IndoorEqual(map, {
+				apiKey: process.env.NEXT_PUBLIC_INDOOREQUAL,
+				heatmap: true,
+				layers: indoorequalLayers,
+			})
+
+			//TODO using indoor's sprites makes the map ugly anywhere with a different
+			//set of sprites
+			// But using ours lets some things like elevators without icons, which is a big
+			// we'll add them later
+			// see indoorequalLayers
+			//indoorEqual.loadSprite('sprite/sprite')
+			//indoorEqual.loadSprite('indoorequal/indoorequal')
+			map.addControl(indoorEqual)
+		}
 
 		return () => {
 			if (!map || !scale) return
@@ -264,7 +267,7 @@ export default function useAddMap(
 				map.removeControl(scale)
 				map.removeControl(navigationControl)
 				map.removeControl(geolocate)
-				map.removeControl(indoorEqual)
+				indoorEqual && map.removeControl(indoorEqual)
 			} catch (e) {
 				console.log('Error removing scale')
 			}

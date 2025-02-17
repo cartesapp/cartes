@@ -70,6 +70,8 @@ export default function Content(props) {
 		resetWikipediaInfoboxImages,
 		center,
 		mapContent,
+		chargement,
+		setChargement,
 	} = props
 
 	useWhatChanged(props, 'Render component Content')
@@ -118,7 +120,7 @@ export default function Content(props) {
 		geocodedClickedPoint,
 		searchParams.gare,
 		searchParams.abonnement,
-		searchParams.chargement,
+		chargement,
 		mapContent,
 	]
 
@@ -170,9 +172,9 @@ export default function Content(props) {
 	}, [geocodedClickedPoint, setSnap])
 
 	useEffect(() => {
-		if (!searchParams.chargement) return
+		if (!chargement) return
 		if (snap > 1) setSnap(1)
-	}, [searchParams.chargement, setSnap])
+	}, [chargement, setSnap])
 
 	useEffect(() => {
 		if (!showSearch) return
@@ -217,6 +219,21 @@ export default function Content(props) {
 
 	return (
 		<ContentWrapper>
+			{chargement && (
+				<ContentLoaderWrapper>
+					<Loader flexDirection="column">
+						<p>
+							Chargement
+							{chargement.name && (
+								<span>
+									{' '}
+									de <strong>{chargement.name}</strong>
+								</span>
+							)}
+						</p>
+					</Loader>
+				</ContentLoaderWrapper>
+			)}
 			{showSearch && (
 				<section>
 					<PlaceSearch
@@ -237,6 +254,7 @@ export default function Content(props) {
 							snap,
 							quickSearchFeaturesMap,
 							center,
+							setChargement,
 						}}
 					/>
 					{searchParams.favoris !== 'oui' &&
@@ -245,6 +263,7 @@ export default function Content(props) {
 						)}
 				</section>
 			)}
+
 			{showIntroductionLink && (
 				<Link href={setSearchParams({ intro: true }, true)}>
 					À propos de Cartes
@@ -322,15 +341,6 @@ export default function Content(props) {
 									<ShareButton {...{ geocodedClickedPoint, osmFeature }} />
 								)}
 							</PlaceButtonList>
-						)}
-						{searchParams.chargement && (
-							<ContentLoaderWrapper>
-								<Loader flexDirection="column">
-									<p>
-										Chargement de <strong>{searchParams.chargement}</strong>
-									</p>
-								</Loader>
-							</ContentLoaderWrapper>
 						)}
 						{osmFeature ? (
 							<OsmFeature

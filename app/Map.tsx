@@ -84,6 +84,7 @@ export default function Map(props) {
 		setLastGeolocation,
 		geolocation,
 		setMapContent,
+		setChargement,
 	} = props
 
 	useWhatChanged(props, 'Render component Map')
@@ -297,7 +298,8 @@ export default function Map(props) {
 		clickGare,
 		setSearchParams,
 		styleKey,
-		searchParams['choix du style'] === 'oui'
+		searchParams['choix du style'] === 'oui',
+		setChargement
 	)
 
 	useHoverOnMapFeatures(map)

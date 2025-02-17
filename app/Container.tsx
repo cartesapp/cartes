@@ -90,6 +90,7 @@ export default function Container(props) {
 	)
 
 	const [mapContent, setMapContent] = useState()
+	const [chargement, setChargement] = useState()
 
 	const [bbox, setBbox] = useState(null)
 	const debouncedBbox = useDebounce(bbox, contentDebounceDelay)
@@ -174,6 +175,21 @@ export default function Container(props) {
 	// transforms the allez search param encoded state object to a lively state
 	// object enriched with OSM data
 	useOsmRequest(allez, state, setState)
+
+	useEffect(() => {
+		if (!chargement) return
+
+		if (
+			state.find(
+				(step) =>
+					step.osmFeature &&
+					step.osmFeature.id == chargement.id &&
+					step.osmFeature.type === chargement.featureType
+			)
+		) {
+			setChargement(null)
+		}
+	}, [chargement, setChargement, state])
 
 	const osmFeature = vers?.osmFeature
 
@@ -293,6 +309,8 @@ export default function Container(props) {
 						setLatLngClicked,
 						center: debouncedCenter,
 						mapContent,
+						chargement,
+						setChargement,
 					}}
 				/>
 				<Meteo coordinates={debouncedApproximateCenter} />
@@ -339,6 +357,7 @@ export default function Container(props) {
 						setLastGeolocation,
 						geolocation,
 						setMapContent,
+						setChargement,
 					}}
 				/>
 			</MapContainer>
