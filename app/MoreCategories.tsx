@@ -42,22 +42,29 @@ export default function MoreCategories({
 							<h2>{group}</h2>
 							<div>
 								<ul>
-									{categories.map((category) => (
-										<Category
-											key={category.name}
-											$active={categoriesSet.includes(category.name)}
-											$isExact={category.score < exactThreshold}
-										>
-											<Link href={getNewSearchParamsLink(category)}>
-												<MapIcon
-													category={category}
-													color={groupColor}
-													bulkImages={bulkImages}
-												/>{' '}
-												{uncapitalise0(category.title || category.name)}
-											</Link>
-										</Category>
-									))}
+									{categories.map((category) => {
+										const isActive = categoriesSet.includes(category.name)
+										// on affiche la catégorie :
+										// - si il y a une recherche de texte en cours (pour qu'on voit les visible=false qui matchent)
+										// - ou si la catégorie est active (pour qu'on la voit et qu'on puisse la déselectionner)
+										// - ou sinon, si on a définit dans le yaml qu'on veut la mettre en avant (pour le menu initial)
+										if (doFilter || isActive || category.highlight) return (
+											<Category
+												key={category.name}
+												$active={isActive}
+												$isExact={category.score < exactThreshold}
+											>
+												<Link href={getNewSearchParamsLink(category)}>
+													<MapIcon
+														category={category}
+														color={groupColor}
+														bulkImages={bulkImages}
+													/>{' '}
+													{uncapitalise0(category.title || category.name)}
+												</Link>
+											</Category>
+										)
+									})}
 								</ul>
 							</div>
 						</Group>
