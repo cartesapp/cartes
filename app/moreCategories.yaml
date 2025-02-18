@@ -20,6 +20,7 @@
   query:
     - '[amenity=restaurant][cuisine~chinese]'
   icon: restaurant
+  highlight: true
 
 - name: Crêperie
   category: Restaurants
@@ -52,6 +53,7 @@
     - kebab
   query: '[amenity=fast_food]'
   icon: fast_food
+  highlight: true
 
 - name: Cuisine française
   category: Restaurants
@@ -95,6 +97,7 @@
     - '[food=pizza]'
     - '["food:pizza"=yes]'
   icon: restaurant
+  highlight: true
 
 - name: Libanais
   category: Restaurants
@@ -177,6 +180,7 @@
     - '["amenity"="cafe"]'
     - '["amenity"="pub"]'
   icon: beer
+  highlight: true
 
 - name: Bar à bière
   category: Bars et boisson
@@ -218,6 +222,7 @@
     - sec
   query: '["drink:wine"]'
   icon: bottle
+  highlight: true
 
 - name: Bubble Tea
   category: Bars et boisson
@@ -245,6 +250,7 @@
     - '["amenity"="bar"]'
     - '["amenity"="cafe"]'
   icon: cafe
+  highlight: true
 
 - name: Point d'eau
   category: Divers # dans "Divers" plutôt que Boissons car c'est un usage pratique, non commercial de la boisson, plutôt qu'un usage "plaisir"
@@ -279,6 +285,7 @@
   #emoji: 🥖
   query: '[shop=bakery]'
   icon: bakery
+  highlight: true
 
 - name: Boucherie
   category: Alimentation
@@ -288,6 +295,7 @@
     - charcutier
   query: '[shop=butcher]'
   icon: meat
+  highlight: true
 
 - name: Boutique de café
   category: Alimentation
@@ -319,6 +327,7 @@
     - tablette
   query: '[shop=chocolate]'
   icon: chocolate
+  highlight: true
 
 - name: Épicerie fine
   category: Alimentation
@@ -335,6 +344,7 @@
     - traiteur
   query: '[shop=cheese]'
   icon: cheese
+  highlight: true
 
 - name: Glacier
   category: Alimentation
@@ -343,6 +353,7 @@
     - sorbet
   query: '[shop=ice_cream]'
   icon: ice_cream
+  highlight: true
 
 - name: Miellerie
   category: Alimentation
@@ -379,6 +390,7 @@
     - légumes
   query: '[shop=greengrocer]'
   icon: grapes
+  highlight: true
 
 - name: Produits de la ferme
   category: Alimentation
@@ -420,6 +432,7 @@
     - '[amenity=theatre]' # Exemple : salle de concert à Brest https://www.openstreetmap.org/way/42531718#map=18/48.38500/-4.48092
   icon: music
   category: Loisirs
+  highlight: true
 
 - name: Théâtre
   dictionary:
@@ -429,6 +442,7 @@
     - '[amenity=theatre]' # Exemple : salle de concert à Brest https://www.openstreetmap.org/way/42531718#map=18/48.38500/-4.48092
   icon: theatre
   category: Loisirs
+  highlight: true
 
 - name: plage
   category: Tourisme
@@ -487,6 +501,8 @@
     - '[amenity=clinic]'
     - '[healthcare=clinic]'
   icon: hospital
+  highlight: true
+
 - name: médecin
   category: Santé
   dictionary:
@@ -494,10 +510,14 @@
     - généraliste
   query: '[amenity=doctors]'
   icon: doctors
+  highlight: true
+
 - name: Pharmacie
   category: Santé
   query: '[amenity=pharmacy]'
   icon: pharmacy
+  highlight: true
+
 - name: dentiste
   category: Santé
   dictionary:
@@ -505,18 +525,22 @@
     - médecin
   query: '[amenity=dentist]'
   icon: tooth
+
 - name: vétérinaire
   category: Santé
   dictionary:
     - animaux
   query: '[amenity=veterinary]'
   icon: veterinary
+
 - name: infirmière
   category: Santé
   dictionary:
     - infirmière
   query: '[healthcare=nurse]'
   icon: nurse
+  highlight: true
+
 - name: sage-femme
   category: Santé
   dictionary:
@@ -538,12 +562,15 @@
     - déchets organiques
   query: '["recycling:organic"="yes"]'
   icon: recycling
+
 - name: verre
   category: Poubelles
   dictionary:
     - bouteille
   query: '[amenity=recycling]["recycling:glass_bottles"=yes]'
   icon: recycling
+  highlight: true
+
 - name: vêtements
   category: Poubelles
   dictionary:
@@ -551,6 +578,7 @@
     - tissus
   query: '[amenity=recycling]["recycling:clothes"=yes]'
   icon: recycling
+
 - name: plastique et emballages
   category: Poubelles
   dictionary:
@@ -566,6 +594,8 @@
     - '["recycling:paper"=yes]'
     - '["recycling:plastic_packaging"=yes]'
   icon: recycling
+  highlight: true
+
 - name: piles et batteries
   category: Poubelles
   dictionary:
@@ -586,6 +616,7 @@
     - presse
   query: '[shop~"newsagent|kiosk"]'
   icon: newspaper
+
 - name: Bibliothèque
   category: Culture
   dictionary:
@@ -593,6 +624,8 @@
     - médiathèque
   query: '[amenity=library]'
   icon: book
+  highlight: true
+
 - name: Librairie
   category: Culture
   dictionary:
@@ -600,6 +633,7 @@
     - bouquins
   query: '[shop="books"]'
   icon: book
+  highlight: true
 
 #######################
 # TOURISME
@@ -612,6 +646,7 @@
   query:
     - '[tourism=museum]'
   icon: museum
+  highlight: true
 
 - name: Œuvre d'art
   category: Tourisme
@@ -649,6 +684,8 @@
     - nature
   query: '[tourism=information]'
   icon: information
+  highlight: true
+
 - name: Pique-nique
   category: Tourisme
   dictionary:
@@ -659,6 +696,7 @@
     - casse-croute
   query: '[tourism=picnic_site]'
   icon: picnic
+
 - name: Camping
   category: Tourisme
   dictionary:
@@ -680,6 +718,8 @@
     - fringues
   query: '[shop=clothes]'
   icon: clothes
+  highlight: true
+
 - name: Chaussures
   category: Commerces
   dictionary:
@@ -688,6 +728,8 @@
   query: '[shop=shoes]'
   icon: shoes
   icon alias: shop-shoes
+  highlight: true
+
 - name: Centre commercial
   category: Commerces
   dictionary:
@@ -695,6 +737,8 @@
     - shopping
   query: '[shop=mall]'
   icon: shop
+  highlight: true
+
 - name: Casier à colis
   category: Commerces
   dictionary:
@@ -718,6 +762,8 @@
     - TER
   query: '[public_transport=station][train=yes]'
   icon: train
+  highlight: true
+
 - name: magasin-velo
   title: Magasin vélo
   category: Déplacements
@@ -741,6 +787,7 @@
     - stationnement
   query: '[amenity=bicycle_parking]'
   icon: bicycle_parking
+  highlight: true
 
 - name: parking-velo-securise # pas d'accent pour que les url soient propres : toujours en 2024 les navigateurs (états-uniens) refusent une vision non états-unienne du Web sous prétexte de lutte contre le phishing
   title: Parking vélo sécurisé
@@ -801,6 +848,7 @@
     - borne
   query: '[amenity=charging_station]'
   icon: charging_station
+  highlight: true
 
 - name: Station de gonflage
   category: Déplacements
@@ -832,6 +880,7 @@
     - '[carpool=designated]'
     - '[amenity=car_pooling]'
   icon: car_pooling
+  highlight: true
 
 - name: Location de voiture
   category: Déplacements
@@ -841,6 +890,7 @@
     - véhicule
   query: '[amenity=car_rental]'
   icon: mx_amenity_car_rental
+  highlight: true
 
 - name: Place PMR
   category: Déplacements
@@ -852,6 +902,7 @@
     - fauteuil
   query: '[parking_space=disabled]'
   icon: wheelchair
+  highlight: true
 
 #######################
 # SPORTS
@@ -891,6 +942,7 @@
     - 🤾‍♀️
   query: '[leisure=sports_hall]'
   icon: gymnasium
+  highlight: true
 
 - name: Terrain multisport
   category: Sports
@@ -948,6 +1000,7 @@
       # basin only  query: '[leisure=swimming_pool][access=yes]'
   query: '[leisure=sports_centre][sport=swimming]'
   icon: swimming_outdoor
+  highlight: true
 
 - name: Salle de musculation
   category: Sports
@@ -1050,6 +1103,7 @@
   query:
     - '["leisure"="pitch"][sport=skateboard]'
   icon: skateboard
+  highlight: true
 
 - name: Pumptrack
   category: Sports
@@ -1217,6 +1271,7 @@
     - comissariat
   query: '[amenity=police]'
   icon: police
+  highlight: true
 - name: Agence postale
   category: Divers
   dictionary:
@@ -1225,6 +1280,7 @@
     - la poste
   query: '[amenity=post_office]'
   icon: post
+  highlight: true
 - title: Coiffeur
   category: Divers
   name: coiffeur
@@ -1244,6 +1300,7 @@
     - '[shop=laundry]'
     - '[shop=dry_cleaning]'
   icon: laundry
+  highlight: true
 - title: Espace de cotravail (coworking)
   category: Divers
   name: cotravail
@@ -1271,6 +1328,7 @@
     - '[amenity=grave_yard]'
     - '[landuse=cemetery]'
   icon: cemetery
+  highlight: true
 
 ## Peut-être carrément une catégorie "services publics"
 ## https://wiki.openstreetmap.org/wiki/France/Services_Publics
