@@ -102,7 +102,7 @@ export const tagNameCorrespondance = (key: string) => {
 		'ref:FR:NAF': 'Code NAF',
 		'ref:FR:FANTOIR': 'Code FANTOIR',
 		'ref:FR:FINESS': 'Code FINESS',
-		'ref:FR:GeoDAE': 'Code GeoDAE',
+		'ref:FR:GeoDAE': 'Identifiant GeoDAE',
 		passenger_information_display: "Ecran d'information voyageur",
 		'survey:date': 'Dernière date de vérification',
 		'species:fr': 'Espèce (fr)',
