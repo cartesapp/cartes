@@ -32,14 +32,18 @@ export default function MoreCategories({
 		doFetch()
 	}, [setBulkImages])
 
+	// variable d'état pour stocker le groupe dont toutes les catégories sont affichées
+	const [largeGroup, setLargeGroup] = useState('Alimentation');
+
 	return (
 		<Wrapper>
 			<ol>
 				{Object.entries(groups).map(([group, categories]) => {
 					const groupColor = categoryColors[group]
+					const showAllCategories = (group == largeGroup)
 					return (
 						<Group key={group} $groupColor={groupColor}>
-							<h2>{group}</h2>
+							<h2 onClick={null}>{group} {showAllCategories ? '🔼' : '🔽'}</h2>
 							<div>
 								<ul>
 									{categories.map((category) => {
@@ -48,7 +52,8 @@ export default function MoreCategories({
 										// - si il y a une recherche de texte en cours (pour qu'on voit les visible=false qui matchent)
 										// - ou si la catégorie est active (pour qu'on la voit et qu'on puisse la déselectionner)
 										// - ou sinon, si on a définit dans le yaml qu'on veut la mettre en avant (pour le menu initial)
-										if (doFilter || isActive || category.highlight) return (
+										// - ou enfin, si l'utilisateur a cliqué pour agrandir ce groupe
+										if (doFilter || isActive || category.highlight || showAllCategories) return (
 											<Category
 												key={category.name}
 												$active={isActive}
