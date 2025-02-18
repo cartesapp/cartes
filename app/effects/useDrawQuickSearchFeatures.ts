@@ -260,10 +260,17 @@ const draw = (
 		filter: ['!=', 'isOpenColor', false],
 	})
 
-	// gestion des actions en cas de de clic sur un POI
-	map.on('click', baseId + 'points', async (e) => {
+	// gestion des actions en cas de clic sur un POI (l'icone ou le cercle d'ouverture)
+	map.on('click', async (e) => {
+		//on teste si le clic a eu lieu dans l'un des 2 layers possibles, sinon on arrête
+		const features = map.queryRenderedFeatures(e.point, {
+			layers: [baseId + 'points', baseId + 'points-is-open']
+		});
+		if (!features.length) return
+		console.log("point trouvé au clic dans " + baseId)
+
 		// on charge les infos sur le POI
-		const feature = e.features[0]
+		const feature = features[0]
 		const { lng: longitude, lat: latitude } = e.lngLat
 		const properties = feature.properties,
 			tagsRaw = properties.tags
@@ -298,6 +305,12 @@ const draw = (
 		map.getCanvas().style.cursor = 'pointer'
 	})
 	map.on('mouseleave', baseId + 'points', () => {
+		map.getCanvas().style.cursor = ''
+	})
+	map.on('mouseenter', baseId + 'points-is-open', () => {
+		map.getCanvas().style.cursor = 'pointer'
+	})
+	map.on('mouseleave', baseId + 'points-is-open', () => {
 		map.getCanvas().style.cursor = ''
 	})
 }
