@@ -137,6 +137,7 @@ const Wrapper = styled.div`
 		margin: 0.4rem 0 0.1rem 0;
 		line-height: initial;
 		color: var(--darkerColor);
+		cursor: pointer;
 	}
 `
 const Group = styled.li`
