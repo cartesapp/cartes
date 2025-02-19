@@ -118,9 +118,10 @@ const Wrapper = styled.div`
 		align-items: center;
 
 		/* Touch devices can scroll horizontally, desktop devices (hover:hover) cannot */
-		@media (hover: hover) {
+		// But scrolling is too long when many categories => wrap whatever the media
+		// @media (hover: hover) {
 			flex-wrap: wrap;
-		}
+		// }
 		li {
 			margin: 0.2rem 0.2rem;
 			padding: 0rem 0.3rem;
