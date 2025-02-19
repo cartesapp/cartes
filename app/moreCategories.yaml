@@ -6,6 +6,7 @@
 # - query : for overpass
 # - icon : name of the svg file to be loaded
 # - icon alias (facultative) : new name for the icon in case the same svg is used in different category groups
+# - highlight (facutative) : true to display the category as example in the menu
 
 #######################
 # RESTAURANTS
