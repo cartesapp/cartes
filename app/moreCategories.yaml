@@ -464,6 +464,13 @@
 # SANTE
 #######################
 
+- name: défibrillateur
+  category: Santé
+  dictionary:
+    - défibrillateur
+    - DAE
+  query: '[emergency=defibrillator]'
+  icon: defibrillator
 - name: hôpital
   category: Santé
   dictionary:
