@@ -20,7 +20,6 @@
   query:
     - '[amenity=restaurant][cuisine~chinese]'
   icon: restaurant
-  highlight: true
 
 - name: Crêperie
   category: Restaurants
@@ -31,6 +30,7 @@
     '[amenity=restaurant][cuisine~crepe]'
     #icon: hermine ne marche pas :/
   icon: hermine
+  highlight: true
 
 - name: Restaurant étoilé
   category: Restaurants
@@ -53,7 +53,6 @@
     - kebab
   query: '[amenity=fast_food]'
   icon: fast_food
-  highlight: true
 
 - name: Cuisine française
   category: Restaurants
@@ -147,6 +146,7 @@
     - '["diet:vegetarian"~"yes|only"]'
     - '["diet:vegan"~"yes|only"]'
   icon: veg
+  highlight: true
 
 - name: Vegan
   category: Restaurants
@@ -222,7 +222,6 @@
     - sec
   query: '["drink:wine"]'
   icon: bottle
-  highlight: true
 
 - name: Bubble Tea
   category: Bars et boisson
@@ -258,6 +257,7 @@
     - infusion
   query: '["cuisine"="teahouse"]'
   icon: tea
+  highlight: true
 
 #######################
 # COMMERCES DE BOUCHE
@@ -273,11 +273,11 @@
   #emoji: 🥖
   query: '[shop=bakery]'
   icon: bakery
-  highlight: true
 
 - name: Boucherie
   category: Alimentation
   dictionary:
+    - boucher
     - viande
     - charcuterie
     - charcutier
@@ -332,7 +332,6 @@
     - traiteur
   query: '[shop=cheese]'
   icon: cheese
-  highlight: true
 
 - name: Glacier
   category: Alimentation
@@ -341,7 +340,6 @@
     - sorbet
   query: '[shop=ice_cream]'
   icon: ice_cream
-  highlight: true
 
 - name: Miellerie
   category: Alimentation
@@ -432,11 +430,6 @@
   category: Loisirs
   highlight: true
 
-- name: plage
-  category: Tourisme
-  query: '[natural=beach]'
-  icon: beach
-
 - name: Jeux pour enfants
   category: Loisirs
   dictionary:
@@ -448,6 +441,7 @@
     - '[landuse=recreation_ground]'
     - '[attraction=carousel]'
   icon: playground
+  highlight: true
 
 - name: lieu-culte
   title: Lieu de culte
@@ -489,7 +483,6 @@
     - '[amenity=clinic]'
     - '[healthcare=clinic]'
   icon: hospital
-  highlight: true
 
 - name: médecin
   category: Santé
@@ -520,6 +513,7 @@
     - animaux
   query: '[amenity=veterinary]'
   icon: veterinary
+  highlight: true
 
 - name: infirmière
   category: Santé
@@ -527,7 +521,6 @@
     - infirmière
   query: '[healthcare=nurse]'
   icon: nurse
-  highlight: true
 
 - name: sage-femme
   category: Santé
@@ -550,6 +543,7 @@
     - déchets organiques
   query: '["recycling:organic"="yes"]'
   icon: recycling
+  highlight: true
 
 - name: verre
   category: Poubelles
@@ -567,9 +561,10 @@
   query: '[amenity=recycling]["recycling:clothes"=yes]'
   icon: recycling
 
-- name: plastique et emballages
+- name: emballages
   category: Poubelles
   dictionary:
+    - plastique
     - canette
     - carton
     - papier
@@ -596,15 +591,6 @@
 # CULTURE
 #######################
 
-- name: Journaux
-  category: Culture
-  dictionary:
-    - kiosque
-    - magazines
-    - presse
-  query: '[shop~"newsagent|kiosk"]'
-  icon: newspaper
-
 - name: Bibliothèque
   category: Culture
   dictionary:
@@ -621,6 +607,16 @@
     - bouquins
   query: '[shop="books"]'
   icon: book
+  highlight: true
+
+- name: Journaux
+  category: Culture
+  dictionary:
+    - kiosque
+    - magazines
+    - presse
+  query: '[shop~"newsagent|kiosk"]'
+  icon: newspaper
   highlight: true
 
 #######################
@@ -672,7 +668,6 @@
     - nature
   query: '[tourism=information]'
   icon: information
-  highlight: true
 
 - name: Pique-nique
   category: Tourisme
@@ -694,6 +689,13 @@
     - caravane
   query: '[tourism~"camp_site|caravan_site"]'
   icon: camping
+  highlight: true
+
+- name: plage
+  category: Tourisme
+  query: '[natural=beach]'
+  icon: beach
+  highlight: true
 
 #######################
 # COMMERCES NON ALIMENTAIRES
@@ -725,7 +727,6 @@
     - shopping
   query: '[shop=mall]'
   icon: shop
-  highlight: true
 
 - name: Casier à colis
   category: Commerces
@@ -735,6 +736,7 @@
     - colis
   query: '[amenity=parcel_locker]'
   icon: parcel_locker
+  highlight: true
 
 #######################
 # DÉPLACEMENTS
@@ -750,7 +752,6 @@
     - TER
   query: '[public_transport=station][train=yes]'
   icon: train
-  highlight: true
 
 - name: magasin-velo
   title: Magasin vélo
@@ -878,7 +879,6 @@
     - véhicule
   query: '[amenity=car_rental]'
   icon: mx_amenity_car_rental
-  highlight: true
 
 - name: Place PMR
   category: Déplacements
@@ -1329,7 +1329,6 @@
     - '[amenity=grave_yard]'
     - '[landuse=cemetery]'
   icon: cemetery
-  highlight: true
 
 ## Peut-être carrément une catégorie "services publics"
 ## https://wiki.openstreetmap.org/wiki/France/Services_Publics
