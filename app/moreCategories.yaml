@@ -252,18 +252,6 @@
   icon: cafe
   highlight: true
 
-- name: Point d'eau
-  category: Divers # dans "Divers" plutôt que Boissons car c'est un usage pratique, non commercial de la boisson, plutôt qu'un usage "plaisir"
-  dictionary:
-    - boire
-    - fontaine
-    - eau potable
-    - robinet
-  query:
-    - '[amenity=drinking_water]'
-    - '[drinking_water=yes]'
-  icon: water
-
 - name: Salon de thé
   category: Bars et boisson
   dictionary:
@@ -1272,6 +1260,19 @@
   query: '[amenity=police]'
   icon: police
   highlight: true
+
+- name: Point d'eau
+  category: Divers # dans "Divers" plutôt que Boissons car c'est un usage pratique, non commercial de la boisson, plutôt qu'un usage "plaisir"
+  dictionary:
+    - boire
+    - fontaine
+    - eau potable
+    - robinet
+  query:
+    - '[amenity=drinking_water]'
+    - '[drinking_water=yes]'
+  icon: water
+
 - name: Agence postale
   category: Divers
   dictionary:
