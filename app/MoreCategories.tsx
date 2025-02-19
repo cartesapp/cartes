@@ -33,7 +33,11 @@ export default function MoreCategories({
 	}, [setBulkImages])
 
 	// variable d'état pour stocker le groupe dont toutes les catégories sont affichées
-	const [largeGroup, setLargeGroup] = useState('Alimentation');
+	const [largeGroup, setLargeGroup] = useState(false);
+	// et fonction pour le modifier
+	function changeLargeGroup(group) {
+		setLargeGroup(group == largeGroup ? false : group)
+	}
 
 	return (
 		<Wrapper>
@@ -43,7 +47,7 @@ export default function MoreCategories({
 					const showAllCategories = (group == largeGroup)
 					return (
 						<Group key={group} $groupColor={groupColor}>
-							<h2 onClick={null}>{group} {showAllCategories ? '🔼' : '🔽'}</h2>
+							<h2 onClick={() => changeLargeGroup(group)}>{group} {showAllCategories ? '▲' : '▼'}</h2>
 							<div>
 								<ul>
 									{categories.map((category) => {
