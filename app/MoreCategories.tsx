@@ -45,6 +45,8 @@ export default function MoreCategories({
 				{Object.entries(groups).map(([group, categories]) => {
 					const groupColor = categoryColors[group]
 					const showAllCategories = (group == largeGroup)
+					// tri des catégories par ordre alphabétique
+					categories.sort(compareCategoryName);
 					return (
 						<Group key={group} $groupColor={groupColor}>
 							<h2 onClick={() => changeLargeGroup(group)}>{group} {showAllCategories ? '▲' : '▼'}</h2>
@@ -167,3 +169,13 @@ const MapIconImage = styled(Image)`
 	vertical-align: sub;
 	margin-bottom: 0.05rem;
 `
+
+function compareCategoryName( a, b ) {
+  if ( a.name.toLowerCase() < b.name.toLowerCase() ){
+    return -1;
+  }
+  if ( a.name.toLowerCase() > b.name.toLowerCase() ){
+    return 1;
+  }
+  return 0;
+}
