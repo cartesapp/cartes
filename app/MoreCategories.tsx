@@ -42,6 +42,9 @@ export default function MoreCategories({
 	return (
 		<Wrapper>
 			<ol>
+				{ !doFilter && //si pas de recherche en cours, on affiche ce message
+					<p>Astuce : utilisez la barre de recherche pour trouver des catégories</p>
+				}
 				{Object.entries(groups).map(([group, categories]) => {
 					const groupColor = categoryColors[group]
 					const showAllCategories = (group == largeGroup)
@@ -90,6 +93,12 @@ const Wrapper = styled.div`
 	margin-bottom: 0.6rem;
 	@media (max-width: 800px) {
 		margin-top: ${(p) => (p.$doFilter ? `0.6rem` : '0')};
+	}
+	p {
+		font-size: 75%;
+		margin: 0.4rem 0 0.1rem 0;
+		line-height: initial;
+		color: var(--darkerColor);
 	}
 	ol,
 	ul {
