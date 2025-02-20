@@ -110,6 +110,7 @@ export default function Container(props) {
 	)
 
 	const [zoom, setZoom] = useState(lastGeolocation.zoom)
+
 	const debouncedZoom = useDebounce(zoom, contentDebounceDelay)
 	const [bboxImages, setBboxImages] = useState([])
 	const [latLngClicked, setLatLngClicked] = useState(null)
