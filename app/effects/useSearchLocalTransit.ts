@@ -15,10 +15,26 @@ export default function useSearchLocalTransit(map, active, center, zoom) {
 	const [stopTimes, setStopTimes] = useState({})
 	const notZoomEnough = zoom < 15
 
-	const d = new Date()
 	const day = nowAsYYMMDD()
-	const from = d.toLocaleTimeString()
-	const to = addMinutes(d, 60).toLocaleTimeString()
+	const [from, setFrom] = useState(null)
+	const [to, setTo] = useState(null)
+
+	useEffect(() => {
+		const intervalFunction = () => {
+			const d = new Date()
+			const from = d.toLocaleTimeString()
+			const to = addMinutes(d, 60).toLocaleTimeString()
+
+			setFrom(from)
+			setTo(to)
+		}
+
+		intervalFunction()
+		setInterval(intervalFunction, 10000)
+		return () => {
+			clearInterval(intervalFunction)
+		}
+	}, [setFrom, setTo])
 
 	useEffect(() => {
 		if (!active || !center || notZoomEnough) return
@@ -49,7 +65,7 @@ export default function useSearchLocalTransit(map, active, center, zoom) {
 			})
 		}
 		doFetch()
-	}, [stops, setStopTimes])
+	}, [stops, setStopTimes, from, to])
 
 	useEffect(() => {
 		if (!map || !stops.length || !active || notZoomEnough) return
