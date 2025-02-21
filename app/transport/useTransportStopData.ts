@@ -11,12 +11,11 @@ export default function useTransportStopData(osmFeature, gtfsStopIds) {
 
 		const doFetch = async () => {
 			try {
-				const response = await fetch(
-					gtfsServerUrl + `/geoStops/${osmFeature.lat}/${osmFeature.lon}/50`,
-					{
-						mode: 'cors',
-					}
-				)
+				const url =
+					gtfsServerUrl + `/geoStops/${osmFeature.lat}/${osmFeature.lon}/50`
+				const response = await fetch(url, {
+					mode: 'cors',
+				})
 
 				const json = await response.json()
 
@@ -31,7 +30,7 @@ export default function useTransportStopData(osmFeature, gtfsStopIds) {
 				)
 				const firstMatch = await firstMatchResponse.json()
 
-				console.log('magenta stops', json, firstMatch)
+				console.log('magenta stops for request ', url, json, firstMatch)
 
 				setData(firstMatch)
 			} catch (e) {

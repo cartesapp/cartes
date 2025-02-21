@@ -21,10 +21,9 @@ export default function StopByName({ stopName, data }) {
 		[stopName]
 	)
 
-	console.log('purple data', data, stopIds)
+	console.log('olive stopByName data', data, stopIds)
 
 	const entries = useTransportStopData(null, stopIds.length ? stopIds : null)
-	console.log('purple trips', entries)
 	const sorted = sortBy(([, { trips }]) => -trips.length)(entries)
 
 	return sorted.map(([id, data]) => <StopById key={id} data={data} />)

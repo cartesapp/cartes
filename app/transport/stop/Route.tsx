@@ -57,26 +57,99 @@ export default function Route({ route, stops = [] }) {
 			const time = timeFromHHMMSS(stop.arrival_time)
 
 			// in Bretagne unified GTFS, all the GTFS were normalized with a technique where each trip has one calendar date entry only
-			const dates = stop.trip.calendarDates
-				.map((calendarDateObject) => {
-					if (calendarDateObject.exception_type === 2) return false
-					const { date: calendarDate } = calendarDateObject
+			// Handle both calendar.txt and calendar_dates.txt
+			let dates = []
 
-					const serializedDay = '' + calendarDate,
-						year = serializedDay.slice(0, 4),
-						month = serializedDay.slice(4, 6),
-						day = serializedDay.slice(6)
-					const arrivalDate = toDate({ year, month, day }, time)
+			// Process calendar_dates.txt exceptions
+			if (stop.trip.calendarDates) {
+				const calendarDates = stop.trip.calendarDates
+					.map((calendarDateObject) => {
+						if (calendarDateObject.exception_type === 2) return false
+						const { date: calendarDate } = calendarDateObject
 
-					const isFuture = arrivalDate > now
+						const serializedDay = '' + calendarDate,
+							year = serializedDay.slice(0, 4),
+							month = serializedDay.slice(4, 6),
+							day = serializedDay.slice(6)
+						const arrivalDate = toDate({ year, month, day }, time)
 
-					return {
-						isFuture,
-						arrivalDate,
-						day: `${year}-${month}-${day}`,
+						const isFuture = arrivalDate > now
+
+						return {
+							isFuture,
+							arrivalDate,
+							day: `${year}-${month}-${day}`,
+						}
+					})
+					.filter(Boolean)
+				dates = dates.concat(calendarDates)
+			}
+
+			// Process calendar.txt regular service
+			if (stop.trip.calendar && stop.trip.calendar.length) {
+				const calendars = stop.trip.calendar
+
+				// Process each calendar entry
+				calendars.forEach((calendar) => {
+					const startDate = new Date(
+						('' + calendar.start_date).replace(
+							/(\d{4})(\d{2})(\d{2})/,
+							'$1-$2-$3'
+						)
+					)
+					const endDate = new Date(
+						('' + calendar.end_date).replace(
+							/(\d{4})(\d{2})(\d{2})/,
+							'$1-$2-$3'
+						)
+					)
+
+					// Get all dates between start and end where the service runs
+					for (
+						let d = new Date(startDate);
+						d <= endDate;
+						d.setDate(d.getDate() + 1)
+					) {
+						const day = d.getDay()
+						const dayMap = {
+							0: 'sunday',
+							1: 'monday',
+							2: 'tuesday',
+							3: 'wednesday',
+							4: 'thursday',
+							5: 'friday',
+							6: 'saturday',
+						}
+
+						if (calendar[dayMap[day]] === 1) {
+							const year = d.getFullYear()
+							const month = String(d.getMonth() + 1).padStart(2, '0')
+							const dayOfMonth = String(d.getDate()).padStart(2, '0')
+
+							// Check if this date is not cancelled by an exception in calendarDates
+							const formattedDate = parseInt(`${year}${month}${dayOfMonth}`)
+							const isDateCancelled = stop.trip.calendarDates?.some(
+								(exception) =>
+									exception.date === formattedDate &&
+									exception.exception_type === 2
+							)
+
+							if (!isDateCancelled) {
+								const arrivalDate = toDate(
+									{ year, month, day: dayOfMonth },
+									time
+								)
+								const isFuture = arrivalDate > now
+								dates.push({
+									isFuture,
+									arrivalDate,
+									day: `${year}-${month}-${dayOfMonth}`,
+								})
+							}
+						}
 					}
 				})
-				.filter(Boolean)
+			}
 
 			return dates.map((el) => ({ ...omit(['trip'], stop), ...el }))
 		})
@@ -96,38 +169,38 @@ export default function Route({ route, stops = [] }) {
 
 	const stopSelection = stopsToday.filter((el) => el.isFuture).slice(0, 4)
 
+	const headSigns = stops[0].trip.trip_headsign != null && [
+		...new Set(stops.map((stop) => stop.trip.trip_headsign)),
+	]
+	const destinations = !headSigns && [
+		...new Set(stops.map((stop) => stop.trip.destination)),
+	]
+
+	const safeDestinations = headSigns || destinations
+	const name = safeDestinations[0]
 	const directions = stops.map(({ trip }) => trip.direction_id)
 	const otherDirection = directions[0] === 0 ? 1 : 0
 	const index = directions.findIndex((i) => i === otherDirection)
 	const hasMultipleTripDirections = index > -1
-	const direction = directions[0],
-		rawName =
-			route.route_long_name || route.route_short_name || 'ligne sans nom',
-		// Here we're deriving the directed name from the raw name. They don't help
-		// us here :D haven't found a better way to display the correct trip name...
-		//
-		//"Rennes (La Poterie)  Vezin-le-Coquet (ZI Ouest)"
-		// "Cesson-Sévigné (Cesson - Viasilva)  Rennes   Chantepie (Rosa Parks)"
-		nameParts = rawName.match(/\s\s/)
-			? rawName.split(/\s\s/)
-			: // "PLOUZANÉ Bourg - BREST Amiral Ronarc’h"
-			rawName.match(/\s-\s/)
-			? rawName.split(/\s-\s/)
-			: null,
-		name = nameParts
-			? (direction === 1 ? nameParts.reverse() : nameParts).join(' → ')
-			: rawName
+	console.log('olive stop route', route, name, stops) // direction, nameParts, name, stops)
 
 	return (
 		<RouteLi>
 			<RouteName route={route} name={name} />
-			{route.route_type === 3 && hasMultipleTripDirections && (
+			{route.route_type === 3 &&
+				hasMultipleTripDirections && ( // this route_type is probably here because lots of metro stations are unique with obviously two directions, without a potential for misunderstanding
+					<div>
+						<span>⚠️</span>
+						<small>
+							Attention, plusieurs directions d'une même ligne de bus s'arrêtent
+							à cet arrêt.
+						</small>
+					</div>
+				)}
+			{safeDestinations.length > 1 && (
 				<div>
 					<span>⚠️</span>
-					<small>
-						Attention, plusieurs directions d'une même ligne de bus s'arrêtent à
-						cet arrêt.
-					</small>
+					<small>Attention, cette ligne a plusieurs destinations.</small>
 				</div>
 			)}
 			<ul>

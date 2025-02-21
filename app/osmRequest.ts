@@ -115,7 +115,10 @@ export const osmRequest = async (featureType, id, full) => {
 		}
 		return elements
 	} catch (e) {
-		console.error('Probably a network error fetching OSM feature via Overpass')
+		console.error(
+			'Probably a network error fetching OSM feature via Overpass',
+			e
+		)
 		return [{ id, failedServerOsmRequest: true, type: featureType }]
 	}
 }
