@@ -25,8 +25,8 @@ export default function ShareButton({ osmFeature, geocodedClickedPoint }) {
 				? buildAllezPart(
 						osmFeature.tags?.name,
 						encodePlace(osmFeature.type, osmFeature.id),
-						osmFeature.lon,
-						osmFeature.lat
+						osmFeature.lon || osmFeature.longitude, // I dunno why, some osmFeature builder somewhere sets longitude but not lon; same for lat
+						osmFeature.lat || osmFeature.latitude
 				  )
 				: buildAllezPart(
 						'Point sur la carte',

@@ -190,6 +190,7 @@ export default function Route({ route, stops = [] }) {
 		name = nameParts
 			? (direction === 1 ? nameParts.reverse() : nameParts).join(' → ')
 			: rawName
+	console.log('olive stop route', route, direction, nameParts, name, stops)
 
 	return (
 		<RouteLi>

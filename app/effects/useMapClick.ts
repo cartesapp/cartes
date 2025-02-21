@@ -84,10 +84,13 @@ export default function useMapClick(
 
 			if (circo) return setSearchParams({ ...circo })
 
+			const interesting = rawFeatures.filter(
+				(feature) => feature.source !== 'searchPolygon'
+			)
 			console.log(
 				'clicked map features',
-				rawFeatures && rawFeatures[0].properties,
-				rawFeatures
+				interesting && interesting[0],
+				interesting
 			)
 
 			if (!features.length || !features[0].id) {
