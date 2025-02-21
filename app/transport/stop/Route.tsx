@@ -121,8 +121,6 @@ export default function Route({ route, stops = [] }) {
 							6: 'saturday',
 						}
 
-						console.log('cyan calendar', dayMap[day])
-
 						if (calendar[dayMap[day]] === 1) {
 							const year = d.getFullYear()
 							const month = String(d.getMonth() + 1).padStart(2, '0')
