@@ -128,8 +128,9 @@ export default function Route({ route, stops = [] }) {
 									day: `${year}-${month}-${dayOfMonth}`,
 								})
 							}
+						}
 					}
-				}
+				})
 			}
 
 			return dates.map((el) => ({ ...omit(['trip'], stop), ...el }))
