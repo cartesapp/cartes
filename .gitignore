@@ -41,3 +41,5 @@ public/indoorequal/
 # Sentry Config File
 .env.sentry-build-plugin
 public/communes*
+.env
+.env

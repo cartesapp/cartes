@@ -59,7 +59,7 @@ export default function Route({ route, stops = [] }) {
 			// in Bretagne unified GTFS, all the GTFS were normalized with a technique where each trip has one calendar date entry only
 			// Handle both calendar.txt and calendar_dates.txt
 			let dates = []
-			
+
 			// Process calendar_dates.txt exceptions
 			if (stop.trip.calendarDates) {
 				const calendarDates = stop.trip.calendarDates
@@ -89,7 +89,7 @@ export default function Route({ route, stops = [] }) {
 			if (stop.trip.calendar && stop.trip.calendar.length) {
 				const calendars = stop.trip.calendar
 				const today = new Date()
-				
+
 				// Process each calendar entry
 				calendars.forEach(calendar => {
 					const startDate = new Date(calendar.start_date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3'))
@@ -107,13 +107,13 @@ export default function Route({ route, stops = [] }) {
 							5: 'friday',
 							6: 'saturday'
 						}
-						
+
 						if (calendar[dayMap[day]] === '1') {
 						const year = d.getFullYear()
 						const month = String(d.getMonth() + 1).padStart(2, '0')
 						const dayOfMonth = String(d.getDate()).padStart(2, '0')
-						const arrivalDate = toDate({ year, month, dayOfMonth }, time)
-						
+						const arrivalDate = toDate({ year, month, day: dayOfMonth }, time)
+
 						const isFuture = arrivalDate > now
 						dates.push({
 							isFuture,
