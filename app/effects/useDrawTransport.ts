@@ -65,6 +65,7 @@ export default function useDrawTransport(
 			)
 
 			setSearchParams({
+				'choix du style': undefined,
 				routes: e.features
 					.map((feature) => feature.properties.route_id)
 					.join('|'),
