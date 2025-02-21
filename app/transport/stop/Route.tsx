@@ -109,17 +109,25 @@ export default function Route({ route, stops = [] }) {
 						}
 
 						if (calendar[dayMap[day]] === '1') {
-						const year = d.getFullYear()
-						const month = String(d.getMonth() + 1).padStart(2, '0')
-						const dayOfMonth = String(d.getDate()).padStart(2, '0')
-						const arrivalDate = toDate({ year, month, day: dayOfMonth }, time)
+							const year = d.getFullYear()
+							const month = String(d.getMonth() + 1).padStart(2, '0')
+							const dayOfMonth = String(d.getDate()).padStart(2, '0')
+							
+							// Check if this date is not cancelled by an exception in calendarDates
+							const formattedDate = parseInt(`${year}${month}${dayOfMonth}`)
+							const isDateCancelled = stop.trip.calendarDates?.some(
+								exception => exception.date === formattedDate && exception.exception_type === 2
+							)
 
-						const isFuture = arrivalDate > now
-						dates.push({
-							isFuture,
-							arrivalDate,
-							day: `${year}-${month}-${dayOfMonth}`,
-						})
+							if (!isDateCancelled) {
+								const arrivalDate = toDate({ year, month, day: dayOfMonth }, time)
+								const isFuture = arrivalDate > now
+								dates.push({
+									isFuture,
+									arrivalDate,
+									day: `${year}-${month}-${dayOfMonth}`,
+								})
+							}
 					}
 				}
 			}
