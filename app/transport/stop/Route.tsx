@@ -57,26 +57,69 @@ export default function Route({ route, stops = [] }) {
 			const time = timeFromHHMMSS(stop.arrival_time)
 
 			// in Bretagne unified GTFS, all the GTFS were normalized with a technique where each trip has one calendar date entry only
-			const dates = stop.trip.calendarDates
-				.map((calendarDateObject) => {
-					if (calendarDateObject.exception_type === 2) return false
-					const { date: calendarDate } = calendarDateObject
+			// Handle both calendar.txt and calendar_dates.txt
+			let dates = []
+			
+			// Process calendar_dates.txt exceptions
+			if (stop.trip.calendarDates) {
+				const calendarDates = stop.trip.calendarDates
+					.map((calendarDateObject) => {
+						if (calendarDateObject.exception_type === 2) return false
+						const { date: calendarDate } = calendarDateObject
 
-					const serializedDay = '' + calendarDate,
-						year = serializedDay.slice(0, 4),
-						month = serializedDay.slice(4, 6),
-						day = serializedDay.slice(6)
-					const arrivalDate = toDate({ year, month, day }, time)
+						const serializedDay = '' + calendarDate,
+							year = serializedDay.slice(0, 4),
+							month = serializedDay.slice(4, 6),
+							day = serializedDay.slice(6)
+						const arrivalDate = toDate({ year, month, day }, time)
 
-					const isFuture = arrivalDate > now
+						const isFuture = arrivalDate > now
 
-					return {
-						isFuture,
-						arrivalDate,
-						day: `${year}-${month}-${day}`,
+						return {
+							isFuture,
+							arrivalDate,
+							day: `${year}-${month}-${day}`,
+						}
+					})
+					.filter(Boolean)
+				dates = dates.concat(calendarDates)
+			}
+
+			// Process calendar.txt regular service
+			if (stop.trip.calendar) {
+				const calendar = stop.trip.calendar
+				const today = new Date()
+				const startDate = new Date(calendar.start_date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3'))
+				const endDate = new Date(calendar.end_date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3'))
+
+				// Get all dates between start and end where the service runs
+				for (let d = startDate; d <= endDate; d.setDate(d.getDate() + 1)) {
+					const day = d.getDay()
+					const dayMap = {
+						0: 'sunday',
+						1: 'monday',
+						2: 'tuesday',
+						3: 'wednesday',
+						4: 'thursday',
+						5: 'friday',
+						6: 'saturday'
 					}
-				})
-				.filter(Boolean)
+					
+					if (calendar[dayMap[day]] === '1') {
+						const year = d.getFullYear()
+						const month = String(d.getMonth() + 1).padStart(2, '0')
+						const dayOfMonth = String(d.getDate()).padStart(2, '0')
+						const arrivalDate = toDate({ year, month, dayOfMonth }, time)
+						
+						const isFuture = arrivalDate > now
+						dates.push({
+							isFuture,
+							arrivalDate,
+							day: `${year}-${month}-${dayOfMonth}`,
+						})
+					}
+				}
+			}
 
 			return dates.map((el) => ({ ...omit(['trip'], stop), ...el }))
 		})
