@@ -169,39 +169,38 @@ export default function Route({ route, stops = [] }) {
 
 	const stopSelection = stopsToday.filter((el) => el.isFuture).slice(0, 4)
 
+	const headSigns = stops[0].trip.trip_headsign != null && [
+		...new Set(stops.map((stop) => stop.trip.trip_headsign)),
+	]
+	const destinations = !headSigns && [
+		...new Set(stops.map((stop) => stop.trip.destination)),
+	]
+
+	const safeDestinations = headSigns || destinations
+	const name = safeDestinations[0]
 	const directions = stops.map(({ trip }) => trip.direction_id)
 	const otherDirection = directions[0] === 0 ? 1 : 0
 	const index = directions.findIndex((i) => i === otherDirection)
 	const hasMultipleTripDirections = index > -1
-	const direction = directions[0],
-		rawName =
-			route.route_long_name || route.route_short_name || 'ligne sans nom',
-		// Here we're deriving the directed name from the raw name. They don't help
-		// us here :D haven't found a better way to display the correct trip name...
-		//
-		//"Rennes (La Poterie)  Vezin-le-Coquet (ZI Ouest)"
-		// "Cesson-Sévigné (Cesson - Viasilva)  Rennes   Chantepie (Rosa Parks)"
-		nameParts = rawName.match(/\s\s/)
-			? rawName.split(/\s\s/)
-			: // "PLOUZANÉ Bourg - BREST Amiral Ronarc’h"
-			rawName.match(/\s-\s/)
-			? rawName.split(/\s-\s/)
-			: null,
-		name = nameParts
-			? (direction === 1 ? nameParts.reverse() : nameParts).join(' → ')
-			: rawName
-	console.log('olive stop route', route, direction, nameParts, name, stops)
+	console.log('olive stop route', route, name, stops) // direction, nameParts, name, stops)
 
 	return (
 		<RouteLi>
 			<RouteName route={route} name={name} />
-			{route.route_type === 3 && hasMultipleTripDirections && (
+			{route.route_type === 3 &&
+				hasMultipleTripDirections && ( // this route_type is probably here because lots of metro stations are unique with obviously two directions, without a potential for misunderstanding
+					<div>
+						<span>⚠️</span>
+						<small>
+							Attention, plusieurs directions d'une même ligne de bus s'arrêtent
+							à cet arrêt.
+						</small>
+					</div>
+				)}
+			{safeDestinations.length > 1 && (
 				<div>
 					<span>⚠️</span>
-					<small>
-						Attention, plusieurs directions d'une même ligne de bus s'arrêtent à
-						cet arrêt.
-					</small>
+					<small>Attention, cette ligne a plusieurs destinations.</small>
 				</div>
 			)}
 			<ul>
