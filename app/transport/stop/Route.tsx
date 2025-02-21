@@ -88,15 +88,28 @@ export default function Route({ route, stops = [] }) {
 			// Process calendar.txt regular service
 			if (stop.trip.calendar && stop.trip.calendar.length) {
 				const calendars = stop.trip.calendar
-				const today = new Date()
 
 				// Process each calendar entry
-				calendars.forEach(calendar => {
-					const startDate = new Date(calendar.start_date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3'))
-					const endDate = new Date(calendar.end_date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3'))
+				calendars.forEach((calendar) => {
+					const startDate = new Date(
+						('' + calendar.start_date).replace(
+							/(\d{4})(\d{2})(\d{2})/,
+							'$1-$2-$3'
+						)
+					)
+					const endDate = new Date(
+						('' + calendar.end_date).replace(
+							/(\d{4})(\d{2})(\d{2})/,
+							'$1-$2-$3'
+						)
+					)
 
 					// Get all dates between start and end where the service runs
-					for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+					for (
+						let d = new Date(startDate);
+						d <= endDate;
+						d.setDate(d.getDate() + 1)
+					) {
 						const day = d.getDay()
 						const dayMap = {
 							0: 'sunday',
@@ -105,22 +118,29 @@ export default function Route({ route, stops = [] }) {
 							3: 'wednesday',
 							4: 'thursday',
 							5: 'friday',
-							6: 'saturday'
+							6: 'saturday',
 						}
 
-						if (calendar[dayMap[day]] === '1') {
+						console.log('cyan calendar', dayMap[day])
+
+						if (calendar[dayMap[day]] === 1) {
 							const year = d.getFullYear()
 							const month = String(d.getMonth() + 1).padStart(2, '0')
 							const dayOfMonth = String(d.getDate()).padStart(2, '0')
-							
+
 							// Check if this date is not cancelled by an exception in calendarDates
 							const formattedDate = parseInt(`${year}${month}${dayOfMonth}`)
 							const isDateCancelled = stop.trip.calendarDates?.some(
-								exception => exception.date === formattedDate && exception.exception_type === 2
+								(exception) =>
+									exception.date === formattedDate &&
+									exception.exception_type === 2
 							)
 
 							if (!isDateCancelled) {
-								const arrivalDate = toDate({ year, month, day: dayOfMonth }, time)
+								const arrivalDate = toDate(
+									{ year, month, day: dayOfMonth },
+									time
+								)
 								const isFuture = arrivalDate > now
 								dates.push({
 									isFuture,
