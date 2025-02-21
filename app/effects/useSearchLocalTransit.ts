@@ -9,6 +9,7 @@ import {
 	humanDepartureTime,
 	nowAsYYMMDD,
 } from '../transport/stop/Route'
+import useSetSearchParams from '@/components/useSetSearchParams'
 
 export default function useSearchLocalTransit(map, active, center, zoom) {
 	const [stops, setStops] = useState([])
@@ -18,6 +19,8 @@ export default function useSearchLocalTransit(map, active, center, zoom) {
 	const day = nowAsYYMMDD()
 	const [from, setFrom] = useState(null)
 	const [to, setTo] = useState(null)
+
+	const setSearchParams = useSetSearchParams()
 
 	useEffect(() => {
 		const intervalFunction = () => {
@@ -127,7 +130,13 @@ border-radius: .4rem; overflow: hidden; border: 2px solid var(--darkerColor);   
 			element.innerHTML = jsx
 
 			element.addEventListener('click', () => {
-				console.log(stop)
+				console.log('purple stop', stop)
+				// TODO make this work, we need a new parameter to open a the Stop
+				// component by its GTFS stop_id
+				// Could be loaded by coordinates + geoStop too
+				// or let the user click on the route times itself to open route + arret
+				// by name rather than id as currently implemented
+				//setSearchParams({ arret: stop.stop_id })
 			})
 
 			const marker = new maplibregl.Marker({ element })
