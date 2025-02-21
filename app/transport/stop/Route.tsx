@@ -86,26 +86,29 @@ export default function Route({ route, stops = [] }) {
 			}
 
 			// Process calendar.txt regular service
-			if (stop.trip.calendar) {
-				const calendar = stop.trip.calendar
+			if (stop.trip.calendar && stop.trip.calendar.length) {
+				const calendars = stop.trip.calendar
 				const today = new Date()
-				const startDate = new Date(calendar.start_date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3'))
-				const endDate = new Date(calendar.end_date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3'))
+				
+				// Process each calendar entry
+				calendars.forEach(calendar => {
+					const startDate = new Date(calendar.start_date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3'))
+					const endDate = new Date(calendar.end_date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3'))
 
-				// Get all dates between start and end where the service runs
-				for (let d = startDate; d <= endDate; d.setDate(d.getDate() + 1)) {
-					const day = d.getDay()
-					const dayMap = {
-						0: 'sunday',
-						1: 'monday',
-						2: 'tuesday',
-						3: 'wednesday',
-						4: 'thursday',
-						5: 'friday',
-						6: 'saturday'
-					}
-					
-					if (calendar[dayMap[day]] === '1') {
+					// Get all dates between start and end where the service runs
+					for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+						const day = d.getDay()
+						const dayMap = {
+							0: 'sunday',
+							1: 'monday',
+							2: 'tuesday',
+							3: 'wednesday',
+							4: 'thursday',
+							5: 'friday',
+							6: 'saturday'
+						}
+						
+						if (calendar[dayMap[day]] === '1') {
 						const year = d.getFullYear()
 						const month = String(d.getMonth() + 1).padStart(2, '0')
 						const dayOfMonth = String(d.getDate()).padStart(2, '0')
