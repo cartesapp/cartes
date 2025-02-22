@@ -1296,17 +1296,108 @@
   query:
     - '[amenity=fire_station]'
   icon: fire
-- title: Établissement scolaire
-  category: Divers
-  name: education
+
+##############
+# Éducation #
+#############
+
+
+- title: école maternelle
+  category: "Éducation"
+  name: ecole-mater
   dictionary:
-    - université
-    - collège
-    - école
+    - enfant
     - primaire
     - groupe scolaire
+  query: '[amenity=school]["school:FR"="maternelle"]'
+  icon: college
+
+- title: école élémentaire
+  category: "Éducation"
+  name: ecole-elem
+  dictionary:
+    - enfant
+    - primaire
+    - groupe scolaire
+  query: '[amenity=school]["school:FR"="élémentaire"]'
+  icon: college
+
+- title: école primaire
+  category: "Éducation"
+  name: ecole-prim
+  dictionary:
+    - enfant
+    - élémentaire
+    - groupe scolaire
+  query: '[amenity=school]["school:FR"="primaire"]'
+  icon: college
+
+- title: groupe scolaire
+  category: "Éducation"
+  name: groupe-scol
+  dictionary:
+    - élémentaire
+    - maternelle
+    - école
+    - collège
+    - primaire
+    - groupe scolaire
+  query: '[landuse=education]["name"~"scolaire"]'
+  icon: college
+
+- title: collège
+  category: "Éducation"
+  name: college
+  dictionary:
+    - segpa
+    - collège
+    - ado
+  query: '[amenity=school]["school:FR"="collège"]'
+  icon: college
+
+- title: lycée
+  category: "Éducation"
+  name: lycee
+  dictionary:
+    - ado
+    - technique
+    - général
+    - prépa
+  query: '[amenity=school]["school:FR"="lycée"]'
+  icon: college
+
+- title: secondaire
+  category: "Éducation"
+  name: secondaire
+  dictionary:
+    - collège
+    - lycée
   query:
-    - '[amenity=college]'
-    - '[amenity=university]'
-    - '[amenity=school]'
+    - '[amenity=school]["school:FR"="collège"]'
+    - '[amenity=school]["school:FR"="lycée"]'
+    - '[amenity=school]["school:FR"="secondaire"]'
+  icon: college
+
+- title: université
+  category: "Éducation"
+  name: univ
+  dictionary:
+    - faculté
+    - supérieur
+  query: '[amenity=university]'
+  icon: college
+
+- title: grande école
+  category: "Éducation"
+  name: prepa
+  dictionary:
+    - prépa
+    - khâgne
+    - polytechnique
+    - hypokhâgne
+    - centrale
+    - mines
+    - supérieure
+    - tech
+  query: '[amenity=college]'
   icon: college
