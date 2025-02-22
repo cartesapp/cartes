@@ -29,7 +29,20 @@ const SideSheetWrapper = styled.div`
 		5px 10px 12.6px -2.5px hsl(var(--shadow-color) / 0.29);
 	box-shadow: var(--shadow-elevation-medium);
 	overflow: auto;
+
+	/* Hide ugly Windows scroll bars. How the fuck do they support such an invasive
+ * design compared to Ubuntu e.g. ? */
+	scrollbar-color: var(--lighterColor) transparent;
 	&::-webkit-scrollbar {
-		display: none;
+		width: 3px; /* Mostly for vertical scrollbars */
+		height: 0px; /* Mostly for horizontal scrollbars */
+	}
+	&::-webkit-scrollbar-thumb {
+		/* Foreground */
+		background: var(--lighterColor);
+	}
+	&::-webkit-scrollbar-track {
+		/* Background */
+		background: transparent;
 	}
 `

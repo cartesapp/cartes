@@ -200,7 +200,7 @@ export function ZoneImages({
 const Wrapper = styled.section`
 	margin-top: 1rem;
 	margin-bottom: 1rem;
-	overflow: scroll;
+	overflow-x: scroll;
 	white-space: nowrap;
 	&::-webkit-scrollbar {
 		display: none;
