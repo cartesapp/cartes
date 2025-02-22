@@ -1,0 +1,54 @@
+---
+titre: Building an open source european Maps
+date: '2025-02-21'
+image: /blog-images/construction.jpg
+lang: en
+description: |
+  One year ago, we started building an open source alternative to Google and Apple Maps. What does it take to do that ? How far have we gone ? What's next ?
+
+bluesky: 'at://did:plc:eypg6v3q62jkpoxbgicirvjs/app.bsky.feed.post/3li2coyawm22u'
+---
+
+The beauty of Google Maps, the reason we almost all use it, is that it answers most of our usages of maps.
+
+Is this restaurant open ? Google maps. Does the inside look cool enough ? Google Maps. Find the number to book a table ? How to go there ? Is it on my buses ? How long would I wait for the bus later ? Is the bus not too much crowded ?
+
+Google Maps is not your classic mobile app, but more like an OS, an operating system. A geographical operating system encompassing most of our needs when we need to go somewhere at some point.
+
+Like any OS, it's a complex infrastructure serving a simple user interface. Then Apple came ten years ago, failed, failed again, and finally succeeded in providing an even simpler version of this map operating system they crually needed to fill this important corner os iOS that Google took out of their control. Some other countries have local alternatives (France has Mappy.com, Czechia has... Mapy.com) but none is open source.
+
+All the open-source alternatives are partial alternatives : they all rely on the incredible shared global map _database_ called OpenStreetMap, and try to solve one use case with a new interface. The most famous one, Organic Maps, is limited to mobile (and hence only run on Apple and Google OSes), forces one to plan map downloads, has no bus routes, has very few place images, etc.
+
+One year ago, we decided to see how far we could go in building an open source alternative to these all-encompassing map applications, on the Web.
+
+> ...and on the Web only, mobile development being way too expensive.
+
+What do we have today ?
+
+## Basemaps
+
+We're using MapLibre to instantiate a canvas where the map will be drawn using your device's GPU, making it faster than traditional Web maps.
+
+> MapLibre is a fork of MapBox, which itself was an open source alternative to Google Maps's hosting service that gained traction when Google raised its prices.
+
+MapLibre is just a client renderer that talks to a server to know what data to draw. We started using the Swiss and French-speaking MapTiler and its great panoply of basemaps.
+
+Once you have map data to show, you need to decide how you'll show them : should buildings be gray or brown ? Should roads be yellow or gray ? This is defined in MapLibre JSON stylesheets, and also provided by MapTiler. We first customized their base style for with our own design choices.
+
+But we soon hit higher than expected spending : to serve our first few thousand users, we had a 150 €/month MapTiler invoice.
+
+So we built our own : on top of limiting costs to a fixed 50 €/month of a French Scaleway server using Protomaps's ingenious technology, it let us customise not only the style but the _data_ we wanted to show to our users, departing from MapTiler's tile standard called OpenMapTiles.
+
+OpenStreetMap is rich, sometimes incredibly rich. In most cases, especially in cities, you don't want to show _all_ of OSM's data to your users to avoid drawning key information in details. If the style serves as the ultimate filter, the whole point of tiles design is to carefully select some features (places, trees, shops, trash bins...) for some level of zooms only, in order to save bandwidth space.
+
+Open map tile standards (OpenMapTiles, Shortbread, Protomaps) are great for projects that want to embed maps, but fail short for projects that are rethink maps themselves.
+
+Conclusion : we now have a main custom map style (+ tiles), but also provide interesting third-party specialized styles.
+
+<Demo q={{ 'choix du style': 'oui' }} />
+
+> Note : you can freely embed Cartes's basemaps, see some [integration demos](https://cartes.app/integration)
+
+<NextSteps list={['free satellite', 'paid styles']} />
+
+## Navigation
