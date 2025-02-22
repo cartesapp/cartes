@@ -9,7 +9,6 @@ export const PlaceButtonList = styled.ul`
 	display: flex;
 	align-items: center;
 	white-space: nowrap;
-	overflow: scroll;
 `
 
 export const PlaceButton = styled.li`
