@@ -53,14 +53,32 @@ Conclusion : we now have a main custom map style (+ tiles), but also provide int
 
 <NextSteps list={['free satellite', 'paid styles']} />
 
+NextSteps peut faire référence soit à des issues en #, soit à une issue qui en liste d'autres, soit à un label d'issues représentant une catégorie d'issues.
+
 ## Interface
 
-Mobile / Desktop. Lots of work here. Place pages. We can go far, we've done some barebone stuff.
+We've built a basic interface that adapts to mobile or desktop. Working on the modal sheet (the bottom content block that slides up and down with your finger) was hard (we cloned and corrected an existing lib), as nobody has yet built a Web mobile style sheet : all the $ went to Android and Apple development.
+
+Place pages are the basics of a working digital map. Openstreetmap.org's place icons are not clickable because the map is not vector but raster. We had to encode the OSM place id + place type (node/way/relation) inside or own tiles : most tiles do not let us make the link to the OSM API to retrieve the full set of data of a place, and hence display a place page.
+
+The place page needs lots of other sources of data to be interesting enough for the user. We need Wikipedia, its pictures, Wikimedia common's pictures, Wikidata facts, train station live train times, cinema snippets, etc. The list goes on, it's just a matter of implementing the right stuff. We're looking for the most open source of data for each domain.
 
 ### Internationalisation
 
-Cartes is build in France, in French. We wanted to check the interest before thinking global. We'll think European, now that the US let us. We'll keep French as a main language, now that no country in the European union natively speak english anymore.
+Cartes is built in France, in French. We wanted to check the interest before thinking global. We wanted to speak the language of the people we're passing by everyday, let them open issues in their native language, the one in which they're doing the least effort and being the most expressive. Hundreds of messages have been written on the French OSM forum, a thriving community of enthusiast cartographers that were cruelly missing a modern Web map interface.
+
+We'll more and more think European, now that the US let us down by electing a fascist president. We'll start to internationalize the application.
+
+We'll keep French as a main language : remember that no country in the European union natively speak english anymore. English remains the best language for international discussions though. Remember to use the awesome translation tools that are popping every month. We hope Github will one day aknowledge the existence of the rest of the world and add a "translate" button under issue comments...
+
+<NextSteps issues="574" />
 
 Ce que j'ai mis dans le mail mais sous forme d'issues.
 
 ## Navigation
+
+## Contributing to OpenStreetMap
+
+The main OSM contribution interfaces are quite complicated. For instance, the official "id" editor has no opening times widget : you need to "code" the opening time, not click on buttons to define them. On Cartes, we're planning to let the user change only a handful of OSM data, like OSMapp.org, OrganicMaps and OSMAnd did.
+
+<NextSteps issues="580" />
