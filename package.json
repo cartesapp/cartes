@@ -79,6 +79,7 @@
 		"eslint-config-next": "^15.0.0",
 		"fuse.js": "^7.0.0",
 		"geo-coordinates-parser": "^1.7.4",
+		"github-slugger": "^2.0.0",
 		"gray-matter": "^4.0.3",
 		"jsdom": "^25.0.1",
 		"maplibre-gl": "v5.1.0",

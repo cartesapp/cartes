@@ -3,6 +3,7 @@ import CTA from '../presentation/CTA'
 
 export const List = styled.ol`
 	margin-top: 2rem;
+	margin-bottom: 2rem;
 	padding-left: 1rem;
 	list-style-type: none;
 	display: flex;
