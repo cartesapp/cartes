@@ -23,7 +23,12 @@ export default function Content() {
 			/>
 			<Intro />
 			<Basemaps />
-			<NextSteps issues={[830, 699]} />
+			<NextSteps
+				issues={[
+					830, 699,
+					// fonds de carte plus à jour
+				]}
+			/>
 			<Interface />
 			<NextSteps issues="574" />
 			<Navigation />

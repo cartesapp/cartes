@@ -80,7 +80,7 @@ const Wrapper = styled.section`
 	margin: 0;
 	ol {
 		white-space: nowrap;
-		height: 8rem;
+		height: 7rem;
 		display: flex;
 		align-items: center;
 		overflow: scroll;
@@ -89,7 +89,7 @@ const Wrapper = styled.section`
 
 		li {
 			background: white;
-			height: 6rem;
+			height: 5rem;
 			width: 12rem;
 			min-width: 14rem;
 			margin: 0 0.6rem;
