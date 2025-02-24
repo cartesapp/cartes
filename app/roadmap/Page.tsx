@@ -1,7 +1,7 @@
 import Logo from '@/public/logo.svg'
 import Image from 'next/image'
 import CTA from './CTA'
-import { PresentationWrapper } from './UI.tsx'
+import { PresentationWrapper } from '@/app/integration/UI.tsx'
 import Content from './Content'
 
 export const title = 'Building an open source european Maps'
@@ -11,7 +11,7 @@ export const description = `
 
 export default function Page() {
 	return (
-		<PresentationWrapper>
+		<PresentationWrapper style={{ maxWidth: '900px' }}>
 			<section>
 				<header>
 					<h1>

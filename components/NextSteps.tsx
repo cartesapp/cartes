@@ -5,9 +5,8 @@ import list from '@/public/github-issues.json'
 import { styled } from 'next-yak'
 import { useEffect, useState } from 'react'
 
-export default function NextSteps({ issues: givenIssues }) {
+export default function NextSteps({ issues }) {
 	const [comments, setComments] = useState({})
-	const issues = Array.isArray(givenIssues) ? givenIssues : [+givenIssues]
 
 	const selected = list.filter((issue) => issues.includes(issue.number))
 	console.log('indigo2', selected.length, issues.length)

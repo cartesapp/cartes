@@ -5,18 +5,20 @@ import Link from 'next/link'
 export default function Sommaire({ headings, url }) {
 	return (
 		<Wrapper>
-			{headings.map((heading) => {
-				return (
-					<div key={`#${heading.slug}`}>
-						<Link
-							href={`${url}/#${heading.slug}`}
-							style={{ paddingLeft: heading.level - 2 + 'rem' }}
-						>
-							{heading.text}
-						</Link>
-					</div>
-				)
-			})}
+			<ol>
+				{headings.map((heading) => {
+					return (
+						<li key={`#${heading.slug}`}>
+							<Link
+								href={`${url}/#${heading.slug}`}
+								style={{ paddingLeft: heading.level - 2 + 'rem' }}
+							>
+								{heading.text}
+							</Link>
+						</li>
+					)
+				})}
+			</ol>
 		</Wrapper>
 	)
 }
@@ -24,12 +26,15 @@ export default function Sommaire({ headings, url }) {
 const Wrapper = styled.section`
 	border: 1px solid var(--lightestColor);
 	background: var(--lightestColor2);
-	margin: 1rem auto 2rem;
-	padding: 0.3rem 0.6rem;
+	margin: 2rem auto 2rem 0rem;
+	padding: 0.3rem 6rem 0.3rem 1.6rem;
 	border-radius: 0.2rem;
 	font-size: 90%;
 	line-height: 1.4rem;
 	width: fit-content;
+	li {
+		color: var(--darkColor);
+	}
 	a {
 		color: var(--darkColor);
 		text-decoration: none;

@@ -9,16 +9,19 @@ import Itinerary from './itinerary.mdx'
 import Divers from './divers.mdx'
 import PlaceSearch from './placeSearch.mdx'
 import StreetImagery from './street.mdx'
+import { styled } from 'next-yak'
+import I18n from './i18n.mdx'
 
 export default function Content() {
 	return (
-		<section>
+		<Section>
 			<Sommaire
 				url={'/roadmap'}
 				headings={[
 					'introduction',
 					'basemaps',
 					'interface',
+					'internationalisation',
 					['itineraries', 'Itineraries'],
 					'contribution',
 				].map((el0) => {
@@ -39,7 +42,9 @@ export default function Content() {
 				]}
 			/>
 			<Interface />
-			<NextSteps issues="574" />
+			<NextSteps issues={[574]} />
+			<I18n />
+			<NextSteps issues={[218]} />
 			<PlaceSearch />
 			<NextSteps issues={[565]} />
 			<StreetImagery />
@@ -49,6 +54,8 @@ export default function Content() {
 			<NextSteps issues={[580, 767]} />
 			<Divers />
 			<NextSteps issues={[546]} />
-		</section>
+		</Section>
 	)
 }
+
+const Section = styled.section``
