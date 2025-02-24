@@ -23,7 +23,7 @@ export default function Content() {
 			/>
 			<Intro />
 			<Basemaps />
-			<NextSteps issues={['free satellite imager', 'paid styles']} />
+			<NextSteps issues={[830, 699]} />
 			<Interface />
 			<NextSteps issues="574" />
 			<Navigation />
