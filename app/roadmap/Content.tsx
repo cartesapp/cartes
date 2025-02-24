@@ -3,16 +3,25 @@ import Intro from './intro.mdx'
 import Basemaps from './basemaps.mdx'
 import Interface from './interface.mdx'
 import Contribution from './contribution.mdx'
-import Navigation from './navigation.mdx'
 import NextSteps from '@/components/NextSteps'
 import { capitalise0 } from '@/components/utils/utils'
+import Itinerary from './itinerary.mdx'
+import Divers from './divers.mdx'
+import PlaceSearch from './placeSearch.mdx'
+import StreetImagery from './street.mdx'
 
 export default function Content() {
 	return (
 		<section>
 			<Sommaire
 				url={'/roadmap'}
-				headings={['introduction', 'basemaps', 'interface'].map((el0) => {
+				headings={[
+					'introduction',
+					'basemaps',
+					'interface',
+					['itineraries', 'Itineraries'],
+					'contribution',
+				].map((el0) => {
 					const el = Array.isArray(el0) ? el0 : [el0, capitalise0(el0)]
 					return {
 						slug: el[0],
@@ -31,9 +40,14 @@ export default function Content() {
 			/>
 			<Interface />
 			<NextSteps issues="574" />
-			<Navigation />
+			<PlaceSearch />
+			<StreetImagery />
+			<Itinerary />
+			<NextSteps issues={[834, 261]} />
 			<Contribution />
-			<NextSteps issues="580" />
+			<NextSteps issues={[580, 767]} />
+			<Divers />
+			<NextSteps issues={[546]} />
 		</section>
 	)
 }
