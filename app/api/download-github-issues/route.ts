@@ -6,5 +6,5 @@ export async function GET(request) {
 
 	const issues = await downloadIssues()
 
-	return new Response.json(issues)
+	return new Response(JSON.stringify(issues))
 }

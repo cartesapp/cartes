@@ -52,29 +52,67 @@ export default function NextSteps({ issues: givenIssues }) {
 				...issue,
 				comments: issueComments,
 				effort: computeEffort(issue.body, issueComments),
+				enTitle: extractEnglishTitle(issue),
 			}
 		}
 	)
 
 	return (
 		<Wrapper>
-			{results.map((issue) => (
-				<div key={issue.number}>
-					<a href={issue.html_url} target="_blank">
-						{issue.title}
-					</a>{' '}
-					🧑‍💻 {issue.effort}
-				</div>
-			))}
+			<ol>
+				{results.map((issue) => (
+					<li key={issue.number}>
+						<a href={issue.html_url} target="_blank">
+							<small>{issue.enTitle || issue.title}</small>
+						</a>{' '}
+						<div style={{ textAlign: 'right' }}>🧑‍💻 {issue.effort}</div>
+					</li>
+				))}
+			</ol>
 		</Wrapper>
 	)
 }
 
 const Wrapper = styled.section`
-	border: 1px solid red;
-	display: flex;
-	flex-direction: column;
+	overflow: hidden;
+	width: 50rem;
+	max-width: 90vw;
+	margin: 0;
+	ol {
+		white-space: nowrap;
+		height: 8rem;
+		display: flex;
+		align-items: center;
+		overflow: scroll;
+		list-style-type: none;
+		padding-left: 0;
+
+		li {
+			background: white;
+			height: 6rem;
+			width: 12rem;
+			min-width: 14rem;
+			margin: 0 0.6rem;
+			padding: 0.3rem 0.8rem;
+			border: 1px solid var(--lighterColor);
+			border-radius: 0.4rem;
+			white-space: wrap;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			small {
+				font-size: 90%;
+			}
+		}
+	}
 `
+
+const extractEnglishTitle = (issue) => {
+	const { body } = issue
+
+	const found = body.match(/🇬🇧\s(.+)\s🇬🇧/)
+	if (found) return found[1]
+}
 
 const computeEffort = (body, comments) => {
 	const efforts = [{ body }, ...comments]
