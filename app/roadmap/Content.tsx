@@ -41,6 +41,7 @@ export default function Content() {
 			<Interface />
 			<NextSteps issues="574" />
 			<PlaceSearch />
+			<NextSteps issues={[565]} />
 			<StreetImagery />
 			<Itinerary />
 			<NextSteps issues={[834, 261]} />
