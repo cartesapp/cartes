@@ -51,7 +51,7 @@ export default function NextSteps({ issues: givenIssues }) {
 			return {
 				...issue,
 				comments: issueComments,
-				effort: computeEffort(issue.body, issueComments),
+				effort: computeEffort(issue.title, issue.body, issueComments),
 				enTitle: extractEnglishTitle(issue),
 			}
 		}
@@ -114,11 +114,22 @@ const extractEnglishTitle = (issue) => {
 	if (found) return found[1]
 }
 
-const computeEffort = (body, comments) => {
+// Regular expression to match the watch symbol followed by a number
+const watchRegex = /⌚️(\d+(\.\d+)?)/g
+const computeEffort = (title, body, comments) => {
 	const efforts = [{ body }, ...comments]
-		.map((comment) => comment.body.match(/⌚️(\d+(\.\d)?)/))
+		.map((comment) => {
+			const match = comment.body.match(watchRegex)
+			return match
+				? match
+						.flatMap((match) => parseFloat(match.replace('⌚️', '')))
+						.reduce((acc, value) => acc + value, 0)
+				: 0
+		})
 		.filter(Boolean)
-		.map((match) => +match[1])
+	//.map((match) => +match[1])
+
+	console.log('indigo efforts', title, efforts)
 
 	const totalEffort = efforts.reduce((memo, next) => next + memo, 0)
 	return totalEffort
