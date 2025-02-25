@@ -1,16 +1,16 @@
-import Sommaire from '../blog/Sommaire'
-import Intro from './intro.mdx'
-import Basemaps from './basemaps.mdx'
-import Interface from './interface.mdx'
-import Contribution from './contribution.mdx'
 import NextSteps from '@/components/NextSteps'
 import { capitalise0 } from '@/components/utils/utils'
-import Itinerary from './itinerary.mdx'
-import Divers from './divers.mdx'
-import PlaceSearch from './placeSearch.mdx'
-import StreetImagery from './street.mdx'
 import { styled } from 'next-yak'
-import I18n from './i18n.mdx'
+import Sommaire from '../blog/Sommaire'
+import Basemaps, { todo as basemapsIssues } from './basemaps.mdx'
+import Contribution, { todo as contributionIssues } from './contribution.mdx'
+import Divers, { todo as diversIssues } from './divers.mdx'
+import I18n, { todo as i18nIssues } from './i18n.mdx'
+import Interface, { todo as interfaceIssues } from './interface.mdx'
+import Intro from './intro.mdx'
+import Itinerary, { todo as itineraryIssues } from './itinerary.mdx'
+import PlaceSearch, { todo as placeSearchIssues } from './placeSearch.mdx'
+import StreetImagery, { todo as streetImageryIssues } from './street.mdx'
 
 export default function Content() {
 	return (
@@ -35,27 +35,37 @@ export default function Content() {
 			/>
 			<Intro />
 			<Basemaps />
-			<NextSteps
-				issues={[
-					830, 699,
-					// fonds de carte plus à jour
-				]}
-			/>
+			<NextSteps issues={basemapsIssues} />
 			<Interface />
-			<NextSteps issues={[574]} />
+			<NextSteps issues={interfaceIssues} />
 			<I18n />
-			<NextSteps issues={[218]} />
+			<NextSteps issues={i18nIssues} />
 			<PlaceSearch />
-			<NextSteps issues={[565]} />
+			<NextSteps issues={placeSearchIssues} />
 			<StreetImagery />
 			<Itinerary />
-			<NextSteps issues={[834, 261]} />
+			<NextSteps issues={itineraryIssues} />
 			<Contribution />
-			<NextSteps issues={[580, 767]} />
+			<NextSteps issues={contributionIssues} />
 			<Divers />
-			<NextSteps issues={[546]} />
+			<NextSteps issues={diversIssues} />
 		</Section>
 	)
 }
+
+/*
+const Total = () => {
+	const total = [
+		interfaceIssues,
+		i18nIssues,
+		placeSearchIssues,
+		itineraryIssues,
+		contributionIssues,
+		diversIssues,
+	]
+		.flat()
+		.reduce((memo, next) => {}, 0)
+}
+*/
 
 const Section = styled.section``

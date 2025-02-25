@@ -5,12 +5,32 @@ const headers = {
 }
 export async function GET(request) {
 	const requestUrl = new URL(request.url),
-		number = requestUrl.searchParams.get('number')
-	const request2 = await fetch(url(number), {
-		headers,
-	})
+		number = requestUrl.searchParams.get('number'),
+		numbers = requestUrl.searchParams.get('bulk')
 
-	const json = await request2.json()
+	if (number != null) {
+		const request2 = await fetch(url(number), {
+			cache: 'force-cache',
+			headers,
+		})
 
-	return new Response(JSON.stringify(json))
+		const json = await request2.json()
+
+		return new Response(JSON.stringify(json))
+	}
+	if (numbers != null) {
+		const result = await Promise.all(
+			numbers.map(async (number) => {
+				const request2 = fetch(url(number), {
+					cache: 'force-cache',
+					headers,
+				})
+
+				const json = await request2.json()
+				return json
+			})
+		)
+
+		return new Response(JSON.stringify(result))
+	}
 }
