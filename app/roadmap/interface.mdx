@@ -1,0 +1,9 @@
+## Interface
+
+We've built a basic interface that adapts to mobile or desktop. Working on the modal sheet (the bottom content block that slides up and down with your finger) was hard (we cloned and corrected an existing lib), as nobody has yet built a Web mobile style sheet : all the $ went to Android and Apple development.
+
+Place pages are the basics of a working digital map. Openstreetmap.org's place icons are not clickable because the map is not vector but raster. We had to encode the OSM place id + place type (node/way/relation) inside or own tiles : most tiles do not let us make the link to the OSM API to retrieve the full set of data of a place, and hence display a place page.
+
+The place page needs lots of other sources of data to be interesting enough for the user. We need Wikipedia, its pictures, Wikimedia common's pictures, Wikidata facts, train station live train times, cinema snippets, etc. The list goes on, it's just a matter of implementing the right stuff. We're looking for the most open source of data for each domain.
+
+export const todo = [574, 195, 842]

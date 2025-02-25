@@ -1,0 +1,28 @@
+## Basemaps
+
+We're using MapLibre to instantiate a canvas where the map will be drawn using your device's GPU, making it faster than traditional Web maps.
+
+> MapLibre is a fork of MapBox, which itself was an open source alternative to Google Maps's hosting service that gained traction when Google raised its prices.
+
+MapLibre is just a client renderer that talks to a server to know what data to draw. We started using the Swiss and French-speaking MapTiler and its great panoply of basemaps.
+
+Once you have map data to show, you need to decide how you'll show them : should buildings be gray or brown ? Should roads be yellow or gray ? This is defined in MapLibre JSON stylesheets, and also provided by MapTiler. We first customized their base style for with our own design choices.
+
+But we soon hit higher than expected spending : to serve our first few thousand users, we had a 150 €/month MapTiler invoice.
+
+So we built our own : on top of limiting costs to a fixed 50 €/month of a French Scaleway server using Protomaps's ingenious technology, it let us customise not only the style but the _data_ we wanted to show to our users, departing from MapTiler's tile standard called OpenMapTiles.
+
+OpenStreetMap is rich, sometimes incredibly rich. In most cases, especially in cities, you don't want to show _all_ of OSM's data to your users to avoid drawning key information in details. If the style serves as the ultimate filter, the whole point of tiles design is to carefully select some features (places, trees, shops, trash bins...) for some level of zooms only, in order to save bandwidth space.
+
+Open map tile standards (OpenMapTiles, Shortbread, Protomaps) are great for projects that want to embed maps, but fail short for projects that are rethink maps themselves.
+
+Conclusion : we now have a main custom map style (+ tiles), but also provide interesting third-party specialized styles.
+
+See this issue to understand more thorougly [the tiles challenge](https://github.com/cartesapp/cartes/issues/833).
+
+> Note : you can freely embed Cartes's basemaps, see some [integration demos](https://cartes.app/integration)
+
+export const todo = [
+	830, 699, 836, 555, 647,
+	// fonds de carte plus à jour
+]

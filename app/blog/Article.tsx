@@ -11,6 +11,7 @@ import { mdxComponents } from './mdxComponents'
 import { dateCool, getLastEdit } from './utils'
 import { getSlug, hasTranslation } from './blogArticles'
 import Link from 'next/link'
+import Sommaire from './Sommaire'
 
 export default async function Article({ post, slug }) {
 	const MDXContent = getMDXComponent(post.body.code)
@@ -63,8 +64,10 @@ export default async function Article({ post, slug }) {
 						</Translation>
 					)}
 
-					<hr />
+					{!post.sommaire && <hr />}
 				</header>
+				{post.sommaire && <Sommaire headings={post.headings} url={post.url} />}
+
 				<MDXContent components={mdxComponents} />
 				<Contribution slug={slug} />
 				<OtherArticles excludeUrl={post.url} />

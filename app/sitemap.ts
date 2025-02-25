@@ -22,7 +22,6 @@ const basePaths = [
 ]
 
 const generateAgencies = async () => {
-	console.log('CURRENT ENV', process.env)
 	try {
 		const request = await fetch(gtfsServerUrl + '/agencies')
 		const json = await request.json()

@@ -11,6 +11,7 @@ const octokit = new Octokit({ auth: process.env.GITHUB_CLASSIC_TOKEN })
 //
 
 export async function downloadIssues() {
+	console.log('🐙 will download github issues and store them in public/')
 	const response = await octokit.paginate('GET /repos/{owner}/{repo}/issues', {
 		owner: 'cartesapp',
 		repo: 'cartes',
