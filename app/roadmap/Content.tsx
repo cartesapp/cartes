@@ -22,8 +22,11 @@ export default function Content() {
 					'basemaps',
 					'interface',
 					'internationalisation',
+					['place-search', 'Place search'],
+					['street-imagery', 'Street imagery'],
 					['itineraries', 'Itineraries'],
 					'contribution',
+					'miscellaneous',
 				].map((el0) => {
 					const el = Array.isArray(el0) ? el0 : [el0, capitalise0(el0)]
 					return {
