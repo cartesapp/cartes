@@ -15,7 +15,7 @@ export default function Page() {
 			<section>
 				<header>
 					<h1>
-						<Image src={Logo} alt="Logo de cartes.app" /> Cartes
+						<Image src={Logo} alt="Logo de cartes.app" /> <span>Cartes</span>
 					</h1>
 				</header>
 			</section>
@@ -28,6 +28,9 @@ export default function Page() {
 					height: 'auto',
 					margin: '0 auto',
 					display: 'block',
+					borderRadius: '1rem',
+					boxShadow:
+						'.3px .5px .7px #a1a1a15c,.8px 1.6px 2px -.8px #a1a1a15c,2.1px 4.1px 5.2px -1.7px #a1a1a15c,5px 10px 12.6px -2.5px #a1a1a15c',
 				}}
 				alt="Image of the map of France being built as a building worksite"
 			/>
