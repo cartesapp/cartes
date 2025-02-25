@@ -119,6 +119,7 @@ const computeEffort = (title, body, comments) => {
 	const efforts = [{ body }, ...comments]
 		.map((comment) => {
 			const match = comment.body.match(watchRegex)
+			console.log('super', title, match, comment.body)
 			return match
 				? match
 						.flatMap((match) => parseFloat(match.replace('⌚️', '')))
@@ -127,8 +128,6 @@ const computeEffort = (title, body, comments) => {
 		})
 		.filter(Boolean)
 	//.map((match) => +match[1])
-
-	console.log('indigo efforts', title, efforts)
 
 	const totalEffort = efforts.reduce((memo, next) => next + memo, 0)
 	return totalEffort

@@ -10,7 +10,7 @@ export async function GET(request) {
 
 	if (number != null) {
 		const request2 = await fetch(url(number), {
-			cache: 'force-cache',
+			//			cache: 'force-cache',
 			headers,
 		})
 
