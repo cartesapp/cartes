@@ -47,25 +47,23 @@ export default function MoreCategories({
 				}
 				{Object.entries(groups).map(([group, categories]) => {
 					const groupColor = categoryColors[group]
-					const showAllCategories = (group == largeGroup)
+					const expandGroup = (group == largeGroup)
 					// tri des catégories par ordre alphabétique
 					categories.sort(compareCategoryName);
 					return (
-						<Group key={group} $groupColor={groupColor}>
-							<h2 onClick={() => changeLargeGroup(group)}>{group} {showAllCategories ? '▲' : '▼'}</h2>
+						<Group key={group} $groupColor={groupColor} $expandGroup={expandGroup}>
+							<h2 onClick={() => changeLargeGroup(group)}>{group} {expandGroup ? '▲' : '▼'}</h2>
 							<div>
 								<ul>
 									{categories.map((category) => {
 										const isActive = categoriesSet.includes(category.name)
-										// on affiche la catégorie :
-										// - si il y a une recherche de texte en cours (pour qu'on voit les visible=false qui matchent)
-										// - ou si la catégorie est active (pour qu'on la voit et qu'on puisse la déselectionner)
-										// - ou enfin, si l'utilisateur a cliqué pour agrandir ce groupe
-										if (doFilter || isActive || showAllCategories) return (
+										const display = doFilter || isActive || expandGroup
+										return (
 											<Category
 												key={category.name}
 												$active={isActive}
 												$isExact={category.score < exactThreshold}
+												$display={display}
 											>
 												<Link href={getNewSearchParamsLink(category)}>
 													<MapIcon
@@ -116,11 +114,6 @@ const Wrapper = styled.div`
 		display: flex;
 		align-items: center;
 
-		/* Touch devices can scroll horizontally, desktop devices (hover:hover) cannot */
-		// But scrolling is too long when many categories => wrap whatever the media
-		// @media (hover: hover) {
-			flex-wrap: wrap;
-		// }
 		li {
 			margin: 0.2rem 0.2rem;
 			padding: 0rem 0.3rem;
@@ -152,6 +145,15 @@ const Wrapper = styled.div`
 const Group = styled.li`
 	border-left: 4px solid ${(p) => p.$groupColor};
 	padding-left: 0.4rem;
+	div > ul {
+		/* Touch devices can scroll horizontally, desktop devices (hover:hover) cannot */
+		@media (hover: hover) {
+			flex-wrap: wrap;
+		}
+		@media (hover: none) {
+			flex-wrap: ${(p) => (p.$expandGroup ? `wrap` : `none`)};
+		}
+	}
 `
 
 const Category = styled.li`
@@ -164,6 +166,9 @@ const Category = styled.li`
 					border-color: var(--darkColor) !important;
 			  `
 			: ''}
+	@media (hover: hover) {
+		display: ${(p) => (p.$display ? `flex` : `none`)};
+	}
 `
 const MapIcon = ({ category, color, bulkImages }) => {
 	const src = bulkImages[category['icon alias'] || category['icon']]
