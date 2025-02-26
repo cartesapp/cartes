@@ -32,32 +32,53 @@ export default function MoreCategories({
 		doFetch()
 	}, [setBulkImages])
 
+	// variable d'état pour stocker le groupe dont toutes les catégories sont affichées
+	const [largeGroup, setLargeGroup] = useState(false);
+	// et fonction pour le modifier
+	function changeLargeGroup(group) {
+		setLargeGroup(group == largeGroup ? false : group)
+	}
+
 	return (
 		<Wrapper>
 			<ol>
+				{ !doFilter && //si pas de recherche en cours, on affiche ce message
+					<p>Astuce : utilisez la barre de recherche pour trouver des catégories</p>
+				}
 				{Object.entries(groups).map(([group, categories]) => {
 					const groupColor = categoryColors[group]
+					const showAllCategories = (group == largeGroup)
+					// tri des catégories par ordre alphabétique
+					categories.sort(compareCategoryName);
 					return (
 						<Group key={group} $groupColor={groupColor}>
-							<h2>{group}</h2>
+							<h2 onClick={() => changeLargeGroup(group)}>{group} {showAllCategories ? '▲' : '▼'}</h2>
 							<div>
 								<ul>
-									{categories.map((category) => (
-										<Category
-											key={category.name}
-											$active={categoriesSet.includes(category.name)}
-											$isExact={category.score < exactThreshold}
-										>
-											<Link href={getNewSearchParamsLink(category)}>
-												<MapIcon
-													category={category}
-													color={groupColor}
-													bulkImages={bulkImages}
-												/>{' '}
-												{uncapitalise0(category.title || category.name)}
-											</Link>
-										</Category>
-									))}
+									{categories.map((category) => {
+										const isActive = categoriesSet.includes(category.name)
+										// on affiche la catégorie :
+										// - si il y a une recherche de texte en cours (pour qu'on voit les visible=false qui matchent)
+										// - ou si la catégorie est active (pour qu'on la voit et qu'on puisse la déselectionner)
+										// - ou sinon, si on a définit dans le yaml qu'on veut la mettre en avant (pour le menu initial)
+										// - ou enfin, si l'utilisateur a cliqué pour agrandir ce groupe
+										if (doFilter || isActive || category.highlight || showAllCategories) return (
+											<Category
+												key={category.name}
+												$active={isActive}
+												$isExact={category.score < exactThreshold}
+											>
+												<Link href={getNewSearchParamsLink(category)}>
+													<MapIcon
+														category={category}
+														color={groupColor}
+														bulkImages={bulkImages}
+													/>{' '}
+													{uncapitalise0(category.title || category.name)}
+												</Link>
+											</Category>
+										)
+									})}
 								</ul>
 							</div>
 						</Group>
@@ -72,6 +93,12 @@ const Wrapper = styled.div`
 	margin-bottom: 0.6rem;
 	@media (max-width: 800px) {
 		margin-top: ${(p) => (p.$doFilter ? `0.6rem` : '0')};
+	}
+	p {
+		font-size: 75%;
+		margin: 0.4rem 0 0.1rem 0;
+		line-height: initial;
+		color: var(--darkerColor);
 	}
 	ol,
 	ul {
@@ -91,9 +118,10 @@ const Wrapper = styled.div`
 		align-items: center;
 
 		/* Touch devices can scroll horizontally, desktop devices (hover:hover) cannot */
-		@media (hover: hover) {
+		// But scrolling is too long when many categories => wrap whatever the media
+		// @media (hover: hover) {
 			flex-wrap: wrap;
-		}
+		// }
 		li {
 			margin: 0.2rem 0.2rem;
 			padding: 0rem 0.3rem;
@@ -119,6 +147,7 @@ const Wrapper = styled.div`
 		margin: 0.4rem 0 0.1rem 0;
 		line-height: initial;
 		color: var(--darkerColor);
+		cursor: pointer;
 	}
 `
 const Group = styled.li`
@@ -151,3 +180,13 @@ const MapIconImage = styled(Image)`
 	vertical-align: sub;
 	margin-bottom: 0.05rem;
 `
+
+function compareCategoryName( a, b ) {
+  if ( a.name.toLowerCase() < b.name.toLowerCase() ){
+    return -1;
+  }
+  if ( a.name.toLowerCase() > b.name.toLowerCase() ){
+    return 1;
+  }
+  return 0;
+}
