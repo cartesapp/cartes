@@ -6,7 +6,6 @@
 # - query : for overpass
 # - icon : name of the svg file to be loaded
 # - icon alias (facultative) : new name for the icon in case the same svg is used in different category groups
-# - highlight (facutative) : true to display the category as example in the menu
 
 #######################
 # RESTAURANTS
@@ -31,7 +30,6 @@
     '[amenity=restaurant][cuisine~crepe]'
     #icon: hermine ne marche pas :/
   icon: hermine
-  highlight: true
 
 - name: Restaurant étoilé
   category: Restaurants
@@ -97,7 +95,6 @@
     - '[food=pizza]'
     - '["food:pizza"=yes]'
   icon: restaurant
-  highlight: true
 
 - name: Libanais
   category: Restaurants
@@ -147,7 +144,6 @@
     - '["diet:vegetarian"~"yes|only"]'
     - '["diet:vegan"~"yes|only"]'
   icon: veg
-  highlight: true
 
 - name: Vegan
   category: Restaurants
@@ -181,7 +177,6 @@
     - '["amenity"="cafe"]'
     - '["amenity"="pub"]'
   icon: beer
-  highlight: true
 
 - name: Bar à bière
   category: Bars et boisson
@@ -250,7 +245,6 @@
     - '["amenity"="bar"]'
     - '["amenity"="cafe"]'
   icon: cafe
-  highlight: true
 
 - name: Salon de thé
   category: Bars et boisson
@@ -258,7 +252,6 @@
     - infusion
   query: '["cuisine"="teahouse"]'
   icon: tea
-  highlight: true
 
 #######################
 # COMMERCES DE BOUCHE
@@ -284,7 +277,6 @@
     - charcutier
   query: '[shop=butcher]'
   icon: meat
-  highlight: true
 
 - name: Boutique de café
   category: Alimentation
@@ -316,7 +308,6 @@
     - tablette
   query: '[shop=chocolate]'
   icon: chocolate
-  highlight: true
 
 - name: Épicerie fine
   category: Alimentation
@@ -377,7 +368,6 @@
     - légumes
   query: '[shop=greengrocer]'
   icon: grapes
-  highlight: true
 
 - name: Produits de la ferme
   category: Alimentation
@@ -419,7 +409,6 @@
     - '[amenity=theatre]' # Exemple : salle de concert à Brest https://www.openstreetmap.org/way/42531718#map=18/48.38500/-4.48092
   icon: music
   category: Loisirs
-  highlight: true
 
 - name: Théâtre
   dictionary:
@@ -429,7 +418,6 @@
     - '[amenity=theatre]' # Exemple : salle de concert à Brest https://www.openstreetmap.org/way/42531718#map=18/48.38500/-4.48092
   icon: theatre
   category: Loisirs
-  highlight: true
 
 - name: Jeux pour enfants
   category: Loisirs
@@ -442,7 +430,6 @@
     - '[landuse=recreation_ground]'
     - '[attraction=carousel]'
   icon: playground
-  highlight: true
 
 - name: lieu-culte
   title: Lieu de culte
@@ -492,13 +479,11 @@
     - généraliste
   query: '[amenity=doctors]'
   icon: doctors
-  highlight: true
 
 - name: Pharmacie
   category: Santé
   query: '[amenity=pharmacy]'
   icon: pharmacy
-  highlight: true
 
 - name: dentiste
   category: Santé
@@ -514,7 +499,6 @@
     - animaux
   query: '[amenity=veterinary]'
   icon: veterinary
-  highlight: true
 
 - name: infirmière
   category: Santé
@@ -544,7 +528,6 @@
     - déchets organiques
   query: '["recycling:organic"="yes"]'
   icon: recycling
-  highlight: true
 
 - name: verre
   category: Poubelles
@@ -552,7 +535,6 @@
     - bouteille
   query: '[amenity=recycling]["recycling:glass_bottles"=yes]'
   icon: recycling
-  highlight: true
 
 - name: vêtements
   category: Poubelles
@@ -578,7 +560,6 @@
     - '["recycling:paper"=yes]'
     - '["recycling:plastic_packaging"=yes]'
   icon: recycling
-  highlight: true
 
 - name: piles et batteries
   category: Poubelles
@@ -599,7 +580,6 @@
     - médiathèque
   query: '[amenity=library]'
   icon: book
-  highlight: true
 
 - name: Librairie
   category: Culture
@@ -608,7 +588,6 @@
     - bouquins
   query: '[shop="books"]'
   icon: book
-  highlight: true
 
 - name: Journaux
   category: Culture
@@ -618,7 +597,6 @@
     - presse
   query: '[shop~"newsagent|kiosk"]'
   icon: newspaper
-  highlight: true
 
 #######################
 # TOURISME
@@ -631,7 +609,6 @@
   query:
     - '[tourism=museum]'
   icon: museum
-  highlight: true
 
 - name: Œuvre d'art
   category: Tourisme
@@ -690,13 +667,11 @@
     - caravane
   query: '[tourism~"camp_site|caravan_site"]'
   icon: camping
-  highlight: true
 
 - name: plage
   category: Tourisme
   query: '[natural=beach]'
   icon: beach
-  highlight: true
 
 #######################
 # COMMERCES NON ALIMENTAIRES
@@ -709,7 +684,6 @@
     - fringues
   query: '[shop=clothes]'
   icon: clothes
-  highlight: true
 
 - name: Chaussures
   category: Commerces
@@ -719,7 +693,6 @@
   query: '[shop=shoes]'
   icon: shoes
   icon alias: shop-shoes
-  highlight: true
 
 - name: Centre commercial
   category: Commerces
@@ -737,7 +710,6 @@
     - colis
   query: '[amenity=parcel_locker]'
   icon: parcel_locker
-  highlight: true
 
 #######################
 # DÉPLACEMENTS
@@ -777,7 +749,6 @@
     - stationnement
   query: '[amenity=bicycle_parking]'
   icon: bicycle_parking
-  highlight: true
 
 - name: parking-velo-securise # pas d'accent pour que les url soient propres : toujours en 2024 les navigateurs (états-uniens) refusent une vision non états-unienne du Web sous prétexte de lutte contre le phishing
   title: Parking vélo sécurisé
@@ -838,7 +809,6 @@
     - borne
   query: '[amenity=charging_station]'
   icon: charging_station
-  highlight: true
 
 - name: Station de gonflage
   category: Déplacements
@@ -870,7 +840,6 @@
     - '[carpool=designated]'
     - '[amenity=car_pooling]'
   icon: car_pooling
-  highlight: true
 
 - name: Location de voiture
   category: Déplacements
@@ -891,7 +860,6 @@
     - fauteuil
   query: '[parking_space=disabled]'
   icon: wheelchair
-  highlight: true
 
 #######################
 # SPORTS
@@ -931,7 +899,6 @@
     - 🤾‍♀️
   query: '[leisure=sports_hall]'
   icon: gymnasium
-  highlight: true
 
 - name: Terrain multisport
   category: Sports
@@ -989,7 +956,6 @@
       # basin only  query: '[leisure=swimming_pool][access=yes]'
   query: '[leisure=sports_centre][sport=swimming]'
   icon: swimming_outdoor
-  highlight: true
 
 - name: Salle de musculation
   category: Sports
@@ -1092,7 +1058,6 @@
   query:
     - '["leisure"="pitch"][sport=skateboard]'
   icon: skateboard
-  highlight: true
 
 - name: Pumptrack
   category: Sports
@@ -1260,7 +1225,6 @@
     - comissariat
   query: '[amenity=police]'
   icon: police
-  highlight: true
 
 - name: Point d'eau
   category: Divers # dans "Divers" plutôt que Boissons car c'est un usage pratique, non commercial de la boisson, plutôt qu'un usage "plaisir"
@@ -1282,12 +1246,13 @@
     - la poste
   query: '[amenity=post_office]'
   icon: post
-  highlight: true
+
 - title: Coiffeur
   category: Divers
   name: coiffeur
   query: '[shop=hairdresser]'
   icon: hairdresser
+
 - title: Laverie
   category: Divers
   name: laverie
@@ -1302,7 +1267,7 @@
     - '[shop=laundry]'
     - '[shop=dry_cleaning]'
   icon: laundry
-  highlight: true
+
 - title: Espace de cotravail (coworking)
   category: Divers
   name: cotravail

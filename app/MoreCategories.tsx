@@ -60,9 +60,8 @@ export default function MoreCategories({
 										// on affiche la catégorie :
 										// - si il y a une recherche de texte en cours (pour qu'on voit les visible=false qui matchent)
 										// - ou si la catégorie est active (pour qu'on la voit et qu'on puisse la déselectionner)
-										// - ou sinon, si on a définit dans le yaml qu'on veut la mettre en avant (pour le menu initial)
 										// - ou enfin, si l'utilisateur a cliqué pour agrandir ce groupe
-										if (doFilter || isActive || category.highlight || showAllCategories) return (
+										if (doFilter || isActive || showAllCategories) return (
 											<Category
 												key={category.name}
 												$active={isActive}
