@@ -5,6 +5,7 @@ import départements from '../../departement/départements.yaml'
 import { communesLimit, populationLimit } from '../../departement/fetchCommunes'
 import { fetchRegionCommunes } from '../fetchCommunes'
 import { capitalise0 } from '@/components/utils/utils'
+import { Ol } from '../../Régions'
 
 export async function generateMetadata(
 	{ params, searchParams }: Props,
@@ -52,7 +53,7 @@ export default async function (props) {
 			<h2>
 				Départements de la région {found.nom_region} {found.code_region}
 			</h2>
-			<ol>
+			<Ol>
 				{departements.map(({ code, nom }) => (
 					<li key={code}>
 						<Link
@@ -62,19 +63,19 @@ export default async function (props) {
 						</Link>
 					</li>
 				))}
-			</ol>
+			</Ol>
 			<h2>Communes de la région {found.nom_region}</h2>
 			<p>
 				Sont affichées les {communesLimit} premières communes de plus de{' '}
 				{populationLimit} habitants.
 			</p>
-			<ol>
+			<Ol>
 				{communes.map((commune) => (
 					<li key={commune.code}>
 						<Link href={`/lieux/${commune.nom}`}>{commune.nom}</Link>
 					</li>
 				))}
-			</ol>
+			</Ol>
 		</main>
 	)
 }

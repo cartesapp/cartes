@@ -9,6 +9,7 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import removeAccent from 'remove-accents'
 import { slugify } from '../../region/[region]/page'
+import { Ol } from '../../Régions'
 
 export async function generateMetadata(
 	{ params, searchParams }: Props,
@@ -57,13 +58,13 @@ export default async function (props) {
 				Sont affichées les {communesLimit} premières communes de plus de{' '}
 				{populationLimit} habitants.
 			</p>
-			<ol>
+			<Ol>
 				{communes.map((commune) => (
 					<li key={commune.code}>
 						<Link href={`/lieux/${commune.nom}`}>{commune.nom}</Link>
 					</li>
 				))}
-			</ol>
+			</Ol>
 		</main>
 	)
 }

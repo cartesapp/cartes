@@ -1,4 +1,5 @@
 import départements from '@/app/lieux/departement/départements.yaml'
+import { styled } from 'next-yak'
 import Link from 'next/link'
 import removeAccents from 'remove-accents'
 
@@ -27,7 +28,7 @@ export default function Régions() {
 				peut enrichir les horaires, la description et tous les attributs d'un
 				lieu.
 			</p>
-			<ol>
+			<Ol>
 				{entries.map(([code, list]) => {
 					const name = list[0].nom_region
 					const slug = removeAccents(name).toLowerCase()
@@ -38,7 +39,12 @@ export default function Régions() {
 						</li>
 					)
 				})}
-			</ol>
+			</Ol>
 		</main>
 	)
 }
+
+export const Ol = styled.ol`
+	list-style-type: circle;
+	padding-left: 0.8rem;
+`
