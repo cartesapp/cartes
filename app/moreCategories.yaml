@@ -1,18 +1,18 @@
 # CATEGORY LIST (GROUPED BY THEME)
 # with expected properties :
-# - name
-# - category : name of the group of categories
+# - name : name of the category
+# - group : name of the group of categories, which gives its color to the icon, and based on which the categories are grouped in the menu
 # - dictionnary : terms for text search bar
 # - query : for overpass
 # - icon : name of the svg file to be loaded
 # - icon alias (facultative) : new name for the icon in case the same svg is used in different category groups
 
 #######################
-# RESTAURANTS
+# GROUP : RESTAURANTS
 #######################
 
 - name: Chinois
-  category: Restaurants
+  group: Restaurants
   dictionary:
     - chinois
     - nem
@@ -22,7 +22,7 @@
   icon: restaurant
 
 - name: Crêperie
-  category: Restaurants
+  group: Restaurants
   dictionary:
     - crêpes
     - breton
@@ -32,7 +32,7 @@
   icon: hermine
 
 - name: Restaurant étoilé
-  category: Restaurants
+  group: Restaurants
   dictionary:
     - gastronomie
     - gastronomique
@@ -43,7 +43,7 @@
   icon: restaurant
 
 - name: Fast-food
-  category: Restaurants
+  group: Restaurants
   dictionary:
     - burger
     - macdo
@@ -54,7 +54,7 @@
   icon: fast_food
 
 - name: Cuisine française
-  category: Restaurants
+  group: Restaurants
   dictionary:
     - français
     - traditionnelle
@@ -63,7 +63,7 @@
   icon: restaurant
 
 - name: Grec
-  category: Restaurants
+  group: Restaurants
   dictionary:
     - tzatziki
     - dolmadakia
@@ -75,7 +75,7 @@
   icon: restaurant
 
 - name: Indien
-  category: Restaurants
+  group: Restaurants
   dictionary:
     - samoussa
     - tandoori
@@ -86,7 +86,7 @@
   icon: restaurant
 
 - name: Italien
-  category: Restaurants
+  group: Restaurants
   dictionary:
     - italien
     - pâtes
@@ -97,7 +97,7 @@
   icon: restaurant
 
 - name: Libanais
-  category: Restaurants
+  group: Restaurants
   dictionary:
     - falafel
     - houmous
@@ -106,7 +106,7 @@
   icon: restaurant
 
 - name: Pizzeria
-  category: Restaurants
+  group: Restaurants
   dictionary:
     - pizza
     - italien
@@ -118,7 +118,7 @@
   icon: pizza
 
 - name: Sushis
-  category: Restaurants
+  group: Restaurants
   dictionary:
     - sushi
     - maki
@@ -128,7 +128,7 @@
   icon: sushi
 
 - name: Végé
-  category: Restaurants
+  group: Restaurants
   description: Repas et cafés végétarien ou végan
   dictionary:
     - resto
@@ -146,7 +146,7 @@
   icon: veg
 
 - name: Vegan
-  category: Restaurants
+  group: Restaurants
   description: Repas et cafés végan
   dictionary:
     - resto
@@ -163,11 +163,11 @@
   icon: veg
 
 #######################
-# BARS & BOISSONS
+# GROUP : BARS & BOISSONS
 #######################
 
 - name: Bars
-  category: Bars et boisson
+  group: Bars et boisson
   dictionary:
     - boire
     - alcool
@@ -179,7 +179,7 @@
   icon: beer
 
 - name: Bar à bière
-  category: Bars et boisson
+  group: Bars et boisson
   dictionary:
     - bière
     - boire
@@ -195,14 +195,14 @@
   icon: beer
 
 - name: Bar à chats
-  category: Bars et boisson
+  group: Bars et boisson
   dictionary:
     - chat
   query: '["theme"="cat"]'
   icon: cat
 
 - name: Bar à chicha
-  category: Bars et boisson
+  group: Bars et boisson
   dictionary:
     - narguilé
     - fumer
@@ -210,7 +210,7 @@
   icon: cigarette
 
 - name: Bar à vin
-  category: Bars et boisson
+  group: Bars et boisson
   dictionary:
     - rosé
     - rouge
@@ -220,7 +220,7 @@
   icon: bottle
 
 - name: Bubble Tea
-  category: Bars et boisson
+  group: Bars et boisson
   dictionary:
     - bubble tea
     - bubble
@@ -235,7 +235,7 @@
   icon: bubbletea
 
 - name: Café
-  category: Bars et boisson
+  group: Bars et boisson
   dictionary:
     - bar
     - café
@@ -247,7 +247,7 @@
   icon: cafe
 
 - name: Point d'eau
-  category: Divers # dans "Divers" plutôt que Boissons car c'est un usage pratique, non commercial de la boisson, plutôt qu'un usage "plaisir"
+  group: Divers # dans "Divers" plutôt que Boissons car c'est un usage pratique, non commercial de la boisson, plutôt qu'un usage "plaisir"
   dictionary:
     - boire
     - fontaine
@@ -259,18 +259,18 @@
   icon: water
 
 - name: Salon de thé
-  category: Bars et boisson
+  group: Bars et boisson
   dictionary:
     - infusion
   query: '["cuisine"="teahouse"]'
   icon: tea
 
 #######################
-# COMMERCES DE BOUCHE
+# GROUP : ALIMENTATION (COMMERCES DE BOUCHE)
 #######################
 
 - name: Boulangerie
-  category: Alimentation
+  group: Alimentation
   dictionary:
     - pain
     - viennoiserie
@@ -281,7 +281,7 @@
   icon: bakery
 
 - name: Boucherie
-  category: Alimentation
+  group: Alimentation
   dictionary:
     - viande
     - charcuterie
@@ -290,14 +290,14 @@
   icon: meat
 
 - name: Boutique de café
-  category: Alimentation
+  group: Alimentation
   dictionary:
     - torréfacteur
   query: '[shop=coffee]'
   icon: cafe
 
 - name: Caviste
-  category: Alimentation
+  group: Alimentation
   dictionary:
     - vin
     - bouteille
@@ -305,7 +305,7 @@
   icon: bottle
 
 - name: Confiserie
-  category: Alimentation
+  group: Alimentation
   dictionary:
     - bonbon
     - sucrerie
@@ -313,7 +313,7 @@
   icon: candy
 
 - name: Chocolatier
-  category: Alimentation
+  group: Alimentation
   dictionary:
     - chocolat
     - tablette
@@ -321,7 +321,7 @@
   icon: chocolate
 
 - name: Épicerie fine
-  category: Alimentation
+  group: Alimentation
   dictionary:
     - delicatessen
   query: '[shop=deli]'
@@ -329,7 +329,7 @@
   icon alias: shop-food
 
 - name: Fromagerie
-  category: Alimentation
+  group: Alimentation
   dictionary:
     - fromage
     - traiteur
@@ -337,7 +337,7 @@
   icon: cheese
 
 - name: Glacier
-  category: Alimentation
+  group: Alimentation
   dictionary:
     - glace
     - sorbet
@@ -345,7 +345,7 @@
   icon: ice_cream
 
 - name: Miellerie
-  category: Alimentation
+  group: Alimentation
   inactive: Very specific; needs icon
   dictionary:
     - miel
@@ -355,7 +355,7 @@
   icon: honey
 
 - name: Pâtisserie
-  category: Alimentation
+  group: Alimentation
   dictionary:
     - viennoiserie
     - croissant
@@ -364,7 +364,7 @@
   icon: bakery
 
 - name: Poissonnerie
-  category: Alimentation
+  group: Alimentation
   dictionary:
     - poisson
     - crustacé
@@ -373,7 +373,7 @@
   icon: fish
 
 - name: Primeur
-  category: Alimentation
+  group: Alimentation
   dictionary:
     - fruits
     - légumes
@@ -381,7 +381,7 @@
   icon: grapes
 
 - name: Produits de la ferme
-  category: Alimentation
+  group: Alimentation
   dictionary:
     - producteur
     - terroir
@@ -395,7 +395,7 @@
   icon: farm
 
 - name: Thé
-  category: Alimentation
+  group: Alimentation
   dictionary:
     - infusion
     - menthe
@@ -403,7 +403,7 @@
   icon: tea
 
 #######################
-# LOISIRS
+# GROUP : LOISIRS
 #######################
 
 - name: Musique
@@ -419,7 +419,7 @@
     - '[amenity=festival_grounds]'
     - '[amenity=theatre]' # Exemple : salle de concert à Brest https://www.openstreetmap.org/way/42531718#map=18/48.38500/-4.48092
   icon: music
-  category: Loisirs
+  group: Loisirs
 
 - name: Théâtre
   dictionary:
@@ -428,15 +428,15 @@
   query:
     - '[amenity=theatre]' # Exemple : salle de concert à Brest https://www.openstreetmap.org/way/42531718#map=18/48.38500/-4.48092
   icon: theatre
-  category: Loisirs
+  group: Loisirs
 
 - name: plage
-  category: Tourisme
+  group: Tourisme
   query: '[natural=beach]'
   icon: beach
 
 - name: Jeux pour enfants
-  category: Loisirs
+  group: Loisirs
   dictionary:
     - terrain de jeu
     - manège
@@ -449,7 +449,7 @@
 
 - name: lieu-culte
   title: Lieu de culte
-  category: Loisirs
+  group: Loisirs
   dictionary:
     - église
     - temple
@@ -461,7 +461,7 @@
   icon: place_of_worship
 
 #######################
-# SANTE
+# GROUP : SANTE
 #######################
 
 - name: défibrillateur
@@ -472,14 +472,14 @@
   query: '[emergency=defibrillator]'
   icon: defibrillator
 - name: hôpital
-  category: Santé
+  group: Santé
   dictionary:
     - urgences
     - clinique
   query: '[amenity=hospital]'
   icon: hospital
 - name: clinique
-  category: Santé
+  group: Santé
   dictionary:
     - hôpital
     - urgences
@@ -488,37 +488,37 @@
     - '[healthcare=clinic]'
   icon: hospital
 - name: médecin
-  category: Santé
+  group: Santé
   dictionary:
     - docteur
     - généraliste
   query: '[amenity=doctors]'
   icon: doctors
 - name: Pharmacie
-  category: Santé
+  group: Santé
   query: '[amenity=pharmacy]'
   icon: pharmacy
 - name: dentiste
-  category: Santé
+  group: Santé
   dictionary:
     - dents
     - médecin
   query: '[amenity=dentist]'
   icon: tooth
 - name: vétérinaire
-  category: Santé
+  group: Santé
   dictionary:
     - animaux
   query: '[amenity=veterinary]'
   icon: veterinary
 - name: infirmière
-  category: Santé
+  group: Santé
   dictionary:
     - infirmière
   query: '[healthcare=nurse]'
   icon: nurse
 - name: sage-femme
-  category: Santé
+  group: Santé
   dictionary:
     - sage femme
     - accouchement
@@ -527,11 +527,11 @@
   icon: nurse
 
 #######################
-# POUBELLES
+# GROUP : POUBELLES
 #######################
 
 - name: compost
-  category: Poubelles
+  group: Poubelles
   dictionary:
     - composteur
     - compost
@@ -539,20 +539,20 @@
   query: '["recycling:organic"="yes"]'
   icon: recycling
 - name: verre
-  category: Poubelles
+  group: Poubelles
   dictionary:
     - bouteille
   query: '[amenity=recycling]["recycling:glass_bottles"=yes]'
   icon: recycling
 - name: vêtements
-  category: Poubelles
+  group: Poubelles
   dictionary:
     - coton
     - tissus
   query: '[amenity=recycling]["recycling:clothes"=yes]'
   icon: recycling
 - name: plastique et emballages
-  category: Poubelles
+  group: Poubelles
   dictionary:
     - canette
     - carton
@@ -567,7 +567,7 @@
     - '["recycling:plastic_packaging"=yes]'
   icon: recycling
 - name: piles et batteries
-  category: Poubelles
+  group: Poubelles
   dictionary:
     - piles
     - batterie
@@ -575,11 +575,11 @@
   icon: recycling
 
 #######################
-# CULTURE
+# GROUP : CULTURE
 #######################
 
 - name: Journaux
-  category: Culture
+  group: Culture
   dictionary:
     - kiosque
     - magazines
@@ -587,14 +587,14 @@
   query: '[shop~"newsagent|kiosk"]'
   icon: newspaper
 - name: Bibliothèque
-  category: Culture
+  group: Culture
   dictionary:
     - livres
     - médiathèque
   query: '[amenity=library]'
   icon: book
 - name: Librairie
-  category: Culture
+  group: Culture
   dictionary:
     - livres
     - bouquins
@@ -602,11 +602,11 @@
   icon: book
 
 #######################
-# TOURISME
+# GROUP : TOURISME
 #######################
 
 - name: Musée
-  category: Tourisme
+  group: Tourisme
   dictionary:
     - musée
   query:
@@ -614,7 +614,7 @@
   icon: museum
 
 - name: Œuvre d'art
-  category: Tourisme
+  group: Tourisme
   dictionary:
     - statue
     - sculpture
@@ -624,7 +624,7 @@
   icon: artwork
 
 - name: Attraction
-  category: Tourisme
+  group: Tourisme
   dictionary:
     - bâtiment
     - site
@@ -639,7 +639,7 @@
   icon: attraction
 
 - name: Information
-  category: Tourisme
+  group: Tourisme
   dictionary:
     - panneau
     - information
@@ -650,7 +650,7 @@
   query: '[tourism=information]'
   icon: information
 - name: Pique-nique
-  category: Tourisme
+  group: Tourisme
   dictionary:
     - picnic
     - pique-nique
@@ -660,7 +660,7 @@
   query: '[tourism=picnic_site]'
   icon: picnic
 - name: Camping
-  category: Tourisme
+  group: Tourisme
   dictionary:
     - camping
     - camping-car
@@ -670,18 +670,18 @@
   icon: camping
 
 #######################
-# COMMERCES NON ALIMENTAIRES
+# GROUP : COMMERCES (NON ALIMENTAIRES)
 #######################
 
 - name: Vêtements
-  category: Commerces
+  group: Commerces
   dictionary:
     - shopping
     - fringues
   query: '[shop=clothes]'
   icon: clothes
 - name: Chaussures
-  category: Commerces
+  group: Commerces
   dictionary:
     - shopping
     - chaussures
@@ -689,14 +689,14 @@
   icon: shoes
   icon alias: shop-shoes
 - name: Centre commercial
-  category: Commerces
+  group: Commerces
   dictionary:
     - courses
     - shopping
   query: '[shop=mall]'
   icon: shop
 - name: Casier à colis
-  category: Commerces
+  group: Commerces
   dictionary:
     - locker
     - pickup
@@ -705,11 +705,11 @@
   icon: parcel_locker
 
 #######################
-# DÉPLACEMENTS
+# GROUP : DÉPLACEMENTS
 #######################
 
 - name: gare
-  category: Déplacements
+  group: Déplacements
   title: Gare
   dictionary:
     - train
@@ -720,7 +720,7 @@
   icon: train
 - name: magasin-velo
   title: Magasin vélo
-  category: Déplacements
+  group: Déplacements
   dictionary:
     - réparation
     - bicyclette
@@ -731,7 +731,7 @@
 
 - name: parking-velo
   title: Parking vélo
-  category: Déplacements
+  group: Déplacements
   dictionary:
     - pince-roue
     - rack
@@ -744,7 +744,7 @@
 
 - name: parking-velo-securise # pas d'accent pour que les url soient propres : toujours en 2024 les navigateurs (états-uniens) refusent une vision non états-unienne du Web sous prétexte de lutte contre le phishing
   title: Parking vélo sécurisé
-  category: Déplacements
+  group: Déplacements
   dictionary:
     - rack sécurisé
     - box vélo
@@ -757,7 +757,7 @@
 
 - name: reparation-velo
   title: Réparation de vélo
-  category: Déplacements
+  group: Déplacements
   dictionary:
     - réparation
     - outils
@@ -770,7 +770,7 @@
   icon: bicycle_repair_station
 
 - name: gare-maritime
-  category: Déplacements
+  group: Déplacements
   title: Gare maritime
   dictionary:
     - ferry
@@ -781,7 +781,7 @@
 
 #### Déplacements / voiture
 - name: Essence
-  category: Déplacements
+  group: Déplacements
   dictionary:
     - diesel
     - service
@@ -794,7 +794,7 @@
 
 - name: borne-elec
   title: Borne électrique
-  category: Déplacements
+  group: Déplacements
   dictionary:
     - recharge
     - électrique
@@ -803,7 +803,7 @@
   icon: charging_station
 
 - name: Station de gonflage
-  category: Déplacements
+  group: Déplacements
   dictionary:
     - pompe
     - gonflage
@@ -816,14 +816,14 @@
 
 - name: parking-voiture
   title: Parking voiture
-  category: Déplacements
+  group: Déplacements
   dictionary:
     - stationnement
   query: '[amenity=parking]'
   icon: parking
 
 - name: Aire de covoiturage
-  category: Déplacements
+  group: Déplacements
   dictionary:
     - covoiturage
     - parking
@@ -834,7 +834,7 @@
   icon: car_pooling
 
 - name: Location de voiture
-  category: Déplacements
+  group: Déplacements
   dictionary:
     - location
     - voiture
@@ -843,7 +843,7 @@
   icon: mx_amenity_car_rental
 
 - name: Place PMR
-  category: Déplacements
+  group: Déplacements
   dictionary:
     - PMR
     - handicapé
@@ -854,13 +854,13 @@
   icon: wheelchair
 
 #######################
-# SPORTS
+# GROUP : SPORTS
 #######################
 
 # ÉQUIPEMENTS GÉNÉRALISTES
 
 - name: Complexe sportif
-  category: Sports
+  group: Sports
   dictionary:
     - Complexe
     - sportif
@@ -874,7 +874,7 @@
   icon: pitch
 
 - name: Gymnase
-  category: Sports
+  group: Sports
   dictionary:
     - gymnase
     - gym
@@ -893,7 +893,7 @@
   icon: gymnasium
 
 - name: Terrain multisport
-  category: Sports
+  group: Sports
   dictionary:
     - football
     - basketball
@@ -908,7 +908,7 @@
   icon: pitch
 
 - name: Stade
-  category: Sports
+  group: Sports
   dictionary:
     - stade
     - foot
@@ -920,7 +920,7 @@
   icon: stadium
 
 - name: Tennis
-  category: Sports
+  group: Sports
   dictionary:
     - tennis
     - 🎾
@@ -930,7 +930,7 @@
   icon: tennis
 
 - name: Piscine
-  category: Sports
+  group: Sports
   dictionary:
     - piscine
     - natation
@@ -950,7 +950,7 @@
   icon: swimming_outdoor
 
 - name: Salle de musculation
-  category: Sports
+  group: Sports
   dictionary:
     - exercice
     - entrainement
@@ -965,7 +965,7 @@
 
 - title: Équipements de fitness
   name: equipements+de+fitness
-  category: Sports
+  group: Sports
   dictionary:
     - exercice
     - entrainement
@@ -979,7 +979,7 @@
   icon: fitness_station
 
 - name: Golf
-  category: Sports
+  group: Sports
   dictionary:
     - green
     - golf
@@ -993,7 +993,7 @@
 
 - title: Centre équestre
   name: centre+equestre
-  category: Sports
+  group: Sports
   dictionary:
     - équitation
     - cheval
@@ -1007,7 +1007,7 @@
   icon: horse_riding
 
 - name: Dojo
-  category: Sports
+  group: Sports
   dictionary:
     - combat
     - judo
@@ -1024,7 +1024,7 @@
   icon: judo
 
 - name: Patinoire
-  category: Sports
+  group: Sports
   dictionary:
     - glace
     - patin
@@ -1037,7 +1037,7 @@
   icon: iceskating
 
 - name: Skatepark
-  category: Sports
+  group: Sports
   dictionary:
     - skate
     - roller
@@ -1052,7 +1052,7 @@
   icon: skateboard
 
 - name: Pumptrack
-  category: Sports
+  group: Sports
   dictionary:
     - skate
     - roller
@@ -1069,7 +1069,7 @@
 # PAR SPORTS
 
 - name: Football
-  category: Sports
+  group: Sports
   dictionary:
     - foot
     - ballon
@@ -1082,7 +1082,7 @@
   icon: soccer
 
 - name: Basketball
-  category: Sports
+  group: Sports
   dictionary:
     - basket
     - ballon
@@ -1096,7 +1096,7 @@
   icon: basketball
 
 - name: Judo
-  category: Sports
+  group: Sports
   dictionary:
     - combat
     - judo
@@ -1112,7 +1112,7 @@
 
 - title: Pétanque
   name: petanque
-  category: Sports
+  group: Sports
   dictionary:
     - pétanque
     - boules
@@ -1121,7 +1121,7 @@
   icon: boules
 
 - name: Rugby
-  category: Sports
+  group: Sports
   dictionary:
     - rugby
     - 🏉
@@ -1130,7 +1130,7 @@
   icon: rugby_union
 
 - name: Handball
-  category: Sports
+  group: Sports
   dictionary:
     - handball
     - ballon
@@ -1145,7 +1145,7 @@
 
 - title: Canoë-Kayak
   name: canoe+kayak
-  category: Sports
+  group: Sports
   dictionary:
     - canoë
     - kayak
@@ -1158,7 +1158,7 @@
   icon: canoe
 
 - name: Ping-Pong
-  category: Sports
+  group: Sports
   dictionary:
     - ping
     - pong
@@ -1168,7 +1168,7 @@
   icon: table_tennis
 
 - name: Escalade
-  category: Sports
+  group: Sports
   dictionary:
     - grimpe
     - varape
@@ -1182,7 +1182,7 @@
 
 - title: Athlétisme
   name: athletisme
-  category: Sports
+  group: Sports
   dictionary:
     - course
     - piste
@@ -1194,7 +1194,7 @@
   icon: athletics
 
 - name: Surf
-  category: Sports
+  group: Sports
   dictionary:
     - surf
     - vague
@@ -1207,18 +1207,18 @@
   icon: surf
 
 #######################
-# DIVERS
+# GROUP : DIVERS
 #######################
 
 - name: Police
-  category: Divers
+  group: Divers
   dictionary:
     - gendarmerie
     - comissariat
   query: '[amenity=police]'
   icon: police
 - name: Agence postale
-  category: Divers
+  group: Divers
   dictionary:
     - poste
     - colis
@@ -1226,12 +1226,12 @@
   query: '[amenity=post_office]'
   icon: post
 - title: Coiffeur
-  category: Divers
+  group: Divers
   name: coiffeur
   query: '[shop=hairdresser]'
   icon: hairdresser
 - title: Laverie
-  category: Divers
+  group: Divers
   name: laverie
   dictionary:
     - laverie
@@ -1245,14 +1245,14 @@
     - '[shop=dry_cleaning]'
   icon: laundry
 - title: Espace de cotravail (coworking)
-  category: Divers
+  group: Divers
   name: cotravail
   query:
     - '[amenity=coworking_space]'
     - '[office=coworking]'
   icon: coworking
 - title: Cordonnier
-  category: Divers
+  group: Divers
   name: Cordonnier
   dictionary:
     - cordonnerie
@@ -1263,7 +1263,7 @@
   query: '[craft=shoemaker]'
   icon: shoes
 - title: Cimetière
-  category: Divers
+  group: Divers
   name: cimetière
   dictionary:
     - tombes
@@ -1275,7 +1275,7 @@
 ## Peut-être carrément une catégorie "services publics"
 ## https://wiki.openstreetmap.org/wiki/France/Services_Publics
 - title: Justice
-  category: Divers
+  group: Divers
   name: justice
   dictionary:
     - tribunal
@@ -1287,7 +1287,7 @@
   icon: classical-building
 
 - title: Pompiers
-  category: Divers
+  group: Divers
   name: pompiers
   dictionary:
     - incendie
@@ -1297,7 +1297,7 @@
     - '[amenity=fire_station]'
   icon: fire
 - title: Établissement scolaire
-  category: Divers
+  group: Divers
   name: education
   dictionary:
     - université
