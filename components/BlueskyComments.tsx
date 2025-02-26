@@ -51,6 +51,7 @@ export default async function BlueskyComments({ uri }) {
 const Wrapper = styled.section`
 	max-width: 700px;
 	margin: 0 auto 2rem auto;
+	padding: 0 1rem;
 	ol {
 		list-style-type: none;
 	}
