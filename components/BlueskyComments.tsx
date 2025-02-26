@@ -29,7 +29,7 @@ export default async function BlueskyComments({ uri }) {
 		<Wrapper>
 			<h2>Commentaires</h2>
 			<p>
-				Régissez à <a href={url}>cet article</a> sur Bluesky.
+				Réagissez à <a href={url}>cet article</a> sur Bluesky.
 			</p>
 			{false && ( // this fails in Next production... not in local. I don't understand why
 				<div>
