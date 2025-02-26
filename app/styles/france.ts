@@ -2035,8 +2035,8 @@ On n'est pas à l'abri d'effets secondaires ici.
 		type: 'fill',
 		source: 'openmaptiles',
 		'source-layer': 'building',
-		minzoom: 13,
-		maxzoom: 15,
+		minzoom: 15,
+		maxzoom: 16,
 		layout: { visibility: 'visible' },
 		paint: {
 			'fill-color': 'hsl(30,6%,73%)',
@@ -2056,7 +2056,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 		type: 'fill-extrusion',
 		source: 'openmaptiles',
 		'source-layer': 'building',
-		minzoom: 15,
+		minzoom: 16,
 		layout: { visibility: 'visible' },
 		paint: {
 			'fill-extrusion-base': {
