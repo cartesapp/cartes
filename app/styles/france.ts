@@ -475,7 +475,7 @@ const layers = [
 		maxzoom: 22,
 		layout: { visibility: 'visible' },
 		paint: {
-			'fill-color': 'hsl(194,52%,94%)',
+			'fill-color': '#eee5d5',
 			'fill-opacity': {
 				stops: [
 					[9, 0.25],
@@ -496,10 +496,10 @@ const layers = [
 		maxzoom: 22,
 		layout: { visibility: 'visible' },
 		paint: {
-			'fill-color': 'hsl(12,63%,94%)',
+			'fill-color': '#f4dfdf',
 			'fill-opacity': {
 				stops: [
-					[9, 0.25],
+					[9, 0.6],
 					[16, 1],
 				],
 			},
