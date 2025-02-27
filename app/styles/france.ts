@@ -300,7 +300,6 @@ const layers = [
 		maxzoom: 22,
 		layout: { visibility: 'visible' },
 		paint: {
-			'fill-outline-color': '#e1dac4',
 			'fill-color': {
 				base: 1,
 				stops: [
