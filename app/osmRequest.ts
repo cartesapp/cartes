@@ -4,7 +4,7 @@ import osmToGeojson from 'osmtogeojson'
 import { isServer } from './serverUrls'
 
 export const overpassRequestSuffix =
-	'https://overpass-api.de/api/interpreter?data='
+	'https://overpass.private.coffee/api/interpreter?data='
 
 const buildOverpassUrl = (
 	featureType: 'node' | 'way' | 'relation',
