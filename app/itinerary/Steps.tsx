@@ -15,7 +15,7 @@ export default function Steps({
 	state,
 	setDisableDrag = () => null,
 }) {
-	console.log('lightgreen state', state)
+	//	console.log('lightgreen state', state)
 
 	// We're displaying the steps selector with minimum 2 steps
 	const steps =

@@ -155,7 +155,7 @@ export default function Container(props) {
 	// In this query param is stored an array of points. If only one, it's just a
 	// place focused on.
 	const [state, setState] = useState(givenState)
-	console.log('lightgreen state', state)
+	//console.log('lightgreen state', state)
 
 	const allez = useMemo(() => {
 		const encoded = searchParams.allez

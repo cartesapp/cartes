@@ -10,12 +10,13 @@ const buildOverpassUrl = (
 	featureType: 'node' | 'way' | 'relation',
 	id: string,
 	full = false,
-	relations = false
+	relations = false,
+	meta = false
 ) =>
 	`${overpassRequestSuffix}${encodeURIComponent(
 		`[out:json];${featureType}(id:${id});${
 			full ? '(._;>;);' : relations ? '<;' : ''
-		}out body meta;`
+		}out body${meta ? ` meta` : ''};`
 	)}`
 
 export const combinedOsmRequest = async (queries) => {
@@ -23,7 +24,7 @@ export const combinedOsmRequest = async (queries) => {
 		.map((result) => {
 			const { osmId, featureType, latitude, longitude } = result
 
-			return `${featureType}(id:${osmId}); out body meta; `
+			return `${featureType}(id:${osmId}); out body; `
 		})
 		.join('')
 
@@ -71,7 +72,7 @@ export const osmRequest = async (featureType, id, full) => {
 		full
 	)
 	const url = buildOverpassUrl(featureType, id, full)
-	console.log('OVERPASS3', url)
+	console.log('OVERPASS3', url, 'is server : ', isServer)
 	try {
 		const request = await fetch(url, {
 			...(isServer
@@ -105,6 +106,7 @@ export const osmRequest = async (featureType, id, full) => {
 					const {
 						tags: { name, type },
 					} = json.elements[0]
+
 					if (type === 'associatedStreet') {
 						return [{ ...elements[0], tags: { ...tags, 'addr:street': name } }]
 					}
