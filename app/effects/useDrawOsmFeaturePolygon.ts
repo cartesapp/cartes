@@ -12,6 +12,8 @@ export default function useDrawOsmFeaturePolygon(
 		() => ({
 			name: 'vers-' + code,
 			icon: 'pins',
+			iconSize: 60,
+			iconAnchor: 'bottom',
 			'open by default': true,
 		}),
 		[code]
