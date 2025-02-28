@@ -258,7 +258,7 @@ const draw = (
 			'text-offset': [0, 1.25],
 			'text-font': ['RobotoBold-NotoSansBold'],
 			'text-size': 15,
-			'text-anchor': category.iconAnchor || 'top',
+			'text-anchor': category.iconAnchor === 'bottom' ? 'center' : 'top',
 			'icon-anchor': category.iconAnchor || 'center',
 		},
 		paint: {
