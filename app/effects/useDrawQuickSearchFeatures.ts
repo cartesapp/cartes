@@ -6,6 +6,7 @@ import { buildAllezPart } from '../SetDestination'
 import { encodePlace } from '../utils'
 import buildSvgImage from './buildSvgImage'
 import { safeRemove } from './utils'
+import useEffectDebugger from '@/components/useEffectDebugger'
 
 export default function useDrawQuickSearchFeatures(
 	map,
@@ -17,15 +18,25 @@ export default function useDrawQuickSearchFeatures(
 	invert = false,
 	safeStyleKey
 ) {
+	if (features && features.length)
+		console.log(
+			'chartreuse useDrawQuickSearchFeatures',
+			map,
+			features,
+			category,
+			safeStyleKey
+		)
 	const setSearchParams = useSetSearchParams()
 	const baseId = `features-${category.name}-`
 
 	const [sources, setSources] = useState(null)
 
-	useEffect(() => {
+	const hasFeatures = features && features.length > 0
+
+	useEffectDebugger(() => {
 		// on annule si la carte ou les features sont manquants
 		if (!map) return
-		if (!features?.length) return
+		if (!hasFeatures) return
 
 		// on reconstruit le nom de l'icone : l'alias si précisé, sinon le nom du svg
 		const imageFilename = category.icon
@@ -34,6 +45,7 @@ export default function useDrawQuickSearchFeatures(
 		// et le nom avec lequel l'image a été ajoutée dans maplibre
 		const mapImageName = 'cartesapp-' + iconName // avoid collisions
 
+		console.log('chartreuse before switch build image')
 		if (safeStyleKey != null && safeStyleKey === 'france')
 			draw(
 				map,
@@ -44,6 +56,7 @@ export default function useDrawQuickSearchFeatures(
 				setOsmFeature
 			)
 		else {
+			console.log('chartreuse will build image')
 			buildSvgImage(
 				imageFilename,
 				imageFinalFilename,
@@ -52,7 +65,10 @@ export default function useDrawQuickSearchFeatures(
 					// useAddMap, since they are also used to replace the sprites for tile
 					// icons
 					const mapImage = map.getImage(mapImageName)
-					if (!mapImage) map.addImage(mapImageName, img)
+
+					if (!mapImage) {
+						map.addImage(mapImageName, img)
+					}
 
 					draw(
 						map,
@@ -69,7 +85,7 @@ export default function useDrawQuickSearchFeatures(
 
 		// for cleaning ?
 		const cleanup = () => {
-			console.log('indigo cleanup', features.length, baseId, category)
+			console.log('chartreuse cleanup', features.length, baseId, category)
 			safeRemove(map)(
 				[
 					baseId + 'points',
@@ -82,7 +98,7 @@ export default function useDrawQuickSearchFeatures(
 		}
 
 		return cleanup
-	}, [map, category, baseId, setSources, setOsmFeature])
+	}, [map, category, baseId, setSources, setOsmFeature, hasFeatures])
 
 	useEffect(() => {
 		// on annule si carte ou sources ou features pas encore chargés
@@ -184,7 +200,8 @@ const draw = (
 	mapImageName,
 	setOsmFeature
 ) => {
-	console.log('useDrawQuickSearchFeatures add source ', baseId + 'points')
+	if (map.getSource(baseId + 'points')) return
+	console.log('chartreuse draw ', baseId + 'points')
 
 	// on prépare les sources qui vont contenir les ways et les points renvoyés par overpass
 	const geojsonPlaceholder = { type: 'FeatureCollection', features: [] }

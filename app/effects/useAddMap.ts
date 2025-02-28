@@ -1,7 +1,6 @@
 import indoorequalLayers from '@/app/styles/indoorequal-layers'
 import { Protocol as CartesProtocol } from '@/components/map/CartesProtocol.ts'
 import frenchMaplibreLocale from '@/components/map/frenchMaplibreLocale.ts'
-import useEffectDebugger from '@/components/useEffectDebugger'
 import { isLocalStorageAvailable } from '@/components/utils/utils'
 import maplibregl, { ScaleControl } from 'maplibre-gl'
 import IndoorEqual from 'maplibre-gl-indoorequal'
@@ -155,7 +154,7 @@ export default function useAddMap(
 		}
 	)
 
-	useEffectDebugger(() => {
+	useEffect(() => {
 		if (!mapContainerRef.current) return
 
 		const lastGeolocation =
