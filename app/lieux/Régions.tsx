@@ -23,7 +23,7 @@ export default function Régions() {
 			</p>
 			<p>
 				Vous aurez ici accès à toute la richesse de la carte ouverte{' '}
-				<a href="openstreetmap.fr">OpenStreetMap</a>, une carte contributive où
+				<a href="https://openstreetmap.fr">OpenStreetMap</a>, une carte contributive où
 				chacun, du responsable d'un commerce au simple habitant d'un quartier
 				peut enrichir les horaires, la description et tous les attributs d'un
 				lieu.
