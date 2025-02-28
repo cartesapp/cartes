@@ -32,4 +32,5 @@ export default function useDrawSearchResults(map, state, setOsmFeature) {
 const category = {
 	name: 'search',
 	icon: 'search-result',
+	iconSize: 22,
 }

@@ -79,7 +79,8 @@ export default function useDrawQuickSearchFeatures(
 						setOsmFeature
 					)
 				},
-				backgroundColor
+				backgroundColor,
+				category.iconSize
 			)
 		}
 

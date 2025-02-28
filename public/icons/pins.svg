@@ -5,7 +5,7 @@
    viewBox="0 0 15 15"
    version="1.1"
    id="svg4"
-   sodipodi:docname="search-result.svg"
+   sodipodi:docname="pins.svg"
    inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
    xml:space="preserve"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -31,6 +31,9 @@
      inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg4" /><path
-     d="M 12.413572,7.7597745 A 4.742786,4.742786 0 0 1 7.6707853,12.502563 4.742786,4.742786 0 0 1 2.9279991,7.7597745 4.742786,4.742786 0 0 1 7.6707853,3.0169884 4.742786,4.742786 0 0 1 12.413572,7.7597745 Z"
+     d="M 12.136406,5.221983 A 4.742786,4.742786 0 0 1 7.3936196,9.9647717 4.742786,4.742786 0 0 1 2.6508334,5.221983 4.742786,4.742786 0 0 1 7.3936196,0.4791969 4.742786,4.742786 0 0 1 12.136406,5.221983 Z"
      id="path2"
-     style="stroke-width:1.53045" /></svg>
+     style="stroke-width:1.53045" /><path
+     style="fill:#000000;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+     d="m 7.3387527,9.964125 v 3.992709"
+     id="path377" /></svg>

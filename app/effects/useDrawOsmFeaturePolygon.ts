@@ -11,7 +11,7 @@ export default function useDrawOsmFeaturePolygon(
 	const category = useMemo(
 		() => ({
 			name: 'vers-' + code,
-			icon: 'search-result',
+			icon: 'pins',
 			'open by default': true,
 		}),
 		[code]

@@ -2,7 +2,8 @@ export default async function buildSvgImage(
 	imageFilename,
 	outputFilename = null,
 	then,
-	backgroundColor
+	backgroundColor,
+	iconSize = 40
 ) {
 	const imageRequest = await fetch(
 		'/svgo?svgFilename=' +
@@ -14,7 +15,7 @@ export default async function buildSvgImage(
 	const src = await imageRequest.text()
 
 	// If both the image and svg are found, replace the image with the svg.
-	const img = new Image(40, 40)
+	const img = new Image(iconSize, iconSize)
 
 	img.src = src
 
