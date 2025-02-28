@@ -31,6 +31,8 @@ export default ({
 }
 
 const List = styled.ol`
+	max-height: 20rem;
+	overflow-y: auto;
 	li:not(:last-of-type) {
 		border-bottom: 1px solid var(--lightestColor);
 	}

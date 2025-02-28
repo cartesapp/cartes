@@ -69,6 +69,7 @@ export default function useDrawQuickSearchFeatures(
 
 		// for cleaning ?
 		const cleanup = () => {
+			console.log('indigo cleanup', features.length, baseId, category)
 			safeRemove(map)(
 				[
 					baseId + 'points',
@@ -87,7 +88,9 @@ export default function useDrawQuickSearchFeatures(
 		// on annule si carte ou sources ou features pas encore chargés
 		if (!map) return
 		if (!sources) return
-		if (!features?.length) return
+		// je crois que cette condition était problématique et l'enlever n'a que des
+		// avantages
+		//if (!features?.length) return
 
 		const isOpenByDefault = category['open by default']
 		const featuresWithOpen = (features || []).map((f) => {

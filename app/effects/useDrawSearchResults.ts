@@ -11,7 +11,6 @@ export default function useDrawSearchResults(map, state, setOsmFeature) {
 
 	const resultsHash = results?.map((el) => el.osmId)
 
-	console.log('indigo debug D', results)
 	useEffect(() => {
 		if (!map) return
 
