@@ -15,16 +15,14 @@ export default function useDrawQuickSearchFeatures(
 	category,
 	setOsmFeature = () => null,
 	backgroundColor = colors['color'],
-	invert = false,
-	safeStyleKey
+	invert = false
 ) {
 	if (features && features.length)
 		console.log(
 			'chartreuse useDrawQuickSearchFeatures',
 			map,
 			features,
-			category,
-			safeStyleKey
+			category
 		)
 	const setSearchParams = useSetSearchParams()
 	const baseId = `features-${category.name}-`
@@ -45,8 +43,9 @@ export default function useDrawQuickSearchFeatures(
 		// et le nom avec lequel l'image a été ajoutée dans maplibre
 		const mapImageName = 'cartesapp-' + iconName // avoid collisions
 
+		const mapImage = map.getImage(mapImageName)
 		console.log('chartreuse before switch build image')
-		if (safeStyleKey != null && safeStyleKey === 'france')
+		if (mapImage)
 			draw(
 				map,
 				baseId,
@@ -62,14 +61,7 @@ export default function useDrawQuickSearchFeatures(
 				imageFilename,
 				imageFinalFilename,
 				(img) => {
-					// TODO this should be useless now that we've added all the icons in
-					// useAddMap, since they are also used to replace the sprites for tile
-					// icons
-					const mapImage = map.getImage(mapImageName)
-
-					if (!mapImage) {
-						map.addImage(mapImageName, img)
-					}
+					map.addImage(mapImageName, img)
 
 					draw(
 						map,
@@ -193,7 +185,7 @@ export default function useDrawQuickSearchFeatures(
 		}
 		sources.ways.setData(waysData)
 		sources.points.setData(pointsData)
-	}, [category, features, showOpenOnly, safeStyleKey, sources])
+	}, [category, features, showOpenOnly, sources])
 }
 
 const draw = (
