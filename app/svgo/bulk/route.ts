@@ -1,4 +1,4 @@
-import categoryColors from '@/app/categoryColors.yaml'
+import categoryGroupColors from '@/app/categoryGroupColors.yaml'
 import { categories } from '@/components/categories'
 import fs from 'fs'
 import { optimize } from 'svgo'
@@ -15,7 +15,7 @@ import imageRedirects from '@/app/imageRedirects.yaml'
 const groups = categories.reduce((memo, next) => {
 	return {
 		...memo,
-		[next.category]: [...(memo[next.category] || []), next],
+		[next.group]: [...(memo[next.group] || []), next],
 	}
 }, {})
 
@@ -23,7 +23,7 @@ const groups = categories.reduce((memo, next) => {
 
 const icons = Object.entries(groups).map(([group, groupCategories]) => {
 	// on récupère la couleur du groupe
-	const groupColor = categoryColors[group]
+	const groupColor = categoryGroupColors[group]
 	// on parcourt les catégories
 	return groupCategories.map((category) => {
 		// on choisit le nom de l'icone : l'alias si précisé, sinon le nom du svg
@@ -60,7 +60,7 @@ const notInCategories = Object.entries(imageRedirects['not in categories'])
 			const optimizedSvgString = result.data
 			const imgSrc = fromSvgToImgSrc(
 				optimizedSvgString,
-				categoryColors['Divers']
+				categoryGroupColors['Divers']
 			)
 			return [iconName, imgSrc]
 		} catch (e) {
