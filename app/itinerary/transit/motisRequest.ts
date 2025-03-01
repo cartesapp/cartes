@@ -7,6 +7,7 @@ import { lightenColor } from '@/components/utils/colors'
 import { distance, point } from '@turf/turf'
 import transportIcon from './transportIcon'
 import { datePlusHours, defaultRouteColor, nowStamp, stamp } from './utils'
+import motisClaszToGtfsRouteType from '@/components/transit/motisClaszToGtfsRouteType'
 
 // For onTrip, see https://github.com/motis-project/motis/issues/471#issuecomment-2247099832
 const buildRequestBody = (start, destination, date, searchParams) => {
@@ -146,24 +147,25 @@ export const computeMotisTrip = async (
 							/(.+)\|([^_]+)\_(.+)/,
 							(correspondance, p1, p2, p3, decalage, chaine) => p1 + p3
 						)
-						const doFetch = async () => {
-							try {
-								if (!tripId) return {}
-								const request = await fetch(
-									`${gtfsServerUrl}/routes/trip/${encodeURIComponent(tripId)}`
-								)
-								const json = await request.json()
-								const safeAttributes = json.routes[0] || {}
-								return safeAttributes
-							} catch (e) {
-								console.error('Unable to fetch route color from GTFS server')
-								return {}
-							}
+
+						let route_color, route_text_color, route_type
+
+						route_color = transport.move.route_color
+						route_text_color = transport.move.route_text_color
+
+						if (transport.move.clasz) {
+							route_type = motisClaszToGtfsRouteType[transport.move.clasz]
 						}
-						const gtfsAttributes = await doFetch()
-						const { route_color, route_text_color, route_type } =
-								gtfsAttributes,
-							isTrain = route_type === 2
+
+						if (!route_color) {
+							const gtfsAttributes = await fetchGtfsAttributes(tripId)
+
+							route_color = gtfsAttributes.route_color
+							route_text_color = gtfsAttributes.route_text_color
+							route_type = gtfsAttributes.route_type
+						}
+
+						const isTrain = route_type === 2
 
 						const isBretagneTGV = trip?.id.id.startsWith('bretagne_SNCF2')
 
@@ -295,3 +297,18 @@ export const isNotTransitConnection = (connection) =>
 	connection.transports.every((transport) =>
 		notTransitType.includes(transport.move_type)
 	)
+
+const fetchGtfsAttributes = async (tripId) => {
+	try {
+		if (!tripId) return {}
+		const request = await fetch(
+			`${gtfsServerUrl}/routes/trip/${encodeURIComponent(tripId)}`
+		)
+		const json = await request.json()
+		const safeAttributes = json.routes[0] || {}
+		return safeAttributes
+	} catch (e) {
+		console.error('Unable to fetch route color from GTFS server')
+		return {}
+	}
+}
