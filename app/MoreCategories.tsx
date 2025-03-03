@@ -33,7 +33,7 @@ export default function MoreCategories({
 	}, [setBulkImages])
 
 	// variable d'état pour stocker le groupe dont toutes les catégories sont affichées
-	const [largeGroup, setLargeGroup] = useState(false);
+	const [largeGroup, setLargeGroup] = useState(false)
 	// et fonction pour le modifier
 	function changeLargeGroup(group) {
 		setLargeGroup(group == largeGroup ? false : group)
@@ -42,17 +42,25 @@ export default function MoreCategories({
 	return (
 		<Wrapper>
 			<ol>
-				{ !doFilter && //si pas de recherche en cours, on affiche ce message
-					<p>Astuce : utilisez la barre de recherche pour trouver des catégories</p>
-				}
+				{!doFilter && ( //si pas de recherche en cours, on affiche ce message
+					<p>
+						Astuce : utilisez la barre de recherche pour trouver des catégories
+					</p>
+				)}
 				{Object.entries(groups).map(([group, categories]) => {
 					const groupColor = categoryColors[group]
-					const expandGroup = (group == largeGroup)
+					const expandGroup = group == largeGroup
 					// tri des catégories par ordre alphabétique
-					categories.sort(compareCategoryName);
+					categories.sort(compareCategoryName)
 					return (
-						<Group key={group} $groupColor={groupColor} $expandGroup={expandGroup}>
-							<h2 onClick={() => changeLargeGroup(group)}>{group} {expandGroup ? '▲' : '▼'}</h2>
+						<Group
+							key={group}
+							$groupColor={groupColor}
+							$expandGroup={expandGroup}
+						>
+							<h2 onClick={() => changeLargeGroup(group)}>
+								{group} {expandGroup ? '▲' : '▼'}
+							</h2>
 							<div>
 								<ul>
 									{categories.map((category) => {
@@ -185,12 +193,13 @@ const MapIconImage = styled(Image)`
 	margin-bottom: 0.05rem;
 `
 
-function compareCategoryName( a, b ) {
-  if ( a.name.toLowerCase() < b.name.toLowerCase() ){
-    return -1;
-  }
-  if ( a.name.toLowerCase() > b.name.toLowerCase() ){
-    return 1;
-  }
-  return 0;
+function compareCategoryName(a, b) {
+	if (a.name.toLowerCase() < b.name.toLowerCase()) {
+		return -1
+	}
+	if (a.name.toLowerCase() > b.name.toLowerCase()) {
+		return 1
+	}
+	return 0
 }
+
