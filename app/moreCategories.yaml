@@ -246,18 +246,6 @@
     - '["amenity"="cafe"]'
   icon: cafe
 
-- name: Point d'eau
-  category: Divers # dans "Divers" plutôt que Boissons car c'est un usage pratique, non commercial de la boisson, plutôt qu'un usage "plaisir"
-  dictionary:
-    - boire
-    - fontaine
-    - eau potable
-    - robinet
-  query:
-    - '[amenity=drinking_water]'
-    - '[drinking_water=yes]'
-  icon: water
-
 - name: Salon de thé
   category: Bars et boisson
   dictionary:
@@ -283,6 +271,7 @@
 - name: Boucherie
   category: Alimentation
   dictionary:
+    - boucher
     - viande
     - charcuterie
     - charcutier
@@ -430,11 +419,6 @@
   icon: theatre
   category: Loisirs
 
-- name: plage
-  category: Tourisme
-  query: '[natural=beach]'
-  icon: beach
-
 - name: Jeux pour enfants
   category: Loisirs
   dictionary:
@@ -487,6 +471,7 @@
     - '[amenity=clinic]'
     - '[healthcare=clinic]'
   icon: hospital
+
 - name: médecin
   category: Santé
   dictionary:
@@ -494,10 +479,12 @@
     - généraliste
   query: '[amenity=doctors]'
   icon: doctors
+
 - name: Pharmacie
   category: Santé
   query: '[amenity=pharmacy]'
   icon: pharmacy
+
 - name: dentiste
   category: Santé
   dictionary:
@@ -505,18 +492,21 @@
     - médecin
   query: '[amenity=dentist]'
   icon: tooth
+
 - name: vétérinaire
   category: Santé
   dictionary:
     - animaux
   query: '[amenity=veterinary]'
   icon: veterinary
+
 - name: infirmière
   category: Santé
   dictionary:
     - infirmière
   query: '[healthcare=nurse]'
   icon: nurse
+
 - name: sage-femme
   category: Santé
   dictionary:
@@ -538,12 +528,14 @@
     - déchets organiques
   query: '["recycling:organic"="yes"]'
   icon: recycling
+
 - name: verre
   category: Poubelles
   dictionary:
     - bouteille
   query: '[amenity=recycling]["recycling:glass_bottles"=yes]'
   icon: recycling
+
 - name: vêtements
   category: Poubelles
   dictionary:
@@ -551,9 +543,11 @@
     - tissus
   query: '[amenity=recycling]["recycling:clothes"=yes]'
   icon: recycling
-- name: plastique et emballages
+
+- name: emballages
   category: Poubelles
   dictionary:
+    - plastique
     - canette
     - carton
     - papier
@@ -566,6 +560,7 @@
     - '["recycling:paper"=yes]'
     - '["recycling:plastic_packaging"=yes]'
   icon: recycling
+
 - name: piles et batteries
   category: Poubelles
   dictionary:
@@ -578,6 +573,22 @@
 # CULTURE
 #######################
 
+- name: Bibliothèque
+  category: Culture
+  dictionary:
+    - livres
+    - médiathèque
+  query: '[amenity=library]'
+  icon: book
+
+- name: Librairie
+  category: Culture
+  dictionary:
+    - livres
+    - bouquins
+  query: '[shop="books"]'
+  icon: book
+
 - name: Journaux
   category: Culture
   dictionary:
@@ -586,20 +597,6 @@
     - presse
   query: '[shop~"newsagent|kiosk"]'
   icon: newspaper
-- name: Bibliothèque
-  category: Culture
-  dictionary:
-    - livres
-    - médiathèque
-  query: '[amenity=library]'
-  icon: book
-- name: Librairie
-  category: Culture
-  dictionary:
-    - livres
-    - bouquins
-  query: '[shop="books"]'
-  icon: book
 
 #######################
 # TOURISME
@@ -649,6 +646,7 @@
     - nature
   query: '[tourism=information]'
   icon: information
+
 - name: Pique-nique
   category: Tourisme
   dictionary:
@@ -659,6 +657,7 @@
     - casse-croute
   query: '[tourism=picnic_site]'
   icon: picnic
+
 - name: Camping
   category: Tourisme
   dictionary:
@@ -668,6 +667,11 @@
     - caravane
   query: '[tourism~"camp_site|caravan_site"]'
   icon: camping
+
+- name: plage
+  category: Tourisme
+  query: '[natural=beach]'
+  icon: beach
 
 #######################
 # COMMERCES NON ALIMENTAIRES
@@ -680,6 +684,7 @@
     - fringues
   query: '[shop=clothes]'
   icon: clothes
+
 - name: Chaussures
   category: Commerces
   dictionary:
@@ -688,6 +693,7 @@
   query: '[shop=shoes]'
   icon: shoes
   icon alias: shop-shoes
+
 - name: Centre commercial
   category: Commerces
   dictionary:
@@ -695,6 +701,7 @@
     - shopping
   query: '[shop=mall]'
   icon: shop
+
 - name: Casier à colis
   category: Commerces
   dictionary:
@@ -718,6 +725,7 @@
     - TER
   query: '[public_transport=station][train=yes]'
   icon: train
+
 - name: magasin-velo
   title: Magasin vélo
   category: Déplacements
@@ -1217,6 +1225,19 @@
     - comissariat
   query: '[amenity=police]'
   icon: police
+
+- name: Point d'eau
+  category: Divers # dans "Divers" plutôt que Boissons car c'est un usage pratique, non commercial de la boisson, plutôt qu'un usage "plaisir"
+  dictionary:
+    - boire
+    - fontaine
+    - eau potable
+    - robinet
+  query:
+    - '[amenity=drinking_water]'
+    - '[drinking_water=yes]'
+  icon: water
+
 - name: Agence postale
   category: Divers
   dictionary:
@@ -1225,11 +1246,13 @@
     - la poste
   query: '[amenity=post_office]'
   icon: post
+
 - title: Coiffeur
   category: Divers
   name: coiffeur
   query: '[shop=hairdresser]'
   icon: hairdresser
+
 - title: Laverie
   category: Divers
   name: laverie
@@ -1244,6 +1267,7 @@
     - '[shop=laundry]'
     - '[shop=dry_cleaning]'
   icon: laundry
+
 - title: Espace de cotravail (coworking)
   category: Divers
   name: cotravail
