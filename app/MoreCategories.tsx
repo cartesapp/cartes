@@ -43,7 +43,7 @@ export default function MoreCategories({
 		<Wrapper>
 			<ol>
 				{!doFilter && ( //si pas de recherche en cours, on affiche ce message
-					<p>
+					<p style={{ marginBottom: '.4rem' }}>
 						Astuce : utilisez la barre de recherche pour trouver des catégories
 					</p>
 				)}
@@ -58,9 +58,10 @@ export default function MoreCategories({
 							$groupColor={groupColor}
 							$expandGroup={expandGroup}
 						>
-							<h2 onClick={() => changeLargeGroup(group)}>
-								{group} {expandGroup ? '▲' : '▼'}
-							</h2>
+							<header onClick={() => changeLargeGroup(group)}>
+								<span></span>
+								<h2>{group}</h2>
+							</header>
 							<div>
 								<ul>
 									{categories.map((category) => {
@@ -85,6 +86,16 @@ export default function MoreCategories({
 										)
 									})}
 								</ul>
+								<HorizontalScrollExpandButton
+									onClick={() => changeLargeGroup(group)}
+								>
+									<Image
+										src={'/icons/more.svg'}
+										width="10"
+										height="10"
+										alt="Voir plus de groupes de recherche"
+									/>
+								</HorizontalScrollExpandButton>
 							</div>
 						</Group>
 					)
@@ -93,6 +104,33 @@ export default function MoreCategories({
 		</Wrapper>
 	)
 }
+
+const HorizontalScrollExpandButton = styled.button`
+	z-index: 10;
+	position: absolute;
+	right: -0.2rem;
+	top: 1.3rem;
+	width: 1.4rem;
+	height: 1.4rem;
+	padding: 0;
+	display: flex;
+	@media (min-width: 800px) {
+		display: none;
+	}
+	align-items: center;
+	justify-content: center;
+	background: white;
+	img {
+		padding: 0;
+		margin: 0;
+		width: 0.8rem;
+		height: auto;
+		filter: invert(78%) sepia(40%) saturate(225%) hue-rotate(171deg)
+			brightness(97%) contrast(99%);
+	}
+	border-radius: 1.6rem;
+	border: 2px solid var(--lighterColor);
+`
 
 const Wrapper = styled.div`
 	margin-bottom: 0.6rem;
@@ -140,26 +178,82 @@ const Wrapper = styled.div`
 			}
 		}
 	}
-	h2 {
-		font-size: 75%;
-		font-weight: 600;
-		text-transform: uppercase;
-		margin: 0.4rem 0 0.1rem 0;
-		line-height: initial;
-		color: var(--darkerColor);
+	header {
+		margin: 0.3rem 0 0.1rem 0;
+		display: flex;
+		align-items: center;
+		line-height: 1.2rem;
 		cursor: pointer;
+		h2 {
+			margin: 0;
+			font-size: 75%;
+			font-weight: 600;
+			text-transform: uppercase;
+			line-height: initial;
+			color: var(--darkerColor);
+		}
 	}
 `
 const Group = styled.li`
-	border-left: 4px solid ${(p) => p.$groupColor};
-	padding-left: 0.4rem;
-	div > ul {
-		/* Touch devices can scroll horizontally, desktop devices (hover:hover) cannot */
-		@media (hover: hover) {
-			flex-wrap: wrap;
+	> header > span {
+		display: ${(p) => (p.$expandGroup ? 'non' : 'block')};
+		@media (max-width: 800px) {
+			display: none;
 		}
-		@media (hover: none) {
-			flex-wrap: ${(p) => (p.$expandGroup ? `wrap` : `none`)};
+		width: 0.8rem;
+		height: 0.8rem;
+		background: ${(p) => p.$groupColor};
+		border-radius: 1rem;
+		margin-right: 0.3rem;
+	}
+	position: relative;
+	div {
+		&:after {
+			@media (min-width: 800px) {
+				display: none;
+			}
+			${(p) =>
+				p.$expandGroup
+					? css`
+							display: none;
+					  `
+					: ''}
+			content: '';
+			position: absolute;
+			z-index: 1;
+			top: 0.8rem;
+			right: 0;
+			bottom: 0;
+			pointer-events: none;
+			background-image: linear-gradient(
+				to right,
+				rgba(255, 255, 255, 0),
+				#ffffff 60%,
+				#ffffff 70%
+			);
+			width: 15%;
+		}
+
+		> ul {
+			@media (min-width: 800px) {
+				margin-top: 0.2rem;
+				margin-left: 0.3rem;
+				padding-left: 0.4rem;
+			}
+			${(p) =>
+				p.$expandGroup
+					? css`
+							padding-left: 0.4rem;
+							border-left: 2px solid ${(p) => p.$groupColor};
+					  `
+					: ''}
+			/* Touch devices can scroll horizontally, desktop devices (hover:hover) cannot */
+		@media (hover: hover) {
+				flex-wrap: wrap;
+			}
+			@media (hover: none) {
+				flex-wrap: ${(p) => (p.$expandGroup ? `wrap` : `none`)};
+			}
 		}
 	}
 `
@@ -202,4 +296,3 @@ function compareCategoryName(a, b) {
 	}
 	return 0
 }
-
