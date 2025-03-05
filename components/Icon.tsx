@@ -2,8 +2,7 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { getFetchUrlBase } from '@/app/serverUrls'
-
-export const urlBase = `https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/`
+import { urlBase } from '@/app/icons/getIcons'
 
 export const defaultIconSrc = `/dot.svg`
 

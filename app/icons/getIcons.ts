@@ -1,6 +1,6 @@
 import { getFetchUrlBase } from '../serverUrls'
 
-const urlBase = `https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/`
+export const urlBase = `${getFetchUrlBase()}/osmand-icons/icons/svg/`
 
 export default async function getIcons(tags) {
 	const results = await Promise.all(
