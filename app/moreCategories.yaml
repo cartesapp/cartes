@@ -449,7 +449,7 @@
 #######################
 
 - name: défibrillateur
-  category: Santé
+  group: Santé
   dictionary:
     - défibrillateur
     - DAE
@@ -545,7 +545,7 @@
   icon: recycling
 
 - name: emballages
-  category: Poubelles
+  group: Poubelles
   dictionary:
     - plastique
     - canette
@@ -574,7 +574,7 @@
 #######################
 
 - name: Bibliothèque
-  category: Culture
+  group: Culture
   dictionary:
     - livres
     - médiathèque
@@ -582,7 +582,7 @@
   icon: book
 
 - name: Librairie
-  category: Culture
+  group: Culture
   dictionary:
     - livres
     - bouquins
@@ -669,7 +669,7 @@
   icon: camping
 
 - name: plage
-  category: Tourisme
+  group: Tourisme
   query: '[natural=beach]'
   icon: beach
 
@@ -1238,7 +1238,7 @@
   icon: police
 
 - name: Point d'eau
-  category: Divers # dans "Divers" plutôt que Boissons car c'est un usage pratique, non commercial de la boisson, plutôt qu'un usage "plaisir"
+  group: Divers # dans "Divers" plutôt que Boissons car c'est un usage pratique, non commercial de la boisson, plutôt qu'un usage "plaisir"
   dictionary:
     - boire
     - fontaine
