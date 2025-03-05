@@ -1088,6 +1088,7 @@
     - '["leisure"="pitch"][sport=football]'
     - '[leisure=pitch][sport=multi]'
   icon: soccer
+  hidden: true
 
 - name: Basketball
   group: Sports
@@ -1102,6 +1103,7 @@
     - '["leisure"="pitch"][sport=basketball]'
     - '[leisure=pitch][sport=multi]'
   icon: basketball
+  hidden: true
 
 - name: Judo
   group: Sports
@@ -1117,6 +1119,7 @@
     - '["sport"="judo"]'
     - '["amenity"="dojo"]'
   icon: judo
+  hidden: true
 
 - title: Pétanque
   name: petanque
@@ -1127,6 +1130,7 @@
     - lyonnaise
   query: '["leisure"="pitch"][sport=boules]'
   icon: boules
+  hidden: true
 
 - name: Rugby
   group: Sports
@@ -1136,6 +1140,7 @@
   query:
     - '["leisure"="pitch"][sport=rugby]'
   icon: rugby_union
+  hidden: true
 
 - name: Handball
   group: Sports
@@ -1150,6 +1155,7 @@
     - '["leisure"="pitch"][sport=handball]'
     - '[leisure=pitch][sport=multi]'
   icon: handball
+  hidden: true
 
 - title: Canoë-Kayak
   name: canoe+kayak
@@ -1164,6 +1170,7 @@
     - 🚣
   query: '[sport=canoe]'
   icon: canoe
+  hidden: true
 
 - name: Ping-Pong
   group: Sports
@@ -1174,6 +1181,7 @@
     - 🏓
   query: '[sport=table_tennis]'
   icon: table_tennis
+  hidden: true
 
 - name: Escalade
   group: Sports
@@ -1187,6 +1195,7 @@
     - ⛰️
   query: '[sport=climbing]'
   icon: hillclimbing
+  hidden: true
 
 - title: Athlétisme
   name: athletisme
@@ -1200,6 +1209,7 @@
     - 🏃
   query: '[sport=athletics]'
   icon: athletics
+  hidden: true
 
 - name: Surf
   group: Sports
@@ -1213,6 +1223,7 @@
     - 🏄‍♀️
   query: '[sport=surfing]'
   icon: surf
+  hidden: true
 
 #######################
 # GROUP : DIVERS
