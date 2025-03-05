@@ -1,4 +1,4 @@
-import categoryColors from '@/app/categoryColors.yaml'
+import categoryGroupColors from '@/app/categoryGroupColors.yaml'
 import { uncapitalise0 } from '@/components/utils/utils'
 import { css, styled } from 'next-yak'
 import Image from 'next/image'
@@ -18,7 +18,7 @@ export default function MoreCategories({
 	const groups = filteredMoreCategories.reduce((memo, next) => {
 		return {
 			...memo,
-			[next.category]: [...(memo[next.category] || []), next],
+			[next.group]: [...(memo[next.group] || []), next],
 		}
 	}, {})
 
@@ -44,11 +44,11 @@ export default function MoreCategories({
 			<ol>
 				{!doFilter && ( //si pas de recherche en cours, on affiche ce message
 					<p style={{ marginBottom: '.4rem' }}>
-						Astuce : utilisez la barre de recherche pour trouver des catégories
+						Astuce : encore plus de catégories disponibles via la barre de recherche
 					</p>
 				)}
 				{Object.entries(groups).map(([group, categories]) => {
-					const groupColor = categoryColors[group]
+					const groupColor = categoryGroupColors[group]
 					const expandGroup = group == largeGroup
 					// tri des catégories par ordre alphabétique
 					categories.sort(compareCategoryName)
@@ -57,6 +57,7 @@ export default function MoreCategories({
 							key={group}
 							$groupColor={groupColor}
 							$expandGroup={expandGroup}
+							$doFilter={doFilter}
 						>
 							<header onClick={() => changeLargeGroup(group)}>
 								<span></span>
@@ -66,13 +67,15 @@ export default function MoreCategories({
 								<ul>
 									{categories.map((category) => {
 										const isActive = categoriesSet.includes(category.name)
-										const display = doFilter || isActive || expandGroup
+										const desktopDisplay = doFilter || isActive || (expandGroup && !category.hidden)
+										const mobileDisplay  = doFilter || isActive || !category.hidden
 										return (
 											<Category
 												key={category.name}
 												$active={isActive}
 												$isExact={category.score < exactThreshold}
-												$display={display}
+												$desktopDisplay={desktopDisplay}
+												$mobileDisplay={mobileDisplay}
 											>
 												<Link href={getNewSearchParamsLink(category)}>
 													<MapIcon
@@ -87,6 +90,7 @@ export default function MoreCategories({
 									})}
 								</ul>
 								<HorizontalScrollExpandButton
+									$doFilter={doFilter}
 									onClick={() => changeLargeGroup(group)}
 								>
 									<Image
@@ -113,8 +117,8 @@ const HorizontalScrollExpandButton = styled.button`
 	width: 1.4rem;
 	height: 1.4rem;
 	padding: 0;
-	display: flex;
-	@media (min-width: 800px) {
+	display: ${(p) => (p.$doFilter ? `none` : `flex`)};
+	@media (hover: hover) {
 		display: none;
 	}
 	align-items: center;
@@ -134,7 +138,7 @@ const HorizontalScrollExpandButton = styled.button`
 
 const Wrapper = styled.div`
 	margin-bottom: 0.6rem;
-	@media (max-width: 800px) {
+	@media (hover: none) {
 		margin-top: ${(p) => (p.$doFilter ? `0.6rem` : '0')};
 	}
 	p {
@@ -196,8 +200,8 @@ const Wrapper = styled.div`
 `
 const Group = styled.li`
 	> header > span {
-		display: ${(p) => (p.$expandGroup ? 'non' : 'block')};
-		@media (max-width: 800px) {
+		display: block;
+		@media (hover: none) {
 			display: none;
 		}
 		width: 0.8rem;
@@ -209,11 +213,11 @@ const Group = styled.li`
 	position: relative;
 	div {
 		&:after {
-			@media (min-width: 800px) {
+			@media (hover: hover) {
 				display: none;
 			}
 			${(p) =>
-				p.$expandGroup
+				p.$expandGroup || p.$doFilter
 					? css`
 							display: none;
 					  `
@@ -235,7 +239,7 @@ const Group = styled.li`
 		}
 
 		> ul {
-			@media (min-width: 800px) {
+			@media (hover: hover) {
 				margin-top: 0.2rem;
 				margin-left: 0.3rem;
 				padding-left: 0.4rem;
@@ -248,7 +252,7 @@ const Group = styled.li`
 					  `
 					: ''}
 			/* Touch devices can scroll horizontally, desktop devices (hover:hover) cannot */
-		@media (hover: hover) {
+			@media (hover: hover) {
 				flex-wrap: wrap;
 			}
 			@media (hover: none) {
@@ -269,7 +273,10 @@ const Category = styled.li`
 			  `
 			: ''}
 	@media (hover: hover) {
-		display: ${(p) => (p.$display ? `flex` : `none`)};
+		display: ${(p) => (p.$desktopDisplay ? `flex` : `none`)};
+	}
+	@media (hover: none) {
+		display: ${(p) => (p.$mobileDisplay ? `flex` : `none`)};
 	}
 `
 const MapIcon = ({ category, color, bulkImages }) => {
