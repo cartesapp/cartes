@@ -196,7 +196,7 @@ const Wrapper = styled.div`
 `
 const Group = styled.li`
 	> header > span {
-		display: ${(p) => (p.$expandGroup ? 'non' : 'block')};
+		display: block;
 		@media (max-width: 800px) {
 			display: none;
 		}
