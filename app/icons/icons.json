@@ -192,6 +192,7 @@
 		"emergency/avalanche_transceiver_training.svg"
 	],
 	["siren", "emergency/siren.svg"],
+	["disaster_response", "emergency/disaster_response.svg"],
 	["healthcare", "health/healthcare.svg"],
 	["amenity_dentist", "health/dentist.svg"],
 	["amenity_doctors", "health/doctors3.svg"],
@@ -225,6 +226,16 @@
 	["topo_drinking_water_no_map", "overlays_water/drinking_water_no.svg"],
 	["access_private_overlay", "overlays/access_private.svg"],
 	["access_private_red_overlay", "overlays/access_private_red.svg"],
+	["nfs_access_overlay_closed", "overlays/nfs_access_overlay_closed.svg"],
+	["nfs_access_overlay_open", "overlays/nfs_access_overlay_open.svg"],
+	[
+		"nfs_access_overlay_temporarily_closed",
+		"overlays/nfs_access_overlay_temporarily_closed.svg"
+	],
+	[
+		"nfs_access_overlay_unreachable",
+		"overlays/nfs_access_overlay_unreachable.svg"
+	],
 	["transportation", "transport/taxi_rank.svg"],
 	["road_obstacle", "transport/speedbump.svg"],
 	["personal_transport", "shopping/car.svg"],
@@ -262,6 +273,7 @@
 	["maxspeed", "transport/maxspeed.svg"],
 	["mindistance", "transport/mindistance.svg"],
 	["highway_steps", "transport_colored/highway_steps.svg"],
+	["osmand_steps", "functional-icons/osmand_steps.svg"],
 	["highway_traffic_signals_map", "functional-icons/traffic_lights.svg"],
 	["highway_traffic_signals", "transport/traffic_lights.svg"],
 	["motorway_junction", "transport/motorway_junction.svg"],
@@ -295,10 +307,14 @@
 		"oneway_reverse_black_semitransparent_big",
 		"functional-icons/oneway_reverse_black_semitransparent_big.svg"
 	],
+	["oneway_gray", "functional-icons/oneway_gray.svg"],
 	["oneway_gray_big", "functional-icons/oneway_gray_big.svg"],
+	["oneway_reverse_gray", "functional-icons/oneway_reverse_gray.svg"],
 	["oneway_reverse_gray_big", "functional-icons/oneway_reverse_gray_big.svg"],
 	["arrow_blue_big", "functional-icons/arrow_blue_big.svg"],
 	["arrow_blue_big_night", "functional-icons/arrow_blue_big_night.svg"],
+	["arrow_red_up_big", "functional-icons/arrow_red_up_big.svg"],
+	["arrow_red_down_big", "functional-icons/arrow_red_down_big.svg"],
 	["arrow_triangle_black", "functional-icons/arrow_triangle_black.svg"],
 	[
 		"arrow_triangle_black_reverse",
@@ -408,6 +424,8 @@
 	["aeroway_fuel", "transport/aeroway_fuel.svg"],
 	["turning_circle", "transport/turning_circle.svg"],
 	["waterway_fuel", "transport/waterway_fuel.svg"],
+	["osmand_access_private", "functional-icons/osmand_access_private.svg"],
+	["osmand_access_private_poi", "poi/osmand_access_private_poi.svg"],
 	["parking", "transport/parking.svg"],
 	["amenity_parking", "transport/parking.svg"],
 	["amenity_parking_private", "transport/parking_private2.svg"],
@@ -495,7 +513,6 @@
 	["level_crossing", "poi_colored/level_crossing.svg"],
 	["railway_yard", "transport/railway_yard.svg"],
 	["railway_platform", "transport/train_station2.svg"],
-	["railway_stop", "transport/train_station2.svg"],
 	["railway_station_disused", "functional-icons/train_station_disused.svg"],
 	["railway_station_small_disused", "undefined/.svg"],
 	[
@@ -537,7 +554,7 @@
 	["railway_tram_stop", "transport/tram_stop.svg"],
 	["tram_stop_small", "undefined/.svg"],
 	["tram_stop_small_night", "functional-icons/tram_stop_small_night.svg"],
-	["subway_station", "transport/subway_station.svg"],
+	["subway_station", "transport_colored/subway_station.svg"],
 	["funicular", "transport/funicular.svg"],
 	["escape_lane", "transport/escape_lane.svg"],
 	["emergency_bay", "transport/emergency_bay.svg"],
@@ -867,6 +884,7 @@
 	["topo_wilderness_hut", "topo/wilderness_hut.svg"],
 	["summer_camp", "accommodation/summer_camp.svg"],
 	["refugee_site", "accommodation/refugee_site.svg"],
+	["group_camping", "tourist/group_camping.svg"],
 	["sightseeing", "tourist/castle2.svg"],
 	["tourism", "tourist/museum.svg"],
 	["for_tourists", "tourist/view_point.svg"],
@@ -901,6 +919,7 @@
 	["tourism_museum", "tourist/museum.svg"],
 	["tourism_picnic_site", "tourist_colored/picnic.svg"],
 	["topo_picnic_site", "topo/picnic_site.svg"],
+	["picnicking", "tourist/picnicking.svg"],
 	["picnic_table", "tourist_colored/picnic_table.svg"],
 	["topo_picnic_table", "topo/picnic_table.svg"],
 	["tourism_theme_park", "tourist/theme_park.svg"],
@@ -932,6 +951,29 @@
 	["topo_trailhead", "topo/trailhead.svg"],
 	["ranger_station", "amenity/ranger_station.svg"],
 	["mountain", "tourist/mountain.svg"],
+	["cabin_rentals", "tourist/cabin_rentals.svg"],
+	["nfs_default_icon", "tourist/nfs_default_icon.svg"],
+	["dispersed_camping", "tourist/dispersed_camping.svg"],
+	["viewing_wildlife", "tourist/viewing_wildlife.svg"],
+	["group_picnicking", "tourist/group_picnicking.svg"],
+	["visitor_programs", "tourist/visitor_programs.svg"],
+	["interpretive_areas", "tourist/interpretive_areas.svg"],
+	["target_shooting", "tourist/target_shooting.svg"],
+	["mountain_biking", "tourist/mountain_biking.svg"],
+	["birdwatching", "tourist/birdwatching.svg"],
+	["horse_camping", "tourist/horse_camping.svg"],
+	["gold_panning", "tourist/gold_panning.svg"],
+	["ohv_camping", "tourist/ohv_camping.svg"],
+	["rockhounding", "tourist/rockhounding.svg"],
+	["viewing_plants", "tourist/viewing_plants.svg"],
+	["tubing", "tourist/tubing.svg"],
+	["sledding_tubing", "tourist/sledding_tubing.svg"],
+	["tidepooling", "tourist/tidepooling.svg"],
+	["metal_detecting", "tourist/metal_detecting.svg"],
+	["dog_sledding", "tourist/dog_sledding.svg"],
+	["ranger_station_office", "tourist/ranger_station_office.svg"],
+	["fire_lookout", "tourist/fire_lookout.svg"],
+	["natural_endangered_area", "tourist/natural_endangered_area.svg"],
 	["entertainment", "tourist/cinema3.svg"],
 	["club", "tourist/night_club.svg"],
 	["amenity_arts_centre", "tourist/art_gallery.svg"],
@@ -952,6 +994,7 @@
 	["conference_centre", "amenity/conference_centre.svg"],
 	["escape_game", "entertainment/escape_game.svg"],
 	["toy_library", "amenity/toy_library.svg"],
+	["photo_booth", "amenity/photo_booth.svg"],
 	["historic", "tourist/archaeological2.svg"],
 	["historic_archaeological_site", "tourist/archaeological2.svg"],
 	["topo_archaeological_site", "topo/archaeological2.svg"],
@@ -1006,6 +1049,7 @@
 	["topo_tank", "topo/historic_tank.svg"],
 	["pillory", "tourist/pillory.svg"],
 	["spacecraft", "tourist/spacecraft.svg"],
+	["point_of_interest", "poi/point_of_interest.svg"],
 	["special_poi_big_ben", "special_poi/big_ben.svg"],
 	["special_poi_brandenburg_gate", "special_poi/brandenburg_gate.svg"],
 	["special_poi_chichen_itza", "special_poi/chichen_itza.svg"],
@@ -1033,6 +1077,7 @@
 	["sport_cycling", "sport/cycling.svg"],
 	["sport_diving", "sport/diving.svg"],
 	["sport_golf", "sport/golf.svg"],
+	["sport_disc_golf", "sport/disc_golf.svg"],
 	["sport_gymnastics", "sport/gymnasium.svg"],
 	["sport_handball", "sport/handball.svg"],
 	["ice_hockey", "sport/ice_hockey.svg"],
@@ -1081,6 +1126,13 @@
 	["dive_centre", "sport/dive_centre.svg"],
 	["ultralight_aviation", "sport/ultralight_aviation.svg"],
 	["golf_pin", "functional-icons-x2/golf_pin.svg"],
+	["hang_gliding", "sport/hang_gliding.svg"],
+	["windsurfing", "sport/windsurfing.svg"],
+	["waterskiing", "sport/waterskiing.svg"],
+	["climbing_route", "sport/climbing_route.svg"],
+	["climbing_route_bottom", "sport/climbing_route_bottom.svg"],
+	["climbing_area", "sport/climbing_area.svg"],
+	["climbing_crag", "sport/climbing_crag.svg"],
 	["leisure", "sport/playground.svg"],
 	["leisure_beach_resort", "tourist/beach_resort.svg"],
 	["leisure_bird_hide", "entertainment/bird_hide.svg"],
@@ -1268,6 +1320,7 @@
 	["trash_disposal", "amenity_colored/waste_disposal.svg"],
 	["bridge", "poi_colored/bridge.svg"],
 	["tunnel", "poi_colored/tunnel.svg"],
+	["osmand_tunnel", "poi/osmand_tunnel.svg"],
 	["amenity_hunting_stand", "poi_colored/hunting_stand.svg"],
 	["highway_street_lamp", "functional-icons/street_lamp.svg"],
 	["highway_street_lamp_lit", "functional-icons/street_lamp_lit.svg"],
@@ -1348,6 +1401,7 @@
 	["dolphin", "poi_colored/dolphin.svg"],
 	["street_cabinet", "poi_colored/street_cabinet.svg"],
 	["sanitary_dump_station", "poi_colored/sanitary_dump_station.svg"],
+	["sanitary_dump_station_white", "poi/sanitary_dump_station.svg"],
 	["spoil_heap", "poi_colored/spoil_heap.svg"],
 	["ventilation_shaft", "poi_colored/ventilation_shaft.svg"],
 	["weighbridge", "transport/weighbridge.svg"],
@@ -1384,7 +1438,7 @@
 	["man_made_water_well", "food/water_well.svg"],
 	["topo_water_well", "topo_water/water_well.svg"],
 	["water_point", "food/water_point.svg"],
-	["outdoor_seating_yes", "food/outdoor_seating.svg"],
+	["outdoor_seating", "food/outdoor_seating.svg"],
 	["hookah_lounge", "food/hookah_lounge.svg"],
 	["seamark", "transport/sail_boat.svg"],
 	["seamark_platform_small", "seamark_small/platform_small.svg"],
@@ -1657,32 +1711,13 @@
 	["seamark_j22_coral", "seamark_int1/seamark_j22_coral.svg"],
 	["seamark_k311_foul_ground", "seamark_int1/seamark_k311_foul_ground.svg"],
 	[
-		"seamark_j132_weedkelp_shield_night",
-		"seamark_int1/seamark_j132_weedkelp_shield_night.svg"
+		"seamark_j14_sand_waves_night",
+		"seamark_int1/seamark_j14_sand_waves_night.svg"
 	],
+	["seamark_j15_spring_night", "seamark_int1/seamark_j15_spring_night.svg"],
 	[
-		"seamark_j134_seagrass_shield_night",
-		"seamark_int1/seamark_j134_seagrass_shield_night.svg"
-	],
-	[
-		"seamark_j14_sand_waves_shield_night",
-		"seamark_int1/seamark_j14_sand_waves_shield_night.svg"
-	],
-	[
-		"seamark_j15_spring_shield_night",
-		"seamark_int1/seamark_j15_spring_shield_night.svg"
-	],
-	[
-		"seamark_j21_rocky_shield_night",
-		"seamark_int1/seamark_j21_rocky_shield_night.svg"
-	],
-	[
-		"seamark_j22_coral_shield_night",
-		"seamark_int1/seamark_j22_coral_shield_night.svg"
-	],
-	[
-		"seamark_k311_foul_ground_shield_night",
-		"seamark_int1/seamark_k311_foul_ground_shield_night.svg"
+		"seamark_k311_foul_ground_night",
+		"seamark_int1/seamark_k311_foul_ground_night.svg"
 	],
 	[
 		"seamark_obstruction_foul_ground",
@@ -1701,7 +1736,7 @@
 	["seamark_seaplane_landing_area", "seamark_small/seaplane_landing_area.svg"],
 	["seamark_power_line", "seamark_small/power_line.svg"],
 	["seamark_submarine_cable", "seamark_small/submarine_cable.svg"],
-	["piste", "skimap/piste.svg"],
+	["piste", "entertainment/piste.svg"],
 	["piste_downhill", "skimap/piste_downhill.svg"],
 	["piste_hike", "skimap/piste_hike.svg"],
 	["piste_nordic", "skimap/piste_nordic.svg"],
@@ -2126,5 +2161,15 @@
 	["route_track", "special/route_track.svg"],
 	["routes", "special/routes.svg"],
 	["special_person", "special/person.svg"],
-	["special_people_group", "special/people_group.svg"]
+	["special_people_group", "special/people_group.svg"],
+	["routes_driving", "activities/car.svg"],
+	["routes_motorcycling", "activities/motorcycle.svg"],
+	["routes_foot", "activities/pedestrian.svg"],
+	["routes_winter_sport", "activities/skiing.svg"],
+	["routes_cycling", "activities/bicycle.svg"],
+	["routes_air_sports", "activities/light_aircraft.svg"],
+	["routes_water_sport", "activities/kayak.svg"],
+	["routes_other", "special/route_track.svg"],
+	["route_track_point", "special/marker.svg"]
 ]
+

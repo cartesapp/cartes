@@ -10,8 +10,7 @@ This repo doesn't have an icon for beach, for instance ! https://github.com/grav
 
 No amenity = pub here https://github.com/gmgeo/osmic but there is "pub" without the amenity tag.
 
-Here we chose Osmand
-
+Thus we decided to chose Osmand
 
 Run this file with `deno run --allow-net app/icons/fetch.ts`
 */
@@ -56,10 +55,7 @@ const iconUrls = results.map((el) => {
 
 const useThisUrlStartForInstance = `https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/`
 
-await Deno.writeTextFile(
-	'./app/icons/icons.json',
-	JSON.stringify(iconUrls)
-)
+await Deno.writeTextFile('./app/icons/icons.json', JSON.stringify(iconUrls))
 
 console.log('File written')
 console.log(iconUrls)
