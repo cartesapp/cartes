@@ -44,7 +44,7 @@ export default function MoreCategories({
 			<ol>
 				{!doFilter && ( //si pas de recherche en cours, on affiche ce message
 					<p style={{ marginBottom: '.4rem' }}>
-						Astuce : utilisez la barre de recherche pour trouver des catégories
+						Astuce : encore plus de catégories disponibles via la barre de recherche
 					</p>
 				)}
 				{Object.entries(groups).map(([group, categories]) => {
