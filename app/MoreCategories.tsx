@@ -57,6 +57,7 @@ export default function MoreCategories({
 							key={group}
 							$groupColor={groupColor}
 							$expandGroup={expandGroup}
+							$doFilter={doFilter}
 						>
 							<header onClick={() => changeLargeGroup(group)}>
 								<span></span>
@@ -89,6 +90,7 @@ export default function MoreCategories({
 									})}
 								</ul>
 								<HorizontalScrollExpandButton
+									$doFilter={doFilter}
 									onClick={() => changeLargeGroup(group)}
 								>
 									<Image
@@ -115,7 +117,7 @@ const HorizontalScrollExpandButton = styled.button`
 	width: 1.4rem;
 	height: 1.4rem;
 	padding: 0;
-	display: flex;
+	display: ${(p) => (p.$doFilter ? `none` : `flex`)};
 	@media (min-width: 800px) {
 		display: none;
 	}
@@ -215,7 +217,7 @@ const Group = styled.li`
 				display: none;
 			}
 			${(p) =>
-				p.$expandGroup
+				p.$expandGroup || p.$doFilter
 					? css`
 							display: none;
 					  `
