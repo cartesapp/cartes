@@ -66,13 +66,15 @@ export default function MoreCategories({
 								<ul>
 									{categories.map((category) => {
 										const isActive = categoriesSet.includes(category.name)
-										const display = doFilter || isActive || expandGroup
+										const desktopDisplay = doFilter || isActive || (expandGroup && !category.hidden)
+										const mobileDisplay  = doFilter || isActive || !category.hidden
 										return (
 											<Category
 												key={category.name}
 												$active={isActive}
 												$isExact={category.score < exactThreshold}
-												$display={display}
+												$desktopDisplay={desktopDisplay}
+												$mobileDisplay={mobileDisplay}
 											>
 												<Link href={getNewSearchParamsLink(category)}>
 													<MapIcon
@@ -269,7 +271,10 @@ const Category = styled.li`
 			  `
 			: ''}
 	@media (hover: hover) {
-		display: ${(p) => (p.$display ? `flex` : `none`)};
+		display: ${(p) => (p.$desktopDisplay ? `flex` : `none`)};
+	}
+	@media (hover: none) {
+		display: ${(p) => (p.$mobileDisplay ? `flex` : `none`)};
 	}
 `
 const MapIcon = ({ category, color, bulkImages }) => {
