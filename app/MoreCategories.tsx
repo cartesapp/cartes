@@ -118,7 +118,7 @@ const HorizontalScrollExpandButton = styled.button`
 	height: 1.4rem;
 	padding: 0;
 	display: ${(p) => (p.$doFilter ? `none` : `flex`)};
-	@media (min-width: 800px) {
+	@media (hover: hover) {
 		display: none;
 	}
 	align-items: center;
@@ -138,7 +138,7 @@ const HorizontalScrollExpandButton = styled.button`
 
 const Wrapper = styled.div`
 	margin-bottom: 0.6rem;
-	@media (max-width: 800px) {
+	@media (hover: none) {
 		margin-top: ${(p) => (p.$doFilter ? `0.6rem` : '0')};
 	}
 	p {
@@ -201,7 +201,7 @@ const Wrapper = styled.div`
 const Group = styled.li`
 	> header > span {
 		display: block;
-		@media (max-width: 800px) {
+		@media (hover: none) {
 			display: none;
 		}
 		width: 0.8rem;
@@ -213,7 +213,7 @@ const Group = styled.li`
 	position: relative;
 	div {
 		&:after {
-			@media (min-width: 800px) {
+			@media (hover: hover) {
 				display: none;
 			}
 			${(p) =>
@@ -239,7 +239,7 @@ const Group = styled.li`
 		}
 
 		> ul {
-			@media (min-width: 800px) {
+			@media (hover: hover) {
 				margin-top: 0.2rem;
 				margin-left: 0.3rem;
 				padding-left: 0.4rem;
@@ -252,7 +252,7 @@ const Group = styled.li`
 					  `
 					: ''}
 			/* Touch devices can scroll horizontally, desktop devices (hover:hover) cannot */
-		@media (hover: hover) {
+			@media (hover: hover) {
 				flex-wrap: wrap;
 			}
 			@media (hover: none) {
