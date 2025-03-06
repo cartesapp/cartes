@@ -1,13 +1,20 @@
-import getIcons from './getIcons'
+import Icon from '@/components/Icon'
 import { styled } from 'next-yak'
 
 export default function Icons({ tags }) {
-	const icons = typeof tags === 'string' ? [tags] : getIcons(tags)
+	console.log('cyan tags', tags)
+	const icons = typeof tags === 'string' ? [tags] : Object.entries(tags)
+	if (typeof tags === 'string')
+		return (
+			<IconList>
+				<Icon v={tags} k={null} />
+			</IconList>
+		)
 	return (
 		<IconList>
-			{icons.map((icon) => (
-				<li key={icon}>
-					<img src={icon} width="10" height="10" />
+			{icons.map(([k, v]) => (
+				<li key={k + '|' + v}>
+					<Icon k={k} v={v} />
 				</li>
 			))}
 		</IconList>
