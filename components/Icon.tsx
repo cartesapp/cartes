@@ -2,11 +2,13 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { getFetchUrlBase } from '@/app/serverUrls'
+import { findCategoryForTag } from './categories'
+import { MapIcon } from '@/app/MoreCategories'
 export const urlBase = `${getFetchUrlBase()}/osmand-icons/icons/svg/`
 
 export const defaultIconSrc = `/dot.svg`
 
-export default function Icon({ k, v }) {
+export default function Icon({ k, v, icons }) {
 	const [iconSrc, setIconSrc] = useState(defaultIconSrc)
 
 	useEffect(() => {
@@ -30,12 +32,17 @@ export default function Icon({ k, v }) {
 		doFetch()
 	}, [setIconSrc, k, v])
 
+	const category = findCategoryForTag(k, v)
+
+	if (category?.icon) return <MapIcon bulkImages={icons} category={category} />
+
 	return (
 		<Image
 			width="10"
 			height="10"
 			src={iconSrc}
 			alt="Icône représentant au mieux le type de lieu"
+			style={category?.icon ? {} : { filter: `invert(1)` }}
 		/>
 	)
 }

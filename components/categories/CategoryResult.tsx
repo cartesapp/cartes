@@ -3,10 +3,10 @@ import { buildAllezPart } from '@/app/SetDestination'
 import categoryColors from '@/app/categoryColors.yaml'
 import { OpenIndicator, getOh } from '@/app/osm/OpeningHours'
 import { encodePlace } from '@/app/utils'
+import { styled } from 'next-yak'
 import Image from 'next/image'
 import Link from 'next/link'
 import { computeRoseDirection } from '../SimilarNodes'
-import { css, styled } from 'next-yak'
 import { capitalise0 } from '../utils/utils'
 
 export default function CategoryResult({
