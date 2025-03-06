@@ -17,6 +17,12 @@ export default function Icon({ k, v }) {
 					cache: 'force-cache',
 				}
 			)
+
+			// Check if the response status is 404
+			if (request.status === 404 || !request.ok) {
+				return
+			}
+
 			const foundIcon = await request.json()
 			const iconSrc = foundIcon ? urlBase + foundIcon[1] : defaultIconSrc
 			setIconSrc(iconSrc)

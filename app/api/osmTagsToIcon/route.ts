@@ -7,5 +7,7 @@ export async function GET(request) {
 
 	const json = icons.find(([key]) => key === k + '_' + v || key === v)
 
+	if (!json) return Response.json({ error: 'No icon found' }, { status: 404 })
+
 	return Response.json(json)
 }
