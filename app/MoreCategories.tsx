@@ -262,6 +262,7 @@ const Category = styled.li`
 	}
 `
 export const MapIcon = ({ category, bulkImages }) => {
+	if (!bulkImages) return
 	const src = bulkImages[category['icon alias'] || category['icon']]
 
 	const alt = 'Icône de la catégorie ' + (category.title || category.name)
