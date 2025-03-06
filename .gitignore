@@ -37,6 +37,7 @@ source/data
 
 cache.sqlite*
 public/indoorequal/
+public/osmand-icons
 
 # Sentry Config File
 .env.sentry-build-plugin
