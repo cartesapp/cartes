@@ -7,6 +7,8 @@ export const filteredMoreCategories = moreCategories.filter(
 
 export const categories = [...baseCategories, ...filteredMoreCategories]
 
+console.log(categories.map((category) => category.query))
+
 // use this to complete categoryColors.yaml
 
 false &&
