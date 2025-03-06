@@ -1,20 +1,22 @@
+'use client'
+import useIcons from '@/app/effects/useIcons'
 import Icon from '@/components/Icon'
 import { styled } from 'next-yak'
 
 export default function Icons({ tags }) {
+	const icons = useIcons()
 	console.log('cyan tags', tags)
-	const icons = typeof tags === 'string' ? [tags] : Object.entries(tags)
 	if (typeof tags === 'string')
 		return (
 			<IconList>
-				<Icon v={tags} k={null} />
+				<Icon v={tags} k={null} icons={icons} />
 			</IconList>
 		)
 	return (
 		<IconList>
-			{icons.map(([k, v]) => (
+			{Object.entries(tags).map(([k, v]) => (
 				<li key={k + '|' + v}>
-					<Icon k={k} v={v} />
+					<Icon k={k} v={v} icons={icons} />
 				</li>
 			))}
 		</IconList>

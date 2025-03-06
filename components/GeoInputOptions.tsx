@@ -26,6 +26,7 @@ export default function GeoInputOptions({
 	data,
 	updateState,
 	rulesPath = '',
+	icons,
 }) {
 	return (
 		<ul>
@@ -40,6 +41,7 @@ export default function GeoInputOptions({
 							updateState,
 							rulesPath,
 							data,
+							icons,
 						}}
 					/>
 				))}
@@ -74,7 +76,14 @@ export const buildLocationText = (item) => {
 	return locationText
 }
 
-const Option = ({ whichInput, option, updateState, rulesPath, data }) => {
+const Option = ({
+	whichInput,
+	option,
+	updateState,
+	rulesPath,
+	data,
+	icons,
+}) => {
 	const choice = option.choice,
 		inputValue = data.inputValue
 
@@ -92,7 +101,7 @@ const Option = ({ whichInput, option, updateState, rulesPath, data }) => {
 				}}
 			>
 				{' '}
-				<Icon k={osmKey} v={osmValue} />
+				<Icon k={osmKey} v={osmValue} icons={icons} />
 				<span>
 					<Highlighter
 						autoEscape={true}
@@ -157,6 +166,5 @@ const Li = styled.li`
 		width: 1.2rem;
 		height: 1.2rem;
 		margin-right: 0.6rem;
-		filter: invert(1);
 	}
 `

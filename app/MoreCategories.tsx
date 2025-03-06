@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { exactThreshold } from './QuickFeatureSearch'
 import { goldCladding } from './QuickFeatureSearchUI'
 import { useEffect, useState } from 'react'
+import useIcons from './effects/useIcons'
 
 export default function MoreCategories({
 	getNewSearchParamsLink,
@@ -13,8 +14,6 @@ export default function MoreCategories({
 	filteredMoreCategories,
 	doFilter,
 }) {
-	const [bulkImages, setBulkImages] = useState({})
-
 	const groups = filteredMoreCategories.reduce((memo, next) => {
 		return {
 			...memo,
@@ -22,16 +21,7 @@ export default function MoreCategories({
 		}
 	}, {})
 
-	useEffect(() => {
-		const doFetch = async () => {
-			const request = await fetch('/svgo/bulk')
-			const json = await request.json()
-
-			setBulkImages(Object.fromEntries(json))
-		}
-		doFetch()
-	}, [setBulkImages])
-
+	const bulkImages = useIcons()
 	// variable d'état pour stocker le groupe dont toutes les catégories sont affichées
 	const [largeGroup, setLargeGroup] = useState(false)
 	// et fonction pour le modifier
@@ -77,7 +67,6 @@ export default function MoreCategories({
 												<Link href={getNewSearchParamsLink(category)}>
 													<MapIcon
 														category={category}
-														color={groupColor}
 														bulkImages={bulkImages}
 													/>{' '}
 													{uncapitalise0(category.title || category.name)}
@@ -272,7 +261,8 @@ const Category = styled.li`
 		display: ${(p) => (p.$display ? `flex` : `none`)};
 	}
 `
-const MapIcon = ({ category, color, bulkImages }) => {
+export const MapIcon = ({ category, bulkImages }) => {
+	if (!bulkImages) return
 	const src = bulkImages[category['icon alias'] || category['icon']]
 
 	const alt = 'Icône de la catégorie ' + (category.title || category.name)

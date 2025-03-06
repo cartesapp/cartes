@@ -4,6 +4,7 @@ import { omit } from '@/components/utils/utils'
 import { css, styled } from 'next-yak'
 import Link from 'next/link'
 import ItineraryButton, { ResetIcon } from './itinerary/ItineraryButton'
+import { Style } from 'maplibre-gl'
 
 const ResetDistanceButton = styled.button`
 	position: absolute;
@@ -116,7 +117,7 @@ export default function MapButtons({
 					onClick={() => setStyleChooser(!styleChooser)}
 					title={'Choisir un autre style de fond de carte'}
 				>
-					<MapIcon />
+					<StyleChooserIcon />
 				</button>
 			</MapButton>
 			<MapButton $active={distanceMode}>
@@ -159,7 +160,7 @@ export default function MapButtons({
 		</MapButtonsWrapper>
 	)
 }
-export const MapIcon = () => (
+export const StyleChooserIcon = () => (
 	<img
 		css={css`
 			width: 1.4rem;
