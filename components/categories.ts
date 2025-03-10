@@ -51,12 +51,12 @@ export function findCategoryForTag(key: string, value: string) {
 	return undefined
 }
 
-// use this to complete categoryColors.yaml
+// use this to complete categoryGroupColors.yaml
 
 false &&
 	console.log(
 		'yocategories',
-		[...new Set(categories.map((cat) => cat.category))].join('\n')
+		[...new Set(categories.map((cat) => cat.group))].join('\n')
 	)
 
 export const getCategories = (searchParams) => {

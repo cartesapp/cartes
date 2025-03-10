@@ -50,7 +50,7 @@ const styles: Record<string, Properties> = {
 		width: '18px',
 		height: '4px',
 		borderRadius: '99px',
-		backgroundColor: '#ddd',
+		backgroundColor: 'var(--lighterColor)',
 	},
 	content: {
 		flexGrow: 1,

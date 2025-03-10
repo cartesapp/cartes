@@ -101,17 +101,11 @@ export default function ModalSheet(props) {
 				}}
 			>
 				<Sheet.Container
-					css={css`
-						background-color: var(--lightestColor2) !important;
-					`}
+					style={{
+						backgroundColor: 'var(--lightestColor2)',
+					}}
 				>
-					<Sheet.Header
-						css={css`
-							span {
-								background-color: var(--lighterColor) !important;
-							}
-						`}
-					/>
+					<Sheet.Header />
 					<Sheet.Content disableDrag={disableDrag}>
 						<Sheet.Scroller draggableAt="both" snap={trackedSnap}>
 							<SheetContentWrapper>
