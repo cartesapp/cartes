@@ -10,12 +10,29 @@ This repo doesn't have an icon for beach, for instance ! https://github.com/grav
 
 No amenity = pub here https://github.com/gmgeo/osmic but there is "pub" without the amenity tag.
 
-Here we chose Osmand
-
+Thus we decided to chose Osmand
 
 Run this file with `deno run --allow-net app/icons/fetch.ts`
 */
 
+import { bash, BashError } from 'https://deno.land/x/bash/mod.ts'
+
+const downloadCommand = `curl -L https://github.com/osmandapp/OsmAnd-resources/tarball/master/ > osmand-resources.tar.gz`
+
+try {
+	console.log('Will download Github folder as tarball')
+	const tarball = await bash(downloadCommand)
+	console.log('Github folder download as tarball')
+	const extract = await bash(
+		`rm -rf public/osmand-icons && mkdir public/osmand-icons && tar -xzvf osmand-resources.tar.gz -C public/osmand-icons --strip-components=1 --wildcards osman*/icons/svg/`
+	)
+} catch (error) {
+	if (error instanceof BashError) {
+		console.error(error.message)
+	}
+}
+
+// This scripts relies on this file that contains all icon names
 const req = await fetch(
 	'https://raw.githubusercontent.com/osmandapp/OsmAnd-resources/master/icons/tools/sortfiles.sh'
 )
@@ -33,6 +50,7 @@ const iconDirectories = await listDirectory(
 	'icons/svg'
 )
 
+console.log('cyan', iconDirectories)
 const iconUrls = results.map((el) => {
 	const [, one, two] = el.split(/\s/)
 
@@ -56,10 +74,7 @@ const iconUrls = results.map((el) => {
 
 const useThisUrlStartForInstance = `https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/`
 
-await Deno.writeTextFile(
-	'./app/icons/icons.json',
-	JSON.stringify(iconUrls)
-)
+await Deno.writeTextFile('./app/icons/icons.json', JSON.stringify(iconUrls))
 
 console.log('File written')
 console.log(iconUrls)

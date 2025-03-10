@@ -1,9 +1,9 @@
 'use client'
-import icons from '@/app/icons/icons.json'
-import { omit } from './utils/utils'
-import Highlighter from 'react-highlight-words'
 import { styled } from 'next-yak'
+import Highlighter from 'react-highlight-words'
+import Icon from './Icon'
 import { buildAddress } from './osm/buildAddress'
+import { omit } from './utils/utils'
 
 // Beware, this file is shared by the Map app, and the carbon footprint / € calculators
 
@@ -26,6 +26,7 @@ export default function GeoInputOptions({
 	data,
 	updateState,
 	rulesPath = '',
+	icons,
 }) {
 	return (
 		<ul>
@@ -40,6 +41,7 @@ export default function GeoInputOptions({
 							updateState,
 							rulesPath,
 							data,
+							icons,
 						}}
 					/>
 				))}
@@ -74,19 +76,20 @@ export const buildLocationText = (item) => {
 	return locationText
 }
 
-const Option = ({ whichInput, option, updateState, rulesPath, data }) => {
+const Option = ({
+	whichInput,
+	option,
+	updateState,
+	rulesPath,
+	data,
+	icons,
+}) => {
 	const choice = option.choice,
 		inputValue = data.inputValue
 
 	const { osm_key: osmKey, osm_value: osmValue } = option
 
 	const locationText = buildLocationText(option)
-	console.log({ locationText })
-	const foundIcon =
-		icons.find(([key]) => key === osmKey + '_' + osmValue) ||
-		icons.find(([key]) => key === osmValue)
-	const urlBase = `https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd-resources/icons/svg/`
-	const iconPath = foundIcon ? urlBase + foundIcon[1] : `/dot.svg`
 
 	return (
 		<Li $chosen={choice && choice.name === option.name}>
@@ -97,12 +100,8 @@ const Option = ({ whichInput, option, updateState, rulesPath, data }) => {
 					updateState(newState)
 				}}
 			>
-				<img
-					width="10"
-					height="10"
-					src={iconPath}
-					alt="Icône représentant au mieux le type de lieu"
-				/>
+				{' '}
+				<Icon k={osmKey} v={osmValue} icons={icons} />
 				<span>
 					<Highlighter
 						autoEscape={true}
@@ -167,6 +166,5 @@ const Li = styled.li`
 		width: 1.2rem;
 		height: 1.2rem;
 		margin-right: 0.6rem;
-		filter: invert(1);
 	}
 `
