@@ -63,6 +63,15 @@ export const combinedOsmRequest = async (queries) => {
 	return results
 }
 
+export const overpassFetchOptions = isServer
+	? {
+			headers: {
+				'User-Agent': 'Cartes.app',
+			},
+			next: { revalidate: 5 * 60 },
+	  }
+	: { cache: 'force-cache' }
+
 export const osmRequest = async (featureType, id, full) => {
 	console.log(
 		'lightgreen will make OSM request',
@@ -71,19 +80,11 @@ export const osmRequest = async (featureType, id, full) => {
 		'full : ',
 		full
 	)
+
 	const url = buildOverpassUrl(featureType, id, full)
 	console.log('OVERPASS3', url, 'is server : ', isServer)
 	try {
-		const request = await fetch(url, {
-			...(isServer
-				? {
-						headers: {
-							'User-Agent': 'Cartes.app',
-						},
-						next: { revalidate: 5 * 60 },
-				  }
-				: {}),
-		})
+		const request = await fetch(url, overpassFetchOptions)
 		if (!request.ok) {
 			console.log('lightgreen request not ok', request)
 
@@ -100,7 +101,8 @@ export const osmRequest = async (featureType, id, full) => {
 				// example : https://www.openstreetmap.org/node/3663795073
 				if (tags['addr:housenumber'] && !tags['addr:street']) {
 					const relationRequest = await fetch(
-						buildOverpassUrl(featureType, id, false, true)
+						buildOverpassUrl(featureType, id, false, true),
+						overpassFetchOptions
 					)
 					const json = await relationRequest.json()
 					const {

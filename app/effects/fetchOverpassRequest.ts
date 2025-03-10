@@ -2,6 +2,7 @@ import categories from '@/app/categories.yaml'
 import { filteredMoreCategories as moreCategories } from '@/components/categories'
 import {
 	enrichOsmFeatureWithPolyon,
+	overpassFetchOptions,
 	overpassRequestSuffix,
 } from '@/app/osmRequest'
 import computeBboxArea from '@/components/utils/computeBboxArea'
@@ -26,9 +27,7 @@ export async function fetchOverpassRequest(bbox, category) {
 
 	const url = `${overpassRequestSuffix}${encodeURIComponent(overpassRequest)}`
 	console.log('OVERPASS2', url)
-	const request = await fetch(url, {
-		next: { revalidate: 5 * 60 },
-	})
+	const request = await fetch(url, overpassFetchOptions)
 	const json = await request.json()
 
 	const nodeElements = overpassResultsToGeojson(json).map((element) => ({
