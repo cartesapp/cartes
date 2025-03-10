@@ -89,7 +89,7 @@
 		"next": "15.1.7",
 		"next-contentlayer2": "v0.5.3",
 		"next-mdx-remote": "^5.0.0",
-		"next-yak": "4.1",
+		"next-yak": "~4.1.1",
 		"opening_hours": "^3.8.0",
 		"osmtogeojson": "^3.0.0-beta.5",
 		"pmtiles": "^3.2.0",
@@ -115,7 +115,6 @@
 		"suncalc": "^1.9.0",
 		"svg-path-parser": "^1.1.0",
 		"svgo": "^3.3.2",
-		"swr": "^2.2.5",
 		"usehooks-ts": "^3.1.0"
 	}
 }

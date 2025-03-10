@@ -54,9 +54,9 @@ export const geoFeatureToDestination = (feature) => {
 // We'll even try with 4 and see
 // TODO : longitude rounding should depend on latitude + cosine stuff
 export const buildAllezPart = (name, id, longitude, latitude) => {
-	const part = `${name}|${id || ''}|${longitude.toFixed(4)}|${latitude.toFixed(
+	const part = `${name}|${id || ''}|${(+longitude).toFixed(
 		4
-	)}`
+	)}|${(+latitude).toFixed(4)}`
 	return part
 }
 
