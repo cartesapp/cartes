@@ -34,7 +34,8 @@ export default function MoreCategories({
 			<ol>
 				{!doFilter && ( //si pas de recherche en cours, on affiche ce message
 					<p style={{ marginBottom: '.4rem' }}>
-						Astuce : encore plus de catégories disponibles via la barre de recherche
+						Astuce : encore plus de catégories disponibles via la barre de
+						recherche
 					</p>
 				)}
 				{Object.entries(groups).map(([group, categories]) => {
@@ -57,8 +58,10 @@ export default function MoreCategories({
 								<ul>
 									{categories.map((category) => {
 										const isActive = categoriesSet.includes(category.name)
-										const desktopDisplay = doFilter || isActive || (expandGroup && !category.hidden)
-										const mobileDisplay  = doFilter || isActive || !category.hidden
+										const desktopDisplay =
+											doFilter || isActive || (expandGroup && !category.hidden)
+										const mobileDisplay =
+											doFilter || isActive || !category.hidden
 										return (
 											<Category
 												key={category.name}
@@ -221,8 +224,8 @@ const Group = styled.li`
 			background-image: linear-gradient(
 				to right,
 				rgba(255, 255, 255, 0),
-				#ffffff 60%,
-				#ffffff 70%
+				var(--lightestColor2) 60%,
+				var(--lightestColor2) 70%
 			);
 			width: 15%;
 		}
