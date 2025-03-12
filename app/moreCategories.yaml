@@ -539,6 +539,17 @@
   icon: nurse
   hidden: true
 
+- name: psychologue
+  group: Santé
+  dictionary:
+    - psychologie
+    - psychothérapeute
+    - psychothérapie
+  query:
+    - '[healthcare=psychotherapist]'
+  icon: hospital
+  hidden: true
+
 #######################
 # GROUP : POUBELLES
 #######################
