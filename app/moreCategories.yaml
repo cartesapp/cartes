@@ -1311,6 +1311,17 @@
     - '[amenity=courthouse]'
   icon: classical-building
 
+- name: France Travail
+  group: Services publics
+  dictionary:
+    - pole emploi
+    - pôle emploi
+    - ANPE
+    - chomage
+    - chômage
+  query: '[office=government][government=employment_agency]'
+  icon: building
+
 - title: Établissement scolaire
   group: Services publics
   name: education
