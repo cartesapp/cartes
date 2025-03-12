@@ -535,8 +535,7 @@
     - kinésithérapeute
     - masseur
     - massage
-  query:
-    - '[healthcare=physiotherapist]'
+  query: '[healthcare=physiotherapist]'
   icon: nurse
   hidden: true
 
@@ -547,8 +546,7 @@
     - logopede
     - logopédiste
     - orthophonie
-  query:
-    - '[healthcare=speech_therapist]'
+  query: '[healthcare=speech_therapist]'
   icon: hospital
   hidden: true
 
@@ -558,8 +556,7 @@
     - psychologie
     - psychothérapeute
     - psychothérapie
-  query:
-    - '[healthcare=psychotherapist]'
+  query: '[healthcare=psychotherapist]'
   icon: hospital
   hidden: true
 
