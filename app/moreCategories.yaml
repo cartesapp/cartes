@@ -1245,6 +1245,13 @@
 #######################
 ## https://wiki.openstreetmap.org/wiki/France/Services_Publics
 
+- name: Mairie
+  group: Services publics
+  dictionary:
+    - hôtel de ville
+  query: '[amenity=townhall]'
+  icon: classical-building
+
 - name: Police
   group: Services publics
   dictionary:
