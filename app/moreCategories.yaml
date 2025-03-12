@@ -527,6 +527,18 @@
   icon: shoes
   hidden: true
 
+- name: kiné
+  group: Santé
+  dictionary:
+    - physiothérapeute
+    - kinésithérapeute
+    - masseur
+    - massage
+  query:
+    - '[healthcare=physiotherapist]'
+  icon: nurse
+  hidden: true
+
 #######################
 # GROUP : POUBELLES
 #######################
