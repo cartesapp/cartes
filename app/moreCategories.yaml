@@ -535,6 +535,7 @@
     - pedicure
   query: '[healthcare=podiatrist]'
   icon: shoes
+  icon alias: podiatrist
   hidden: true
 
 - name: kiné
