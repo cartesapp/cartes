@@ -563,6 +563,15 @@
   icon: hospital
   hidden: true
 
+- name: don du sang
+  group: Santé
+  dictionary:
+    - EFS
+    - don de sang
+  query: '[healthcare=blood_donation]'
+  icon: nurse
+  hidden: true
+
 #######################
 # GROUP : POUBELLES
 #######################
