@@ -540,6 +540,18 @@
   icon: nurse
   hidden: true
 
+- name: orthophoniste
+  group: Santé
+  dictionary:
+    - logopède
+    - logopede
+    - logopédiste
+    - orthophonie
+  query:
+    - '[healthcare=speech_therapist]'
+  icon: hospital
+  hidden: true
+
 - name: psychologue
   group: Santé
   dictionary:
