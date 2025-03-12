@@ -1252,6 +1252,15 @@
   query: '[amenity=townhall]'
   icon: classical-building
 
+- name: Préfecture
+  group: Services publics
+  dictionary:
+    - sous-préfecture
+    - préfet
+  query: '[office=government][government=prefecture]'
+  icon: classical-building
+  hidden: true
+
 - name: Police
   group: Services publics
   dictionary:
