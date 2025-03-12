@@ -1241,16 +1241,69 @@
   hidden: true
 
 #######################
-# GROUP : DIVERS
+# GROUP : Services publics
 #######################
+## https://wiki.openstreetmap.org/wiki/France/Services_Publics
 
 - name: Police
-  group: Divers
+  group: Services publics
   dictionary:
     - gendarmerie
-    - comissariat
+    - commissariat
   query: '[amenity=police]'
   icon: police
+
+- title: Pompiers
+  group: Services publics
+  name: pompiers
+  dictionary:
+    - incendie
+    - 18
+    - feu
+  query:
+    - '[amenity=fire_station]'
+  icon: fire
+
+- name: Agence postale
+  group: Services publics
+  dictionary:
+    - bureau de poste
+    - poste
+    - colis
+    - la poste
+  query: '[amenity=post_office]'
+  icon: post
+
+- title: Justice
+  group: Services publics
+  name: justice
+  dictionary:
+    - tribunal
+    - cour
+    - cour d'appel
+    - judiciaire
+  query:
+    - '[amenity=courthouse]'
+  icon: classical-building
+
+- title: Établissement scolaire
+  group: Services publics
+  name: education
+  dictionary:
+    - université
+    - collège
+    - école
+    - primaire
+    - groupe scolaire
+  query:
+    - '[amenity=college]'
+    - '[amenity=university]'
+    - '[amenity=school]'
+  icon: college
+
+#######################
+# GROUP : DIVERS
+#######################
 
 - name: Point d'eau
   group: Divers # dans "Divers" plutôt que Boissons car c'est un usage pratique, non commercial de la boisson, plutôt qu'un usage "plaisir"
@@ -1263,15 +1316,6 @@
     - '[amenity=drinking_water]'
     - '[drinking_water=yes]'
   icon: water
-
-- name: Agence postale
-  group: Divers
-  dictionary:
-    - poste
-    - colis
-    - la poste
-  query: '[amenity=post_office]'
-  icon: post
 
 - title: Coiffeur
   group: Divers
@@ -1301,6 +1345,7 @@
     - '[amenity=coworking_space]'
     - '[office=coworking]'
   icon: coworking
+
 - title: Cordonnier
   group: Divers
   name: Cordonnier
@@ -1312,6 +1357,7 @@
     - lacets
   query: '[craft=shoemaker]'
   icon: shoes
+
 - title: Cimetière
   group: Divers
   name: cimetière
@@ -1321,42 +1367,3 @@
     - '[amenity=grave_yard]'
     - '[landuse=cemetery]'
   icon: cemetery
-
-## Peut-être carrément une catégorie "services publics"
-## https://wiki.openstreetmap.org/wiki/France/Services_Publics
-- title: Justice
-  group: Divers
-  name: justice
-  dictionary:
-    - tribunal
-    - cour
-    - cour d'appel
-    - judiciaire
-  query:
-    - '[amenity=courthouse]'
-  icon: classical-building
-
-- title: Pompiers
-  group: Divers
-  name: pompiers
-  dictionary:
-    - incendie
-    - 18
-    - feu
-  query:
-    - '[amenity=fire_station]'
-  icon: fire
-- title: Établissement scolaire
-  group: Divers
-  name: education
-  dictionary:
-    - université
-    - collège
-    - école
-    - primaire
-    - groupe scolaire
-  query:
-    - '[amenity=college]'
-    - '[amenity=university]'
-    - '[amenity=school]'
-  icon: college
