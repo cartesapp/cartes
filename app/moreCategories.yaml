@@ -475,6 +475,15 @@
     - '[healthcare=clinic]'
   icon: hospital
 
+- name: maison de santé
+  group: Santé
+  dictionary:
+    - centre de soins
+    - centre de santé
+  query: '[healthcare=centre]'
+  icon: doctors
+  hidden: true
+
 - name: médecin
   group: Santé
   dictionary:
