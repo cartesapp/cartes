@@ -1281,6 +1281,15 @@
   query: '[amenity=post_office]'
   icon: post
 
+- name: Boite aux lettres
+  group: Services publics
+  dictionary:
+    - poste
+    - lettres
+    - la poste
+  query: '[amenity=post_box]'
+  icon: post
+
 - title: Justice
   group: Services publics
   name: justice
