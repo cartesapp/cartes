@@ -522,7 +522,8 @@
 - name: podologue
   group: Santé
   dictionary:
-    - podologue
+    - pédicure
+    - pedicure
   query: '[healthcare=podiatrist]'
   icon: shoes
   hidden: true
