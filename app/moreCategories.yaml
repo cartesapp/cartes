@@ -796,6 +796,14 @@
   query: '[shop=doityourself]'
   icon: shop
 
+- name: Fleuriste
+  group: Commerces
+  dictionary:
+    - fleur
+    - bouquet
+  query: '[shop=florist]'
+  icon: shop
+
 #######################
 # GROUP : DÉPLACEMENTS
 #######################
