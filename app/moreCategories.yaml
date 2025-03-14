@@ -796,6 +796,15 @@
   query: '[shop=doityourself]'
   icon: shop
 
+- name: Jardinerie
+  group: Commerces
+  dictionary:
+    - jardinage
+    - plantes
+  query: '[shop=garden_center]'
+  icon: shop
+  hidden: true
+
 - name: Fleuriste
   group: Commerces
   dictionary:
