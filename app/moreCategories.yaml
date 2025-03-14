@@ -527,6 +527,7 @@
     - bébé
   query: '[healthcare=midwife]'
   icon: nurse
+  hidden: true
 
 - name: podologue
   group: Santé
