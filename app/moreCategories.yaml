@@ -791,6 +791,14 @@
   query: '[shop~"jewelry"]'
   icon: shop
 
+- name: Opticien
+  group: Commerces
+  dictionary:
+    - lunettes
+    - lentilles de contact
+  query: '[shop~"optician"]'
+  icon: shop
+
 - name: Centre commercial
   group: Commerces
   dictionary:
