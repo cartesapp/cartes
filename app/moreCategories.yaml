@@ -834,6 +834,16 @@
   query: '[shop=furniture]'
   icon: shop
 
+- name: Magasin de décoration
+  group: Commerces
+  dictionary:
+    - mobilier
+    - décoration
+    - intérieur
+  query: '[shop=interior_decoration]'
+  icon: shop
+  hidden: true
+
 #######################
 # GROUP : DÉPLACEMENTS
 #######################
