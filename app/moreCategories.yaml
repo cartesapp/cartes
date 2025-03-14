@@ -780,6 +780,17 @@
   query: '[shop~"mobile_phone"]'
   icon: shoes
 
+- name: Bijouterie
+  group: Commerces
+  dictionary:
+    - bijou
+    - bague
+    - boucle d'oreille
+    - collier
+    - montre
+  query: '[shop~"jewelry"]'
+  icon: shop
+
 - name: Centre commercial
   group: Commerces
   dictionary:
