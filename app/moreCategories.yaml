@@ -758,7 +758,7 @@
   dictionary:
     - shopping
     - fringues
-  query: '[shop=clothes]'
+  query: '[shop~"clothes"]'
   icon: clothes
 
 - name: Chaussures
@@ -766,7 +766,7 @@
   dictionary:
     - shopping
     - chaussures
-  query: '[shop=shoes]'
+  query: '[shop~"shoes"]'
   icon: shoes
   icon alias: shop-shoes
 
@@ -803,7 +803,7 @@
   dictionary:
     - jardinage
     - plantes
-  query: '[shop=garden_center]'
+  query: '[shop~"garden_centre"]'
   icon: shop
   hidden: true
 
@@ -812,7 +812,7 @@
   dictionary:
     - fleur
     - bouquet
-  query: '[shop=florist]'
+  query: '[shop~"florist"]'
   icon: shop
 
 - name: Serrurier
@@ -822,7 +822,7 @@
     - clé
     - clef
     - copie de clé
-  query: '[shop=locksmith]'
+  query: '[shop~"locksmith"]'
   icon: shop
   hidden: true
 
@@ -831,7 +831,7 @@
   dictionary:
     - mobilier
     - décoration
-  query: '[shop=furniture]'
+  query: '[shop~"furniture"][shop!~"garden_furniture"]'
   icon: shop
 
 - name: Magasin de décoration
@@ -840,7 +840,7 @@
     - mobilier
     - décoration
     - intérieur
-  query: '[shop=interior_decoration]'
+  query: '[shop~"interior_decoration"]'
   icon: shop
   hidden: true
 
@@ -851,7 +851,7 @@
     - couverts
     - vaisselle
     - électroménager
-  query: '[shop=houseware]'
+  query: '[shop~"houseware"]'
   icon: shop
   hidden: true
 
@@ -860,7 +860,7 @@
   dictionary:
     - conception de cuisine
     - cuisine
-  query: '[shop=kitchen]'
+  query: '[shop~"kitchen"]'
   icon: shop
   hidden: true
 
