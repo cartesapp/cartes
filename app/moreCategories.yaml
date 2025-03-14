@@ -787,6 +787,15 @@
   query: '[amenity=parcel_locker]'
   icon: parcel_locker
 
+- name: Magasin de bricolage
+  group: Commerces
+  dictionary:
+    - jardinage
+    - outils
+    - cmatériaux
+  query: '[shop=doityourself]'
+  icon: shop
+
 #######################
 # GROUP : DÉPLACEMENTS
 #######################
