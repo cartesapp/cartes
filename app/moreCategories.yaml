@@ -815,6 +815,17 @@
   query: '[shop=florist]'
   icon: shop
 
+- name: Serrurier
+  group: Commerces
+  dictionary:
+    - serrure
+    - clé
+    - clef
+    - copie de clé
+  query: '[shop=locksmith]'
+  icon: shop
+  hidden: true
+
 #######################
 # GROUP : DÉPLACEMENTS
 #######################
