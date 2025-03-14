@@ -844,6 +844,17 @@
   icon: shop
   hidden: true
 
+- name: Ustensiles de cuisine
+  group: Commerces
+  dictionary:
+    - casserole
+    - couverts
+    - vaisselle
+    - électroménager
+  query: '[shop=houseware]'
+  icon: shop
+  hidden: true
+
 - name: Cuisiniste
   group: Commerces
   dictionary:
