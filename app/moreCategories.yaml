@@ -826,6 +826,14 @@
   icon: shop
   hidden: true
 
+- name: Magasin de meubles
+  group: Commerces
+  dictionary:
+    - mobilier
+    - décoration
+  query: '[shop=furniture]'
+  icon: shop
+
 #######################
 # GROUP : DÉPLACEMENTS
 #######################
