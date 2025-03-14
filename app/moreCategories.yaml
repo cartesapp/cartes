@@ -844,6 +844,15 @@
   icon: shop
   hidden: true
 
+- name: Cuisiniste
+  group: Commerces
+  dictionary:
+    - conception de cuisine
+    - cuisine
+  query: '[shop=kitchen]'
+  icon: shop
+  hidden: true
+
 #######################
 # GROUP : DÉPLACEMENTS
 #######################
