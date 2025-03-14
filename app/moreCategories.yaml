@@ -770,6 +770,16 @@
   icon: shoes
   icon alias: shop-shoes
 
+- name: Téléphonie
+  group: Commerces
+  dictionary:
+    - téléphone
+    - portable
+    - mobile
+    - accessoires
+  query: '[shop~"mobile_phone"]'
+  icon: shoes
+
 - name: Centre commercial
   group: Commerces
   dictionary:
