@@ -792,8 +792,10 @@
   dictionary:
     - jardinage
     - outils
-    - cmatériaux
-  query: '[shop=doityourself]'
+    - outillage
+    - matériaux
+    - quincaillerie
+  query: '[shop~"doityourself|hardware"]'
   icon: shop
 
 - name: Jardinerie
