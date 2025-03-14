@@ -885,6 +885,16 @@
   icon: shop
   hidden: true
 
+- name: Magasin de puériculture
+  group: Commerces
+  dictionary:
+    - bébé
+    - biberon
+    - poussette
+  query: '[shop~"baby_goods"]'
+  icon: shop
+  hidden: true
+
 #######################
 # GROUP : DÉPLACEMENTS
 #######################
