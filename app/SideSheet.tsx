@@ -1,18 +1,22 @@
 import { styled } from 'next-yak'
 import Content from './Content'
+import LeftVerticalBar from '@/components/LeftVerticalBar'
 
 export default function SideSheet(props) {
 	return (
-		<SideSheetWrapper>
-			<Content {...props} sideSheet={true} />
-		</SideSheetWrapper>
+		<>
+			<SideSheetWrapper>
+				<Content {...props} sideSheet={true} />
+			</SideSheetWrapper>
+			<LeftVerticalBar />
+		</>
 	)
 }
 
 const SideSheetWrapper = styled.div`
 	position: absolute;
-	top: 2vh;
-	left: 1vw;
+	top: 0.6rem;
+	left: 4.1rem;
 	z-index: 10;
 	background-color: var(--lightestColor2) !important;
 	width: 26rem;

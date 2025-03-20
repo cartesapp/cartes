@@ -4,7 +4,6 @@ import { omit } from '@/components/utils/utils'
 import { css, styled } from 'next-yak'
 import Link from 'next/link'
 import ItineraryButton, { ResetIcon } from './itinerary/ItineraryButton'
-import { Style } from 'maplibre-gl'
 
 const ResetDistanceButton = styled.button`
 	position: absolute;

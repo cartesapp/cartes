@@ -264,7 +264,7 @@ export default function Content(props) {
 				</section>
 			)}
 
-			{
+			{!sideSheet && (
 				<Link
 					href={setSearchParams({ intro: true }, true)}
 					style={{
@@ -284,7 +284,7 @@ export default function Content(props) {
 				>
 					<small>?</small>
 				</Link>
-			}
+			)}
 
 			{styleChooser ? (
 				<StyleChooser
