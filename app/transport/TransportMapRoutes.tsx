@@ -1,7 +1,7 @@
+import { styled } from 'next-yak'
 import Link from 'next/link'
 import { ModalCloseButton } from '../UI'
 import { RouteName } from './stop/Route'
-import { css, styled } from 'next-yak'
 
 export default function Routes({
 	routes,
@@ -24,7 +24,7 @@ export default function Routes({
 				{routes.map((route) => {
 					const stopList = route.properties.stopList
 					return (
-						<li key={route.properties.route_id} css={css``}>
+						<li key={route.properties.route_id}>
 							<Link href={setRoutes(route.properties.route_id)}>
 								<RouteName route={route.properties} />
 							</Link>
