@@ -244,7 +244,9 @@ export default function PlaceSearch({
 	return (
 		<div>
 			<LogoWrapper $sideSheet={sideSheet}>
-				<LogoCarteApp />
+				<LogoCarteApp
+					link={setSearchParams({ intro: !searchParams.intro }, true)}
+				/>
 				<SearchBar
 					state={state}
 					value={value}
@@ -377,7 +379,7 @@ const LogoWrapper = styled.div`
 	align-items: center;
 	margin-bottom: 0.4rem;
 
-	> button {
+	> a {
 		margin: 0;
 		padding: 0;
 		margin-right: 0.4rem;

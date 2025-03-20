@@ -264,11 +264,26 @@ export default function Content(props) {
 				</section>
 			)}
 
-			{showIntroductionLink && (
-				<Link href={setSearchParams({ intro: true }, true)}>
-					À propos de Cartes
+			{
+				<Link
+					href={setSearchParams({ intro: true }, true)}
+					style={{
+						float: 'right',
+						position: sideSheet ? 'absolute' : 'fixed',
+						color: 'var(--lighterColor)',
+						padding: '0rem .3rem .05rem .3rem',
+						lineHeight: '1.1rem',
+						border: '2px solid var(--lighterColor)',
+						borderRadius: '2rem',
+						right: '2px',
+						fontWeight: 'bold',
+						bottom: '2px',
+						zIndex: 1000,
+					}}
+				>
+					<small>?</small>
 				</Link>
-			)}
+			}
 
 			{styleChooser ? (
 				<StyleChooser

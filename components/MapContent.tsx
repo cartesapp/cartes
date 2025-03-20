@@ -9,7 +9,7 @@ export default function MapContent({ content }) {
 }
 
 const P = styled.p`
-	margin-top: 1.6rem;
+	margin-top: 1rem;
 	font-size: 85%;
 	color: var(--darkerColor);
 	opacity: 0.8;
