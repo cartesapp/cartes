@@ -269,7 +269,8 @@ export default function Content(props) {
 					href={setSearchParams({ intro: true }, true)}
 					style={{
 						float: 'right',
-						position: sideSheet ? 'absolute' : 'fixed',
+						position: sideSheet ? 'absolute' : 'relative',
+						marginTop: sideSheet ? '0' : '1rem',
 						color: 'var(--lighterColor)',
 						padding: '0rem .3rem .05rem .3rem',
 						lineHeight: '1.1rem',
