@@ -26,6 +26,7 @@ export function initializeFuse(categories) {
 		keys: ['name', 'title', 'query', 'dictionary'],
 		includeScore: true,
 		ignoreLocation: true,
+		ignoreDiacritics: true,
 	})
 }
 
