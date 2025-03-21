@@ -1,5 +1,5 @@
 [phases.setup]
-nixPkgs = ["bun"]
+nixPkgs = ["nodejs","bun"]
 aptPkgs = []
 
 [phases.detect]
