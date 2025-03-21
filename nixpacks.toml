@@ -1,6 +1,10 @@
 [phases.setup]
 nixPkgs = ["nodejs","bun"]
 aptPkgs = []
+# https://github.com/NixOS/nixpkgs/commits/master/pkgs/development/web/bun/default.nix
+nixpkgsArchive = '571c71e6f73af34a229414f51585738894211408'
+
+
 
 [phases.detect]
 provider = "bun"
