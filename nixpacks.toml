@@ -5,14 +5,3 @@ aptPkgs = []
 [phases.detect]
 provider = "bun"
 
-[phases.install]
-cmds = ["bun install"]
-
-[phases.build]
-cmds = ["bun run build"]
-
-[start]
-cmd = "bun run start"
-
-[variables]
-NODE_ENV = "production"
