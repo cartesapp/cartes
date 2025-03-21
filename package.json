@@ -23,6 +23,7 @@
 		"> 1% in FR",
 		"not ie < 11"
 	],
+	"packageManager": "bun@1.2.5",
 	"devDependencies": {
 		"@babel/core": "^7.25.9",
 		"@babel/plugin-proposal-class-properties": "^7.18.6",
