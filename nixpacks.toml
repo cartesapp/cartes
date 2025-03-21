@@ -1,5 +1,9 @@
 [phases.setup]
 nixPkgs = ["bun"]
+aptPkgs = []
+
+[phases.detect]
+provider = "bun"
 
 [phases.install]
 cmds = ["bun install"]
@@ -9,3 +13,6 @@ cmds = ["bun run build"]
 
 [start]
 cmd = "bun run start"
+
+[variables]
+NODE_ENV = "production"
