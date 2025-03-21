@@ -22,9 +22,13 @@ export const getFetchUrlBase = () => {
 
 	//	DOKPLOY_DEPLOY_URL: 'preview-cartes-web-master-fpkogn-itwaqo-51-159-213-23.traefik.me',
 	const dokployHost = process.env.NEXT_PUBLIC_DOKPLOY_DEPLOY_URL
-	const dokployDomain = 'https://' + dokployHost
+	const dokployDomain =
+		dokployHost && dokployHost !== '' && 'https://' + dokployHost
 
-	const branchUrl = dokployDomain || process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL
+	const branchUrl =
+		dokployDomain ||
+		process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL ||
+		'http://localhost:8080'
 	const isMaster = branchUrl?.includes('-git-master-')
 	const domain = isMaster ? process.env.NEXT_PUBLIC_BASE_DOMAIN : branchUrl
 
@@ -34,6 +38,7 @@ export const getFetchUrlBase = () => {
 			: domain?.startsWith('http')
 			? domain
 			: 'https://' + domain
+
 	return urlBase
 }
 

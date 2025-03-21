@@ -1,3 +1,4 @@
+import { Metadata } from 'next'
 import { description } from '../layout'
 import Page, { title } from './Page'
 
