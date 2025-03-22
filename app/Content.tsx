@@ -269,17 +269,19 @@ export default function Content(props) {
 					href={setSearchParams({ intro: true }, true)}
 					style={{
 						float: 'right',
-						position: sideSheet ? 'absolute' : 'relative',
-						marginTop: sideSheet ? '0' : '1rem',
+						position: 'relative',
+						marginTop: '1rem',
 						color: 'var(--lighterColor)',
 						padding: '0rem .3rem .05rem .3rem',
-						lineHeight: '1.1rem',
+						lineHeight: '1rem',
 						border: '2px solid var(--lighterColor)',
 						borderRadius: '2rem',
 						right: '2px',
 						fontWeight: 'bold',
 						bottom: '2px',
 						zIndex: 1000,
+						width: '1.4rem',
+						height: '1.4rem',
 					}}
 				>
 					<small>?</small>
