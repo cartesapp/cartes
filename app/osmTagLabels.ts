@@ -156,6 +156,10 @@ export const tagNameCorrespondance = (key: string) => {
 		compressed_air: 'Air comprimé',
 		area: 'Zone',
 		'cinema:3D': 'Cinéma en 3D',
+		'addr:full': 'Adresse',
+		'townhall:type': 'Type de mairie',
+		'capacity:charging': 'Place de parking IRVE',
+		'community_centre': 'Etablissement public',
 	}[key]
 	return found || key
 }
