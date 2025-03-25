@@ -34,7 +34,10 @@ export default function Icon({ k, v, icons }) {
 
 	const category = findCategoryForTag(k, v)
 
-	if (category?.icon) return <MapIcon bulkImages={icons} category={category} />
+	if (category?.icon)
+		return (
+			<MapIcon bulkImages={icons} category={category} marginRight={'.3rem'} />
+		)
 
 	return (
 		<Image

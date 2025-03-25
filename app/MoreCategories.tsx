@@ -271,13 +271,22 @@ const Category = styled.li`
 		display: ${(p) => (p.$mobileDisplay ? `flex` : `none`)};
 	}
 `
-export const MapIcon = ({ category, bulkImages }) => {
+export const MapIcon = ({ category, bulkImages, marginRight = 0 }) => {
 	if (!bulkImages) return
 	const src = bulkImages[category['icon alias'] || category['icon']]
 
 	const alt = 'Icône de la catégorie ' + (category.title || category.name)
 
-	if (src) return <MapIconImage src={src} alt={alt} width="10" height="10" />
+	if (src)
+		return (
+			<MapIconImage
+				src={src}
+				alt={alt}
+				width="10"
+				height="10"
+				style={{ marginRight }}
+			/>
+		)
 }
 
 const MapIconImage = styled(Image)`
