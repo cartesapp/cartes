@@ -50,7 +50,7 @@ const iconDirectories = await listDirectory(
 	'icons/svg'
 )
 
-console.log('cyan', iconDirectories)
+//console.log('cyan', iconDirectories)
 const iconUrls = results.map((el) => {
 	const [, one, two] = el.split(/\s/)
 
@@ -76,8 +76,8 @@ const useThisUrlStartForInstance = `https://cdn.jsdelivr.net/gh/osmandapp/OsmAnd
 
 await Deno.writeTextFile('./app/icons/icons.json', JSON.stringify(iconUrls))
 
-console.log('File written')
-console.log(iconUrls)
+console.log('Icons file')
+//console.log(iconUrls)
 
 async function listDirectory(user, repo, directory) {
 	const url = `https://api.github.com/repos/${user}/${repo}/git/trees/master`
