@@ -36,8 +36,7 @@ if (is404Response) {
 // if the latter crashes this script, that's a good thing : it means that the
 // prod is completely down, not returning any HTML ?
 
-const shouldWeUpdate =
-	!is404Response && isMoreThanOneWeekFromNow(lastUpdateDate)
+const shouldWeUpdate = is404Response || isMoreThanOneWeekFromNow(lastUpdateDate)
 
 if (!shouldWeUpdate) {
 	console.log(
