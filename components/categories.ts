@@ -7,7 +7,7 @@ export const filteredMoreCategories = moreCategories.filter(
 
 export const categories = [...baseCategories, ...filteredMoreCategories]
 
-console.log(categories.map((category) => category.query))
+//console.log(categories.map((category) => category.query))
 
 /**
  * Vérifie si un tag OSM (clé, valeur) correspond à une catégorie selon sa requête Overpass
@@ -20,7 +20,7 @@ export function findCategoryForTag(key: string, value: string) {
 	const matchesQuery = (query: string) => {
 		// Cas simple: [key=value]
 		if (query === `[${key}=${value}]`) return true
-		
+
 		// Cas avec ~: [key~"value1|value2"]
 		const regexMatch = query.match(/\[([^=~]+)~"?([^"\]]+)"?\]/)
 		if (regexMatch && regexMatch[1] === key) {
@@ -34,20 +34,22 @@ export function findCategoryForTag(key: string, value: string) {
 				return pattern.split('|').includes(value)
 			}
 		}
-		
+
 		return false
 	}
 
 	// Parcourir toutes les catégories
 	for (const category of categories) {
-		const queries = Array.isArray(category.query) ? category.query : [category.query]
-		
+		const queries = Array.isArray(category.query)
+			? category.query
+			: [category.query]
+
 		// Si une des requêtes de la catégorie correspond au tag, retourner la catégorie
 		if (queries.some(matchesQuery)) {
 			return category
 		}
 	}
-	
+
 	return undefined
 }
 

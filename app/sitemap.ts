@@ -57,7 +57,6 @@ export default async function sitemap(): MetadataRoute.Sitemap {
 			}
 		})
 	)
-	console.log('PLOP2')
 	const agencies = await generateAgencies()
 	const issues = await downloadIssues()
 	const entries = [

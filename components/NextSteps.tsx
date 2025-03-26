@@ -9,7 +9,7 @@ export default function NextSteps({ issues }) {
 	const [comments, setComments] = useState({})
 
 	const selected = list.filter((issue) => issues.includes(issue.number))
-	console.log('indigo2', selected.length, issues.length)
+	//	console.log('indigo2', selected.length, issues.length)
 
 	useEffect(() => {
 		const doFetch = async () => {
@@ -42,7 +42,7 @@ export default function NextSteps({ issues }) {
 
 	if (selected.length !== issues.length) return 'Au moins un ticket non trouvé'
 
-	console.log('indigo', comments)
+	//console.log('indigo', comments)
 
 	const results = Object.entries(comments).map(
 		([issueNumber, issueComments]) => {
