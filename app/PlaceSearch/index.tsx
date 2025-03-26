@@ -223,7 +223,9 @@ export default function PlaceSearch({
 		if (!urlSearchQuery || value) return
 
 		onDestinationChange(urlSearchQuery)
-		setSearchParams({ q: undefined })
+		setTimeout(() => {
+			setSearchParams({ q: undefined })
+		}, 2000)
 	}, [urlSearchQuery, onDestinationChange, value])
 
 	const shouldShowHistory =
