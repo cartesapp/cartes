@@ -214,8 +214,9 @@ export default function PlaceSearch({
 			}
 		}
 
-	const safeLocal = centerLatLon ? centerLatLon.join('') : false
+	const safeLocal = isLocalSearch ? centerLatLon.join('') : false
 	useEffect(() => {
+		console.log('safelocal', safeLocal)
 		if (value == undefined) return
 		onInputChange(stepIndex)(value)
 	}, [isLocalSearch, stepIndex, value, zoom, safeLocal])
