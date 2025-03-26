@@ -17,6 +17,15 @@ Run this file with `deno run --allow-net app/icons/fetch.ts`
 
 import { bash, BashError } from 'https://deno.land/x/bash/mod.ts'
 
+const isProd = Deno.env.get('IS_PROD')
+
+if (!isProd) {
+	console.log(
+		'Not downloading icons on each bun install except if production deployment on a stateless server'
+	)
+	process.exit(0)
+}
+
 const downloadCommand = `curl -L https://github.com/osmandapp/OsmAnd-resources/tarball/master/ > osmand-resources.tar.gz`
 
 try {
