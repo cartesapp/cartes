@@ -69,8 +69,11 @@ export default function PlaceSearch({
 			initializeWithValue: false,
 		}
 	)
+	// is the user trying to enter an itinerary in the search box ?
 	const [itineraryProposition, setItineraryProposition] = useState()
+	// is the user trying to enter a French postal code in the search box ?
 	const [postalCodeState, setPostalCodeState] = useState()
+	// is the user trying to enter coordinates in the search box ?
 	const [coordinatesState, setCoordinatesState] = useState()
 
 	useEffect(() => {
