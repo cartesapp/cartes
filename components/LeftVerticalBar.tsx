@@ -1,6 +1,7 @@
 import { styled } from 'next-yak'
 import Link from 'next/link'
 import useSetSearchParams from './useSetSearchParams'
+import LogoCarteApp from '@/app/PlaceSearch/_components/LogoCarteApp'
 
 export default function LeftVerticalBar() {
 	const setSearchParams = useSetSearchParams()
@@ -9,6 +10,7 @@ export default function LeftVerticalBar() {
 			<AboutLink href={setSearchParams({ intro: true }, true)}>
 				<small>?</small>
 			</AboutLink>
+			<LogoCarteApp link={'#'} />
 		</Aside>
 	)
 }
