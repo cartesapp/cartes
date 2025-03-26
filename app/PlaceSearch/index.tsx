@@ -215,14 +215,47 @@ export default function PlaceSearch({
 			}
 		}
 
+	// Store previous bbox for comparison
+	const [prevBbox, setPrevBbox] = useState(bbox)
+	
+	// Check if bbox has shifted significantly (more than 1/3 of width or height)
+	const hasBboxShiftedSignificantly = () => {
+		if (!prevBbox || !bbox) return false
+		
+		// Calculate width and height of previous bbox
+		const prevWidth = Math.abs(prevBbox[2] - prevBbox[0])
+		const prevHeight = Math.abs(prevBbox[3] - prevBbox[1])
+		
+		// Calculate center points of both bboxes
+		const prevCenterX = (prevBbox[0] + prevBbox[2]) / 2
+		const prevCenterY = (prevBbox[1] + prevBbox[3]) / 2
+		const currentCenterX = (bbox[0] + bbox[2]) / 2
+		const currentCenterY = (bbox[1] + bbox[3]) / 2
+		
+		// Calculate the shift in X and Y directions
+		const shiftX = Math.abs(currentCenterX - prevCenterX)
+		const shiftY = Math.abs(currentCenterY - prevCenterY)
+		
+		// Check if shift is more than 1/3 of width or height
+		return shiftX > prevWidth / 3 || shiftY > prevHeight / 3
+	}
+
 	const safeLocal = isLocalSearch ? centerLatLon.join('') : false
 	const safeZoom = isLocalSearch ? zoom : false
+	const bboxSignature = bbox ? bbox.join(',') : ''
 
 	useEffect(() => {
 		console.log('safelocal', safeLocal)
 		if (value == undefined) return
-		onInputChange(stepIndex)(value)
-	}, [isLocalSearch, stepIndex, value, safeZoom, safeLocal])
+		
+		const shouldRefetch = hasBboxShiftedSignificantly()
+		
+		if (shouldRefetch) {
+			console.log('Bbox shifted significantly, refetching results')
+			setPrevBbox(bbox)
+			onInputChange(stepIndex)(value)
+		}
+	}, [isLocalSearch, stepIndex, value, safeZoom, safeLocal, bboxSignature])
 
 	const onDestinationChange = onInputChange(stepIndex)
 
