@@ -19,32 +19,6 @@ import { bash, BashError } from 'https://deno.land/x/bash/mod.ts'
 
 const downloadCommand = `curl -L https://github.com/osmandapp/OsmAnd-resources/tarball/master/ > osmand-resources.tar.gz`
 
-const shouldWeRequest = await fetch(
-	`https://cartes.app/osmand-icons/last-update-date.txt`
-)
-const lastUpdateDate = await shouldWeRequest.text()
-const is404Response = lastUpdateDate.includes('<html')
-if (is404Response) {
-	// 404, not yet written, new deployment or prod down
-	console.error(
-		`⚠️ Beware : either the prod is down, or the osmand-icons lastUpdateDate was not yet written (new deployment ?)`
-	)
-} else {
-	console.log('osmand-icons last update date : ', lastUpdateDate)
-}
-
-// if the latter crashes this script, that's a good thing : it means that the
-// prod is completely down, not returning any HTML ?
-
-const shouldWeUpdate = is404Response || isMoreThanOneWeekFromNow(lastUpdateDate)
-
-if (!shouldWeUpdate) {
-	console.log(
-		'⏳️ waiting for one week from the update date to download icons again'
-	)
-	process.exit(0)
-}
-
 try {
 	console.log('Will download Github folder as tarball')
 	const tarball = await bash(downloadCommand)

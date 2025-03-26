@@ -11,13 +11,14 @@
 		"node": ">=20"
 	},
 	"scripts": {
-		"postinstall": "bun run update-icons",
+		"postinstall": "bun run update-icons-if-dev",
 		"dev-gtfs": "NEXT_PUBLIC_LOCAL_GTFS_SERVER=true next dev -p 8080",
 		"dev": "next dev -p 8080",
 		"build": "NEXT_PUBLIC_DOKPLOY_DEPLOY_URL=$DOKPLOY_DEPLOY_URL next build",
 		"start": "next start -p 8080",
 		"lint": "next lint",
 		"generate-ferry-svg": "npx --yes  @svgr/cli --no-svgo --ref --replace-attr-values ../1ccc23d5/megaexpressfour.png=public/megaexpressfour.png -- components/ferry/mega-express-four.svg > components/ferry/Mega.tsx",
+		"update-icons-if-dev": "if [ \"$NEXT_PUBLIC_NODE_ENV\" = \"development\" ]; then bun run update-icons; else echo 'Skipping update-icons in non-development environment'; fi",
 		"update-icons": "deno run --allow-net --allow-write --allow-run app/icons/fetch.ts"
 	},
 	"browserslist": [
