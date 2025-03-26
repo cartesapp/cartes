@@ -19,6 +19,8 @@ import { bash, BashError } from 'https://deno.land/x/bash/mod.ts'
 
 const isProd = Deno.env.get('IS_PROD')
 
+console.log('IS_PROD', isProd)
+
 if (!isProd) {
 	console.log(
 		'Not downloading icons on each bun install except if production deployment on a stateless server'
