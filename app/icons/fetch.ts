@@ -19,12 +19,44 @@ import { bash, BashError } from 'https://deno.land/x/bash/mod.ts'
 
 const downloadCommand = `curl -L https://github.com/osmandapp/OsmAnd-resources/tarball/master/ > osmand-resources.tar.gz`
 
+const shouldWeRequest = await fetch(
+	`https://cartes.app/osmand-icons/last-update-date.txt`
+)
+const lastUpdateDate = await shouldWeRequest.text()
+const is404Response = lastUpdateDate.includes('<html')
+if (is404Response) {
+	// 404, not yet written, new deployment or prod down
+	console.error(
+		`⚠️ Beware : either the prod is down, or the osmand-icons lastUpdateDate was not yet written (new deployment ?)`
+	)
+} else {
+	console.log('osmand-icons last update date : ', lastUpdateDate)
+}
+
+// if the latter crashes this script, that's a good thing : it means that the
+// prod is completely down, not returning any HTML ?
+
+const shouldWeUpdate =
+	!is404Response && isMoreThanOneWeekFromNow(lastUpdateDate)
+
+if (!shouldWeUpdate) {
+	console.log(
+		'⏳️ waiting for one week from the update date to download icons again'
+	)
+	process.exit(0)
+}
+
 try {
 	console.log('Will download Github folder as tarball')
 	const tarball = await bash(downloadCommand)
 	console.log('Github folder download as tarball')
 	const extract = await bash(
 		`rm -rf public/osmand-icons && mkdir public/osmand-icons && tar -xzvf osmand-resources.tar.gz -C public/osmand-icons --strip-components=1 --wildcards osman*/icons/svg/`
+	)
+
+	const newLastUpdateDate = new Date().toISOString().split('T')[0]
+	await bash(
+		`echo "${newLastUpdateDate}" > public/osmand-icons/last-update-date.txt`
 	)
 } catch (error) {
 	if (error instanceof BashError) {
@@ -94,4 +126,21 @@ async function listDirectory(user, repo, directory) {
 		const list = await fetch(dir.url).then((res) => res.json())
 		return list.tree.map((node) => node.path)
 	}
+}
+
+function isMoreThanOneWeekFromNow(dateString) {
+	// Parse the given date string into a Date object
+	const givenDate = new Date(dateString)
+
+	// Get the current date
+	const currentDate = new Date()
+
+	// Calculate the difference in time (milliseconds)
+	const timeDifference = givenDate - currentDate
+
+	// Convert the time difference to days
+	const daysDifference = timeDifference / (1000 * 60 * 60 * 24)
+
+	// Check if the difference is more than 7 days
+	return daysDifference > 7
 }
