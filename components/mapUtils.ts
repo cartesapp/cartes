@@ -22,23 +22,27 @@ export const mapLibreBboxToOverpass = (bbox) => [
  * @param threshold - Shift threshold as a fraction (default: 1/3)
  * @returns boolean indicating if the shift is significant
  */
-export const hasBboxShiftedSignificantly = (currentBbox, prevBbox, threshold = 1/3) => {
+export const hasBboxShiftedSignificantly = (
+	currentBbox,
+	prevBbox,
+	threshold = 1 / 3
+) => {
 	if (!prevBbox || !currentBbox) return false
-	
+
 	// Calculate width and height of previous bbox
 	const prevWidth = Math.abs(prevBbox[2] - prevBbox[0])
 	const prevHeight = Math.abs(prevBbox[3] - prevBbox[1])
-	
+
 	// Calculate center points of both bboxes
 	const prevCenterX = (prevBbox[0] + prevBbox[2]) / 2
 	const prevCenterY = (prevBbox[1] + prevBbox[3]) / 2
 	const currentCenterX = (currentBbox[0] + currentBbox[2]) / 2
 	const currentCenterY = (currentBbox[1] + currentBbox[3]) / 2
-	
+
 	// Calculate the shift in X and Y directions
 	const shiftX = Math.abs(currentCenterX - prevCenterX)
 	const shiftY = Math.abs(currentCenterY - prevCenterY)
-	
+
 	// Check if shift is more than threshold of width or height
 	return shiftX > prevWidth * threshold || shiftY > prevHeight * threshold
 }

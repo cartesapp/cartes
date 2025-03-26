@@ -226,9 +226,10 @@ export default function PlaceSearch({
 	useEffect(() => {
 		console.log('safelocal', safeLocal)
 		if (value == undefined) return
-		
+
 		const shouldRefetch = hasBboxShiftedSignificantly(bbox, prevBbox)
-		
+		console.log({ shouldRefetch, bbox })
+
 		if (shouldRefetch) {
 			console.log('Bbox shifted significantly, refetching results')
 			setPrevBbox(bbox)
