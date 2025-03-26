@@ -103,7 +103,6 @@ async function listDirectory(user, repo, directory) {
 		async (acc, dir) => {
 			const { url } = await acc
 			const list = await fetch(url, { headers }).then((res) => res.json())
-			console.log('update-icons github direction list', list)
 			return list.tree.find((node) => node.path === dir)
 		},
 		{ url }
