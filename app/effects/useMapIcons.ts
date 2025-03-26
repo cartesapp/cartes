@@ -32,7 +32,6 @@ export default function useMapIcons(map, styleUrl) {
 			// on charge le json contenant la liste de toutes les icones à ajouter
 			const request = await fetch('/svgo/bulk')
 			const bulkIcons = await request.json()
-			console.log('bulkIcons', bulkIcons)
 			// on parcourt la liste des redirections à gérer
 			// (uniquement celle du cas 1 vers les icones définies dans les catégories
 			// car les cas 2 et 3 sont déjà inclus dans /svgo/bulk )
