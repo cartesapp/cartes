@@ -89,7 +89,7 @@
 		"maplibre-gl": "v5.1.1",
 		"maplibre-gl-indoorequal": "^1.3.0",
 		"motion": "^12.0.0",
-		"next": "15.1.7",
+		"next": "15.2.4",
 		"next-contentlayer2": "v0.5.3",
 		"next-mdx-remote": "^5.0.0",
 		"next-yak": "~4.1.1",
