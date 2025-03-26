@@ -45,7 +45,6 @@ export const Article = defineDocumentType(() => ({
 						}
 					}
 				)
-				console.log('YIYI', headings)
 				return headings
 			},
 		},

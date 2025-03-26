@@ -62,7 +62,7 @@
 		"@opentelemetry/api": "^1.9.0",
 		"@panoramax/web-viewer": "3.2.1",
 		"@react-aria/utils": "^3.25.3",
-		"@sentry/nextjs": "^8",
+		"@sentry/nextjs": "^8.55.0",
 		"@turf/bbox": "^7.1.0",
 		"@turf/bbox-polygon": "^7.1.0",
 		"@turf/bearing": "^7.1.0",
