@@ -9,6 +9,7 @@ import ItineraryProposition, {
 import detectCodePostal from '@/components/placeSearch/detectCodePostal'
 import detectCoordinates from '@/components/placeSearch/detectCoordinates'
 import detectSmartItinerary from '@/components/placeSearch/detectSmartItinerary'
+import { hasBboxShiftedSignificantly } from '@/components/mapUtils'
 import {
 	getArrayIndex,
 	replaceArrayIndex,
@@ -217,28 +218,6 @@ export default function PlaceSearch({
 
 	// Store previous bbox for comparison
 	const [prevBbox, setPrevBbox] = useState(bbox)
-	
-	// Check if bbox has shifted significantly (more than 1/3 of width or height)
-	const hasBboxShiftedSignificantly = () => {
-		if (!prevBbox || !bbox) return false
-		
-		// Calculate width and height of previous bbox
-		const prevWidth = Math.abs(prevBbox[2] - prevBbox[0])
-		const prevHeight = Math.abs(prevBbox[3] - prevBbox[1])
-		
-		// Calculate center points of both bboxes
-		const prevCenterX = (prevBbox[0] + prevBbox[2]) / 2
-		const prevCenterY = (prevBbox[1] + prevBbox[3]) / 2
-		const currentCenterX = (bbox[0] + bbox[2]) / 2
-		const currentCenterY = (bbox[1] + bbox[3]) / 2
-		
-		// Calculate the shift in X and Y directions
-		const shiftX = Math.abs(currentCenterX - prevCenterX)
-		const shiftY = Math.abs(currentCenterY - prevCenterY)
-		
-		// Check if shift is more than 1/3 of width or height
-		return shiftX > prevWidth / 3 || shiftY > prevHeight / 3
-	}
 
 	const safeLocal = isLocalSearch ? centerLatLon.join('') : false
 	const safeZoom = isLocalSearch ? zoom : false
@@ -248,7 +227,7 @@ export default function PlaceSearch({
 		console.log('safelocal', safeLocal)
 		if (value == undefined) return
 		
-		const shouldRefetch = hasBboxShiftedSignificantly()
+		const shouldRefetch = hasBboxShiftedSignificantly(bbox, prevBbox)
 		
 		if (shouldRefetch) {
 			console.log('Bbox shifted significantly, refetching results')
