@@ -27,30 +27,60 @@ export const hasBboxShiftedSignificantly = (
 	prevBbox,
 	threshold = 1 / 3
 ) => {
+	// Ensure both bboxes exist and have the expected structure
 	if (!prevBbox || !currentBbox) return false
+	if (!Array.isArray(prevBbox) || !Array.isArray(currentBbox)) return false
+	if (prevBbox.length !== 2 || currentBbox.length !== 2) return false
+	if (!Array.isArray(prevBbox[0]) || !Array.isArray(prevBbox[1])) return false
+	if (!Array.isArray(currentBbox[0]) || !Array.isArray(currentBbox[1])) return false
+	
+	// Log for debugging
+	console.log('Comparing bboxes:', { currentBbox, prevBbox });
 
-	// Extract coordinates from the bbox format [[lon1, lat1], [lon2, lat2]]
-	const [lon1Prev, lat1Prev] = prevBbox[0]
-	const [lon2Prev, lat2Prev] = prevBbox[1]
-	const [lon1Current, lat1Current] = currentBbox[0]
-	const [lon2Current, lat2Current] = currentBbox[1]
+	try {
+		// Extract coordinates from the bbox format [[lon1, lat1], [lon2, lat2]]
+		const [lon1Prev, lat1Prev] = prevBbox[0]
+		const [lon2Prev, lat2Prev] = prevBbox[1]
+		const [lon1Current, lat1Current] = currentBbox[0]
+		const [lon2Current, lat2Current] = currentBbox[1]
 
-	// Calculate width and height of previous bbox
-	const prevWidth = Math.abs(lon2Prev - lon1Prev)
-	const prevHeight = Math.abs(lat2Prev - lat1Prev)
+		// Validate coordinates are numbers
+		if ([lon1Prev, lat1Prev, lon2Prev, lat2Prev, 
+			 lon1Current, lat1Current, lon2Current, lat2Current]
+			.some(coord => typeof coord !== 'number')) {
+			console.error('Invalid coordinates in bbox');
+			return false;
+		}
 
-	// Calculate center points of both bboxes
-	const prevCenterX = (lon1Prev + lon2Prev) / 2
-	const prevCenterY = (lat1Prev + lat2Prev) / 2
-	const currentCenterX = (lon1Current + lon2Current) / 2
-	const currentCenterY = (lat1Current + lat2Current) / 2
+		// Calculate width and height of previous bbox
+		const prevWidth = Math.abs(lon2Prev - lon1Prev)
+		const prevHeight = Math.abs(lat2Prev - lat1Prev)
 
-	// Calculate the shift in X and Y directions
-	const shiftX = Math.abs(currentCenterX - prevCenterX)
-	const shiftY = Math.abs(currentCenterY - prevCenterY)
+		// Calculate center points of both bboxes
+		const prevCenterX = (lon1Prev + lon2Prev) / 2
+		const prevCenterY = (lat1Prev + lat2Prev) / 2
+		const currentCenterX = (lon1Current + lon2Current) / 2
+		const currentCenterY = (lat1Current + lat2Current) / 2
 
-	// Check if shift is more than threshold of width or height
-	return shiftX > prevWidth * threshold || shiftY > prevHeight * threshold
+		// Calculate the shift in X and Y directions
+		const shiftX = Math.abs(currentCenterX - prevCenterX)
+		const shiftY = Math.abs(currentCenterY - prevCenterY)
+
+		// Log the calculations for debugging
+		console.log('Bbox calculations:', {
+			prevWidth, prevHeight, 
+			prevCenter: [prevCenterX, prevCenterY],
+			currentCenter: [currentCenterX, currentCenterY],
+			shift: [shiftX, shiftY],
+			thresholds: [prevWidth * threshold, prevHeight * threshold]
+		});
+
+		// Check if shift is more than threshold of width or height
+		return shiftX > prevWidth * threshold || shiftY > prevHeight * threshold
+	} catch (error) {
+		console.error('Error in hasBboxShiftedSignificantly:', error);
+		return false;
+	}
 }
 
 export const useComputeMapPadding = (trackedSnap, searchParams) => {

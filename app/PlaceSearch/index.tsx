@@ -216,8 +216,16 @@ export default function PlaceSearch({
 			}
 		}
 
-	// Store previous bbox for comparison
-	const [prevBbox, setPrevBbox] = useState(bbox)
+	// Store previous bbox for comparison and initialize it with the current bbox
+	const [prevBbox, setPrevBbox] = useState(bbox || null)
+	
+	// Update prevBbox when component mounts or when bbox changes significantly
+	useEffect(() => {
+		if (bbox && !prevBbox) {
+			setPrevBbox(bbox);
+			console.log('Initializing prevBbox with', bbox);
+		}
+	}, [bbox, prevBbox]);
 
 	const safeLocal = isLocalSearch ? centerLatLon.join('') : false
 	const safeZoom = isLocalSearch ? zoom : false
@@ -226,16 +234,18 @@ export default function PlaceSearch({
 	useEffect(() => {
 		console.log('safelocal', safeLocal)
 		if (value == undefined) return
+		if (!bbox) return
 
-		const shouldRefetch = hasBboxShiftedSignificantly(bbox, prevBbox)
-		console.log({ shouldRefetch, bbox, prevBbox })
+		// Only check for significant shift if we have both current and previous bbox
+		const shouldRefetch = prevBbox && hasBboxShiftedSignificantly(bbox, prevBbox)
+		console.log({ shouldRefetch, bbox, prevBbox, bboxSignature })
 
 		if (shouldRefetch) {
 			console.log('Bbox shifted significantly, refetching results')
 			setPrevBbox(bbox)
 			onInputChange(stepIndex)(value)
 		}
-	}, [isLocalSearch, stepIndex, value, safeZoom, safeLocal, bboxSignature])
+	}, [isLocalSearch, stepIndex, value, safeZoom, safeLocal, bboxSignature, bbox, prevBbox])
 
 	const onDestinationChange = onInputChange(stepIndex)
 
