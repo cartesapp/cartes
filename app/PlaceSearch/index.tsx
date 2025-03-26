@@ -54,6 +54,7 @@ export default function PlaceSearch({
 	quickSearchFeaturesMap,
 	center,
 	setChargement,
+	bbox,
 }) {
 	console.log('lightgreen stepIndex', stepIndex, state)
 	console.log('lightgreen autofocus', autoFocus)
@@ -216,6 +217,7 @@ export default function PlaceSearch({
 
 	const safeLocal = isLocalSearch ? centerLatLon.join('') : false
 	const safeZoom = isLocalSearch ? zoom : false
+
 	useEffect(() => {
 		console.log('safelocal', safeLocal)
 		if (value == undefined) return
