@@ -46,7 +46,7 @@ export default function Icon({ k, v, icons }) {
 			src={iconSrc}
 			alt="Icône représentant au mieux le type de lieu"
 			style={category?.icon ? {} : { filter: `invert(1)` }}
-			onerror="this.style.display='none'"
+			onError="this.style.display='none'"
 		/>
 	)
 }
