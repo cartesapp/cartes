@@ -17,11 +17,9 @@ Run this file with `deno run --allow-net app/icons/fetch.ts`
 
 import { bash, BashError } from 'https://deno.land/x/bash/mod.ts'
 
-const isProd = Deno.env.get('IS_PROD')
+const shouldDownload = Deno.env.get('DO_DOWNLOAD')
 
-console.log('IS_PROD', isProd)
-
-if (!isProd) {
+if (!shouldDownload) {
 	console.log(
 		'Not downloading icons on each bun install except if production deployment on a stateless server'
 	)
