@@ -93,10 +93,10 @@ await Deno.writeTextFile('./app/icons/icons.json', JSON.stringify(iconUrls))
 console.log('Icons file')
 //console.log(iconUrls)
 
-const headers = {
-	Authorization: `Bearer ${Deno.env.get('GITHUB_CLASSIC_TOKEN')}`,
-}
 async function listDirectory(user, repo, directory) {
+	const headers = {
+		Authorization: `Bearer ${Deno.env.get('GITHUB_CLASSIC_TOKEN')}`,
+	}
 	const url = `https://api.github.com/repos/${user}/${repo}/git/trees/master`
 	directory = directory.split('/').filter(Boolean)
 	const dir = await directory.reduce(
