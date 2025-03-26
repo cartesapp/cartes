@@ -32,10 +32,11 @@ export const hasBboxShiftedSignificantly = (
 	if (!Array.isArray(prevBbox) || !Array.isArray(currentBbox)) return false
 	if (prevBbox.length !== 2 || currentBbox.length !== 2) return false
 	if (!Array.isArray(prevBbox[0]) || !Array.isArray(prevBbox[1])) return false
-	if (!Array.isArray(currentBbox[0]) || !Array.isArray(currentBbox[1])) return false
-	
+	if (!Array.isArray(currentBbox[0]) || !Array.isArray(currentBbox[1]))
+		return false
+
 	// Log for debugging
-	console.log('Comparing bboxes:', { currentBbox, prevBbox });
+	console.log('Comparing bboxes:', { currentBbox, prevBbox })
 
 	try {
 		// Extract coordinates from the bbox format [[lon1, lat1], [lon2, lat2]]
@@ -45,11 +46,20 @@ export const hasBboxShiftedSignificantly = (
 		const [lon2Current, lat2Current] = currentBbox[1]
 
 		// Validate coordinates are numbers
-		if ([lon1Prev, lat1Prev, lon2Prev, lat2Prev, 
-			 lon1Current, lat1Current, lon2Current, lat2Current]
-			.some(coord => typeof coord !== 'number')) {
-			console.error('Invalid coordinates in bbox');
-			return false;
+		if (
+			[
+				lon1Prev,
+				lat1Prev,
+				lon2Prev,
+				lat2Prev,
+				lon1Current,
+				lat1Current,
+				lon2Current,
+				lat2Current,
+			].some((coord) => typeof coord !== 'number')
+		) {
+			console.error('Invalid coordinates in bbox')
+			return false
 		}
 
 		// Calculate width and height of previous bbox
@@ -68,18 +78,19 @@ export const hasBboxShiftedSignificantly = (
 
 		// Log the calculations for debugging
 		console.log('Bbox calculations:', {
-			prevWidth, prevHeight, 
+			prevWidth,
+			prevHeight,
 			prevCenter: [prevCenterX, prevCenterY],
 			currentCenter: [currentCenterX, currentCenterY],
 			shift: [shiftX, shiftY],
-			thresholds: [prevWidth * threshold, prevHeight * threshold]
-		});
+			thresholds: [prevWidth * threshold, prevHeight * threshold],
+		})
 
 		// Check if shift is more than threshold of width or height
 		return shiftX > prevWidth * threshold || shiftY > prevHeight * threshold
 	} catch (error) {
-		console.error('Error in hasBboxShiftedSignificantly:', error);
-		return false;
+		console.error('Error in hasBboxShiftedSignificantly:', error)
+		return false
 	}
 }
 

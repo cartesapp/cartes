@@ -255,6 +255,7 @@ export default function Content(props) {
 							quickSearchFeaturesMap,
 							center,
 							setChargement,
+							bbox,
 						}}
 					/>
 					{searchParams.favoris !== 'oui' &&
