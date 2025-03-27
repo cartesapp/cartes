@@ -42,6 +42,7 @@ function getQuery(
           SELECT
             n.id as id,
             n.tags AS tags,
+            to_jsonb(p.tags) AS metadata,
             ST_AsGeoJSON(p.way) as geometry
           FROM
             planet_osm_nodes AS n
@@ -59,6 +60,7 @@ function getQuery(
           SELECT
             w.id AS id,
             w.tags AS tags,
+            to_jsonb(u.tags) AS metadata,
             ST_AsGeoJSON(u.way) as geometry
           FROM
             planet_osm_ways AS w
@@ -78,6 +80,7 @@ function getQuery(
           SELECT
             r.id AS id,
             r.tags AS tags,
+            to_jsonb(p.tags) AS metadata,
             ST_AsGeoJSON(p.way) as geometry
           FROM
             planet_osm_rels AS r
@@ -184,10 +187,17 @@ export async function GET(request: NextRequest) {
 				} catch (error) {
 					console.error('Erreur lors du parsing des tags:', error, row.tags)
 				}
-
+				// filtrer les metadata pour enlever les tags déjà dans la propriété tags
+				let metadata = row.metadata
+				for (let key in metadata) {
+					if (tags.hasOwnProperty(key)) {
+						delete metadata[key];
+					}
+				}
 				// Ajouter lat/lon directement dans les propriétés pour les points
 				const properties = {
 					tags: tags,
+					metadata: metadata,
 					osm_id: row.osm_id,
 					featureType,
 				};
