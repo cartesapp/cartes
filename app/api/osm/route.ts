@@ -196,10 +196,10 @@ export async function GET(request: NextRequest) {
 				}
 				// Ajouter lat/lon directement dans les propriétés pour les points
 				const properties = {
+					featureType,
+					osm_id: row.id,
 					tags: tags,
 					metadata: metadata,
-					osm_id: row.osm_id,
-					featureType,
 				};
 				
 				// Si c'est un point, ajouter lat/lon directement dans les propriétés
@@ -210,7 +210,7 @@ export async function GET(request: NextRequest) {
 				
 				return {
 					type: 'Feature',
-					id: row.osm_id,
+					id: row.id,
 					properties,
 					geometry,
 				}
