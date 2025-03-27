@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Pool } from 'pg'
-import pgTypes from 'pg-types'
 
 // Configuration de la connexion PostgreSQL
 const pool = new Pool({
@@ -11,11 +10,8 @@ const pool = new Pool({
 	password: 'iwanttoreadfree',
 })
 
-// Définir l'OID pour HSTORE (si nécessaire)
-const HSTORE_OID = 51561; // OID standard pour HSTORE dans PostgreSQL
-
-// Configuration pour parser correctement le format HSTORE de PostgreSQL
-pgTypes.setTypeParser(HSTORE_OID, (value: string) => {
+// Fonction pour parser manuellement le format HSTORE
+function parseHstore(value: string): Record<string, string> {
   if (!value) return {}
   
   const result: Record<string, string> = {}
@@ -29,7 +25,7 @@ pgTypes.setTypeParser(HSTORE_OID, (value: string) => {
   }
   
   return result
-})
+}
 
 // Fonction pour obtenir la requête SQL en fonction du type de feature et de l'ID
 function getQuery(
