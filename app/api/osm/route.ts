@@ -11,8 +11,11 @@ const pool = new Pool({
 	password: 'iwanttoreadfree',
 })
 
+// Définir l'OID pour HSTORE (si nécessaire)
+const HSTORE_OID = 51561; // OID standard pour HSTORE dans PostgreSQL
+
 // Configuration pour parser correctement le format HSTORE de PostgreSQL
-pgTypes.setTypeParser(pgTypes.builtins.HSTORE, (value: string) => {
+pgTypes.setTypeParser(HSTORE_OID, (value: string) => {
   if (!value) return {}
   
   const result: Record<string, string> = {}
@@ -126,8 +129,11 @@ export async function GET(request: NextRequest) {
 			// Traitement des résultats
 			const features = result.rows.map((row) => {
 				const geometry = JSON.parse(row.geometry)
-				// Vérifier si tags est déjà un objet ou s'il est au format HSTORE
-				const tags = typeof row.tags === 'object' ? row.tags : row.tags || {}
+				// Traiter les tags selon leur type
+				let tags = {}
+				if (row.tags) {
+					tags = typeof row.tags === 'object' ? row.tags : parseHstore(row.tags)
+				}
 				
 				return {
 					type: 'Feature',
