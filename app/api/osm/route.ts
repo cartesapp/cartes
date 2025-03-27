@@ -1,6 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Pool } from 'pg'
 
+// Fonction pour convertir les coordonnées de EPSG:3857 (Web Mercator) vers EPSG:4326 (lat/lon)
+function convertWebMercatorToLatLon(x: number, y: number): [number, number] {
+  // Constantes pour la conversion
+  const R = 6378137; // Rayon de la Terre en mètres
+  const MAX_LATITUDE = 85.0511287798; // Latitude maximale supportée par la projection Web Mercator
+  
+  // Conversion de x vers longitude
+  const lon = (x * 180) / (R * Math.PI);
+  
+  // Conversion de y vers latitude
+  let lat = (y * 180) / (R * Math.PI);
+  lat = (2 * Math.atan(Math.exp(lat * Math.PI / 180)) - Math.PI / 2) * 180 / Math.PI;
+  
+  // Limiter la latitude aux valeurs valides
+  lat = Math.max(Math.min(MAX_LATITUDE, lat), -MAX_LATITUDE);
+  
+  // Arrondir à 7 décimales pour la précision
+  return [parseFloat(lat.toFixed(7)), parseFloat(lon.toFixed(7))];
+}
+
 // Configuration de la connexion PostgreSQL
 const pool = new Pool({
 	host: '51.159.100.169',
@@ -130,7 +150,46 @@ export async function GET(request: NextRequest) {
 
 			// Traitement des résultats
 			const features = result.rows.map((row) => {
-				const geometry = JSON.parse(row.geometry)
+				// Convertir les coordonnées de la géométrie de EPSG:3857 vers EPSG:4326 (lat/lon)
+				const rawGeometry = JSON.parse(row.geometry);
+				let geometry = { ...rawGeometry };
+				
+				// Convertir les coordonnées selon le type de géométrie
+				if (geometry.type === 'Point') {
+					const [lat, lon] = convertWebMercatorToLatLon(geometry.coordinates[0], geometry.coordinates[1]);
+					geometry.coordinates = [lon, lat]; // GeoJSON utilise [longitude, latitude]
+				} else if (geometry.type === 'LineString') {
+					geometry.coordinates = geometry.coordinates.map(coord => {
+						const [lat, lon] = convertWebMercatorToLatLon(coord[0], coord[1]);
+						return [lon, lat];
+					});
+				} else if (geometry.type === 'Polygon') {
+					geometry.coordinates = geometry.coordinates.map(ring => 
+						ring.map(coord => {
+							const [lat, lon] = convertWebMercatorToLatLon(coord[0], coord[1]);
+							return [lon, lat];
+						})
+					);
+				} else if (geometry.type === 'MultiPolygon') {
+					geometry.coordinates = geometry.coordinates.map(polygon => 
+						polygon.map(ring => 
+							ring.map(coord => {
+								const [lat, lon] = convertWebMercatorToLatLon(coord[0], coord[1]);
+								return [lon, lat];
+							})
+						)
+					);
+				}
+				
+				// Mettre à jour le système de coordonnées de référence
+				if (geometry.crs) {
+					geometry.crs = {
+						type: "name",
+						properties: {
+							name: "EPSG:4326"
+						}
+					};
+				}
 				// Traiter les tags selon leur type
 				let tags = {}
 				try {
@@ -150,15 +209,23 @@ export async function GET(request: NextRequest) {
 					console.error('Erreur lors du parsing des tags:', error, row.tags)
 				}
 
+				// Ajouter lat/lon directement dans les propriétés pour les points
+				const properties = {
+					tags: tags,
+					osm_id: row.osm_id,
+					featureType,
+				};
+				
+				// Si c'est un point, ajouter lat/lon directement dans les propriétés
+				if (geometry.type === 'Point') {
+					properties.lat = geometry.coordinates[1]; // Latitude
+					properties.lon = geometry.coordinates[0]; // Longitude
+				}
+				
 				return {
 					type: 'Feature',
 					id: row.osm_id,
-					properties: {
-						// Inclure les tags dans un objet "tags" comme attendu
-						tags: tags,
-						osm_id: row.osm_id,
-						featureType,
-					},
+					properties,
 					geometry,
 				}
 			})
