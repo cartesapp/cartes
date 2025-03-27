@@ -77,13 +77,16 @@ function getQuery(
 			return {
 				query: `
           SELECT
-            osm_id,
-            to_jsonb(tags) AS tags,
-            ST_AsGeoJSON(way) as geometry
+            r.id AS id,
+            r.tags AS tags,
+            ST_AsGeoJSON(p.way) as geometry
           FROM
-            planet_osm_polygon
+            planet_osm_rels AS r
+          LEFT JOIN
+            planet_osm_polygon AS p
+          ON p.osm_id = -r.id
           WHERE
-            osm_id = $1 * (-1)
+            r.id = $1
         `,
 				params: [osmId],
 			}
