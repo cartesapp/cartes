@@ -21,7 +21,14 @@ function parseHstore(value: string): Record<string, string> {
   while ((match = regex.exec(value)) !== null) {
     const key = match[1] || match[2]
     const val = match[3] || match[4]
-    result[key.replace(/\\/g, '')] = val.replace(/\\/g, '')
+    
+    // Vérifier que key et val ne sont pas undefined avant d'appeler replace
+    if (key !== undefined && val !== undefined) {
+      result[key.replace(/\\/g, '')] = val.replace(/\\/g, '')
+    } else if (key !== undefined) {
+      // Si la valeur est undefined, on met une chaîne vide
+      result[key.replace(/\\/g, '')] = ''
+    }
   }
   
   return result
@@ -127,8 +134,12 @@ export async function GET(request: NextRequest) {
 				const geometry = JSON.parse(row.geometry)
 				// Traiter les tags selon leur type
 				let tags = {}
-				if (row.tags) {
-					tags = typeof row.tags === 'object' ? row.tags : parseHstore(row.tags)
+				try {
+					if (row.tags) {
+						tags = typeof row.tags === 'object' ? row.tags : parseHstore(row.tags)
+					}
+				} catch (error) {
+					console.error('Erreur lors du parsing des tags:', error, row.tags)
 				}
 				
 				return {
