@@ -106,7 +106,7 @@ function getQuery(
           FROM
             planet_osm_polygon
           WHERE
-            osm_id = -$1
+            osm_id = $1 * (-1)
         `,
 				params: [osmId],
 			}
