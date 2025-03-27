@@ -12,26 +12,27 @@ const pool = new Pool({
 
 // Fonction pour parser manuellement le format HSTORE
 function parseHstore(value: string): Record<string, string> {
-  if (!value) return {}
-  
-  const result: Record<string, string> = {}
-  const regex = /"([^"\\]*(?:\\.[^"\\]*)*)"|([^,=]+)=(?:"([^"\\]*(?:\\.[^"\\]*)*)"|([^,]+))/g
-  
-  let match
-  while ((match = regex.exec(value)) !== null) {
-    const key = match[1] || match[2]
-    const val = match[3] || match[4]
-    
-    // Vérifier que key et val ne sont pas undefined avant d'appeler replace
-    if (key !== undefined && val !== undefined) {
-      result[key.replace(/\\/g, '')] = val.replace(/\\/g, '')
-    } else if (key !== undefined) {
-      // Si la valeur est undefined, on met une chaîne vide
-      result[key.replace(/\\/g, '')] = ''
-    }
-  }
-  
-  return result
+	if (!value) return {}
+
+	const result: Record<string, string> = {}
+	const regex =
+		/"([^"\\]*(?:\\.[^"\\]*)*)"|([^,=]+)=(?:"([^"\\]*(?:\\.[^"\\]*)*)"|([^,]+))/g
+
+	let match
+	while ((match = regex.exec(value)) !== null) {
+		const key = match[1] || match[2]
+		const val = match[3] || match[4]
+
+		// Vérifier que key et val ne sont pas undefined avant d'appeler replace
+		if (key !== undefined && val !== undefined) {
+			result[key.replace(/\\/g, '')] = val.replace(/\\/g, '')
+		} else if (key !== undefined) {
+			// Si la valeur est undefined, on met une chaîne vide
+			result[key.replace(/\\/g, '')] = ''
+		}
+	}
+
+	return result
 }
 
 // Fonction pour obtenir la requête SQL en fonction du type de feature et de l'ID
@@ -136,17 +137,18 @@ export async function GET(request: NextRequest) {
 				let tags = {}
 				try {
 					if (row.tags) {
-						tags = typeof row.tags === 'object' ? row.tags : parseHstore(row.tags)
+						tags =
+							typeof row.tags === 'object' ? row.tags : parseHstore(row.tags)
 					}
 				} catch (error) {
 					console.error('Erreur lors du parsing des tags:', error, row.tags)
 				}
-				
+
 				return {
 					type: 'Feature',
 					id: row.osm_id,
 					properties: {
-						...tags,
+						tags,
 						osm_id: row.osm_id,
 						featureType,
 					},
