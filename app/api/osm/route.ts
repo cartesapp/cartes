@@ -40,13 +40,16 @@ function getQuery(
 			return {
 				query: `
           SELECT
-            osm_id,
-            to_jsonb(tags) AS tags,
-            ST_AsGeoJSON(way) as geometry
+            n.id as id,
+            n.tags AS tags,
+            ST_AsGeoJSON(p.way) as geometry
           FROM
-            planet_osm_point
+            planet_osm_nodes AS n
+          LEFT JOIN
+            planet_osm_point AS p
+          ON p.osm_id = n.id
           WHERE
-            osm_id = $1
+            n.id = $1
         `,
 				params: [osmId],
 			}
@@ -54,22 +57,18 @@ function getQuery(
 			return {
 				query: `
           SELECT
-            osm_id,
-            to_jsonb(tags) AS tags,
-            ST_AsGeoJSON(way) as geometry
+            w.id AS id,
+            w.tags AS tags,
+            ST_AsGeoJSON(u.way) as geometry
           FROM
-            planet_osm_line
-          WHERE
-            osm_id = $1
-          UNION
-          SELECT
-            osm_id,
-            to_jsonb(tags) AS tags,
-            ST_AsGeoJSON(way) as geometry
-          FROM
-            planet_osm_polygon
-          WHERE
-            osm_id = $1
+            planet_osm_ways AS w
+          LEFT JOIN
+          (
+           SELECT osm_id, tags, way FROM planet_osm_line WHERE osm_id = $1
+           UNION
+           SELECT osm_id, tags, way FROM planet_osm_polygon WHERE osm_id = $1
+          ) AS u ON u.osm_id = w.id
+          WHERE w.id = $1
         `,
 				params: [osmId],
 			}
