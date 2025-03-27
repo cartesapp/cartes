@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Pool } from 'pg'
+import pgTypes from 'pg-types'
 
 // Configuration de la connexion PostgreSQL
 const pool = new Pool({
@@ -8,6 +9,23 @@ const pool = new Pool({
 	database: 'osm',
 	ssl: false,
 	password: 'iwanttoreadfree',
+})
+
+// Configuration pour parser correctement le format HSTORE de PostgreSQL
+pgTypes.setTypeParser(pgTypes.builtins.HSTORE, (value: string) => {
+  if (!value) return {}
+  
+  const result: Record<string, string> = {}
+  const regex = /"([^"\\]*(?:\\.[^"\\]*)*)"|([^,=]+)=(?:"([^"\\]*(?:\\.[^"\\]*)*)"|([^,]+))/g
+  
+  let match
+  while ((match = regex.exec(value)) !== null) {
+    const key = match[1] || match[2]
+    const val = match[3] || match[4]
+    result[key.replace(/\\/g, '')] = val.replace(/\\/g, '')
+  }
+  
+  return result
 })
 
 // Fonction pour obtenir la requête SQL en fonction du type de feature et de l'ID
@@ -108,11 +126,14 @@ export async function GET(request: NextRequest) {
 			// Traitement des résultats
 			const features = result.rows.map((row) => {
 				const geometry = JSON.parse(row.geometry)
+				// Vérifier si tags est déjà un objet ou s'il est au format HSTORE
+				const tags = typeof row.tags === 'object' ? row.tags : row.tags || {}
+				
 				return {
 					type: 'Feature',
 					id: row.osm_id,
 					properties: {
-						...row.tags,
+						...tags,
 						osm_id: row.osm_id,
 						featureType,
 					},

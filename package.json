@@ -97,6 +97,7 @@
 		"opening_hours": "^3.8.0",
 		"osmtogeojson": "^3.0.0-beta.5",
 		"pg": "^8.14.1",
+		"pg-types": "^4.0.2",
 		"pmtiles": "^3.2.0",
 		"postcss-nested": "^7.0.2",
 		"process": "^0.11.10",
