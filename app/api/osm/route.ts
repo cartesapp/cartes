@@ -30,29 +30,6 @@ const pool = new Pool({
 	password: 'iwanttoreadfree',
 })
 
-// Fonction pour parser manuellement le format HSTORE
-function parseHstore(value: string): Record<string, string> {
-	if (!value) return {}
-
-	// Si c'est déjà un objet, le retourner directement
-	if (typeof value === 'object') return value;
-
-	const result: Record<string, string> = {}
-	
-	// Format PostgreSQL HSTORE: "key"=>"value", "key2"=>"value2"
-	// On utilise une regex plus simple et plus robuste
-	const regex = /"([^"]+)"=>"([^"]*)"(?:,|$)/g;
-	
-	let match;
-	while ((match = regex.exec(value)) !== null) {
-		if (match[1]) {
-			result[match[1]] = match[2] || '';
-		}
-	}
-
-	return result;
-}
-
 // Fonction pour obtenir la requête SQL en fonction du type de feature et de l'ID
 function getQuery(
 	featureType: string,
@@ -64,7 +41,7 @@ function getQuery(
 				query: `
           SELECT
             osm_id,
-            tags,
+            to_jsonb(tags) AS tags,
             ST_AsGeoJSON(way) as geometry
           FROM
             planet_osm_point
@@ -78,7 +55,7 @@ function getQuery(
 				query: `
           SELECT
             osm_id,
-            tags,
+            to_jsonb(tags) AS tags,
             ST_AsGeoJSON(way) as geometry
           FROM
             planet_osm_line
@@ -87,7 +64,7 @@ function getQuery(
           UNION
           SELECT
             osm_id,
-            tags,
+            to_jsonb(tags) AS tags,
             ST_AsGeoJSON(way) as geometry
           FROM
             planet_osm_polygon
@@ -101,7 +78,7 @@ function getQuery(
 				query: `
           SELECT
             osm_id,
-            tags,
+            to_jsonb(tags) AS tags,
             ST_AsGeoJSON(way) as geometry
           FROM
             planet_osm_polygon
@@ -191,12 +168,9 @@ export async function GET(request: NextRequest) {
 					};
 				}
 				// Traiter les tags selon leur type
-				let tags = {}
+				let tags = row.tags
 				try {
-					if (row.tags) {
-						// Convertir les tags en objet
-						tags = typeof row.tags === 'object' ? row.tags : parseHstore(row.tags)
-						
+					if (tags) {
 						// Nettoyer les tags si nécessaire
 						Object.keys(tags).forEach(key => {
 							// Supprimer les guillemets ou caractères spéciaux indésirables
