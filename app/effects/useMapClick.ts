@@ -169,11 +169,10 @@ export default function useMapClick(
 					state,
 					-1,
 					{
+						osmCode: encodePlace(featureType, id),
 						longitude,
 						latitude,
-						osmFeature: {
-							...element,
-						},
+						osmFeature: element,
 					},
 					'merge'
 				)
