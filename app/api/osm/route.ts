@@ -127,107 +127,107 @@ export async function GET(request: NextRequest) {
 
 			if (result.rows.length === 0) {
 				return NextResponse.json(
-					{ error: `Aucun ${featureType} trouvé avec l'ID ${osmId}` },
+					{ error: `No ${featureType} found with OSM id ${osmId}` },
 					{ status: 404 }
 				)
 			}
+			if (result.rows.length > 1) {
+				return NextResponse.json(
+					{
+						error: `Multiple ${featureType} found with OSM id ${osmId}. This is a problem, it shouldn't happen !`,
+					},
+					{ status: 500 }
+				)
+			}
 
-			// Traitement des résultats
-			const features = result.rows.map((row) => {
-				// Convertir les coordonnées de la géométrie de EPSG:3857 vers EPSG:4326 (lat/lon)
-				const rawGeometry = JSON.parse(row.geometry)
-				let geometry = { ...rawGeometry }
+			const row = result.rows[0]
+			// Convertir les coordonnées de la géométrie de EPSG:3857 vers EPSG:4326 (lat/lon)
+			const rawGeometry = JSON.parse(row.geometry)
+			let geometry = { ...rawGeometry }
 
-				// Convertir les coordonnées selon le type de géométrie
-				if (geometry.type === 'Point') {
-					const [lat, lon] = convertWebMercatorToLatLon(
-						geometry.coordinates[0],
-						geometry.coordinates[1]
-					)
-					geometry.coordinates = [lon, lat] // GeoJSON utilise [longitude, latitude]
-				} else if (geometry.type === 'LineString') {
-					geometry.coordinates = geometry.coordinates.map((coord) => {
+			// Convertir les coordonnées selon le type de géométrie
+			if (geometry.type === 'Point') {
+				const [lat, lon] = convertWebMercatorToLatLon(
+					geometry.coordinates[0],
+					geometry.coordinates[1]
+				)
+				geometry.coordinates = [lon, lat] // GeoJSON utilise [longitude, latitude]
+			} else if (geometry.type === 'LineString') {
+				geometry.coordinates = geometry.coordinates.map((coord) => {
+					const [lat, lon] = convertWebMercatorToLatLon(coord[0], coord[1])
+					return [lon, lat]
+				})
+			} else if (geometry.type === 'Polygon') {
+				geometry.coordinates = geometry.coordinates.map((ring) =>
+					ring.map((coord) => {
 						const [lat, lon] = convertWebMercatorToLatLon(coord[0], coord[1])
 						return [lon, lat]
 					})
-				} else if (geometry.type === 'Polygon') {
-					geometry.coordinates = geometry.coordinates.map((ring) =>
+				)
+			} else if (geometry.type === 'MultiPolygon') {
+				geometry.coordinates = geometry.coordinates.map((polygon) =>
+					polygon.map((ring) =>
 						ring.map((coord) => {
 							const [lat, lon] = convertWebMercatorToLatLon(coord[0], coord[1])
 							return [lon, lat]
 						})
 					)
-				} else if (geometry.type === 'MultiPolygon') {
-					geometry.coordinates = geometry.coordinates.map((polygon) =>
-						polygon.map((ring) =>
-							ring.map((coord) => {
-								const [lat, lon] = convertWebMercatorToLatLon(
-									coord[0],
-									coord[1]
-								)
-								return [lon, lat]
-							})
-						)
-					)
-				}
+				)
+			}
 
-				// Mettre à jour le système de coordonnées de référence
-				if (geometry.crs) {
-					geometry.crs = {
-						type: 'name',
-						properties: {
-							name: 'EPSG:4326',
-						},
-					}
+			// Mettre à jour le système de coordonnées de référence
+			if (geometry.crs) {
+				geometry.crs = {
+					type: 'name',
+					properties: {
+						name: 'EPSG:4326',
+					},
 				}
-				// Traiter les tags selon leur type
-				let tags = row.tags
-				try {
-					if (tags) {
-						// Nettoyer les tags si nécessaire
-						Object.keys(tags).forEach((key) => {
-							// Supprimer les guillemets ou caractères spéciaux indésirables
-							if (typeof tags[key] === 'string') {
-								tags[key] = tags[key].replace(/^['">]+|['">]+$/g, '')
-							}
-						})
-					}
-				} catch (error) {
-					console.error('Erreur lors du parsing des tags:', error, row.tags)
+			}
+			// Traiter les tags selon leur type
+			let tags = row.tags
+			try {
+				if (tags) {
+					// Nettoyer les tags si nécessaire
+					Object.keys(tags).forEach((key) => {
+						// Supprimer les guillemets ou caractères spéciaux indésirables
+						if (typeof tags[key] === 'string') {
+							tags[key] = tags[key].replace(/^['">]+|['">]+$/g, '')
+						}
+					})
 				}
-				// filtrer les metadata pour enlever les tags déjà dans la propriété tags
-				let metadata = row.metadata
-				for (let key in metadata) {
-					if (tags.hasOwnProperty(key)) {
-						delete metadata[key]
-					}
+			} catch (error) {
+				console.error('Erreur lors du parsing des tags:', error, row.tags)
+			}
+			// filtrer les metadata pour enlever les tags déjà dans la propriété tags
+			let metadata = row.metadata
+			for (let key in metadata) {
+				if (tags.hasOwnProperty(key)) {
+					delete metadata[key]
 				}
-				// Ajouter lat/lon directement dans les propriétés pour les points
-				const properties = {
-					featureType,
-					osm_id: row.id,
-					tags: tags,
-					metadata: metadata,
-				}
+			}
+			// Ajouter lat/lon directement dans les propriétés pour les points
+			const properties = {
+				featureType,
+				osm_id: row.id,
+				tags: tags,
+				metadata: metadata,
+			}
 
-				// Si c'est un point, ajouter lat/lon directement dans les propriétés
-				if (geometry.type === 'Point') {
-					properties.lat = geometry.coordinates[1] // Latitude
-					properties.lon = geometry.coordinates[0] // Longitude
-				}
+			// Si c'est un point, ajouter lat/lon directement dans les propriétés
+			if (geometry.type === 'Point') {
+				properties.lat = geometry.coordinates[1] // Latitude
+				properties.lon = geometry.coordinates[0] // Longitude
+			}
 
-				return {
-					type: 'Feature',
-					id: row.id,
-					properties,
-					geometry,
-				}
-			})
+			const feature = {
+				type: 'Feature',
+				id: row.id,
+				properties,
+				geometry,
+			}
 
-			return NextResponse.json({
-				type: 'FeatureCollection',
-				features,
-			})
+			return NextResponse.json(feature)
 		} finally {
 			client.release()
 		}

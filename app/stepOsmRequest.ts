@@ -3,6 +3,7 @@ import { enrichOsmFeatureWithPolyon, osmRequest } from './osmRequest'
 import { decodePlace } from './utils'
 import { isServer } from './serverUrls'
 import { geocodeGetAddress } from '@/components/geocodeLatLon'
+import osmApiRequest from '@/components/osm/osmApiRequest'
 
 export const stepOsmRequest = async (point, state = [], geocode = false) => {
 	if (!point || point === '') return null
@@ -31,20 +32,10 @@ export const stepOsmRequest = async (point, state = [], geocode = false) => {
 				"This OSM feature is neither a node, a relation or a way, we don't know how to handle it"
 			)
 
-		const elements = await osmRequest(featureType, featureId, full)
+		const element = await osmApiRequest(featureType, featureId)
 
-		if (!elements.length) return
-		/*
-		console.log(
-			'OSM elements received',
-			elements,
-			' for ',
-			featureType,
-			featureId
-		)
-		*/
-
-		const element = elements.find((el) => el.id == featureId)
+		return console.log('brown', element)
+		if (!element) return
 
 		if (element.failedServerOsmRequest)
 			return {
