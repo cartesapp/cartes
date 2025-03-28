@@ -45,8 +45,9 @@ export default function useDrawQuickSearchFeatures(
 
 		const mapImage = map.getImage(mapImageName)
 		console.log('chartreuse before switch build image')
+		let unsubscribeEvents
 		if (mapImage)
-			draw(
+			unsubscribeEvents = draw(
 				map,
 				baseId,
 				setSearchParams,
@@ -63,7 +64,7 @@ export default function useDrawQuickSearchFeatures(
 				(img) => {
 					map.addImage(mapImageName, img)
 
-					draw(
+					unsubscribeEvents = draw(
 						map,
 						baseId,
 						setSearchParams,
@@ -81,6 +82,7 @@ export default function useDrawQuickSearchFeatures(
 		// for cleaning ?
 		const cleanup = () => {
 			console.log('chartreuse cleanup', features.length, baseId, category)
+			unsubscribeEvents()
 			safeRemove(map)(
 				[
 					baseId + 'points',
@@ -280,13 +282,13 @@ const draw = (
 	})
 
 	// gestion des actions en cas de clic sur un POI (l'icone ou le cercle d'ouverture)
-	map.on('click', async (e) => {
+	const onClickHandler = async (e) => {
 		//on teste si le clic a eu lieu dans l'un des 2 layers possibles, sinon on arrête
 		const features = map.queryRenderedFeatures(e.point, {
-			layers: [baseId + 'points', baseId + 'points-is-open']
-		});
+			layers: [baseId + 'points', baseId + 'points-is-open'],
+		})
 		if (!features.length) return
-		console.log("point trouvé au clic dans " + baseId)
+		console.log('point trouvé au clic dans ' + baseId)
 
 		// on charge les infos sur le POI
 		const feature = features[0]
@@ -317,7 +319,8 @@ const draw = (
 			osmFeature
 		)
 		setOsmFeature(osmFeature)
-	})
+	}
+	map.on('click', onClickHandler)
 
 	// change pointer when entering or leaving a POI
 	map.on('mouseenter', baseId + 'points', () => {
@@ -332,4 +335,10 @@ const draw = (
 	map.on('mouseleave', baseId + 'points-is-open', () => {
 		map.getCanvas().style.cursor = ''
 	})
+
+	return () => {
+		map.off('click', onClickHandler)
+		//not unsubscribing other events because they do not trigger an error
+		//TODO why ? do they work ?
+	}
 }

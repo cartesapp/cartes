@@ -120,7 +120,9 @@ export async function GET(request: NextRequest) {
 		}
 
 		const { query, params } = getQuery(featureType, osmId)
+		console.time('poolconnect')
 		const client = await pool.connect()
+		console.timeLog('poolconnect')
 
 		try {
 			const result = await client.query(query, params)
