@@ -19,7 +19,6 @@ export const stepOsmRequest = async (point, state = [], geocode = false) => {
 				!point.osmFeature?.failedServerOsmRequest
 		)
 	if (found) return found // already cached, don't make useless requests
-	console.log('indigo will ', { isServer }, state)
 
 	const [featureType, featureId] = decodePlace(osmCode)
 
@@ -34,7 +33,7 @@ export const stepOsmRequest = async (point, state = [], geocode = false) => {
 
 		const element = await osmApiRequest(featureType, featureId)
 
-		return console.log('brown', element)
+		console.log('brown', element)
 		if (!element) return
 
 		if (element.failedServerOsmRequest)
