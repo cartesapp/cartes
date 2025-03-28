@@ -5,6 +5,11 @@ export default async function osmApiRequest(featureType, id) {
 		const request = await fetch(
 			getFetchUrlBase() + `/api/osm?featureType=${featureType}&osmId=${id}`
 		)
+
+		if (request.status === 404) {
+			return 404
+		}
+
 		if (!request.ok) {
 			console.log('lightgreen request not ok', request)
 

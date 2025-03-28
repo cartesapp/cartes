@@ -1,9 +1,8 @@
+import { geocodeGetAddress } from '@/components/geocodeLatLon'
 import { centerOfMass } from '@turf/turf'
 import { enrichOsmFeatureWithPolyon, osmRequest } from './osmRequest'
-import { decodePlace } from './utils'
 import { isServer } from './serverUrls'
-import { geocodeGetAddress } from '@/components/geocodeLatLon'
-import osmApiRequest from '@/components/osm/osmApiRequest'
+import { decodePlace } from './utils'
 
 export const stepOsmRequest = async (point, state = [], geocode = false) => {
 	if (!point || point === '') return null
@@ -30,35 +29,6 @@ export const stepOsmRequest = async (point, state = [], geocode = false) => {
 			return console.log(
 				"This OSM feature is neither a node, a relation or a way, we don't know how to handle it"
 			)
-
-		const directElement = await osmApiRequest(featureType, featureId)
-
-		console.log('brown', directElement)
-		if (directElement.failedServerOsmRequest)
-			return {
-				...directElement,
-				osmCode,
-				longitude: longitude,
-				latitude: latitude,
-				name,
-			}
-		if (directElement) {
-			const {
-				properties: { tags },
-				geometry: { type, coordinates },
-			} = directElement
-			if (type === 'Point') {
-				console.log('brown state', directElement)
-				return {
-					...directElement,
-					type: directElement.properties.featureType,
-					lon: coordinates[0],
-					lat: coordinates[1],
-					tags,
-					name: tags && tags.name,
-				}
-			}
-		}
 
 		const elements = await osmRequest(featureType, featureId, full)
 
