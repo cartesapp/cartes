@@ -142,7 +142,6 @@ export default function useImageSearch(
 
 			if (photos === 'toutes') {
 				const newImages = handleWikimediaGeosearchImages(json)
-				console.log('green new', newImages)
 				const trulyNewImages = newImages.filter(
 					(newImage) =>
 						!imageCache.find((image) => image.pageid === newImage.pageid)
@@ -152,7 +151,6 @@ export default function useImageSearch(
 					setImageCache((old) => [...old, ...trulyNewImages])
 			} else {
 				const newImages = handleWikimediaPageimageGeosearchImages(json)
-				console.log('green new', newImages)
 				const imageMap = new Map(
 					newImages.map((image) => [image.pageUrl, image])
 				)
@@ -169,7 +167,6 @@ export default function useImageSearch(
 		photos,
 	])
 
-	console.log('redou2', wikidataPictureObject)
 	useEffect(() => {
 		if (!map) return
 		if (!active && !wikidataPictureObject) return

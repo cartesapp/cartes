@@ -1,14 +1,14 @@
+import { geocodeGetAddress } from '@/components/geocodeLatLon'
 import { centerOfMass } from '@turf/turf'
 import { enrichOsmFeatureWithPolyon, osmRequest } from './osmRequest'
-import { decodePlace } from './utils'
 import { isServer } from './serverUrls'
-import { geocodeGetAddress } from '@/components/geocodeLatLon'
+import { decodePlace } from './utils'
 
 export const stepOsmRequest = async (point, state = [], geocode = false) => {
 	if (!point || point === '') return null
 	const [name, osmCode, longitude, latitude] = point.split('|')
 
-	console.log('indigo will 0', { isServer }, state)
+	console.log('lightgreen will enrichState', { isServer }, state)
 	const found = state
 		.filter(Boolean)
 		.find(
@@ -18,7 +18,6 @@ export const stepOsmRequest = async (point, state = [], geocode = false) => {
 				!point.osmFeature?.failedServerOsmRequest
 		)
 	if (found) return found // already cached, don't make useless requests
-	console.log('indigo will ', { isServer }, state)
 
 	const [featureType, featureId] = decodePlace(osmCode)
 
@@ -55,22 +54,6 @@ export const stepOsmRequest = async (point, state = [], geocode = false) => {
 				name,
 			}
 
-		const featureCollectionFromOsmNodes = (nodes) => {
-			//console.log('yanodes', nodes)
-			const fc = {
-				type: 'FeatureCollection',
-				features: nodes.map((el) => ({
-					type: 'Feature',
-					properties: {},
-					geometry: {
-						type: 'Point',
-						coordinates: [el.lon, el.lat],
-					},
-				})),
-			}
-			return fc
-		}
-
 		const relation = elements.find((el) => el.id == featureId),
 			adminCenter =
 				relation && relation.members?.find((el) => el.role === 'admin_centre'),
@@ -99,23 +82,6 @@ export const stepOsmRequest = async (point, state = [], geocode = false) => {
 			['way', 'relation'].includes(element.type) &&
 			enrichOsmFeatureWithPolyon(element, elements).polygon
 		return { ...element, lat: nodeCenter[1], lon: nodeCenter[0], polygon }
-
-		/* TODO do this elsewhere, we don't want a dependency to map here
-			console.log('should fly to', nodeCenter)
-			if (!choice || choice.osmId !== featureId) {
-				console.log(
-					'blue',
-					'will fly to in after OSM download from url query param',
-					nodeCenter
-				)
-				map.flyTo({
-					center: nodeCenter,
-					zoom: 18,
-					pitch: 50, // pitch in degrees
-					bearing: 20, // bearing in degrees
-				})
-			}
-			*/
 	}
 	const osmFeature = await request()
 
@@ -137,4 +103,21 @@ export const stepOsmRequest = async (point, state = [], geocode = false) => {
 		osmFeature.id
 	)
 	return { ...result, photonAddress, photonFeature }
+}
+
+function featureCollectionFromOsmNodes(nodes) {
+	//console.log('yanodes', nodes)
+	const fc = {
+		type: 'FeatureCollection',
+		features: nodes.map((el) => ({
+			type: 'Feature',
+			properties: {},
+			geometry: {
+				type: 'Point',
+				coordinates: [el.lon, el.lat],
+			},
+		})),
+	}
+
+	return fc
 }

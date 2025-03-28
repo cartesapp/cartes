@@ -2,6 +2,7 @@ import turfDistance from '@turf/distance'
 import { centerOfMass } from '@turf/turf'
 import osmToGeojson from 'osmtogeojson'
 import { isServer } from './serverUrls'
+import osmApiRequest from '@/components/osm/osmApiRequest'
 
 export const overpassRequestSuffix =
 	'https://overpass-api.de/api/interpreter?data='
@@ -81,8 +82,34 @@ export const osmRequest = async (featureType, id, full) => {
 		full
 	)
 
+	const directElement = await osmApiRequest(featureType, id)
+
+	if (
+		directElement &&
+		directElement !== 404 &&
+		!directElement.failedServerOsmRequest
+	) {
+		const {
+			properties: { tags },
+			geometry: { type, coordinates },
+		} = directElement
+
+		if (type === 'Point') {
+			console.log('lightgreen success with OSM API')
+			return [
+				{
+					...directElement,
+					type: directElement.properties.featureType,
+					lon: coordinates[0],
+					lat: coordinates[1],
+					tags,
+					name: tags && tags.name,
+				},
+			]
+		}
+	}
+
 	const url = buildOverpassUrl(featureType, id, full)
-	console.log('OVERPASS3', url, 'is server : ', isServer)
 	try {
 		const request = await fetch(url, overpassFetchOptions)
 		if (!request.ok) {
@@ -133,6 +160,10 @@ export const disambiguateWayRelation = async (
 	referenceLatLng,
 	noDisambiguation
 ) => {
+	console.log(
+		'lightgreen disambiguateWayRelation, noDisambiguation : ',
+		noDisambiguation
+	)
 	if (noDisambiguation) {
 		const result = await osmRequest(presumedFeatureType, id, false)
 		return [result.length ? result[0] : null, presumedFeatureType]
