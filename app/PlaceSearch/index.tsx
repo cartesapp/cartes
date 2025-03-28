@@ -265,7 +265,6 @@ export default function PlaceSearch({
 		(step.inputValue == null || step.inputValue === '') &&
 		isMyInputFocused &&
 		searchHistory.length > 0
-	console.log('PLOP s', searchHistory, step.inputValue, isMyInputFocused)
 
 	const shouldShowResults =
 		step.inputValue !== '' &&

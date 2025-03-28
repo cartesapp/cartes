@@ -47,14 +47,17 @@ export const stepOsmRequest = async (point, state = [], geocode = false) => {
 				properties: { tags },
 				geometry: { type, coordinates },
 			} = directElement
-			if (type === 'Point')
+			if (type === 'Point') {
+				console.log('brown state', directElement)
 				return {
 					...directElement,
+					type: directElement.properties.featureType,
 					lon: coordinates[0],
 					lat: coordinates[1],
 					tags,
 					name: tags && tags.name,
 				}
+			}
 		}
 
 		const elements = await osmRequest(featureType, featureId, full)

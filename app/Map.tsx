@@ -201,7 +201,6 @@ export default function Map(props) {
 		itinerary.date
 	)
 
-	console.log('indigo state', state)
 	const onSearchResultClick = useCallback(
 		(feature) => {
 			setState([...state.slice(0, -1), defaultState.vers])

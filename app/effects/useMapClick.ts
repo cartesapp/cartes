@@ -30,7 +30,6 @@ export default function useMapClick(
 		if (isTransportsMode) return
 
 		const onClick = async (e) => {
-			console.log('click event', e)
 			// interesting and tricky : without this timeout, it looks like another
 			// setSearchParams overrides this call
 
@@ -152,6 +151,7 @@ export default function useMapClick(
 			console.log('clicked name did set chargement', name)
 
 			const noDisambiguation = hasNwr
+
 			const [element, realFeatureType] = await disambiguateWayRelation(
 				featureType,
 				id,

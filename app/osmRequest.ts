@@ -80,9 +80,9 @@ export const osmRequest = async (featureType, id, full) => {
 		'full : ',
 		full
 	)
+	console.log('lightgreen OVERPASS3', url, 'is server : ', isServer)
 
 	const url = buildOverpassUrl(featureType, id, full)
-	console.log('OVERPASS3', url, 'is server : ', isServer)
 	try {
 		const request = await fetch(url, overpassFetchOptions)
 		if (!request.ok) {
@@ -133,6 +133,10 @@ export const disambiguateWayRelation = async (
 	referenceLatLng,
 	noDisambiguation
 ) => {
+	console.log(
+		'lightgreen disambiguateWayRelation, noDisambiguation : ',
+		noDisambiguation
+	)
 	if (noDisambiguation) {
 		const result = await osmRequest(presumedFeatureType, id, false)
 		return [result.length ? result[0] : null, presumedFeatureType]

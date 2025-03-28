@@ -83,12 +83,6 @@ export default function Container(props) {
 		{ initializeWithValue: false }
 	)
 
-	console.log('LAST', lastGeolocation.center, lastGeolocation.zoom)
-	const debouncedLastGeolocation = useDebounce(
-		lastGeolocation,
-		contentDebounceDelay
-	)
-
 	const [mapContent, setMapContent] = useState()
 	const [chargement, setChargement] = useState()
 
@@ -180,6 +174,7 @@ export default function Container(props) {
 	useEffect(() => {
 		if (!chargement) return
 
+		console.log('brown state char', state)
 		if (
 			state.find(
 				(step) =>

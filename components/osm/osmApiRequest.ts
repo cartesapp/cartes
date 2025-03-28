@@ -3,7 +3,7 @@ import { getFetchUrlBase } from '@/app/serverUrls'
 export default async function osmApiRequest(featureType, id) {
 	try {
 		const request = await fetch(
-			getFetchUrlBase() + `/api/osm/?featureType=${featureType}&osmId=${id}`
+			getFetchUrlBase() + `/api/osm?featureType=${featureType}&osmId=${id}`
 		)
 		if (!request.ok) {
 			console.log('lightgreen request not ok', request)
