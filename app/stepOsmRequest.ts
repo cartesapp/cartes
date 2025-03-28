@@ -8,7 +8,7 @@ export const stepOsmRequest = async (point, state = [], geocode = false) => {
 	if (!point || point === '') return null
 	const [name, osmCode, longitude, latitude] = point.split('|')
 
-	console.log('indigo will 0', { isServer }, state)
+	console.log('lightgreen will enrichState', { isServer }, state)
 	const found = state
 		.filter(Boolean)
 		.find(

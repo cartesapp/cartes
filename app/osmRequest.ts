@@ -95,6 +95,7 @@ export const osmRequest = async (featureType, id, full) => {
 		} = directElement
 
 		if (type === 'Point') {
+			console.log('lightgreen success with OSM API')
 			return [
 				{
 					...directElement,

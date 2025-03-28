@@ -290,6 +290,7 @@ export default function Map(props) {
 	useMapClick(
 		map,
 		state,
+		setState,
 		distanceMode,
 		itinerary,
 		isTransportsMode,

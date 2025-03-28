@@ -12,6 +12,7 @@ import { buildOsmFeatureCategory } from '@/components/osm/buildDescription'
 export default function useMapClick(
 	map,
 	state,
+	setState,
 	distanceMode,
 	itinerary,
 	isTransportsMode,
@@ -164,18 +165,21 @@ export default function useMapClick(
 			if (element) {
 				console.log('reset OSMfeature after click on POI')
 				const { lng: longitude, lat: latitude } = e.lngLat
-				replaceArrayIndex(
+				const newState = replaceArrayIndex(
 					state,
 					-1,
 					{
+						longitude,
+						latitude,
 						osmFeature: {
 							...element,
-							longitude,
-							latitude,
 						},
 					},
 					'merge'
 				)
+
+				console.log('lightgreen new state after map click', newState)
+				setState(newState)
 
 				const osmFeatureCategory = buildOsmFeatureCategory(element)
 				// We store longitude and latitude in order to, in some cases, avoid a
