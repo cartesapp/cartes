@@ -45,7 +45,7 @@ export default function useDrawQuickSearchFeatures(
 
 		const mapImage = map.getImage(mapImageName)
 		console.log('chartreuse before switch build image')
-		let unsubscribeEvents
+		let unsubscribeEvents = () => null
 		if (mapImage)
 			unsubscribeEvents = draw(
 				map,
