@@ -160,6 +160,7 @@ export const tagNameCorrespondance = (key: string) => {
 		'townhall:type': 'Type de mairie',
 		'capacity:charging': 'Place de parking IRVE',
 		'community_centre': 'Etablissement public',
+		'healthcare:speciality': 'Spécialité Médicale',
 	}[key]
 	return found || key
 }
