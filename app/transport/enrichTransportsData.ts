@@ -1,8 +1,5 @@
 import { lightenColor } from '@/components/utils/colors'
-import {
-	handleColor,
-	trainColors,
-} from '@/app/itinerary/transit/motisRequest'
+import { handleColor, trainColors } from '@/app/itinerary/transit/motisRequest'
 
 // Here we make counts for a GTFS agency, to know which lines are relatively
 // frequent. But I don't think it's the right approach, it should be absolute.
@@ -37,6 +34,7 @@ export const addDefaultColor = (features, agencyId) => {
 	return features.map((feature) => {
 		if (feature.geometry.type === 'Point') {
 			const [color, strokeColor] = stopColor(features, feature)
+			console.log('purple enrich transport stop with colors and width', feature)
 			return {
 				...feature,
 				properties: {

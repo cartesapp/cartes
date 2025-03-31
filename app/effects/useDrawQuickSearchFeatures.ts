@@ -17,6 +17,7 @@ export default function useDrawQuickSearchFeatures(
 	backgroundColor = colors['color'],
 	invert = false
 ) {
+	/*
 	if (features && features.length)
 		console.log(
 			'chartreuse useDrawQuickSearchFeatures',
@@ -24,6 +25,7 @@ export default function useDrawQuickSearchFeatures(
 			features,
 			category
 		)
+		*/
 	const setSearchParams = useSetSearchParams()
 	const baseId = `features-${category.name}-`
 
@@ -44,7 +46,6 @@ export default function useDrawQuickSearchFeatures(
 		const mapImageName = 'cartesapp-' + iconName // avoid collisions
 
 		const mapImage = map.getImage(mapImageName)
-		console.log('chartreuse before switch build image')
 		let unsubscribeEvents = () => null
 		if (mapImage)
 			unsubscribeEvents = draw(
@@ -57,7 +58,6 @@ export default function useDrawQuickSearchFeatures(
 				category
 			)
 		else {
-			console.log('chartreuse will build image')
 			buildSvgImage(
 				imageFilename,
 				imageFinalFilename,
@@ -81,7 +81,6 @@ export default function useDrawQuickSearchFeatures(
 
 		// for cleaning ?
 		const cleanup = () => {
-			console.log('chartreuse cleanup', features.length, baseId, category)
 			unsubscribeEvents()
 			safeRemove(map)(
 				[
