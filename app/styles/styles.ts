@@ -43,7 +43,6 @@ export const styles = {
 		url: satelliteIgn(),
 		name: 'Satellite France',
 		emoji: '🛰️',
-		hasTerrain: true,
 	},
 	satellite: {
 		url: satellite(key),
@@ -123,3 +122,4 @@ export const styles = {
 }
 
 export const getStyle = (styleKey) => ({ ...styles[styleKey], key: styleKey })
+export const homeMadeTerrainStyles = ['france', 'satellite-ign']

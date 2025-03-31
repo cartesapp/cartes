@@ -1,13 +1,9 @@
 export default function natureStyle() {
 	return {
 		version: 8,
-		id: 'satellite',
-		name: 'Satellite',
+		id: 'satellite-ign',
+		name: 'Satellite IGN',
 		sources: {
-			'terrain-rgb': {
-				url: `https://api.maptiler.com/tiles/terrain-rgb-v2/tiles.json?key=${key}`,
-				type: 'raster-dem',
-			},
 			'satellite-tiles': {
 				type: 'raster',
 				tiles: [

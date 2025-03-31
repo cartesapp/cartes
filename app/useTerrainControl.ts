@@ -1,10 +1,15 @@
 import maplibregl from 'maplibre-gl'
 import { useEffect } from 'react'
+import { homeMadeTerrainStyles } from './styles/styles'
 
 export default function useTerrainControl(map, style, relief) {
 	useEffect(() => {
 		if (!map) return
-		if (!style.hasTerrain && !(style.key === 'france' && relief)) return
+		if (
+			!style.hasTerrain &&
+			!(homeMadeTerrainStyles.includes(style.key) && relief)
+		)
+			return
 
 		const control = new maplibregl.TerrainControl({
 			source: 'terrain-rgb',

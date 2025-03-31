@@ -1,11 +1,12 @@
 import { safeRemove } from '@/app/effects/utils'
-import Image from 'next/image'
-import reliefIcon from '@/public/relief.svg'
 import reliefIconChecked from '@/public/relief-choisi.svg'
-import { StyleElementChooserWrapper } from './PanoramaxChooser'
+import reliefIcon from '@/public/relief.svg'
+import Image from 'next/image'
 import { useEffect } from 'react'
 import { pmtilesServerUrl } from '../serverUrls'
-import terrainLayers, { contourLayers, hillshadeLayers } from './terrainLayers'
+import { StyleElementChooserWrapper } from './PanoramaxChooser'
+import { homeMadeTerrainStyles } from './styles'
+import terrainLayers from './terrainLayers'
 
 export default function TerrainChooser({
 	searchParams,
@@ -14,7 +15,7 @@ export default function TerrainChooser({
 	zoom,
 	styleKey,
 }) {
-	if (styleKey !== 'france') return
+	if (!homeMadeTerrainStyles.includes(styleKey)) return
 
 	const reliefChecked = searchParams.relief === 'oui'
 
