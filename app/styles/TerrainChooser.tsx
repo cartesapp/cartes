@@ -66,7 +66,7 @@ export function AddTerrain({ map, active, styleKey }) {
 			minzoom: 13,
 		})
 
-		const terrainLayers = createTerrainLayers(styleKey === 'satellite-ign')
+		const terrainLayers = createTerrainLayers(styleKey === 'satellite')
 		terrainLayers.map((layer) => map.addLayer(layer))
 
 		return () => {

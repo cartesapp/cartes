@@ -5,7 +5,6 @@ import franceStyle from './france'
 import natureStyle from './nature'
 import railStyle from './railStyle'
 import satellite from './satellite'
-import satelliteIgn from './satellite-ign'
 import testStreetComplete from './test-street-complete'
 import voyageStyle from './voyage'
 
@@ -39,16 +38,10 @@ export const styles = {
 		description: `C'est l'ancienne version du style principal, qui reste meilleur pour un certain nombre d'aspects : noms des lieux étrangers en français, moins de bugs sur les côtes.`,
 		emoji: '🗺️',
 	},
-	'satellite-ign': {
-		url: satelliteIgn(),
-		name: 'Satellite France',
-		emoji: '🛰️',
-	},
 	satellite: {
 		url: satellite(key),
-		name: 'Satellite Monde',
+		name: 'Satellite',
 		emoji: '🛰️',
-		hasTerrain: true,
 	},
 	satelliteHybrid: {
 		url: maptilerUrl('hybrid'),
@@ -122,4 +115,4 @@ export const styles = {
 }
 
 export const getStyle = (styleKey) => ({ ...styles[styleKey], key: styleKey })
-export const homeMadeTerrainStyles = ['france', 'satellite-ign']
+export const homeMadeTerrainStyles = ['france', 'satellite']
