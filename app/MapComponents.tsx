@@ -58,7 +58,9 @@ function MapComponents({
 				</>
 			)}
 			{homeMadeTerrainStyles.includes(safeStyleKey) && (
-				<AddTerrain {...{ map, active: searchParams.relief }} />
+				<AddTerrain
+					{...{ map, active: searchParams.relief, styleKey: safeStyleKey }}
+				/>
 			)}
 		</>
 	)

@@ -3571,7 +3571,4 @@ On n'est pas à l'abri d'effets secondaires ici.
 		metadata: {},
 		filter: ['all', ['==', 'class', 'continent']],
 	},
-
-	//...hillshadeLayers,
-	//	...contourLayers,
 ]

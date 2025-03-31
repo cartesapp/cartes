@@ -1,3 +1,5 @@
+import { getFetchUrlBase } from '../serverUrls'
+
 export default function natureStyle() {
 	return {
 		version: 8,
@@ -27,5 +29,6 @@ export default function natureStyle() {
 		zoom: 1,
 		minZoom: 0,
 		maxZoom: 18,
+		glyphs: getFetchUrlBase() + '/fonts/glyphs/{fontstack}/{range}.pbf',
 	}
 }

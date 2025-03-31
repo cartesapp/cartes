@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 import { pmtilesServerUrl } from '../serverUrls'
 import { StyleElementChooserWrapper } from './PanoramaxChooser'
 import { homeMadeTerrainStyles } from './styles'
-import terrainLayers from './terrainLayers'
+import createTerrainLayers from './terrainLayers'
 
 export default function TerrainChooser({
 	searchParams,
@@ -47,7 +47,7 @@ export default function TerrainChooser({
 	)
 }
 
-export function AddTerrain({ map, active }) {
+export function AddTerrain({ map, active, styleKey }) {
 	useEffect(() => {
 		if (!active) return
 
@@ -66,6 +66,7 @@ export function AddTerrain({ map, active }) {
 			minzoom: 13,
 		})
 
+		const terrainLayers = createTerrainLayers(styleKey === 'satellite-ign')
 		terrainLayers.map((layer) => map.addLayer(layer))
 
 		return () => {
@@ -74,6 +75,6 @@ export function AddTerrain({ map, active }) {
 				['contours', 'terrain-rgb']
 			)
 		}
-	}, [map, active])
+	}, [map, active, styleKey])
 	return null
 }
