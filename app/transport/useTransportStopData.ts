@@ -3,6 +3,7 @@ import { gtfsServerUrl } from '../serverUrls'
 
 export default function useTransportStopData(osmFeature, gtfsStopIds) {
 	const [data, setData] = useState([])
+	console.log('purple useTransportStopData', data)
 
 	useEffect(() => {
 		if (gtfsStopIds || !osmFeature) return
