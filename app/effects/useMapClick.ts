@@ -12,6 +12,7 @@ import { buildOsmFeatureCategory } from '@/components/osm/buildDescription'
 export default function useMapClick(
 	map,
 	state,
+	setState,
 	distanceMode,
 	itinerary,
 	isTransportsMode,
@@ -30,7 +31,6 @@ export default function useMapClick(
 		if (isTransportsMode) return
 
 		const onClick = async (e) => {
-			console.log('click event', e)
 			// interesting and tricky : without this timeout, it looks like another
 			// setSearchParams overrides this call
 
@@ -152,6 +152,7 @@ export default function useMapClick(
 			console.log('clicked name did set chargement', name)
 
 			const noDisambiguation = hasNwr
+
 			const [element, realFeatureType] = await disambiguateWayRelation(
 				featureType,
 				id,
@@ -164,18 +165,20 @@ export default function useMapClick(
 			if (element) {
 				console.log('reset OSMfeature after click on POI')
 				const { lng: longitude, lat: latitude } = e.lngLat
-				replaceArrayIndex(
+				const newState = replaceArrayIndex(
 					state,
 					-1,
 					{
-						osmFeature: {
-							...element,
-							longitude,
-							latitude,
-						},
+						osmCode: encodePlace(featureType, id),
+						longitude,
+						latitude,
+						osmFeature: element,
 					},
 					'merge'
 				)
+
+				console.log('lightgreen new state after map click', newState)
+				setState(newState)
 
 				const osmFeatureCategory = buildOsmFeatureCategory(element)
 				// We store longitude and latitude in order to, in some cases, avoid a
