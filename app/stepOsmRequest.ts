@@ -1,6 +1,5 @@
 import { geocodeGetAddress } from '@/components/geocodeLatLon'
-import { centerOfMass } from '@turf/turf'
-import { enrichOsmFeatureWithPolygon, osmRequest } from './osmRequest'
+import { osmRequest } from './osmRequest'
 import { isServer } from './serverUrls'
 import { decodePlace } from './utils'
 import { lonLatToPoint } from '@/components/geoUtils'
@@ -25,23 +24,22 @@ export const stepOsmRequest = async (point, state = [], geocode = false) => {
 
 	const element = await osmRequest(featureType, featureId)
 
+	const center = lonLatToPoint(longitude, latitude)
 	// Failed, but we can still use the data encoded in the URL
 	if (element.failedRequest) {
 		return {
 			...element,
-			longitude,
-			latitude,
+			center,
 			allezValue: point,
 			name,
 		}
 	}
 
 	const result = {
+		center,
 		...element,
 		osmCode,
 		name,
-		longitude: longitude || element.center.geometry.coordinates[0],
-		latitude: latitude || element.center.geometry.coordinates[1],
 		allezValue: point,
 	}
 

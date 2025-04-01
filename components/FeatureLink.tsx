@@ -4,18 +4,18 @@ import { buildAllezPartFromOsmFeature } from '@/app/SetDestination'
 import Link from 'next/link'
 import useSetSearchParams from './useSetSearchParams'
 
-export default function FeatureLink({ feature: osmFeature }) {
+export default function FeatureLink({ feature }) {
 	const setSearchParams = useSetSearchParams()
 	return (
 		<Link
 			href={setSearchParams(
 				{
-					allez: buildAllezPartFromOsmFeature(osmFeature),
+					allez: buildAllezPartFromOsmFeature(feature),
 				},
 				true
 			)}
 		>
-			{osmFeature.tags.name}
+			{feature.tags.name}
 		</Link>
 	)
 }

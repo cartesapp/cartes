@@ -145,8 +145,8 @@ export default function Map(props) {
 			thumbnailUrl: wikidataPicture,
 			title: wikidata.pictureName, //could be better
 			fromWikidata: true,
-			lat: osmFeature.lat,
-			lon: osmFeature.lon,
+			lon: osmFeature.center.geometry.coordinates[0],
+			lat: osmFeature.center.geometry.coordinates[1],
 		}
 
 	useImageSearch(
@@ -328,10 +328,8 @@ export default function Map(props) {
 			vers,
 			tailoredZoom
 		)
-		if (osmFeature.polygon) {
-			console.log('blue osmFeature', osmFeature.polygon)
-
-			const bbox = getBbox(osmFeature.polygon)
+		if (osmFeature.geojson) {
+			const bbox = getBbox(osmFeature.geojson)
 			map.fitBounds(bbox, {
 				maxZoom: 17.5, // We don't want to zoom at door level for a place, just at street level
 			})
