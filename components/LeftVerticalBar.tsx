@@ -1,11 +1,17 @@
 import { styled } from 'next-yak'
 import Link from 'next/link'
 import useSetSearchParams from './useSetSearchParams'
+import LogoCarteApp from '@/app/PlaceSearch/_components/LogoCarteApp'
+import Image from 'next/image'
+import reduceLeftPanelIcon from '@/public/reduce-left-panel.svg'
 
 export default function LeftVerticalBar() {
 	const setSearchParams = useSetSearchParams()
 	return (
 		<Aside>
+			<button>
+				<Image src={reduceLeftPanelIcon} alt="Réduire le panneau de gauche" />
+			</button>
 			<AboutLink href={setSearchParams({ intro: true }, true)}>
 				<small>?</small>
 			</AboutLink>
@@ -42,4 +48,18 @@ const Aside = styled.aside`
 		2.6px 5.2px 6.5px -1.9px hsl(var(--shadow-color) / 0.29),
 		5px 10px 12.6px -2.5px hsl(var(--shadow-color) / 0.29);
 	box-shadow: var(--shadow-elevation-medium);
+
+	padding: 0.6rem 0.2rem;
+	button {
+		border: 0;
+		background: none;
+		margin: 0 auto;
+		padding: 0;
+		display: block;
+		opacity: 0.6;
+		img {
+			width: 1.2rem;
+			height: auto;
+		}
+	}
 `
