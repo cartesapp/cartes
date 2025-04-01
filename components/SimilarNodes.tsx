@@ -10,6 +10,7 @@ import categoryIconUrl from './categoryIconUrl'
 import { capitalise0, sortBy } from './utils/utils'
 
 export default function SimilarNodes({ node, similarNodes: features }) {
+	console.log('indigo debug', features)
 	const { tags } = node
 
 	const category = findCategory(tags)

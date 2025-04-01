@@ -118,7 +118,7 @@ export const osmRequest = async (featureType, id) => {
 			}
 		}
 
-		const element = elements.find((el) => el.id == featureId)
+		const element = elements.find((el) => el.id == id)
 		const adminCenter =
 				element && element.members?.find((el) => el.role === 'admin_centre'),
 			adminCenterNode =

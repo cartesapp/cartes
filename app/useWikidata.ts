@@ -8,7 +8,6 @@ import distance from '@turf/distance'
 // probably does not retrieve the wikidata tag
 // TODO retrieve more data ! Wikidata is rich
 export default function useWikidata(osmFeature, state) {
-	console.log('indigo debug', osmFeature)
 	const lonLat = osmFeature && osmFeature.center.geometry.coordinates
 
 	const [wikidata, setWikidata] = useState(null)
