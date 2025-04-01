@@ -1,13 +1,12 @@
 'use client'
+import shareIcon from '@/public/share.svg'
+import { css } from 'next-yak'
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { PlaceButton } from './PlaceButtonsUI'
-import { buildAllezPart } from './SetDestination'
-import { encodePlace } from './utils'
-import shareIcon from '@/public/share.svg'
-import Image from 'next/image'
-import { getFetchUrlBase } from './serverUrls'
+import { buildAllezPart, buildAllezPartFromOsmFeature } from './SetDestination'
 import getName from './osm/getName'
-import { css } from 'next-yak'
+import { getFetchUrlBase } from './serverUrls'
 
 export default function ShareButton({ osmFeature, geocodedClickedPoint }) {
 	const urlBase = getFetchUrlBase()
@@ -20,12 +19,7 @@ export default function ShareButton({ osmFeature, geocodedClickedPoint }) {
 	const url = encodeURI(
 		`${urlBase}/?allez=${
 			osmFeature
-				? buildAllezPart(
-						osmFeature.tags?.name,
-						encodePlace(osmFeature.type, osmFeature.id),
-						osmFeature.lon || osmFeature.longitude, // I dunno why, some osmFeature builder somewhere sets longitude but not lon; same for lat
-						osmFeature.lat || osmFeature.latitude
-				  )
+				? buildAllezPartFromOsmFeature(osmFeature)
 				: buildAllezPart(
 						'Point sur la carte',
 						null,

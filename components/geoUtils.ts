@@ -6,6 +6,7 @@ export const lonLatToPoint = (lon, lat) => ({
 		coordinates: [lon, lat],
 	},
 })
+
 export function featureCollectionFromOsmNodes(nodes) {
 	//console.log('yanodes', nodes)
 	const fc = {

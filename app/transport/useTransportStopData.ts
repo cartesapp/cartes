@@ -7,13 +7,12 @@ export default function useTransportStopData(osmFeature, gtfsStopIds) {
 
 	useEffect(() => {
 		if (gtfsStopIds || !osmFeature) return
-		const { lat, lon } = osmFeature
+		const [lon, lat] = osmFeature.center.geometry.coordinates
 		if (!lat || !lon) return
 
 		const doFetch = async () => {
 			try {
-				const url =
-					gtfsServerUrl + `/geoStops/${osmFeature.lat}/${osmFeature.lon}/50`
+				const url = gtfsServerUrl + `/geoStops/${lat}/${lon}/50`
 				const response = await fetch(url, {
 					mode: 'cors',
 				})
@@ -40,6 +39,7 @@ export default function useTransportStopData(osmFeature, gtfsStopIds) {
 		}
 		doFetch()
 	}, [setData, osmFeature, gtfsStopIds])
+
 	useEffect(() => {
 		if (!gtfsStopIds) return
 

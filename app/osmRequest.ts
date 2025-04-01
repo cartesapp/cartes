@@ -1,4 +1,3 @@
-import turfDistance from '@turf/distance'
 import { centerOfMass } from '@turf/turf'
 import osmToGeojson from 'osmtogeojson'
 import { isServer } from './serverUrls'
@@ -9,6 +8,14 @@ import {
 } from '@/components/geoUtils'
 import { encodePlace } from './utils'
 
+export const overpassFetchOptions = isServer
+	? {
+			headers: {
+				'User-Agent': 'Cartes.app',
+			},
+			next: { revalidate: 5 * 60 },
+	  }
+	: { cache: 'force-cache' }
 export const overpassRequestSuffix =
 	'https://overpass-api.de/api/interpreter?data='
 
@@ -24,59 +31,6 @@ const buildOverpassUrl = (
 			full ? '(._;>;);' : relations ? '<;' : ''
 		}out body${meta ? ` meta` : ''};`
 	)}`
-
-export const combinedOsmRequest = async (queries) => {
-	const requestBody = queries
-		.map((result) => {
-			const { osmId, featureType, latitude, longitude } = result
-
-			return `${featureType}(id:${osmId}); out body; `
-		})
-		.join('')
-
-	const requestString = `[out:json];${requestBody}`
-	const url = overpassRequestSuffix + encodeURIComponent(requestString)
-	console.log('OVERPASS1', url)
-	const request = await fetch(url, {
-		next: { revalidate: 5 * 60 },
-	})
-
-	const json = await request.json()
-
-	const { elements } = json
-
-	const results = queries
-		.map((query) => {
-			const found = elements.find(
-				(element) =>
-					query.osmId === element.id && query.featureType === element.type
-			)
-
-			if (!found) return false
-			const geoElement = {
-				...found,
-				lat: query.latitude,
-				lon: query.longitude,
-			}
-			return geoElement
-		})
-		.filter(Boolean)
-	console.log('requestString', requestString, results)
-
-	//TODO we don't handle housenumbers like in osmRequest, not sure we need this
-	//in this combinedOsmRequest function that is used to enrich photon search
-	//results with OSM tags
-	return results
-}
-
-export const overpassFetchOptions = isServer
-	? {
-			headers: {
-				'User-Agent': 'Cartes.app',
-			},
-			next: { revalidate: 5 * 60 },
-	  }
-	: { cache: 'force-cache' }
 
 export const osmRequest = async (featureType, id) => {
 	// Overpass requests for ways and relations necessitate "full" request mode
@@ -183,6 +137,7 @@ export const osmRequest = async (featureType, id) => {
 			center,
 			tags,
 			geojson,
+			elements,
 		}
 	} catch (e) {
 		console.error(
@@ -191,68 +146,6 @@ export const osmRequest = async (featureType, id) => {
 		)
 		return [{ id, failedRequest: true, featureType }]
 	}
-}
-
-export const disambiguateWayRelation = async (
-	presumedFeatureType,
-	id,
-	referenceLatLng,
-	noDisambiguation
-) => {
-	console.log(
-		'lightgreen disambiguateWayRelation, noDisambiguation : ',
-		noDisambiguation
-	)
-	if (noDisambiguation) {
-		const result = await osmRequest(presumedFeatureType, id, false)
-		return [result.length ? result[0] : null, presumedFeatureType]
-	}
-	if (presumedFeatureType === 'node') {
-		const result = await osmRequest('node', id, false)
-		return [result.length ? result[0] : null, 'node']
-	}
-
-	const request1 = await osmRequest('way', id, true)
-	const request2 = await osmRequest('relation', id, true)
-	if (request1.length && request2.length) {
-		// This is naïve, we take the first node, considering that the chances that the first node of the relation and way with same reconstructed id are close to our current location is extremely low
-		const node1 = request1.find((el) => el.type === 'node')
-		const node2 = request2.find((el) => el.type === 'node')
-		if (!node1)
-			return [request2.find((el) => el.type === 'relation'), 'relation']
-		if (!node2) {
-			const way = request1.find((el) => el.type === 'way')
-			const enrichedWay = enrichOsmFeatureWithPolygon(way, request1)
-
-			return [enrichedWay, 'way']
-		}
-		const reference = [referenceLatLng.lng, referenceLatLng.lat]
-		const distance1 = turfDistance([node1.lon, node1.lat], reference)
-		const distance2 = turfDistance([node2.lon, node2.lat], reference)
-		console.log(
-			'Ambiguous relation/node id, computing distances : ',
-			distance1,
-			distance2
-		)
-		if (distance1 < distance2) {
-			const way = request1.find((el) => el.type === 'way')
-			const enrichedWay = enrichOsmFeatureWithPolygon(way, request1)
-
-			return [enrichedWay, 'way']
-		}
-		return [request2.find((el) => el.type === 'relation'), 'relation']
-	}
-
-	if (!request1.length && request2.length)
-		return [request2.find((el) => el.type === 'relation'), 'relation']
-	if (!request2.length && request1.length) {
-		const way = request1.find((el) => el.type === 'way')
-		const enrichedWay = enrichOsmFeatureWithPolygon(way, request1)
-
-		return [enrichedWay, 'way']
-	}
-
-	return [null, null]
 }
 
 const buildWayPolygon = (way, elements) => {
@@ -317,4 +210,48 @@ export const enrichOsmFeatureWithPolygon = (element, elements) => {
 	const [lon, lat] = center.geometry.coordinates
 
 	return { ...element, lat, lon, polygon }
+}
+
+export const combinedOsmRequest = async (queries) => {
+	const requestBody = queries
+		.map((result) => {
+			const { osmId, featureType, latitude, longitude } = result
+
+			return `${featureType}(id:${osmId}); out body; `
+		})
+		.join('')
+
+	const requestString = `[out:json];${requestBody}`
+	const url = overpassRequestSuffix + encodeURIComponent(requestString)
+	console.log('OVERPASS1', url)
+	const request = await fetch(url, {
+		next: { revalidate: 5 * 60 },
+	})
+
+	const json = await request.json()
+
+	const { elements } = json
+
+	const results = queries
+		.map((query) => {
+			const found = elements.find(
+				(element) =>
+					query.osmId === element.id && query.featureType === element.type
+			)
+
+			if (!found) return false
+			const geoElement = {
+				...found,
+				lat: query.latitude,
+				lon: query.longitude,
+			}
+			return geoElement
+		})
+		.filter(Boolean)
+	console.log('requestString', requestString, results)
+
+	//TODO we don't handle housenumbers like in osmRequest, not sure we need this
+	//in this combinedOsmRequest function that is used to enrich photon search
+	//results with OSM tags
+	return results
 }

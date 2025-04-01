@@ -368,7 +368,10 @@ export default function PlaceSearch({
 											const { osmId, featureType, longitude, latitude, name } =
 												newData.choice
 
-											setChargement({ id: osmId, featureType, name })
+											setChargement({
+												osmCode: encodePlace(featureType, osmId),
+												name,
+											})
 
 											const address = buildAddress(newData.choice, true)
 											const isOsmFeature = osmId && featureType

@@ -8,14 +8,15 @@ import { computeHumanDistance } from './RouteRésumé'
 import { buildAddress } from '@/components/osm/buildAddress'
 
 export function buildAllezPartFromOsmFeature(osmFeature) {
-	const f = osmFeature
-	const hasTags = f.tags != null
+	const hasTags = osmFeature.tags != null
 
 	return buildAllezPart(
-		hasTags ? f.tags.name || buildAddress(f.tags) : 'Point sur la carte',
-		encodePlace(f.type, f.id),
-		f.lon,
-		f.lat
+		hasTags
+			? osmFeature.tags.name || buildAddress(osmFeature.tags)
+			: 'Point sur la carte',
+		osmFeature.osmCode,
+		osmFeature.center.geometry.coordinates[0],
+		osmFeature.center.geometry.coordinates[1]
 	)
 }
 

@@ -1,7 +1,7 @@
 import { buildAllezPart } from '@/app/SetDestination'
 import { clickableClasses } from '@/app/clickableLayers'
 import { createPolygon, createSearchBBox } from '@/app/createSearchPolygon'
-import { disambiguateWayRelation } from '@/app/osmRequest'
+import disambiguateWayRelation from '@/components/osm/disambiguateWayRelation'
 import { encodePlace } from '@/app/utils'
 import { replaceArrayIndex } from '@/components/utils/utils'
 import { useEffect } from 'react'
@@ -148,7 +148,7 @@ export default function useMapClick(
 
 			console.log('clicked name ', name)
 
-			setChargement({ id, featureType, name })
+			setChargement({ osmCode: encodePlace(featureType, id), name })
 			console.log('clicked name did set chargement', name)
 
 			const noDisambiguation = hasNwr
