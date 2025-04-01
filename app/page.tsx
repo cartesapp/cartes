@@ -55,11 +55,13 @@ export async function generateMetadata(
 	if (!step) return null
 
 	const osmFeature = step.osmFeature
+
 	//console.log('OSMFEATURE', osmFeature)
-	const { lat, lon } = osmFeature || {}
+	const [lon, lat] = osmFeature.center.geometry.coordinates
 
 	const tags = osmFeature?.tags || {}
 	const modifiedTime = osmFeature?.timestamp
+
 	const title = step.name || getName(tags),
 		descriptionFromOsm = buildDescription(step.osmFeature)
 

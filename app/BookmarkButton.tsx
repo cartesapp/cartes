@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { useLocalStorage } from 'usehooks-ts'
 import { PlaceButton } from './PlaceButtonsUI'
+import { decodePlace } from './utils'
 
 export const pointHash = (point) => point.geometry.coordinates.join('|')
 
@@ -13,18 +14,29 @@ export default function BookmarkButton({ geocodedClickedPoint, osmFeature }) {
 			initializeWithValue: false,
 		}
 	)
-	if (!osmFeature || !osmFeature.lon) return null
+	if (!osmFeature) return null
+	const {
+		center: {
+			geometry: {
+				coordinates: [lon, lat],
+			},
+		},
+		osmCode,
+	} = osmFeature
+
+	const [featureType, id] = decodePlace(osmCode)
+
 	const properties = geocodedClickedPoint
 		? geocodedClickedPoint.data?.features?.length > 0 &&
 		  geocodedClickedPoint.data.features[0].properties
-		: { ...(osmFeature.tags || {}), id: osmFeature.id, type: osmFeature.type }
+		: { ...(osmFeature.tags || {}), id, type: featureType }
 
 	const coordinates = geocodedClickedPoint
 		? [
 				geocodedClickedPoint.longitude.toFixed(4), // this is ~ 10 m precision, we don't want more than one bookmark every 10 meters
 				geocodedClickedPoint.latitude.toFixed(4),
 		  ]
-		: [osmFeature.lon.toFixed(4), osmFeature.lat.toFixed(4)]
+		: [lon.toFixed(4), lat.toFixed(4)]
 
 	const feature = {
 		type: 'Feature',

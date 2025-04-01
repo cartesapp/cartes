@@ -16,7 +16,7 @@ export const stepOsmRequest = async (point, state = [], geocode = false) => {
 			(point) =>
 				osmCode !== '' &&
 				point.osmCode === osmCode &&
-				!point.osmFeature?.failedServerOsmRequest
+				!point.osmFeature?.failedRequest
 		)
 	if (found) return found // already cached, don't make useless requests
 

@@ -112,7 +112,7 @@ export default function Content(props) {
 			: wikidataPictureUrl)
 
 	const content = [
-		osmFeature && !osmFeature.failedServerOsmRequest,
+		osmFeature && !osmFeature.failedRequest,
 		zoneImages,
 		bboxImages,
 		panoramaxImages,

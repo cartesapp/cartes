@@ -28,13 +28,13 @@ export function useFetchSimilarNodes(osmFeature, givenSimilarNodes) {
 
 	useEffect(() => {
 		const doFetch = async () => {
-			if (!osmFeature?.id) return
+			if (!osmFeature?.osmCode) return
 			const features = await fetchSimilarNodes(osmFeature)
 			setSimilarNodes(features)
 		}
 
 		doFetch()
-	}, [osmFeature?.id])
+	}, [osmFeature?.osmCode])
 
 	return similarNodes
 }

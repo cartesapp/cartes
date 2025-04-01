@@ -5,7 +5,14 @@ import { buildPlaceMap } from './components/buildPlaceMap'
 import fetchOgImage from './components/fetchOgImage'
 
 export default async function buildPlaceJsonLd(osmFeature, step) {
-	const { tags = {} } = osmFeature
+	const {
+		tags = {},
+		center: {
+			geometry: {
+				coordinates: [lon, lat],
+			},
+		},
+	} = osmFeature
 	const osmImage = tags.image || (await fetchOgImage(getUrl(tags)))
 
 	const { photonFeature } = step
@@ -16,7 +23,7 @@ export default async function buildPlaceJsonLd(osmFeature, step) {
 		'/?allez=' +
 		encodeURIComponent(buildAllezPartFromOsmFeature(osmFeature))
 
-	const image = osmImage || buildPlaceMap(osmFeature.lat, osmFeature.lon)
+	const image = osmImage || buildPlaceMap(lat, lon)
 
 	const result = {
 		'@context': 'https://schema.org',
@@ -52,8 +59,8 @@ export default async function buildPlaceJsonLd(osmFeature, step) {
 		},
 		geo: {
 			'@type': 'GeoCoordinates',
-			latitude: osmFeature.lat,
-			longitude: osmFeature.lon,
+			latitude: lat,
+			longitude: lon,
 		},
 		hasMap: 'https://cartes.app/',
 		telephone: tags['phone'] || tags['contact:phone'] || tags['contact:mobile'],

@@ -311,6 +311,7 @@ const draw = (
 			200
 		)
 
+		//TODO not sure this works with our osmFeature refacto
 		// on charge les données et on les affiche ?
 		const osmFeature = { ...properties, tags }
 		console.log(

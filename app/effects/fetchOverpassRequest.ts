@@ -137,7 +137,8 @@ export const fetchSimilarNodes = async (osmFeature) => {
 
 	if (!category) return null
 
-	const bbox = computeBbox(osmFeature)
+	const [lon, lat] = osmFeature.center.geometry.coordinates
+	const bbox = computeBbox({ lat, lon })
 	const similarNodes = await fetchOverpassRequest(bbox, category)
 
 	return similarNodes

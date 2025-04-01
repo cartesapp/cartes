@@ -157,21 +157,19 @@ export default function PlaceSearch({
 					if (!results?.length) return
 					console.log('indigo res', results)
 
-					const osmFeature = sortBy(
+					const osmElement = sortBy(
 						({ lon, lat }) => -computeDistance(center, [lon, lat])
 					)(results.filter((element) => element.type === 'relation'))[0]
 
-					const centerId = osmFeature.members.find(
+					const centerId = osmElement.members.find(
 						(element) => element.role === 'admin_centre'
 					).ref
 
 					const center = results.find((result) => result.id === centerId)
 
-					console.log('indigo res', osmFeature, center)
-
 					const allez = buildAllezPart(
-						osmFeature.tags?.name,
-						encodePlace(osmFeature.type, osmFeature.id),
+						osmElement.tags?.name,
+						encodePlace(osmElement.type, osmElement.id),
 						center.lon,
 						center.lat
 					)

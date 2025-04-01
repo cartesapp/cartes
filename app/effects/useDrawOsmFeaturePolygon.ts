@@ -6,7 +6,7 @@ export default function useDrawOsmFeaturePolygon(
 	osmFeature,
 	safeStyleKey
 ) {
-	const code = osmFeature?.id
+	const code = osmFeature?.osmCode
 	const features = useMemo(() => (osmFeature ? [osmFeature] : []), [code])
 	const category = useMemo(
 		() => ({
