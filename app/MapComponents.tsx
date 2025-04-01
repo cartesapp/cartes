@@ -6,6 +6,7 @@ import useDrawOsmFeaturePolygon from './effects/useDrawOsmFeaturePolygon'
 import useDrawTransportAreas from './effects/useDrawTransportAreas'
 import { AddTerrain } from './styles/TerrainChooser'
 import { defaultAgencyFilter } from './transport/AgencyFilter'
+import { homeMadeTerrainStyles } from './styles/styles'
 
 // These hooks won't need to handle an undefined "map" object
 function MapComponents({
@@ -56,8 +57,10 @@ function MapComponents({
 					/>
 				</>
 			)}
-			{safeStyleKey === 'france' && (
-				<AddTerrain {...{ map, active: searchParams.relief }} />
+			{homeMadeTerrainStyles.includes(safeStyleKey) && (
+				<AddTerrain
+					{...{ map, active: searchParams.relief, styleKey: safeStyleKey }}
+				/>
 			)}
 		</>
 	)
