@@ -183,7 +183,7 @@ export const disambiguateWayRelation = async (
 			return [request2.find((el) => el.type === 'relation'), 'relation']
 		if (!node2) {
 			const way = request1.find((el) => el.type === 'way')
-			const enrichedWay = enrichOsmFeatureWithPolyon(way, request1)
+			const enrichedWay = enrichOsmFeatureWithPolygon(way, request1)
 
 			return [enrichedWay, 'way']
 		}
@@ -197,7 +197,7 @@ export const disambiguateWayRelation = async (
 		)
 		if (distance1 < distance2) {
 			const way = request1.find((el) => el.type === 'way')
-			const enrichedWay = enrichOsmFeatureWithPolyon(way, request1)
+			const enrichedWay = enrichOsmFeatureWithPolygon(way, request1)
 
 			return [enrichedWay, 'way']
 		}
@@ -208,7 +208,7 @@ export const disambiguateWayRelation = async (
 		return [request2.find((el) => el.type === 'relation'), 'relation']
 	if (!request2.length && request1.length) {
 		const way = request1.find((el) => el.type === 'way')
-		const enrichedWay = enrichOsmFeatureWithPolyon(way, request1)
+		const enrichedWay = enrichOsmFeatureWithPolygon(way, request1)
 
 		return [enrichedWay, 'way']
 	}
@@ -250,7 +250,7 @@ const buildRelationMultiPolygon = (relation, elements) => {
 }
 */
 
-export const enrichOsmFeatureWithPolyon = (element, elements) => {
+export const enrichOsmFeatureWithPolygon = (element, elements) => {
 	const polygon =
 		element.type === 'way'
 			? buildWayPolygon(element, elements)

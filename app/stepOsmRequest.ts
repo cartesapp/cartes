@@ -1,6 +1,6 @@
 import { geocodeGetAddress } from '@/components/geocodeLatLon'
 import { centerOfMass } from '@turf/turf'
-import { enrichOsmFeatureWithPolyon, osmRequest } from './osmRequest'
+import { enrichOsmFeatureWithPolygon, osmRequest } from './osmRequest'
 import { isServer } from './serverUrls'
 import { decodePlace } from './utils'
 
@@ -80,7 +80,7 @@ export const stepOsmRequest = async (point, state = [], geocode = false) => {
 		*/
 		const polygon =
 			['way', 'relation'].includes(element.type) &&
-			enrichOsmFeatureWithPolyon(element, elements).polygon
+			enrichOsmFeatureWithPolygon(element, elements).polygon
 		return { ...element, lat: nodeCenter[1], lon: nodeCenter[0], polygon }
 	}
 	const osmFeature = await request()

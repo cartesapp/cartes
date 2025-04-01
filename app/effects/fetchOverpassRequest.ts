@@ -1,7 +1,7 @@
 import categories from '@/app/categories.yaml'
 import { filteredMoreCategories as moreCategories } from '@/components/categories'
 import {
-	enrichOsmFeatureWithPolyon,
+	enrichOsmFeatureWithPolygon,
 	overpassFetchOptions,
 	overpassRequestSuffix,
 } from '@/app/osmRequest'
@@ -52,7 +52,7 @@ export const overpassResultsToGeojson = (json) => {
 	)
 	const nodeElements = interestingElements.map((element) => {
 		if (element.type === 'node') return element
-		return enrichOsmFeatureWithPolyon(element, json.elements)
+		return enrichOsmFeatureWithPolygon(element, json.elements)
 	})
 	return nodeElements
 }
