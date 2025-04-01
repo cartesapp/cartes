@@ -6,6 +6,7 @@ import { decodePlace } from './utils'
 
 export const stepOsmRequest = async (point, state = [], geocode = false) => {
 	if (!point || point === '') return null
+	// those constitute the encoding of a place in the "allez" url query param
 	const [name, osmCode, longitude, latitude] = point.split('|')
 
 	console.log('lightgreen will enrichState', { isServer }, state)
@@ -23,10 +24,12 @@ export const stepOsmRequest = async (point, state = [], geocode = false) => {
 
 	const request = async () => {
 		console.log('Preparing OSM request ', featureType, featureId)
+		// Overpass requests for ways and relations necessitate "full" request mode
+		// to be able to rebuild its shape based on its node and ways elements
 		const full = ['way', 'relation'].includes(featureType)
 		const isNode = featureType === 'node'
 		if (!isNode && !full)
-			return console.log(
+			return console.error(
 				"This OSM feature is neither a node, a relation or a way, we don't know how to handle it"
 			)
 

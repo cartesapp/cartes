@@ -82,6 +82,13 @@ export const osmRequest = async (featureType, id, full) => {
 		full
 	)
 
+	// We're setting up a local OSM api based on osm2psql
+	// that enables bypassing overpass, which is quite a slow
+	// software... well at least the main and only online overpass API, .de
+	// (it may be under heavy load)
+	//
+	// But these requests can fail for some features, hence the fallback call
+	// hereafter
 	const directElement = await osmApiRequest(featureType, id)
 
 	if (
@@ -89,49 +96,11 @@ export const osmRequest = async (featureType, id, full) => {
 		directElement !== 404 &&
 		!directElement.failedServerOsmRequest
 	) {
-		if (directElement.type === 'FeatureCollection') {
-			alert('fc')
-		}
-		const {
-			properties: { tags },
-			geometry: { type, coordinates },
-		} = directElement
-
-		if (type === 'Point') {
-			console.log('lightgreen success with OSM API')
-			return [
-				{
-					...directElement,
-					type: directElement.properties.featureType,
-					lon: coordinates[0],
-					lat: coordinates[1],
-					tags,
-					name: tags && tags.name,
-				},
-			]
-		}
-
-		if (type === 'Polygon') {
-			const center = centerOfMass(directElement)
-			return [
-				{
-					...directElement,
-					type: directElement.properties.featureType,
-					center,
-					tags,
-					name: tags && tags.name,
-					feature: directElement,
-				},
-			]
-		} else {
-			console.log(
-				'lightgreen got an element with OSM API but no geometry',
-				directElement
-			)
-		}
+		return directElement
 	}
 
 	const url = buildOverpassUrl(featureType, id, full)
+
 	try {
 		const request = await fetch(url, overpassFetchOptions)
 		if (!request.ok) {
@@ -148,6 +117,8 @@ export const osmRequest = async (featureType, id, full) => {
 				const tags = elements[0].tags || {}
 				// handle this use case https://wiki.openstreetmap.org/wiki/Relation:associatedStreet
 				// example : https://www.openstreetmap.org/node/3663795073
+				// TODO this is broken, test and repair it, taking into account the new
+				// format of the state feature
 				if (tags['addr:housenumber'] && !tags['addr:street']) {
 					const relationRequest = await fetch(
 						buildOverpassUrl(featureType, id, false, true),
@@ -172,7 +143,7 @@ export const osmRequest = async (featureType, id, full) => {
 			'Probably a network error fetching OSM feature via Overpass',
 			e
 		)
-		return [{ id, failedServerOsmRequest: true, type: featureType }]
+		return [{ id, failedServerOsmRequest: true, featureType }]
 	}
 }
 

@@ -1,4 +1,6 @@
 import { getFetchUrlBase } from '@/app/serverUrls'
+import { encodePlace } from '@/app/utils'
+import { centerOfMass } from '@turf/turf'
 
 export default async function osmApiRequest(featureType, id) {
 	try {
@@ -13,17 +15,62 @@ export default async function osmApiRequest(featureType, id) {
 		if (!request.ok) {
 			console.log('lightgreen request not ok', request)
 
-			return [{ id, failedServerOsmRequest: true, type: featureType }]
+			return [{ id, failedServerOsmRequest: true, featureType }]
 		}
 
 		const json = await request.json()
 
-		return json
+		if (json.type === 'FeatureCollection') {
+			console.error('FeatureCollections from /api/osm are not handled yet')
+		}
+		const {
+			properties: { tags },
+			geometry: { type, coordinates },
+		} = json
+
+		const osmCode = encodePlace(featureType, id)
+
+		if (type === 'Point') {
+			console.log('lightgreen success with OSM API')
+			return [
+				{
+					osmCode,
+					featureType,
+					id,
+					center: json,
+					geojson: json,
+					tags,
+					name: tags && tags.name,
+				},
+			]
+		}
+
+		if (type === 'Polygon') {
+			const center = centerOfMass(json)
+			return [
+				{
+					osmCode,
+					featureType,
+					id,
+					center,
+					tags,
+					name: tags && tags.name,
+					geojson: json,
+				},
+			]
+		} else {
+			console.log(
+				'lightgreen got an element with OSM API but no geometry',
+				json
+			)
+
+			return null
+		}
 	} catch (e) {
 		console.error(
 			'Probably a network error fetching OSM feature via Overpass',
 			e
 		)
-		return [{ id, failedServerOsmRequest: true, type: featureType }]
+		return [{ id, failedServerOsmRequest: true, featureType }]
 	}
 }
