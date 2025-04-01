@@ -1,16 +1,31 @@
+import reduceLeftPanelIcon from '@/public/reduce-left-panel.svg'
+import openLeftPanelIcon from '@/public/open-left-panel.svg'
 import { styled } from 'next-yak'
+import Image from 'next/image'
 import Link from 'next/link'
 import useSetSearchParams from './useSetSearchParams'
-import LogoCarteApp from '@/app/PlaceSearch/_components/LogoCarteApp'
-import Image from 'next/image'
-import reduceLeftPanelIcon from '@/public/reduce-left-panel.svg'
 
-export default function LeftVerticalBar() {
+export default function LeftVerticalBar({
+	layoutPreferences,
+	setLayoutPreferences,
+}) {
+	const { leftPanelOpen } = layoutPreferences
+
 	const setSearchParams = useSetSearchParams()
 	return (
 		<Aside>
-			<button>
-				<Image src={reduceLeftPanelIcon} alt="Réduire le panneau de gauche" />
+			<button
+				onClick={() => {
+					setLayoutPreferences((preferences) => ({
+						...preferences,
+						leftPanelOpen: !preferences.leftPanelOpen,
+					}))
+				}}
+			>
+				<Image
+					src={leftPanelOpen ? reduceLeftPanelIcon : openLeftPanelIcon}
+					alt="Réduire l'encart"
+				/>
 			</button>
 			<AboutLink href={setSearchParams({ intro: true }, true)}>
 				<small>?</small>
