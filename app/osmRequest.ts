@@ -89,6 +89,9 @@ export const osmRequest = async (featureType, id, full) => {
 		directElement !== 404 &&
 		!directElement.failedServerOsmRequest
 	) {
+		if (directElement.type === 'FeatureCollection') {
+			alert('fc')
+		}
 		const {
 			properties: { tags },
 			geometry: { type, coordinates },
@@ -106,6 +109,25 @@ export const osmRequest = async (featureType, id, full) => {
 					name: tags && tags.name,
 				},
 			]
+		}
+
+		if (type === 'Polygon') {
+			const center = centerOfMass(directElement)
+			return [
+				{
+					...directElement,
+					type: directElement.properties.featureType,
+					center,
+					tags,
+					name: tags && tags.name,
+					feature: directElement,
+				},
+			]
+		} else {
+			console.log(
+				'lightgreen got an element with OSM API but no geometry',
+				directElement
+			)
 		}
 	}
 

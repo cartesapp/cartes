@@ -329,6 +329,8 @@ export default function Map(props) {
 			tailoredZoom
 		)
 		if (osmFeature.polygon) {
+			console.log('blue osmFeature', osmFeature.polygon)
+
 			const bbox = getBbox(osmFeature.polygon)
 			map.fitBounds(bbox, {
 				maxZoom: 17.5, // We don't want to zoom at door level for a place, just at street level

@@ -54,14 +54,15 @@ export const stepOsmRequest = async (point, state = [], geocode = false) => {
 				name,
 			}
 
-		const relation = elements.find((el) => el.id == featureId),
-			adminCenter =
-				relation && relation.members?.find((el) => el.role === 'admin_centre'),
+		const adminCenter =
+				element && element.members?.find((el) => el.role === 'admin_centre'),
 			adminCenterNode =
 				adminCenter && elements.find((el) => el.id == adminCenter.ref)
 
 		//console.log('admincenter', relation, adminCenter, adminCenterNode)
-		const nodeCenter = adminCenterNode
+		const nodeCenter = element.center
+			? element.center.geometry.coordinates
+			: adminCenterNode
 			? [adminCenterNode.lon, adminCenterNode.lat]
 			: !full
 			? [element.lon, element.lat]
@@ -79,9 +80,19 @@ export const stepOsmRequest = async (point, state = [], geocode = false) => {
 		)
 		*/
 		const polygon =
-			['way', 'relation'].includes(element.type) &&
-			enrichOsmFeatureWithPolygon(element, elements).polygon
-		return { ...element, lat: nodeCenter[1], lon: nodeCenter[0], polygon }
+			element.feature?.geometry.type === 'Polygon'
+				? element.feature
+				: ['way', 'relation'].includes(element.type) &&
+				  enrichOsmFeatureWithPolygon(element, elements).polygon
+
+		const result = {
+			...element,
+			lat: nodeCenter[1],
+			lon: nodeCenter[0],
+			polygon,
+		}
+		console.log('lightgreen polygon', result)
+		return result
 	}
 	const osmFeature = await request()
 
