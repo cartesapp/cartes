@@ -22,10 +22,11 @@ export default function LeftVerticalBar() {
 const AboutLink = styled(Link)`
 	float: right;
 	position: absolute;
-	color: var(--lighterColor);
+	color: var(--color);
 	padding: 0rem 0.3rem 0.05rem 0.3rem;
 	line-height: 1.1rem;
-	border: 2px solid var(--lighterColor);
+	border: 2px solid var(--color);
+	opacity: 0.6;
 	border-radius: 2rem;
 	left: 0.8rem;
 	font-weight: bold;
