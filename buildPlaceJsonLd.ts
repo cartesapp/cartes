@@ -4,7 +4,7 @@ import { getFetchUrlBase } from './app/serverUrls'
 import { buildPlaceMap } from './components/buildPlaceMap'
 import fetchOgImage from './components/fetchOgImage'
 
-export default async function buildPlaceJsonLd(osmFeature, step) {
+export default async function buildPlaceJsonLd(step) {
 	const {
 		tags = {},
 		center: {
@@ -12,16 +12,16 @@ export default async function buildPlaceJsonLd(osmFeature, step) {
 				coordinates: [lon, lat],
 			},
 		},
-	} = osmFeature
+		photonFeature,
+	} = step
 	const osmImage = tags.image || (await fetchOgImage(getUrl(tags)))
 
-	const { photonFeature } = step
 	const addressProperties = photonFeature && photonFeature.properties
 
 	const url =
 		getFetchUrlBase() +
 		'/?allez=' +
-		encodeURIComponent(buildAllezPartFromOsmFeature(osmFeature))
+		encodeURIComponent(buildAllezPartFromOsmFeature(step))
 
 	const image = osmImage || buildPlaceMap(lat, lon)
 

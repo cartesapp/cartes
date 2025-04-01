@@ -13,9 +13,9 @@ export default async function osmApiRequest(featureType, id) {
 		}
 
 		if (!request.ok) {
-			console.log('lightgreen request not ok', request)
+			console.log('lightgreen request not ok osm api', request)
 
-			return [{ id, failedRequest: true, featureType }]
+			return [{ id, requestState: 'fail', featureType }]
 		}
 
 		const json = await request.json()
@@ -40,6 +40,7 @@ export default async function osmApiRequest(featureType, id) {
 					center: json,
 					geojson: json,
 					tags,
+					requestState: 'success',
 				},
 			]
 		}
@@ -54,6 +55,7 @@ export default async function osmApiRequest(featureType, id) {
 					center,
 					tags,
 					geojson: json,
+					requestState: 'success',
 				},
 			]
 		} else {
@@ -66,9 +68,9 @@ export default async function osmApiRequest(featureType, id) {
 		}
 	} catch (e) {
 		console.error(
-			'Probably a network error fetching OSM feature via Overpass',
+			'Probably a network error fetching OSM feature via our API',
 			e
 		)
-		return [{ id, failedRequest: true, featureType }]
+		return [{ id, requestState: 'failed', featureType }]
 	}
 }

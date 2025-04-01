@@ -53,7 +53,6 @@ export default function Map(props) {
 		vers,
 		target,
 		zoom,
-		osmFeature,
 		isTransportsMode,
 		transportsData,
 		agencyAreas,
@@ -141,12 +140,13 @@ export default function Map(props) {
 	const wikidataPicture = wikidata?.pictureUrl
 
 	const wikidataPictureObject = wikidataPicture &&
-		osmFeature && {
+		vers &&
+		vers.requestState === 'success' && {
 			thumbnailUrl: wikidataPicture,
 			title: wikidata.pictureName, //could be better
 			fromWikidata: true,
-			lon: osmFeature.center.geometry.coordinates[0],
-			lat: osmFeature.center.geometry.coordinates[1],
+			lon: vers.center.geometry.coordinates[0],
+			lat: vers.center.geometry.coordinates[1],
 		}
 
 	useImageSearch(
@@ -314,7 +314,7 @@ export default function Map(props) {
 	 *
 	 * */
 	useEffect(() => {
-		if (!map || !vers || !osmFeature) return
+		if (!map || !vers) return
 		if (stepsLength > 1) return
 
 		const tailoredZoom = //TODO should be defined by the feature's polygon if any
@@ -328,8 +328,8 @@ export default function Map(props) {
 			vers,
 			tailoredZoom
 		)
-		if (osmFeature.geojson) {
-			const bbox = getBbox(osmFeature.geojson)
+		if (vers.geojson) {
+			const bbox = getBbox(vers.geojson)
 			map.fitBounds(bbox, {
 				maxZoom: 17.5, // We don't want to zoom at door level for a place, just at street level
 			})
@@ -352,7 +352,6 @@ export default function Map(props) {
 	}, [
 		map,
 		vers,
-		osmFeature,
 		stepsLength,
 		autoPitchPreferenceIsNo,
 		setAutoPitchPreference,

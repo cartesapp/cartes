@@ -178,22 +178,20 @@ export default function Container(props) {
 		if (
 			state.find(
 				(step) =>
-					step.osmFeature && step.osmFeature.osmCode == chargement.osmCode
+					step.requestState === 'success' && step.osmCode == chargement.osmCode
 			)
 		) {
 			setChargement(null)
 		}
 	}, [chargement, setChargement, state])
 
-	const osmFeature = vers?.osmFeature
+	const similarNodes = useFetchSimilarNodes(vers, givenSimilarNodes)
 
-	const similarNodes = useFetchSimilarNodes(osmFeature, givenSimilarNodes)
-
-	const wikidata = useWikidata(osmFeature, state)
+	const wikidata = useWikidata(vers, state)
 	const [wikipediaInfoboxImages, resetWikipediaInfoboxImages] =
-		useWikipediaInfoboxImages(osmFeature, state)
+		useWikipediaInfoboxImages(vers, state)
 
-	const panoramaxOsmTag = osmFeature?.tags?.panoramax
+	const panoramaxOsmTag = vers?.tags?.panoramax
 
 	const panoramaxId = searchParams.panoramax
 	const [zoneImages, panoramaxImages, resetZoneImages] = useZoneImages({
@@ -203,7 +201,7 @@ export default function Container(props) {
 		panoramaxId,
 	})
 
-	const transportStopData = useTransportStopData(osmFeature)
+	const transportStopData = useTransportStopData(vers)
 	const clickedStopData = useMemo(
 		() => transportStopData[0] || [],
 		[transportStopData]
@@ -291,7 +289,6 @@ export default function Container(props) {
 						bbox: debouncedBbox,
 						focusImage,
 						vers,
-						osmFeature,
 						similarNodes,
 						quickSearchFeaturesMap,
 						containerRef,
@@ -322,7 +319,6 @@ export default function Container(props) {
 						state,
 						vers,
 						target,
-						osmFeature,
 						zoom,
 						isTransportsMode,
 						transportsData,

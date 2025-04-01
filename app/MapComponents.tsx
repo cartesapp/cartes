@@ -22,7 +22,7 @@ function MapComponents({
 }) {
 	//useDrawCycleHighways(map) now from pmtiles in france.ts
 	useDrawBookmarks(map)
-	useDrawOsmFeaturePolygon(map, vers?.osmFeature, safeStyleKey)
+	useDrawOsmFeaturePolygon(map, vers, safeStyleKey)
 
 	return (
 		<>

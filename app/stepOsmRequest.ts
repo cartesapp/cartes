@@ -16,7 +16,7 @@ export const stepOsmRequest = async (point, state = [], geocode = false) => {
 			(point) =>
 				osmCode !== '' &&
 				point.osmCode === osmCode &&
-				!point.osmFeature?.failedRequest
+				!point.requestState === 'fail'
 		)
 	if (found) return found // already cached, don't make useless requests
 
@@ -44,14 +44,10 @@ export const stepOsmRequest = async (point, state = [], geocode = false) => {
 	}
 
 	if (!geocode) return result
-	//TODO what is this ? Who needs its ?
-	return
-	if (!osmFeature) return result
 
 	const [photonAddress, photonFeature] = await geocodeGetAddress(
 		result.latitude,
-		result.longitude,
-		osmFeature.id
+		result.longitude
 	)
 	return { ...result, photonAddress, photonFeature }
 }
