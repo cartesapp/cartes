@@ -65,9 +65,9 @@ export const removeStatePart = (key: string | number, state: Array<object>) =>
 		.map(
 			(part, index) =>
 				part != null &&
-				((typeof key === 'string' ? part.key === key : index === key)
+				((typeof key === 'string' ? part.allezValue === key : index === key)
 					? false
-					: part.key)
+					: part.allezValue)
 		)
 		.filter(Boolean)
 		.join('->')
@@ -81,10 +81,10 @@ export const setAllezPart = (
 
 	const allez = state
 		.map((part, index) =>
-			(typeof key === 'string' ? part.key === key : index === key)
+			(typeof key === 'string' ? part.allezValue === key : index === key)
 				? value
 				: part
-				? part.key
+				? part.allezValue
 				: ''
 		)
 		.join('->')

@@ -144,12 +144,15 @@ export default function Content(props) {
 
 	const hasDestination = osmFeature || geocodedClickedPoint
 
-	const nullEntryInState = state.findIndex((el) => el == null || el.key == null)
+	const nullEntryInState = state.findIndex(
+		(el) => el == null || el.allezValue == null
+	)
 	const hasNullEntryInState = nullEntryInState > -1
 
 	const isItineraryModeNoSteps =
 		itinerary.isItineraryMode &&
-		(state.length === 0 || !state.find((step) => step?.choice || step?.key))
+		(state.length === 0 ||
+			!state.find((step) => step?.choice || step?.allezValue))
 
 	const beingSearchedIndex = state?.findIndex(
 			(step) => step?.stepBeingSearched

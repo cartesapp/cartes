@@ -136,7 +136,7 @@ export default function useDrawItinerary(
 					? beingSearchedIndex
 					: state.length === 0
 					? 0
-					: state.findIndex((step) => step == null || !step.key),
+					: state.findIndex((step) => step == null || !step.allezValue),
 			awaitingNewStep = stepIndexToEdit != null
 		const onClick = (e) => {
 			const distancePointsLayer = map.getLayer('distancePoints')
@@ -149,8 +149,8 @@ export default function useDrawItinerary(
 
 			// If a feature was clicked, remove it from the map
 			if (features?.length) {
-				const key = features[0].properties.key
-				setSearchParams({ allez: removeStatePart(key, state) })
+				const allezValue = features[0].properties.allezValue
+				setSearchParams({ allez: removeStatePart(allezValue, state) })
 			} else {
 				if (!awaitingNewStep) return
 				const allezPart = buildAllezPart(
@@ -168,7 +168,7 @@ export default function useDrawItinerary(
 				}
 				const allez = state
 					.map((step, index) =>
-						index === stepIndexToEdit ? allezPart : step.key
+						index === stepIndexToEdit ? allezPart : step.allezValue
 					)
 					.join('->')
 
@@ -258,7 +258,7 @@ export const useMemoPointsFromState = (state) => {
 		const points = state
 			.map((step, index) => {
 				if (step == null || !(step.latitude && step.longitude)) return
-				const { longitude, latitude, key, stepBeingSearched } = step
+				const { longitude, latitude, allezValue, stepBeingSearched } = step
 				return {
 					type: 'Feature',
 					geometry: {
@@ -266,7 +266,7 @@ export const useMemoPointsFromState = (state) => {
 						coordinates: [+longitude, +latitude],
 					},
 					properties: {
-						key,
+						allezValue,
 						letter: letterFromIndex(index),
 						stepBeingSearched,
 					},

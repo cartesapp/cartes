@@ -91,7 +91,7 @@ export default function Map(props) {
 	useWhatChanged(props, 'Render component Map')
 
 	const mapContainerRef = useRef(null)
-	const stepsLength = state.filter((step) => step?.key).length
+	const stepsLength = state.filter((step) => step?.allezValue).length
 	const [autoPitchPreference, setAutoPitchPreference] = useLocalStorage(
 		'autoPitchPreference',
 		null,

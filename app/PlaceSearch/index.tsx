@@ -190,7 +190,7 @@ export default function PlaceSearch({
 					: {}),
 				...(searchValue === '' ? {} : { inputValue: searchValue }),
 				stepBeingSearched: oldStateEntry?.stepBeingSearched,
-				key: oldStateEntry?.key,
+				allezValue: oldStateEntry?.allezValue,
 			}
 			const safeStateEntry =
 				Object.keys(stateEntry).length > 0 ? stateEntry : null

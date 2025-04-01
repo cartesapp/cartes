@@ -3,6 +3,11 @@ import { centerOfMass } from '@turf/turf'
 import osmToGeojson from 'osmtogeojson'
 import { isServer } from './serverUrls'
 import osmApiRequest from '@/components/osm/osmApiRequest'
+import {
+	featureCollectionFromOsmNodes,
+	lonLatToPoint,
+} from '@/components/geoUtils'
+import { encodePlace } from './utils'
 
 export const overpassRequestSuffix =
 	'https://overpass-api.de/api/interpreter?data='
@@ -73,7 +78,16 @@ export const overpassFetchOptions = isServer
 	  }
 	: { cache: 'force-cache' }
 
-export const osmRequest = async (featureType, id, full) => {
+export const osmRequest = async (featureType, id) => {
+	// Overpass requests for ways and relations necessitate "full" request mode
+	// to be able to rebuild its shape based on its node and ways elements
+	const full = ['way', 'relation'].includes(featureType)
+	const isNode = featureType === 'node'
+	if (!isNode && !full)
+		return console.error(
+			"This OSM feature is neither a node, a relation or a way, we don't know how to handle it"
+		)
+
 	console.log(
 		'lightgreen will make OSM request',
 		featureType,
@@ -91,11 +105,7 @@ export const osmRequest = async (featureType, id, full) => {
 	// hereafter
 	const directElement = await osmApiRequest(featureType, id)
 
-	if (
-		directElement &&
-		directElement !== 404 &&
-		!directElement.failedServerOsmRequest
-	) {
+	if (directElement && directElement !== 404 && !directElement.failedRequest) {
 		return directElement
 	}
 
@@ -106,15 +116,18 @@ export const osmRequest = async (featureType, id, full) => {
 		if (!request.ok) {
 			console.log('lightgreen request not ok', request)
 
-			return [{ id, failedServerOsmRequest: true, type: featureType }]
+			return [{ id, failedRequest: true, type: featureType }]
 		}
 		const json = await request.json()
 
 		const elements = json.elements
 
+		if (!elements.length) return
+
 		if (featureType === 'node' && elements.length === 1) {
 			try {
-				const tags = elements[0].tags || {}
+				const [element] = elements
+				const tags = element.tags || {}
 				// handle this use case https://wiki.openstreetmap.org/wiki/Relation:associatedStreet
 				// example : https://www.openstreetmap.org/node/3663795073
 				// TODO this is broken, test and repair it, taking into account the new
@@ -132,18 +145,51 @@ export const osmRequest = async (featureType, id, full) => {
 					if (type === 'associatedStreet') {
 						return [{ ...elements[0], tags: { ...tags, 'addr:street': name } }]
 					}
+				} else {
+					const center = lonLatToPoint(element.lon, element.lat)
+					return {
+						osmCode: encodePlace(featureType, id),
+						center,
+						tags,
+						geojson: center,
+					}
 				}
 			} catch (e) {
 				return elements
 			}
 		}
-		return elements
+
+		const element = elements.find((el) => el.id == featureId)
+		const adminCenter =
+				element && element.members?.find((el) => el.role === 'admin_centre'),
+			adminCenterNode =
+				adminCenter && elements.find((el) => el.id == adminCenter.ref)
+
+		//console.log('admincenter', relation, adminCenter, adminCenterNode)
+		const center = adminCenterNode
+			? lonLatToPoint(adminCenterNode.lon, adminCenterNode.lat)
+			: centerOfMass(
+					featureCollectionFromOsmNodes(
+						elements.filter((el) => el.lat && el.lon)
+					)
+			  )
+
+		const { tags } = element
+
+		const geojson = enrichOsmFeatureWithPolygon(element, elements).polygon
+
+		return {
+			osmCode: encodePlace(featureType, id),
+			center,
+			tags,
+			geojson,
+		}
 	} catch (e) {
 		console.error(
 			'Probably a network error fetching OSM feature via Overpass',
 			e
 		)
-		return [{ id, failedServerOsmRequest: true, featureType }]
+		return [{ id, failedRequest: true, featureType }]
 	}
 }
 

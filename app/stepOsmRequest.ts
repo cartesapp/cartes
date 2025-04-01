@@ -3,6 +3,7 @@ import { centerOfMass } from '@turf/turf'
 import { enrichOsmFeatureWithPolygon, osmRequest } from './osmRequest'
 import { isServer } from './serverUrls'
 import { decodePlace } from './utils'
+import { lonLatToPoint } from '@/components/geoUtils'
 
 export const stepOsmRequest = async (point, state = [], geocode = false) => {
 	if (!point || point === '') return null
@@ -22,93 +23,31 @@ export const stepOsmRequest = async (point, state = [], geocode = false) => {
 
 	const [featureType, featureId] = decodePlace(osmCode)
 
-	const request = async () => {
-		console.log('Preparing OSM request ', featureType, featureId)
-		// Overpass requests for ways and relations necessitate "full" request mode
-		// to be able to rebuild its shape based on its node and ways elements
-		const full = ['way', 'relation'].includes(featureType)
-		const isNode = featureType === 'node'
-		if (!isNode && !full)
-			return console.error(
-				"This OSM feature is neither a node, a relation or a way, we don't know how to handle it"
-			)
+	const element = await osmRequest(featureType, featureId)
 
-		const elements = await osmRequest(featureType, featureId, full)
-
-		if (!elements.length) return
-		/*
-		console.log(
-			'OSM elements received',
-			elements,
-			' for ',
-			featureType,
-			featureId
-		)
-		*/
-
-		const element = elements.find((el) => el.id == featureId)
-
-		if (element.failedServerOsmRequest)
-			return {
-				...element,
-				osmCode,
-				longitude: longitude,
-				latitude: latitude,
-				name,
-			}
-
-		const adminCenter =
-				element && element.members?.find((el) => el.role === 'admin_centre'),
-			adminCenterNode =
-				adminCenter && elements.find((el) => el.id == adminCenter.ref)
-
-		//console.log('admincenter', relation, adminCenter, adminCenterNode)
-		const nodeCenter = element.center
-			? element.center.geometry.coordinates
-			: adminCenterNode
-			? [adminCenterNode.lon, adminCenterNode.lat]
-			: !full
-			? [element.lon, element.lat]
-			: centerOfMass(
-					featureCollectionFromOsmNodes(
-						elements.filter((el) => el.lat && el.lon)
-					)
-			  ).geometry.coordinates
-
-		/*
-		console.log(
-			'will set OSMfeature after loading it from the URL',
-			element,
-			nodeCenter
-		)
-		*/
-		const polygon =
-			element.feature?.geometry.type === 'Polygon'
-				? element.feature
-				: ['way', 'relation'].includes(element.type) &&
-				  enrichOsmFeatureWithPolygon(element, elements).polygon
-
-		const result = {
+	// Failed, but we can still use the data encoded in the URL
+	if (element.failedRequest) {
+		return {
 			...element,
-			lat: nodeCenter[1],
-			lon: nodeCenter[0],
-			polygon,
+			longitude,
+			latitude,
+			allezValue: point,
+			name,
 		}
-		console.log('lightgreen polygon', result)
-		return result
 	}
-	const osmFeature = await request()
 
 	const result = {
+		...element,
 		osmCode,
-		longitude: longitude || osmFeature.lon,
-		latitude: latitude || osmFeature.lat,
 		name,
-		osmFeature,
-		key: point,
+		longitude: longitude || element.center.geometry.coordinates[0],
+		latitude: latitude || element.center.geometry.coordinates[1],
+		allezValue: point,
 	}
 
 	if (!geocode) return result
+	//TODO what is this ? Who needs its ?
+	return
 	if (!osmFeature) return result
 
 	const [photonAddress, photonFeature] = await geocodeGetAddress(
@@ -117,21 +56,4 @@ export const stepOsmRequest = async (point, state = [], geocode = false) => {
 		osmFeature.id
 	)
 	return { ...result, photonAddress, photonFeature }
-}
-
-function featureCollectionFromOsmNodes(nodes) {
-	//console.log('yanodes', nodes)
-	const fc = {
-		type: 'FeatureCollection',
-		features: nodes.map((el) => ({
-			type: 'Feature',
-			properties: {},
-			geometry: {
-				type: 'Point',
-				coordinates: [el.lon, el.lat],
-			},
-		})),
-	}
-
-	return fc
 }

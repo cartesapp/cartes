@@ -16,7 +16,7 @@ export function FromHereLink({ geolocation, searchParams, state }) {
 	)
 
 	const allez = state
-		.map((step) => (step.stepBeingSearched ? allezPart : step.key))
+		.map((step) => (step.stepBeingSearched ? allezPart : step.allezValue))
 		.join('->')
 
 	const href = setSearchParams(
