@@ -275,7 +275,7 @@ export default function Content(props) {
 			) : (
 				showContent && (
 					<ContentSection>
-						{vers.requestState === 'success' && (
+						{vers?.requestState === 'success' && (
 							<ModalCloseButton
 								title="Fermer l'encart point d'intérêt"
 								onClick={() => {
@@ -342,7 +342,7 @@ export default function Content(props) {
 								)}
 							</PlaceButtonList>
 						)}
-						{vers.requestState === 'success' ? (
+						{vers?.requestState === 'success' ? (
 							<OsmFeature
 								data={vers}
 								transportStopData={transportStopData}

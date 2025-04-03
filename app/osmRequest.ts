@@ -62,8 +62,9 @@ export const osmRequest = async (featureType, id) => {
 	if (
 		directElement &&
 		directElement !== 404 &&
-		!directElement.requesState === 'fail'
+		directElement.requestState !== 'fail'
 	) {
+		console.log('indigo debug osmApi', directElement)
 		return directElement
 	}
 
@@ -77,6 +78,7 @@ export const osmRequest = async (featureType, id) => {
 			return [{ id, requestState: 'fail', type: featureType }]
 		}
 		const json = await request.json()
+		console.log('indigo debug overpass osmRequest', json)
 
 		const elements = json.elements
 
@@ -90,6 +92,7 @@ export const osmRequest = async (featureType, id) => {
 				// example : https://www.openstreetmap.org/node/3663795073
 				// TODO this is broken, test and repair it, taking into account the new
 				// format of the state feature
+				const center = lonLatToPoint(element.lon, element.lat)
 				if (tags['addr:housenumber'] && !tags['addr:street']) {
 					const relationRequest = await fetch(
 						buildOverpassUrl(featureType, id, false, true),
@@ -114,7 +117,18 @@ export const osmRequest = async (featureType, id) => {
 					}
 				}
 			} catch (e) {
-				return elements
+				//TODO this is a copy of above, shouldn't happen when TODO above will be
+				//rewritten to handle housenumbers
+				const [element] = elements
+				const tags = element.tags || {}
+				const center = lonLatToPoint(element.lon, element.lat)
+				return {
+					osmCode: encodePlace(featureType, id),
+					center,
+					tags,
+					geojson: center,
+					requestState: 'success',
+				}
 			}
 		}
 

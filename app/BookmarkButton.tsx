@@ -24,6 +24,8 @@ export default function BookmarkButton({ geocodedClickedPoint, osmFeature }) {
 		osmCode,
 	} = osmFeature
 
+	console.log('indigo debug lonlat', lon, lat)
+
 	const [featureType, id] = decodePlace(osmCode)
 
 	const properties = geocodedClickedPoint
@@ -33,10 +35,10 @@ export default function BookmarkButton({ geocodedClickedPoint, osmFeature }) {
 
 	const coordinates = geocodedClickedPoint
 		? [
-				geocodedClickedPoint.longitude.toFixed(4), // this is ~ 10 m precision, we don't want more than one bookmark every 10 meters
-				geocodedClickedPoint.latitude.toFixed(4),
+				(+geocodedClickedPoint.longitude).toFixed(4), // this is ~ 10 m precision, we don't want more than one bookmark every 10 meters
+				(+geocodedClickedPoint.latitude).toFixed(4),
 		  ]
-		: [lon.toFixed(4), lat.toFixed(4)]
+		: [(+lon).toFixed(4), (+lat).toFixed(4)]
 
 	const feature = {
 		type: 'Feature',

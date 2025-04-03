@@ -153,6 +153,7 @@ export default function useMapClick(
 
 			const noDisambiguation = hasNwr
 
+			console.log('indigo will disambiguate', featureType, id, noDisambiguation)
 			const [element, realFeatureType] = await disambiguateWayRelation(
 				featureType,
 				id,
@@ -160,24 +161,13 @@ export default function useMapClick(
 				noDisambiguation
 			)
 
-			console.log('clicked on element', element)
-
+			console.log('indigo clicked element ', element)
 			if (element) {
 				console.log('reset OSMfeature after click on POI')
 				const { lng: longitude, lat: latitude } = e.lngLat
-				const newState = replaceArrayIndex(
-					state,
-					-1,
-					{
-						osmCode: encodePlace(featureType, id),
-						longitude,
-						latitude,
-						osmFeature: element,
-					},
-					'merge'
-				)
+				const newState = replaceArrayIndex(state, -1, element, 'merge')
 
-				console.log('lightgreen new state after map click', newState)
+				console.log('lightgreen new state after map click', element, newState)
 				setState(newState)
 
 				const osmFeatureCategory = buildOsmFeatureCategory(element)
