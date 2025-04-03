@@ -29,7 +29,7 @@ export default function SimilarNodes({ node, similarNodes: features }) {
 	const featuresWithDistance =
 		features &&
 		features
-			.filter((feature) => feature.id !== node.id && feature.tags.name)
+			.filter((feature) => feature.id !== node.id && feature.tags?.name)
 			.map((feature) => {
 				const { coordinates: coordinates2 } = feature.center.geometry
 				return {
