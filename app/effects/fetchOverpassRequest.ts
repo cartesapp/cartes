@@ -1,12 +1,11 @@
 import categories from '@/app/categories.yaml'
-import { filteredMoreCategories as moreCategories } from '@/components/categories'
 import {
-	buildStepFromOverpassElement,
-	buildStepFromWayOrRelationOverpassElement,
-	enrichOsmFeatureWithPolygon,
+	buildStepFromOverpassNode,
+	buildStepFromOverpassWayOrRelation,
 	overpassFetchOptions,
 	overpassRequestSuffix,
 } from '@/app/osmRequest'
+import { filteredMoreCategories as moreCategories } from '@/components/categories'
 import computeBboxArea from '@/components/utils/computeBboxArea'
 
 export async function fetchOverpassRequest(bbox, category) {
@@ -64,8 +63,8 @@ const convertOverpassCategoryResultsToSteps = (json, categoryName) => {
 	)
 
 	const nodeElements = interestingElements.map((element) => {
-		if (element.type === 'node') return buildStepFromOverpassElement(element)
-		return buildStepFromWayOrRelationOverpassElement(element, json.elements)
+		if (element.type === 'node') return buildStepFromOverpassNode(element)
+		return buildStepFromOverpassWayOrRelation(element, json.elements)
 	})
 	return nodeElements.map((element) => ({
 		...element,

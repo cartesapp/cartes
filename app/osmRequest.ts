@@ -108,18 +108,18 @@ export const osmRequest = async (featureType, id) => {
 					}
 				} else {
 					const [element] = elements
-					return buildStepFromOverpassElement(element, featureType, id)
+					return buildStepFromOverpassNode(element, featureType, id)
 				}
 			} catch (e) {
 				//TODO this is a copy of above, shouldn't happen when TODO above will be
 				//rewritten to handle housenumbers
 				const [element] = elements
-				return buildStepFromOverpassElement(element, featureType, id)
+				return buildStepFromOverpassNode(element, featureType, id)
 			}
 		}
 		const element = elements.find((el) => el.id == id)
 
-		return buildStepFromWayOrRelationOverpassElement(
+		return buildStepFromOverpassWayOrRelation(
 			element,
 			elements,
 			id,
@@ -133,7 +133,7 @@ export const osmRequest = async (featureType, id) => {
 		return [{ id, requestState: 'fail', featureType }]
 	}
 }
-export const buildStepFromWayOrRelationOverpassElement = (
+export const buildStepFromOverpassWayOrRelation = (
 	element,
 	elements,
 	id = null,
@@ -165,7 +165,7 @@ export const buildStepFromWayOrRelationOverpassElement = (
 	}
 }
 
-export const buildStepFromNodeOverpassElement = (
+export const buildStepFromOverpassNode = (
 	element,
 	featureType = null,
 	id = null
