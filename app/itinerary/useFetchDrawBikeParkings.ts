@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import useDrawQuickSearchFeatures from '../effects/useDrawQuickSearchFeatures'
+import useDrawFeatures from '../effects/useDrawFeatures'
 import { buildOverpassRequest } from '../effects/fetchOverpassRequest'
 import { overpassRequestSuffix } from '../osmRequest'
 
@@ -45,7 +45,7 @@ export default function useFetchDrawBikeParkings(map, cycling) {
 	}, [queryCore, setFeatures])
 
 	const backgroundColor = '#57bff5'
-	useDrawQuickSearchFeatures(
+	useDrawFeatures(
 		map,
 		cycling && features,
 		false,

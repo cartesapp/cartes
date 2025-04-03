@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import useDrawQuickSearchFeatures from './useDrawQuickSearchFeatures'
+import useDrawFeatures from './useDrawFeatures'
 
 export default function useDrawOsmFeaturePolygon(
 	map,
@@ -20,7 +20,7 @@ export default function useDrawOsmFeaturePolygon(
 		[code]
 	)
 	const invert = true
-	useDrawQuickSearchFeatures(
+	useDrawFeatures(
 		map,
 		features,
 		false,

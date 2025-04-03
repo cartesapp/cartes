@@ -3,12 +3,12 @@ import { colors } from '@/components/utils/colors'
 import parseOpeningHours from 'opening_hours'
 import { useEffect, useState } from 'react'
 import { buildAllezPart } from '../SetDestination'
-import { encodePlace } from '../utils'
+import { decodePlace, encodePlace } from '../utils'
 import buildSvgImage from './buildSvgImage'
 import { safeRemove } from './utils'
 import useEffectDebugger from '@/components/useEffectDebugger'
 
-export default function useDrawQuickSearchFeatures(
+export default function useDrawFeatures(
 	map,
 	features,
 	showOpenOnly,
@@ -17,15 +17,6 @@ export default function useDrawQuickSearchFeatures(
 	backgroundColor = colors['color'],
 	invert = false
 ) {
-	/*
-	if (features && features.length)
-		console.log(
-			'chartreuse useDrawQuickSearchFeatures',
-			map,
-			features,
-			category
-		)
-		*/
 	const setSearchParams = useSetSearchParams()
 	const baseId = `features-${category.name}-`
 
@@ -125,31 +116,31 @@ export default function useDrawQuickSearchFeatures(
 
 		const pointsData = {
 			type: 'FeatureCollection',
-			features: shownFeatures.map((f) => {
-				const geometry = {
-					type: 'Point',
-					coordinates: [f.lon, f.lat],
-				}
+			features: shownFeatures
+				.map((feature) => {
+					if (!feature.center) return null
+					const tags = feature.tags || {}
+					const isOpenColor = {
+						true: '#4ce0a5ff',
+						false: '#e95748ff',
+						null: isOpenByDefault ? false : 'beige',
+					}[feature.isOpen]
 
-				const tags = f.tags || {}
-				const isOpenColor = {
-					true: '#4ce0a5ff',
-					false: '#e95748ff',
-					null: isOpenByDefault ? false : 'beige',
-				}[f.isOpen]
-
-				return {
-					type: 'Feature',
-					geometry,
-					properties: {
-						id: f.id,
-						tags,
-						name: tags.name,
-						featureType: f.type,
-						isOpenColor: isOpenColor,
-					},
-				}
-			}),
+					const [featureType, id] = decodePlace(feature.osmCode)
+					const { geometry } = feature.center
+					return {
+						type: 'Feature',
+						geometry,
+						properties: {
+							id,
+							tags,
+							name: tags.name,
+							featureType,
+							isOpenColor: isOpenColor,
+						},
+					}
+				})
+				.filter(Boolean),
 		}
 		const waysData = {
 			type: 'FeatureCollection',
