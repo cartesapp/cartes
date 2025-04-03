@@ -7,6 +7,7 @@ export default function useDrawOsmFeaturePolygon(
 	safeStyleKey
 ) {
 	const code = osmFeature?.osmCode
+	console.log('indigo debug geojson', osmFeature)
 	const features = useMemo(() => (osmFeature ? [osmFeature] : []), [code])
 	const category = useMemo(
 		() => ({

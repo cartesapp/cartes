@@ -154,13 +154,15 @@ export default function useDrawQuickSearchFeatures(
 		const waysData = {
 			type: 'FeatureCollection',
 			features: shownFeatures
-				.filter((f) => f.polygon)
 				.map((f) => {
+					const shape = f.polygon || f.geojson
+					if (!shape) return null
+					console.log('indigo debug geojson', shape)
 					const tags = f.tags || {}
 					const feature = {
 						type: 'Feature',
 						geometry: !invert
-							? f.polygon.geometry
+							? shape.geometry
 							: // thanks ! https://stackoverflow.com/questions/43561504/mapbox-how-to-get-a-semi-transparent-mask-everywhere-but-on-a-specific-area
 							  {
 									type: 'Polygon',
@@ -172,7 +174,7 @@ export default function useDrawQuickSearchFeatures(
 											[180, -90],
 											[-180, -90],
 										],
-										f.polygon.geometry.coordinates[0],
+										shape.geometry.coordinates[0],
 									],
 							  },
 						properties: {
@@ -182,7 +184,8 @@ export default function useDrawQuickSearchFeatures(
 						},
 					}
 					return feature
-				}),
+				})
+				.filter(Boolean),
 		}
 		sources.ways.setData(waysData)
 		sources.points.setData(pointsData)

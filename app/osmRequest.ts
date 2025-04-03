@@ -6,7 +6,7 @@ import {
 	lonLatToPoint,
 } from '@/components/geoUtils'
 import { encodePlace } from './utils'
-import enrichOsmFeatureWithPolygon from '@/components/osm/enrichOsmFeatureWithPolygon'
+import buildOsmFeatureGeojson from '@/components/osm/buildOsmFeatureGeojson'
 
 export const overpassFetchOptions = isServer
 	? {
@@ -148,10 +148,10 @@ export const buildStepFromOverpassWayOrRelation = (
 		: centerOfMass(
 				featureCollectionFromOsmNodes(elements.filter((el) => el.lat && el.lon))
 		  )
+	// TODO center could also be derived from this geojson ?
+	const geojson = buildOsmFeatureGeojson(element, elements)
 
 	const { tags } = element
-
-	const geojson = enrichOsmFeatureWithPolygon(element, elements).polygon
 
 	return {
 		osmCode: encodePlace(featureType || element.type, id),

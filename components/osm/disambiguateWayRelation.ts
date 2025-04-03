@@ -1,5 +1,6 @@
-import { enrichOsmFeatureWithPolygon, osmRequest } from '@/app/osmRequest'
+import { osmRequest } from '@/app/osmRequest'
 import turfDistance from '@turf/distance'
+import buildOsmFeatureGeojson from './buildOsmFeatureGeojson'
 
 export default async function disambiguateWayRelation(
 	presumedFeatureType,
@@ -30,9 +31,9 @@ export default async function disambiguateWayRelation(
 			return [request2.find((el) => el.type === 'relation'), 'relation']
 		if (!node2) {
 			const way = request1.find((el) => el.type === 'way')
-			const enrichedWay = enrichOsmFeatureWithPolygon(way, request1)
+			const geojson = buildOsmFeatureGeojson(way, request1)
 
-			return [enrichedWay, 'way']
+			return [{ ...way, geojson }, 'way']
 		}
 		const reference = [referenceLatLng.lng, referenceLatLng.lat]
 		const distance1 = turfDistance([node1.lon, node1.lat], reference)
@@ -44,9 +45,9 @@ export default async function disambiguateWayRelation(
 		)
 		if (distance1 < distance2) {
 			const way = request1.find((el) => el.type === 'way')
-			const enrichedWay = enrichOsmFeatureWithPolygon(way, request1)
+			const geojson = buildOsmFeatureGeojson(way, request1)
 
-			return [enrichedWay, 'way']
+			return [{ ...way, geojson }, 'way']
 		}
 		return [request2.find((el) => el.type === 'relation'), 'relation']
 	}
@@ -55,9 +56,9 @@ export default async function disambiguateWayRelation(
 		return [request2.find((el) => el.type === 'relation'), 'relation']
 	if (!request2.elements.length && request1.elements.length) {
 		const way = request1.find((el) => el.type === 'way')
-		const enrichedWay = enrichOsmFeatureWithPolygon(way, request1)
+		const geojson = buildOsmFeatureGeojson(way, request1)
 
-		return [enrichedWay, 'way']
+		return [{ ...way, geojson }, 'way']
 	}
 
 	return [null, null]
