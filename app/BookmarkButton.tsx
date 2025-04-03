@@ -14,7 +14,7 @@ export default function BookmarkButton({ geocodedClickedPoint, osmFeature }) {
 			initializeWithValue: false,
 		}
 	)
-	if (!osmFeature) return null
+	if (!osmFeature?.center) return null
 	const {
 		center: {
 			geometry: {

@@ -135,10 +135,12 @@ export const fetchSimilarNodes = async (osmFeature) => {
 	const tags = osmFeature && osmFeature.tags
 	const category = tags && findCategory(tags)
 
+	console.log('indigo debug', category)
 	if (!category) return null
 
 	const [lon, lat] = osmFeature.center.geometry.coordinates
 	const bbox = computeBbox({ lat, lon })
+	console.log('indigo debug', bbox, category)
 	const similarNodes = await fetchOverpassRequest(bbox, category)
 
 	return similarNodes

@@ -315,6 +315,7 @@ export default function Map(props) {
 	 * */
 	useEffect(() => {
 		if (!map || !vers) return
+		if (!(vers.geojson || vers.center)) return
 		if (stepsLength > 1) return
 
 		const tailoredZoom = //TODO should be defined by the feature's polygon if any
@@ -338,8 +339,9 @@ export default function Map(props) {
 				setAutoPitchPreference(Math.round(new Date().getTime() / 1000))
 			const auto3d = !autoPitchPreferenceIsNo
 
+			const center = vers.center.geometry.coordinates
 			map.flyTo({
-				center: [vers.longitude, vers.latitude],
+				center,
 				zoom: tailoredZoom,
 				pitch: autoPitchPreferenceIsNo ? 0 : 40, // pitch in degrees
 				bearing: autoPitchPreferenceIsNo ? 0 : 15, // bearing in degrees

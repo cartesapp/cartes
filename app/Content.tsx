@@ -139,9 +139,10 @@ export default function Content(props) {
 		!(itinerary.isItineraryMode && state.length >= 2) &&
 		!elections
 
-	const bookmarkable = geocodedClickedPoint || vers // later : choice
+	const bookmarkable = geocodedClickedPoint || vers?.center // later : choice
 
-	const hasDestination = vers || geocodedClickedPoint
+	const hasDestination = vers?.center || geocodedClickedPoint
+	//TODO haha these two variables are similar. Is the order really relevant ?
 
 	const nullEntryInState = state.findIndex(
 		(el) => el == null || el.allezValue == null
@@ -163,7 +164,7 @@ export default function Content(props) {
 	const showSearch =
 		!styleChooser &&
 		// In itinerary mode, user is filling or editing one of the itinerary steps
-		(hasStepBeingSearched || !(vers || itinerary.isItineraryMode)) // at first, on desktop, we kept the search bar considering we have room. But this divergence brings dev complexity
+		(hasStepBeingSearched || !(vers?.center || itinerary.isItineraryMode)) // at first, on desktop, we kept the search bar considering we have room. But this divergence brings dev complexity
 
 	const minimumQuickSearchZoom = getMinimumQuickSearchZoom(!sideSheet)
 

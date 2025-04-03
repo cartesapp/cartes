@@ -113,15 +113,16 @@ const Page = async (props) => {
 		return [] // fallback to client side
 	})
 
+	console.log('indigo debug state', state)
 	const agencyEntry = await fetchAgency(searchParams)
-
-	// can't use next-yak for RSC where there is generateMetadata https://github.com/jantimon/next-yak/issues/112#issuecomment-2217800543
 
 	const vers = state && state.length === 1 && state[0]
 
 	const similarNodes = await fetchSimilarNodes(vers)
 
 	const jsonLd = vers && (await buildPlaceJsonLd(vers))
+
+	// can't use next-yak for RSC where there is generateMetadata https://github.com/jantimon/next-yak/issues/112#issuecomment-2217800543
 
 	return (
 		<main

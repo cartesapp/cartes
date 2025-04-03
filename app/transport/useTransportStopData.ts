@@ -6,7 +6,7 @@ export default function useTransportStopData(osmFeature, gtfsStopIds) {
 	console.log('purple useTransportStopData', data)
 
 	useEffect(() => {
-		if (gtfsStopIds || !osmFeature) return
+		if (gtfsStopIds || !osmFeature?.center) return
 		const [lon, lat] = osmFeature.center.geometry.coordinates
 		if (!lat || !lon) return
 
