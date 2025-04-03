@@ -10,14 +10,15 @@ import categoryIconUrl from './categoryIconUrl'
 import { capitalise0, sortBy } from './utils/utils'
 
 export default function SimilarNodes({ node, similarNodes: features }) {
-	console.log('indigo debug Sim', node)
 	const { tags } = node
 
 	const category = findCategory(tags)
 
 	const { coordinates } = node.center.geometry
 
-	const bbox = computeBbox(node)
+	const [lon, lat] = coordinates
+
+	const bbox = computeBbox({ lon, lat })
 	const [quickSearchFeaturesMap] = useOverpassRequest(
 		bbox,
 		category ? [category] : []
