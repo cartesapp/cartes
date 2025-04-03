@@ -107,64 +107,77 @@ export const osmRequest = async (featureType, id) => {
 						return [{ ...elements[0], tags: { ...tags, 'addr:street': name } }]
 					}
 				} else {
-					const center = lonLatToPoint(element.lon, element.lat)
-					return {
-						osmCode: encodePlace(featureType, id),
-						center,
-						tags,
-						geojson: center,
-						requestState: 'success',
-					}
+					const [element] = elements
+					return buildStepFromOverpassElement(element, featureType, id)
 				}
 			} catch (e) {
 				//TODO this is a copy of above, shouldn't happen when TODO above will be
 				//rewritten to handle housenumbers
 				const [element] = elements
-				const tags = element.tags || {}
-				const center = lonLatToPoint(element.lon, element.lat)
-				return {
-					osmCode: encodePlace(featureType, id),
-					center,
-					tags,
-					geojson: center,
-					requestState: 'success',
-				}
+				return buildStepFromOverpassElement(element, featureType, id)
 			}
 		}
-
 		const element = elements.find((el) => el.id == id)
-		const adminCenter =
-				element && element.members?.find((el) => el.role === 'admin_centre'),
-			adminCenterNode =
-				adminCenter && elements.find((el) => el.id == adminCenter.ref)
 
-		//console.log('admincenter', relation, adminCenter, adminCenterNode)
-		const center = adminCenterNode
-			? lonLatToPoint(adminCenterNode.lon, adminCenterNode.lat)
-			: centerOfMass(
-					featureCollectionFromOsmNodes(
-						elements.filter((el) => el.lat && el.lon)
-					)
-			  )
-
-		const { tags } = element
-
-		const geojson = enrichOsmFeatureWithPolygon(element, elements).polygon
-
-		return {
-			osmCode: encodePlace(featureType, id),
-			center,
-			tags,
-			geojson,
+		return buildStepFromWayOrRelationOverpassElement(
+			element,
 			elements,
-			requestState: 'success',
-		}
+			id,
+			featureType
+		)
 	} catch (e) {
 		console.error(
 			'Probably a network error fetching OSM feature via Overpass',
 			e
 		)
 		return [{ id, requestState: 'fail', featureType }]
+	}
+}
+export const buildStepFromWayOrRelationOverpassElement = (
+	element,
+	elements,
+	id = null,
+	featureType = null
+) => {
+	const adminCenter =
+			element && element.members?.find((el) => el.role === 'admin_centre'),
+		adminCenterNode =
+			adminCenter && elements.find((el) => el.id == adminCenter.ref)
+
+	//console.log('admincenter', relation, adminCenter, adminCenterNode)
+	const center = adminCenterNode
+		? lonLatToPoint(adminCenterNode.lon, adminCenterNode.lat)
+		: centerOfMass(
+				featureCollectionFromOsmNodes(elements.filter((el) => el.lat && el.lon))
+		  )
+
+	const { tags } = element
+
+	const geojson = enrichOsmFeatureWithPolygon(element, elements).polygon
+
+	return {
+		osmCode: encodePlace(featureType || element.type, id),
+		center,
+		tags,
+		geojson,
+		elements,
+		requestState: 'success',
+	}
+}
+
+export const buildStepFromNodeOverpassElement = (
+	element,
+	featureType = null,
+	id = null
+) => {
+	const tags = element.tags || {}
+	const center = lonLatToPoint(element.lon, element.lat)
+	return {
+		osmCode: encodePlace(featureType || element.type, id || element.id),
+		center,
+		tags,
+		geojson: center,
+		requestState: 'success',
 	}
 }
 

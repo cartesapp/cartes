@@ -10,12 +10,12 @@ import categoryIconUrl from './categoryIconUrl'
 import { capitalise0, sortBy } from './utils/utils'
 
 export default function SimilarNodes({ node, similarNodes: features }) {
-	console.log('indigo debug', features)
+	console.log('indigo debug Sim', node)
 	const { tags } = node
 
 	const category = findCategory(tags)
 
-	const { lat, lon } = node
+	const { coordinates } = node.center.geometry
 
 	const bbox = computeBbox(node)
 	const [quickSearchFeaturesMap] = useOverpassRequest(
@@ -25,22 +25,22 @@ export default function SimilarNodes({ node, similarNodes: features }) {
 
 	if (!category) return null
 
-	const reference = [lon, lat]
 	const featuresWithDistance =
 		features &&
 		features
 			.filter((feature) => feature.id !== node.id && feature.tags.name)
 			.map((feature) => {
-				const { lon: lon2, lat: lat2 } = feature
+				const { coordinates: coordinates2 } = feature.center.geometry
 				return {
 					...feature,
-					distance: turfDistance([lon2, lat2], reference),
-					bearing: bearing(reference, [lon2, lat2]),
+					distance: turfDistance(coordinates2, coordinates),
+					bearing: bearing(coordinates, coordinates2),
 				}
 			})
 
 	const closestFeatures =
 		features && sortBy(({ distance }) => distance)(featuresWithDistance)
+
 	console.log('node', closestFeatures)
 	/*
 	 * Trouver la catégorie du lieu

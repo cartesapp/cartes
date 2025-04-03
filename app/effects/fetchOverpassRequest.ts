@@ -1,6 +1,8 @@
 import categories from '@/app/categories.yaml'
 import { filteredMoreCategories as moreCategories } from '@/components/categories'
 import {
+	buildStepFromOverpassElement,
+	buildStepFromWayOrRelationOverpassElement,
 	enrichOsmFeatureWithPolygon,
 	overpassFetchOptions,
 	overpassRequestSuffix,
@@ -19,7 +21,7 @@ export async function fetchOverpassRequest(bbox, category) {
 
 	const queryCore = queries
 		.map((query) => {
-			return `nw${query}(${bbox.join(',')});`
+			return `nwr${query}(${bbox.join(',')});`
 		})
 		.join('')
 	// TODO we're missing the "r" in "nwr" for "relations"
@@ -30,31 +32,45 @@ export async function fetchOverpassRequest(bbox, category) {
 	const request = await fetch(url, overpassFetchOptions)
 	const json = await request.json()
 
-	const nodeElements = overpassResultsToGeojson(json).map((element) => ({
-		...element,
-		categoryName: category.name,
-	}))
+	const nodeElements = convertOverpassCategoryResultsToSteps(
+		json,
+		category.name
+	)
 	return nodeElements
 }
 
-export const overpassResultsToGeojson = (json) => {
-	const nodesOrWays = json.elements.filter((element) => {
-		if (!['way', 'node'].includes(element.type)) return false // TODO relations should be handled
-		return true
-	})
+// I suspect this should be handled by a code we already have, with just a loop
+// more
+const convertOverpassCategoryResultsToSteps = (json, categoryName) => {
+	const relations = json.elements.filter(
+		(element) => element.type === 'relation'
+	)
+	console.log('Relations in similar nodes are not handled yet :', relations)
+
+	console.log('indigo debug similar nodes', json.elements)
+
+	const nodesOrWays = json.elements.filter((element) =>
+		['way', 'node'].includes(element.type)
+	) // see TODO above about relations
 
 	const waysNodes = nodesOrWays
 		.filter((el) => el.type === 'way')
 		.map((el) => el.nodes)
 		.flat()
+
+	// Reject elements (nodes I guess ?) that are constituents of ways
 	const interestingElements = nodesOrWays.filter(
 		(el) => !waysNodes.find((id) => id === el.id)
 	)
+
 	const nodeElements = interestingElements.map((element) => {
-		if (element.type === 'node') return element
-		return enrichOsmFeatureWithPolygon(element, json.elements)
+		if (element.type === 'node') return buildStepFromOverpassElement(element)
+		return buildStepFromWayOrRelationOverpassElement(element, json.elements)
 	})
-	return nodeElements
+	return nodeElements.map((element) => ({
+		...element,
+		categoryName,
+	}))
 }
 
 export const buildOverpassRequest = (queryCore) => `
@@ -135,12 +151,10 @@ export const fetchSimilarNodes = async (osmFeature) => {
 	const tags = osmFeature && osmFeature.tags
 	const category = tags && findCategory(tags)
 
-	console.log('indigo debug', category)
 	if (!category) return null
 
 	const [lon, lat] = osmFeature.center.geometry.coordinates
 	const bbox = computeBbox({ lat, lon })
-	console.log('indigo debug', bbox, category)
 	const similarNodes = await fetchOverpassRequest(bbox, category)
 
 	return similarNodes
