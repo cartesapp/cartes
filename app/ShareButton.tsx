@@ -18,7 +18,7 @@ export default function ShareButton({ osmFeature, geocodedClickedPoint }) {
 
 	const url = encodeURI(
 		`${urlBase}/?allez=${
-			osmFeature
+			osmFeature?.center
 				? buildAllezPartFromOsmFeature(osmFeature)
 				: buildAllezPart(
 						'Point sur la carte',
