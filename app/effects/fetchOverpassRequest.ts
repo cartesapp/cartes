@@ -46,7 +46,6 @@ const convertOverpassCategoryResultsToSteps = (json, categoryName) => {
 	)
 	console.log('Relations in similar nodes are not handled yet :', relations)
 
-	console.log('indigo debug similar nodes', json.elements)
 
 	const nodesOrWays = json.elements.filter((element) =>
 		['way', 'node'].includes(element.type)

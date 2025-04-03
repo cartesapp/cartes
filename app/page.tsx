@@ -113,7 +113,6 @@ const Page = async (props) => {
 		return [] // fallback to client side
 	})
 
-	console.log('indigo debug state', state)
 	const agencyEntry = await fetchAgency(searchParams)
 
 	const vers = state && state.length === 1 && state[0]

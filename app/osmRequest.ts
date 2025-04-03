@@ -64,7 +64,6 @@ export const osmRequest = async (featureType, id) => {
 		directElement !== 404 &&
 		directElement.requestState !== 'fail'
 	) {
-		console.log('indigo debug osmApi', directElement)
 		return directElement
 	}
 
@@ -78,7 +77,6 @@ export const osmRequest = async (featureType, id) => {
 			return [{ id, requestState: 'fail', type: featureType }]
 		}
 		const json = await request.json()
-		console.log('indigo debug overpass osmRequest', json)
 
 		const elements = json.elements
 

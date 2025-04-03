@@ -24,7 +24,6 @@ export default function BookmarkButton({ geocodedClickedPoint, osmFeature }) {
 		osmCode,
 	} = osmFeature
 
-	console.log('indigo debug lonlat', lon, lat)
 
 	const [featureType, id] = decodePlace(osmCode)
 
