@@ -10,8 +10,6 @@ import getName from './osm/getName'
 import { css } from 'next-yak'
 
 export default function ShareButton({ osmFeature, geocodedClickedPoint }) {
-	console.log('purple share', osmFeature, geocodedClickedPoint)
-
 	const urlBase = getFetchUrlBase()
 	const [navigatorShare, setNavigatorShare] = useState(false)
 

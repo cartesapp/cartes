@@ -17,6 +17,7 @@ export default function useDrawQuickSearchFeatures(
 	backgroundColor = colors['color'],
 	invert = false
 ) {
+	/*
 	if (features && features.length)
 		console.log(
 			'chartreuse useDrawQuickSearchFeatures',
@@ -24,6 +25,7 @@ export default function useDrawQuickSearchFeatures(
 			features,
 			category
 		)
+		*/
 	const setSearchParams = useSetSearchParams()
 	const baseId = `features-${category.name}-`
 
@@ -44,7 +46,7 @@ export default function useDrawQuickSearchFeatures(
 		const mapImageName = 'cartesapp-' + iconName // avoid collisions
 
 		const mapImage = map.getImage(mapImageName)
-		console.log('chartreuse before switch build image')
+		let unsubscribeEvents = () => null
 		if (mapImage)
 			draw(
 				map,
@@ -56,7 +58,6 @@ export default function useDrawQuickSearchFeatures(
 				category
 			)
 		else {
-			console.log('chartreuse will build image')
 			buildSvgImage(
 				imageFilename,
 				imageFinalFilename,
@@ -80,7 +81,7 @@ export default function useDrawQuickSearchFeatures(
 
 		// for cleaning ?
 		const cleanup = () => {
-			console.log('chartreuse cleanup', features.length, baseId, category)
+			unsubscribeEvents()
 			safeRemove(map)(
 				[
 					baseId + 'points',
@@ -283,10 +284,10 @@ const draw = (
 	map.on('click', async (e) => {
 		//on teste si le clic a eu lieu dans l'un des 2 layers possibles, sinon on arrête
 		const features = map.queryRenderedFeatures(e.point, {
-			layers: [baseId + 'points', baseId + 'points-is-open']
-		});
+			layers: [baseId + 'points', baseId + 'points-is-open'],
+		})
 		if (!features.length) return
-		console.log("point trouvé au clic dans " + baseId)
+		console.log('point trouvé au clic dans ' + baseId)
 
 		// on charge les infos sur le POI
 		const feature = features[0]

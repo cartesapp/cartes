@@ -1,8 +1,6 @@
 import useSetSearchParams from '@/components/useSetSearchParams'
 import { useEffect } from 'react'
 import { safeRemove } from './utils'
-import { area, convex } from '@turf/turf'
-import bboxPolygon from '@turf/bbox-polygon'
 
 /***
  * This hook draws transit lines on the map.
@@ -95,6 +93,8 @@ export default function useDrawTransport(
 		try {
 			const source = map.getSource(id)
 			if (source) return
+
+			console.log('purple draw transport', featureCollection)
 
 			map.addSource(id, { type: 'geojson', data: featureCollection })
 

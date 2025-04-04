@@ -35,6 +35,7 @@ import useSearchLocalTransit from './effects/useSearchLocalTransit'
 import useDrawItinerary from './itinerary/useDrawItinerary'
 import { computeCenterFromBbox } from './utils'
 import useMapContent from '@/components/map/useMapContent'
+import { addDefaultColor } from './transport/enrichTransportsData'
 
 if (process.env.NEXT_PUBLIC_MAPTILER == null) {
 	throw new Error('You have to configure env NEXT_PUBLIC_MAPTILER, see README')
@@ -184,12 +185,14 @@ export default function Map(props) {
 
 	const hasItinerary = stepsLength > 1
 
-	useDrawTransport(
-		map,
-		clickedStopData[1]?.features,
-		safeStyleKey,
-		hasItinerary
+	const clickedStopDataFeatures = clickedStopData[1]?.features || []
+
+	const enrichedStopFeatures = useMemo(
+		() => addDefaultColor(clickedStopDataFeatures, null),
+		[clickedStopData[0]]
 	)
+	console.log('purple enriched', enrichedStopFeatures)
+	useDrawTransport(map, enrichedStopFeatures, safeStyleKey, hasItinerary)
 
 	useDrawItinerary(
 		map,
