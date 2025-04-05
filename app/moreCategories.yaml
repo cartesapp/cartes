@@ -456,6 +456,7 @@
     - DAE
   query: '[emergency=defibrillator]'
   icon: defibrillator
+
 - name: hôpital
   group: Santé
   dictionary:
@@ -463,6 +464,7 @@
     - clinique
   query: '[amenity=hospital]'
   icon: hospital
+
 - name: clinique
   group: Santé
   dictionary:
@@ -472,6 +474,15 @@
     - '[amenity=clinic]'
     - '[healthcare=clinic]'
   icon: hospital
+
+- name: maison de santé
+  group: Santé
+  dictionary:
+    - centre de soins
+    - centre de santé
+  query: '[healthcare=centre]'
+  icon: doctors
+  hidden: true
 
 - name: médecin
   group: Santé
@@ -516,6 +527,70 @@
     - bébé
   query: '[healthcare=midwife]'
   icon: nurse
+  hidden: true
+
+- name: podologue
+  group: Santé
+  dictionary:
+    - pédicure
+    - pedicure
+  query: '[healthcare=podiatrist]'
+  icon: shoes
+  icon alias: podiatrist
+  hidden: true
+
+- name: kiné
+  group: Santé
+  dictionary:
+    - physiothérapeute
+    - kinésithérapeute
+    - masseur
+    - massage
+  query: '[healthcare=physiotherapist]'
+  icon: nurse
+  hidden: true
+
+- name: orthophoniste
+  group: Santé
+  dictionary:
+    - logopède
+    - logopede
+    - logopédiste
+    - orthophonie
+  query: '[healthcare=speech_therapist]'
+  icon: hospital
+  hidden: true
+
+- name: psychologue
+  group: Santé
+  dictionary:
+    - psychologie
+    - psychothérapeute
+    - psychothérapie
+  query: '[healthcare=psychotherapist]'
+  icon: hospital
+  hidden: true
+
+- name: don du sang
+  group: Santé
+  dictionary:
+    - EFS
+    - don de sang
+  query: '[healthcare=blood_donation]'
+  icon: nurse
+  hidden: true
+
+- name: laboratoire
+  group: Santé
+  dictionary:
+    - biologie médicale
+    - analyse médicale
+    - analyse sanguine
+    - laboratoire d'analyse
+    - prélèvement
+  query: '[healthcare=laboratory]'
+  icon: nurse
+  hidden: true
 
 #######################
 # GROUP : POUBELLES
@@ -683,7 +758,7 @@
   dictionary:
     - shopping
     - fringues
-  query: '[shop=clothes]'
+  query: '[shop~"clothes"]'
   icon: clothes
 
 - name: Chaussures
@@ -691,9 +766,38 @@
   dictionary:
     - shopping
     - chaussures
-  query: '[shop=shoes]'
+  query: '[shop~"shoes"]'
   icon: shoes
   icon alias: shop-shoes
+
+- name: Téléphonie
+  group: Commerces
+  dictionary:
+    - téléphone
+    - portable
+    - mobile
+    - accessoires
+  query: '[shop~"mobile_phone"]'
+  icon: shop
+
+- name: Bijouterie
+  group: Commerces
+  dictionary:
+    - bijou
+    - bague
+    - boucle d'oreille
+    - collier
+    - montre
+  query: '[shop~"jewelry"]'
+  icon: shop
+
+- name: Opticien
+  group: Commerces
+  dictionary:
+    - lunettes
+    - lentilles de contact
+  query: '[shop~"optician"]'
+  icon: shop
 
 - name: Centre commercial
   group: Commerces
@@ -711,6 +815,93 @@
     - colis
   query: '[amenity=parcel_locker]'
   icon: parcel_locker
+
+- name: Magasin de bricolage
+  group: Commerces
+  dictionary:
+    - jardinage
+    - outils
+    - outillage
+    - matériaux
+    - quincaillerie
+  query: '[shop~"doityourself|hardware"]'
+  icon: shop
+
+- name: Jardinerie
+  group: Commerces
+  dictionary:
+    - jardinage
+    - plantes
+  query: '[shop~"garden_centre"]'
+  icon: shop
+  hidden: true
+
+- name: Fleuriste
+  group: Commerces
+  dictionary:
+    - fleur
+    - bouquet
+  query: '[shop~"florist"]'
+  icon: shop
+
+- name: Serrurier
+  group: Commerces
+  dictionary:
+    - serrure
+    - clé
+    - clef
+    - copie de clé
+  query: '[shop~"locksmith"]'
+  icon: shop
+  hidden: true
+
+- name: Magasin de meubles
+  group: Commerces
+  dictionary:
+    - mobilier
+    - décoration
+  query: '[shop~"furniture"][shop!~"garden_furniture"]'
+  icon: shop
+
+- name: Magasin de décoration
+  group: Commerces
+  dictionary:
+    - mobilier
+    - décoration
+    - intérieur
+  query: '[shop~"interior_decoration"]'
+  icon: shop
+  hidden: true
+
+- name: Ustensiles de cuisine
+  group: Commerces
+  dictionary:
+    - casserole
+    - couverts
+    - vaisselle
+    - électroménager
+  query: '[shop~"houseware"]'
+  icon: shop
+  hidden: true
+
+- name: Cuisiniste
+  group: Commerces
+  dictionary:
+    - conception de cuisine
+    - cuisine
+  query: '[shop~"kitchen"]'
+  icon: shop
+  hidden: true
+
+- name: Magasin de puériculture
+  group: Commerces
+  dictionary:
+    - bébé
+    - biberon
+    - poussette
+  query: '[shop~"baby_goods"]'
+  icon: shop
+  hidden: true
 
 #######################
 # GROUP : DÉPLACEMENTS
@@ -1227,16 +1418,105 @@
   hidden: true
 
 #######################
-# GROUP : DIVERS
+# GROUP : Services publics
 #######################
+## https://wiki.openstreetmap.org/wiki/France/Services_Publics
+
+- name: Mairie
+  group: Services publics
+  dictionary:
+    - hôtel de ville
+  query: '[amenity=townhall]'
+  icon: classical-building
+
+- name: Préfecture
+  group: Services publics
+  dictionary:
+    - sous-préfecture
+    - préfet
+  query: '[office=government][government=prefecture]'
+  icon: classical-building
+  hidden: true
 
 - name: Police
-  group: Divers
+  group: Services publics
   dictionary:
     - gendarmerie
-    - comissariat
+    - commissariat
   query: '[amenity=police]'
   icon: police
+
+- title: Pompiers
+  group: Services publics
+  name: pompiers
+  dictionary:
+    - incendie
+    - 18
+    - feu
+  query:
+    - '[amenity=fire_station]'
+  icon: fire
+
+- name: Agence postale
+  group: Services publics
+  dictionary:
+    - bureau de poste
+    - poste
+    - colis
+    - la poste
+  query: '[amenity=post_office]'
+  icon: post
+
+- name: Boite aux lettres
+  group: Services publics
+  dictionary:
+    - poste
+    - lettres
+    - la poste
+  query: '[amenity=post_box]'
+  icon: post
+
+- title: Justice
+  group: Services publics
+  name: justice
+  dictionary:
+    - tribunal
+    - cour
+    - cour d'appel
+    - judiciaire
+  query:
+    - '[amenity=courthouse]'
+  icon: classical-building
+
+- name: France Travail
+  group: Services publics
+  dictionary:
+    - pole emploi
+    - pôle emploi
+    - ANPE
+    - chomage
+    - chômage
+  query: '[office=government][government=employment_agency]'
+  icon: building
+
+- title: Établissement scolaire
+  group: Services publics
+  name: education
+  dictionary:
+    - université
+    - collège
+    - école
+    - primaire
+    - groupe scolaire
+  query:
+    - '[amenity=college]'
+    - '[amenity=university]'
+    - '[amenity=school]'
+  icon: college
+
+#######################
+# GROUP : DIVERS
+#######################
 
 - name: Point d'eau
   group: Divers # dans "Divers" plutôt que Boissons car c'est un usage pratique, non commercial de la boisson, plutôt qu'un usage "plaisir"
@@ -1249,15 +1529,6 @@
     - '[amenity=drinking_water]'
     - '[drinking_water=yes]'
   icon: water
-
-- name: Agence postale
-  group: Divers
-  dictionary:
-    - poste
-    - colis
-    - la poste
-  query: '[amenity=post_office]'
-  icon: post
 
 - title: Coiffeur
   group: Divers
@@ -1287,6 +1558,7 @@
     - '[amenity=coworking_space]'
     - '[office=coworking]'
   icon: coworking
+
 - title: Cordonnier
   group: Divers
   name: Cordonnier
@@ -1298,6 +1570,7 @@
     - lacets
   query: '[craft=shoemaker]'
   icon: shoes
+
 - title: Cimetière
   group: Divers
   name: cimetière
@@ -1307,42 +1580,3 @@
     - '[amenity=grave_yard]'
     - '[landuse=cemetery]'
   icon: cemetery
-
-## Peut-être carrément une catégorie "services publics"
-## https://wiki.openstreetmap.org/wiki/France/Services_Publics
-- title: Justice
-  group: Divers
-  name: justice
-  dictionary:
-    - tribunal
-    - cour
-    - cour d'appel
-    - judiciaire
-  query:
-    - '[amenity=courthouse]'
-  icon: classical-building
-
-- title: Pompiers
-  group: Divers
-  name: pompiers
-  dictionary:
-    - incendie
-    - 18
-    - feu
-  query:
-    - '[amenity=fire_station]'
-  icon: fire
-- title: Établissement scolaire
-  group: Divers
-  name: education
-  dictionary:
-    - université
-    - collège
-    - école
-    - primaire
-    - groupe scolaire
-  query:
-    - '[amenity=college]'
-    - '[amenity=university]'
-    - '[amenity=school]'
-  icon: college
