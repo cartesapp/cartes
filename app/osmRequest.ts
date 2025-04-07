@@ -4,7 +4,7 @@ import osmToGeojson from 'osmtogeojson'
 import { isServer } from './serverUrls'
 
 export const overpassRequestSuffix =
-	'http://overpass.cartes.app/api/interpreter?data='
+	'https://overpass.cartes.app/api/interpreter?data='
 
 const buildOverpassUrl = (
 	featureType: 'node' | 'way' | 'relation',
