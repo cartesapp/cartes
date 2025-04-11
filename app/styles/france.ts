@@ -11,10 +11,14 @@ import categoryGroupColors from '@/app/categoryGroupColors.yaml'
 //
 //
 
-const highwayColor = (dark) => dark ? '#3a3636' : '#cebcbc'
-const highwayOutlineColor = (dark) => dark ? '#3a3636' : '#cebcbc'
+// Définir les couleurs en fonction du mode sombre
+const getHighwayColor = (dark) => dark ? '#3a3636' : '#cebcbc'
+const getHighwayOutlineColor = (dark) => dark ? '#3a3636' : '#cebcbc'
 
 export default function franceStyle(transportMode, noVariableTiles = false, dark = false) {
+	// Appliquer les couleurs en fonction du mode sombre
+	const highwayColor = getHighwayColor(dark)
+	const highwayOutlineColor = getHighwayOutlineColor(dark)
 	const openmaptilesUrl = // see the protocol CartesProtocol
 		!noVariableTiles
 			? 'cartes://hybrid'
@@ -141,10 +145,16 @@ export const oceanColor = '#71a0e9'
 // Export a function to get the ocean color based on dark mode
 export const getOceanColor = (dark = false) => dark ? '#0a1a3a' : '#71a0e9'
 
-const landColor = (dark) => dark ? '#1a2e17' : '#dbedb7',
-	residentialColor = (dark) => dark ? 'hsl(54, 15%, 15%)' : 'hsl(54, 45%, 91%)'
+// Définir les fonctions pour obtenir les couleurs
+const getLandColor = (dark) => dark ? '#1a2e17' : '#dbedb7'
+const getResidentialColor = (dark) => dark ? 'hsl(54, 15%, 15%)' : 'hsl(54, 45%, 91%)'
 
-const layers = (dark) => [
+// Appliquer les couleurs en fonction du mode sombre
+const layers = (dark) => {
+	const landColor = getLandColor(dark)
+	const residentialColor = getResidentialColor(dark)
+	
+	return [
 	{
 		id: 'Background',
 		type: 'background',
@@ -153,8 +163,8 @@ const layers = (dark) => [
 			'background-color': {
 				base: 1,
 				stops: [
-					[1, landColor(dark)],
-					[15, residentialColor(dark)],
+					[1, landColor],
+					[15, residentialColor],
 				],
 			},
 		},
@@ -3574,4 +3584,4 @@ On n'est pas à l'abri d'effets secondaires ici.
 		metadata: {},
 		filter: ['all', ['==', 'class', 'continent']],
 	},
-]
+]}
