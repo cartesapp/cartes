@@ -8,6 +8,7 @@ import {
 import { encodePlace } from './utils'
 import buildOsmFeatureGeojson from '@/components/osm/buildOsmFeatureGeojson'
 import { resilientOverpassFetch } from './overpassFetcher'
+import { omit } from '@/components/utils/utils'
 
 export const overpassFetchOptions = isServer
 	? {
@@ -111,10 +112,12 @@ export const osmRequest = async (featureType, id) => {
 					})
 
 					if (relation) {
-						const newTags = {
+						const newTags = omit(['type'], {
 							...relation.tags,
 							'addr:street': relation.tags.name,
-						}
+							name: `${tags['addr:housenumber']} ${relation.tags.name}`,
+						})
+
 						const newElement = {
 							...element,
 							tags: { ...element.tags, ...newTags },
