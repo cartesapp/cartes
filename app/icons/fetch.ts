@@ -94,9 +94,11 @@ console.log('Icons file')
 //console.log(iconUrls)
 
 async function listDirectory(user, repo, directory) {
+	const token = Deno.env.get('GITHUB_CLASSIC_TOKEN')
 	const headers = {
-		Authorization: `Bearer ${Deno.env.get('GITHUB_CLASSIC_TOKEN')}`,
+		Authorization: `Bearer ${token}`,
 	}
+	console.log('GITHUB TOKEN', token)
 	const url = `https://api.github.com/repos/${user}/${repo}/git/trees/master`
 	directory = directory.split('/').filter(Boolean)
 	const dir = await directory.reduce(
