@@ -3,8 +3,8 @@ import {
 	buildStepFromOverpassNode,
 	buildStepFromOverpassWayOrRelation,
 	overpassFetchOptions,
-	overpassRequestSuffix,
 } from '@/app/osmRequest'
+import { resilientOverpassFetch } from '@/app/overpassFetcher'
 import { filteredMoreCategories as moreCategories } from '@/components/categories'
 import computeBboxArea from '@/components/utils/computeBboxArea'
 
@@ -26,10 +26,9 @@ export async function fetchOverpassRequest(bbox, category) {
 	// TODO we're missing the "r" in "nwr" for "relations"
 	const overpassRequest = buildOverpassRequest(queryCore)
 
-	const url = `${overpassRequestSuffix}${encodeURIComponent(overpassRequest)}`
-	console.log('OVERPASS2', url)
-	const request = await fetch(url, overpassFetchOptions)
-	const json = await request.json()
+	const query = encodeURIComponent(overpassRequest)
+	console.log('OVERPASS2 query:', query)
+	const json = await resilientOverpassFetch(query)
 
 	const nodeElements = convertOverpassCategoryResultsToSteps(
 		json,

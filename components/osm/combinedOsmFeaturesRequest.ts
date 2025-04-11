@@ -1,4 +1,4 @@
-import { overpassRequestSuffix } from '@/app/osmRequest'
+import { resilientOverpassFetch } from '@/app/overpassFetcher'
 
 export default async function combinedOsmFeaturesRequest(queries) {
 	const requestBody = queries
@@ -10,13 +10,9 @@ export default async function combinedOsmFeaturesRequest(queries) {
 		.join('')
 
 	const requestString = `[out:json];${requestBody}`
-	const url = overpassRequestSuffix + encodeURIComponent(requestString)
+	const query = encodeURIComponent(requestString)
 
-	const request = await fetch(url, {
-		next: { revalidate: 5 * 60 },
-	})
-
-	const json = await request.json()
+	const json = await resilientOverpassFetch(query)
 
 	const { elements } = json
 

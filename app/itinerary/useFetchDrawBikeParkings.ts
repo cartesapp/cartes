@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import useDrawFeatures from '../effects/useDrawFeatures'
 import { buildOverpassRequest } from '../effects/fetchOverpassRequest'
-import { overpassRequestSuffix } from '../osmRequest'
+import { resilientOverpassFetch } from '../overpassFetcher'
 
 const category = {
 	name: 'Arceaux vélo',
@@ -27,9 +27,8 @@ export default function useFetchDrawBikeParkings(map, cycling) {
 
 		const doFetch = async () => {
 			const body = buildOverpassRequest(queryCore)
-			const url = `${overpassRequestSuffix}${encodeURIComponent(body)}`
-			const request = await fetch(url)
-			const json = await request.json()
+			const query = encodeURIComponent(body)
+			const json = await resilientOverpassFetch(query)
 
 			console.log('vélo', json)
 
