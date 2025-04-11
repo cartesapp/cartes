@@ -12,7 +12,10 @@ export default async function combinedOsmFeaturesRequest(queries) {
 	const requestString = `[out:json];${requestBody}`
 	const query = encodeURIComponent(requestString)
 
-	const json = await resilientOverpassFetch(query)
+	const options = {
+		next: { revalidate: 5 * 60 },
+	}
+	const json = await resilientOverpassFetch(query, options)
 
 	const { elements } = json
 
