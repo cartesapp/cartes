@@ -1055,7 +1055,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 			'source-layer': 'transportation',
 			layout: { visibility: 'visible' },
 			paint: {
-				'line-color': 'hsl(0,0%,73%)',
+				'line-color': dark ? 'hsl(0,0%,40%)' : 'hsl(0,0%,73%)',
 				'line-width': {
 					base: 1.4,
 					stops: [
@@ -1320,7 +1320,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 				visibility: 'visible',
 			},
 			paint: {
-				'line-color': '#8c97ae',
+				'line-color': dark ? '#4a5060' : '#8c97ae',
 				'line-width': [
 					'interpolate',
 					['linear', 2],
@@ -1583,31 +1583,31 @@ On n'est pas à l'abri d'effets secondaires ici.
 						['==', ['get', 'subclass'], 'living_street'],
 						['==', ['get', 'maxspeed'], 'walk'],
 					],
-					'hsl(0,0%,100%)',
+					dark ? 'hsl(0,0%,30%)' : 'hsl(0,0%,100%)',
 					['==', ['get', 'maxspeed'], 'FR:zone30'],
-					'hsl(215,20%,95%)',
+					dark ? 'hsl(215,20%,25%)' : 'hsl(215,20%,95%)',
 					['==', ['get', 'maxspeed'], 'FR:urban'],
-					'hsl(215,20%,80%)',
+					dark ? 'hsl(215,20%,30%)' : 'hsl(215,20%,80%)',
 					['==', ['get', 'maxspeed'], 'FR:rural'],
-					'#99a6c3',
+					dark ? '#2a3040' : '#99a6c3',
 					[
 						'any',
 						['==', ['get', 'class'], 'service'],
 						['==', ['get', 'access'], 'private'],
 					],
-					'hsl(0,0%,97%)',
+					dark ? 'hsl(0,0%,25%)' : 'hsl(0,0%,97%)',
 					['!', ['has', 'maxspeed']],
 					// we consider minor roads without maxspeed and that are not
 					// living_street or other tags that remain to be found, as
 					// "medium"-friendly to pedestrians, cyclists and buses
-					'hsl(215,20%,85%)',
+					dark ? 'hsl(215,20%,35%)' : 'hsl(215,20%,85%)',
 					['<=', ['to-number', ['get', 'maxspeed']], 20],
-					'hsl(0,0%,100%)',
+					dark ? 'hsl(0,0%,30%)' : 'hsl(0,0%,100%)',
 					['<=', ['to-number', ['get', 'maxspeed']], 30],
-					'hsl(215,20%,95%)',
+					dark ? 'hsl(215,20%,25%)' : 'hsl(215,20%,95%)',
 					['<=', ['to-number', ['get', 'maxspeed']], 50],
-					'hsl(215,20%,80%)',
-					'hsl(215,20%,70%)',
+					dark ? 'hsl(215,20%,30%)' : 'hsl(215,20%,80%)',
+					dark ? 'hsl(215,20%,25%)' : 'hsl(215,20%,70%)',
 				],
 				'line-width': [
 					'interpolate',
@@ -1718,18 +1718,18 @@ On n'est pas à l'abri d'effets secondaires ici.
 					// we consider minor roads without maxspeed and that are not
 					// living_street or other tags that remain to be found, as
 					// "medium"-friendly to pedestrians, cyclists and buses
-					'#99a6c3',
+					dark ? '#2a3040' : '#99a6c3',
 					['==', ['get', 'maxspeed'], 'FR:rural'],
-					'#99a6c3',
+					dark ? '#2a3040' : '#99a6c3',
 					['==', ['get', 'maxspeed'], 'FR:urban'],
-					'hsl(215,20%,80%)',
+					dark ? 'hsl(215,20%,30%)' : 'hsl(215,20%,80%)',
 					[
 						'any',
 						['==', ['get', 'maxspeed'], 'walk'],
 						['<=', ['to-number', ['get', 'maxspeed']], 30],
 					],
-					'hsl(215,20%,95%)',
-					'#99a6c3',
+					dark ? 'hsl(215,20%,25%)' : 'hsl(215,20%,95%)',
+					dark ? '#2a3040' : '#99a6c3',
 				],
 				'line-width': [
 					'interpolate',
@@ -1865,7 +1865,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 				visibility: 'visible',
 			},
 			paint: {
-				'line-color': 'rgba(199, 152, 128, 1)',
+				'line-color': dark ? 'rgba(120, 90, 70, 1)' : 'rgba(199, 152, 128, 1)',
 				'line-width': {
 					base: 1.2,
 					stops: [
@@ -1906,9 +1906,9 @@ On n'est pas à l'abri d'effets secondaires ici.
 					['exponential', 1],
 					['zoom'],
 					8,
-					'#916BD4',
+					dark ? '#4a3570' : '#916BD4',
 					19,
-					'hsl(0, 0%, 70%)',
+					dark ? 'hsl(0, 0%, 40%)' : 'hsl(0, 0%, 70%)',
 				],
 				'line-width': [
 					'interpolate',
@@ -1942,9 +1942,9 @@ On n'est pas à l'abri d'effets secondaires ici.
 					['exponential', 1],
 					['zoom'],
 					8,
-					'#916BD4',
+					dark ? '#4a3570' : '#916BD4',
 					18,
-					'hsl(0, 0%, 90%)',
+					dark ? 'hsl(0, 0%, 40%)' : 'hsl(0, 0%, 90%)',
 				],
 				'line-width': {
 					base: 1.4,
@@ -1977,7 +1977,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 				visibility: 'visible',
 			},
 			paint: {
-				'line-color': 'hsl(319, 82%, 33%)',
+				'line-color': dark ? 'hsl(319, 30%, 25%)' : 'hsl(319, 82%, 33%)',
 				'line-width': ['interpolate', ['linear'], ['zoom'], 0, 0, 22, 2],
 				'line-opacity': 0.2,
 				'line-gap-width': 0,
@@ -2019,7 +2019,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 			'source-layer': 'transportation',
 			layout: { visibility: 'visible' },
 			paint: {
-				'line-color': 'hsl(240, 45%, 33%)',
+				'line-color': dark ? 'hsl(240, 25%, 20%)' : 'hsl(240, 45%, 33%)',
 				'line-width': [
 					'interpolate',
 					['linear', 2],
@@ -2053,7 +2053,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 			'source-layer': 'transportation',
 			layout: { visibility: 'visible' },
 			paint: {
-				'line-color': 'hsl(240, 71%, 72%)',
+				'line-color': dark ? 'hsl(240, 40%, 40%)' : 'hsl(240, 71%, 72%)',
 				'line-width': [
 					'interpolate',
 					['linear', 2],
