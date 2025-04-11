@@ -11,10 +11,10 @@ import categoryGroupColors from '@/app/categoryGroupColors.yaml'
 //
 //
 
-const highwayColor = '#cebcbc'
-const highwayOutlineColor = '#cebcbc'
+const highwayColor = (dark) => dark ? '#3a3636' : '#cebcbc'
+const highwayOutlineColor = (dark) => dark ? '#3a3636' : '#cebcbc'
 
-export default function franceStyle(transportMode, noVariableTiles = false) {
+export default function franceStyle(transportMode, noVariableTiles = false, dark = false) {
 	const openmaptilesUrl = // see the protocol CartesProtocol
 		!noVariableTiles
 			? 'cartes://hybrid'
@@ -57,7 +57,7 @@ export default function franceStyle(transportMode, noVariableTiles = false) {
 				url: 'pmtiles://' + pmtilesServerUrl + '/bathymetry.pmtiles',
 			},
 		},
-		layers: transportMode ? lightenLayers(layers) : layers,
+		layers: transportMode ? lightenLayers(layers(dark)) : layers(dark),
 		//		Voir nos villes juste avec les arbres
 		//layers: layers.filter(({ id }) => id === 'Background' || id === 'Trees'),
 		glyphs: getFetchUrlBase() + '/fonts/glyphs/{fontstack}/{range}.pbf',
@@ -138,10 +138,13 @@ export const name = 'name:fr'
 export const oceanColor = '#71a0e9'
 //'#6688dd' past color, darker. Could be cool to vary in the day, dawn color ?
 
-const landColor = '#dbedb7',
-	residentialColor = 'hsl(54, 45%, 91%)'
+// Export a function to get the ocean color based on dark mode
+export const getOceanColor = (dark = false) => dark ? '#0a1a3a' : '#71a0e9'
 
-const layers = [
+const landColor = (dark) => dark ? '#1a2e17' : '#dbedb7',
+	residentialColor = (dark) => dark ? 'hsl(54, 15%, 15%)' : 'hsl(54, 45%, 91%)'
+
+const layers = (dark) => [
 	{
 		id: 'Background',
 		type: 'background',
@@ -150,8 +153,8 @@ const layers = [
 			'background-color': {
 				base: 1,
 				stops: [
-					[1, landColor],
-					[15, residentialColor],
+					[1, landColor(dark)],
+					[15, residentialColor(dark)],
 				],
 			},
 		},
@@ -167,7 +170,7 @@ const layers = [
 			visibility: 'visible',
 		},
 		paint: {
-			'fill-color': '#b6dcc1',
+			'fill-color': dark ? '#1a3d21' : '#b6dcc1',
 			'fill-opacity': ['interpolate', ['linear'], ['zoom'], 10, 1, 11, 0],
 		},
 	},
@@ -181,7 +184,7 @@ const layers = [
 			visibility: 'visible',
 		},
 		paint: {
-			'fill-color': '#f3ede0',
+			'fill-color': dark ? '#2a2a25' : '#f3ede0',
 			'fill-opacity': ['interpolate', ['linear'], ['zoom'], 10, 1, 11, 0],
 		},
 	},
@@ -195,7 +198,7 @@ const layers = [
 			visibility: 'visible',
 		},
 		paint: {
-			'fill-color': 'white',
+			'fill-color': dark ? '#303030' : 'white',
 			'fill-opacity': ['interpolate', ['linear'], ['zoom'], 10, 1, 11, 0],
 		},
 	},
@@ -209,7 +212,7 @@ const layers = [
 			visibility: 'visible',
 		},
 		paint: {
-			'fill-color': '#d4e6b9',
+			'fill-color': dark ? '#1a2e17' : '#d4e6b9',
 			'fill-opacity': ['interpolate', ['linear'], ['zoom'], 10, 1, 11, 0],
 		},
 	},
@@ -220,7 +223,7 @@ const layers = [
 		'source-layer': 'landcover',
 		filter: ['==', ['get', 'kind'], 'Tree'],
 		paint: {
-			'fill-color': '#94d2a5',
+			'fill-color': dark ? '#1a3d21' : '#94d2a5',
 			'fill-opacity': ['interpolate', ['linear'], ['zoom'], 10, 1, 11, 0],
 		},
 	},
@@ -233,7 +236,7 @@ const layers = [
 		paint: {
 			//'fill-color': '#a8c884',
 
-			'fill-color': '#94d2a5', // same as Tree, honestly don't really know what I'm doing here, just trying
+			'fill-color': dark ? '#1a3d21' : '#94d2a5', // same as Tree, honestly don't really know what I'm doing here, just trying
 			'fill-opacity': 0.4,
 		},
 		metadata: {},
@@ -269,7 +272,7 @@ const layers = [
 		maxzoom: 24,
 		layout: { visibility: 'visible' },
 		paint: {
-			'fill-color': 'hsl(0,0%,100%)',
+			'fill-color': dark ? 'hsl(0,0%,30%)' : 'hsl(0,0%,100%)',
 			'fill-opacity': {
 				stops: [
 					[0, 1],
@@ -287,7 +290,7 @@ const layers = [
 		'source-layer': 'aeroway',
 		minzoom: 11,
 		layout: { visibility: 'visible' },
-		paint: { 'fill-color': 'hsl(0,0%,93%)', 'fill-opacity': 1 },
+		paint: { 'fill-color': dark ? 'hsl(0,0%,20%)' : 'hsl(0,0%,93%)', 'fill-opacity': 1 },
 		metadata: {},
 		filter: ['==', '$type', 'Polygon'],
 	},
@@ -303,8 +306,8 @@ const layers = [
 			'fill-color': {
 				base: 1,
 				stops: [
-					[1, '#efede6'],
-					[16, residentialColor],
+					[1, dark ? '#2a2a25' : '#efede6'],
+					[16, residentialColor(dark)],
 				],
 			},
 		},
@@ -318,7 +321,7 @@ const layers = [
 		'source-layer': 'water',
 		layout: { visibility: 'visible' },
 		paint: {
-			'fill-color': oceanColor,
+			'fill-color': dark ? '#0a1a3a' : oceanColor,
 			'fill-opacity': ['match', ['get', 'intermittent'], 1, 0.85, 1],
 			'fill-antialias': true,
 		},
@@ -344,9 +347,9 @@ const layers = [
 				['cubic-bezier', 0, 0.5, 1, 0.5],
 				['get', 'amin'],
 				-9000,
-				'#260167',
+				dark ? '#0a0030' : '#260167',
 				0,
-				oceanColor,
+				dark ? '#0a1a3a' : oceanColor,
 			],
 		},
 	},
@@ -358,7 +361,7 @@ const layers = [
 		'source-layer': 'landcover',
 		layout: { visibility: 'visible' },
 		paint: {
-			'fill-color': '#d0cbbc',
+			'fill-color': dark ? '#2a2a25' : '#d0cbbc',
 			'fill-opacity': 1,
 			'fill-antialias': false,
 		},
@@ -372,7 +375,7 @@ const layers = [
 		'source-layer': 'landcover',
 		layout: { visibility: 'visible' },
 		paint: {
-			'fill-color': '#fbf4ab',
+			'fill-color': dark ? '#3a3a20' : '#fbf4ab',
 			'fill-opacity': 1,
 			'fill-antialias': false,
 		},
@@ -388,7 +391,7 @@ const layers = [
 			visibility: 'visible',
 		},
 		paint: {
-			'fill-color': '#61b6cb40',
+			'fill-color': dark ? '#1a3a4a40' : '#61b6cb40',
 			'fill-opacity': {
 				stops: [
 					[7, 0.5],
@@ -417,20 +420,20 @@ const layers = [
 					'match',
 					['get', 'class'],
 					['industrial'],
-					'hsl(40,67%,90%)',
+					dark ? 'hsl(40,17%,20%)' : 'hsl(40,67%,90%)',
 					'quarry',
-					'hsla(32, 47%, 87%, 0.2)',
-					'hsl(60, 31%, 87%)',
+					dark ? 'hsla(32, 17%, 20%, 0.2)' : 'hsla(32, 47%, 87%, 0.2)',
+					dark ? 'hsl(60, 10%, 20%)' : 'hsl(60, 31%, 87%)',
 				],
 				16,
 				[
 					'match',
 					['get', 'class'],
 					['industrial'],
-					'hsl(49,54%,90%)',
+					dark ? 'hsl(49,20%,25%)' : 'hsl(49,54%,90%)',
 					'quarry',
-					'hsla(32, 47%, 87%, 0.5)',
-					'hsl(60, 31%, 87%)',
+					dark ? 'hsla(32, 17%, 20%, 0.5)' : 'hsla(32, 47%, 87%, 0.5)',
+					dark ? 'hsl(60, 10%, 20%)' : 'hsl(60, 31%, 87%)',
 				],
 			],
 			'fill-opacity': [
@@ -458,8 +461,8 @@ const layers = [
 			'fill-color': {
 				base: 1,
 				stops: [
-					[1, '#ededed'],
-					[16, '#ededed'],
+					[1, dark ? '#2a2a2a' : '#ededed'],
+					[16, dark ? '#2a2a2a' : '#ededed'],
 				],
 			},
 		},
@@ -475,7 +478,7 @@ const layers = [
 		maxzoom: 22,
 		layout: { visibility: 'visible' },
 		paint: {
-			'fill-color': '#eee5d5',
+			'fill-color': dark ? '#2a2a20' : '#eee5d5',
 			'fill-opacity': {
 				stops: [
 					[9, 0.25],
@@ -496,7 +499,7 @@ const layers = [
 		maxzoom: 22,
 		layout: { visibility: 'visible' },
 		paint: {
-			'fill-color': '#f4dfdf',
+			'fill-color': dark ? '#2a1a1a' : '#f4dfdf',
 			'fill-opacity': {
 				stops: [
 					[9, 0.6],
@@ -520,7 +523,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 		source: 'openmaptiles',
 		'source-layer': 'transportation',
 		layout: { visibility: 'visible' },
-		paint: { 'fill-color': '#feecdf', 'fill-opacity': 0.9 },
+		paint: { 'fill-color': dark ? '#2a2520' : '#feecdf', 'fill-opacity': 0.9 },
 		metadata: {},
 		filter: [
 			'all',
@@ -572,7 +575,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 		'source-layer': 'landcover',
 		layout: { visibility: 'visible' },
 		paint: {
-			'fill-color': '#fbf4ab',
+			'fill-color': dark ? '#3a3a20' : '#fbf4ab',
 			'fill-opacity': 0.4,
 			'fill-antialias': false,
 		},
@@ -586,7 +589,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 		'source-layer': 'landcover',
 		layout: { visibility: 'visible' },
 		paint: {
-			'fill-color': '#c6ddaa',
+			'fill-color': dark ? '#1a2e17' : '#c6ddaa',
 			'fill-opacity': 0.6,
 			'fill-antialias': false,
 		},
@@ -602,7 +605,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 		maxzoom: 22,
 		layout: { visibility: 'visible' },
 		paint: {
-			'fill-color': 'hsl(0,0%,88%)',
+			'fill-color': dark ? 'hsl(0,0%,20%)' : 'hsl(0,0%,88%)',
 			'fill-opacity': {
 				stops: [
 					[9, 0.25],
@@ -628,7 +631,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 					[22, 20],
 				],
 			},
-			'circle-color': '#94d2a5',
+			'circle-color': dark ? '#1a3d21' : '#94d2a5',
 			'circle-opacity': {
 				stops: [
 					[14, 0.2],
@@ -646,7 +649,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 		maxzoom: 22,
 		layout: { visibility: 'visible' },
 		paint: {
-			'fill-color': 'hsl(94,100%,88%)',
+			'fill-color': dark ? 'hsl(94,20%,20%)' : 'hsl(94,100%,88%)',
 			'fill-opacity': {
 				stops: [
 					[9, 0.25],
@@ -666,7 +669,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 		minzoom: 14,
 		layout: { 'line-cap': 'round', visibility: 'visible' },
 		paint: {
-			'line-color': 'hsl(210,73%,78%)',
+			'line-color': dark ? 'hsl(210,50%,30%)' : 'hsl(210,73%,78%)',
 			'line-width': {
 				base: 1.3,
 				stops: [
@@ -686,7 +689,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 		'source-layer': 'waterway',
 		layout: { 'line-cap': 'round', visibility: 'visible' },
 		paint: {
-			'line-color': 'hsl(210,73%,78%)',
+			'line-color': dark ? 'hsl(210,50%,30%)' : 'hsl(210,73%,78%)',
 			'line-width': {
 				stops: [
 					[12, 0.5],
@@ -704,7 +707,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 		'source-layer': 'water',
 		layout: { visibility: 'visible' },
 		paint: {
-			'fill-color': 'hsl(205,91%,83%)',
+			'fill-color': dark ? 'hsl(205,50%,25%)' : 'hsl(205,91%,83%)',
 			'fill-opacity': 0.85,
 			'fill-antialias': true,
 		},

@@ -23,12 +23,28 @@ export const styles = {
 		attribution:
 			'<a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
 	},
+	'france-dark': {
+		url: franceStyle(false, false, true),
+		name: 'France (Nuit)',
+		description: `Notre style maison en mode nuit, avec des bonus inédits : rail visible à haut niveau, arbres, et plein de futures nouveautés. Hébergé sur nos serveurs, contrairement aux autres il ne nous coûte rien. C'est le futur.`,
+		attribution:
+			'<a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
+		emoji: '🌙',
+	},
 	transports: {
 		url: franceStyle(true),
 		name: 'Transports',
 		description: `Un style de carte dédié au transport pour afficher les plans urbains des réseaux de bus/tram/métro, mais aussi des cars et des trains nationaux.`,
 		attribution:
 			'<a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
+	},
+	'transports-dark': {
+		url: franceStyle(true, false, true),
+		name: 'Transports (Nuit)',
+		description: `Un style de carte dédié au transport en mode nuit pour afficher les plans urbains des réseaux de bus/tram/métro, mais aussi des cars et des trains nationaux.`,
+		attribution:
+			'<a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
+		emoji: '🌙',
 	},
 	/* The historical maptiler streets that we tuned for cartes.app */
 	base: {
@@ -115,4 +131,4 @@ export const styles = {
 }
 
 export const getStyle = (styleKey) => ({ ...styles[styleKey], key: styleKey })
-export const homeMadeTerrainStyles = ['france', 'satellite']
+export const homeMadeTerrainStyles = ['france', 'france-dark', 'satellite']
