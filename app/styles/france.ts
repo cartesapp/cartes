@@ -1424,9 +1424,9 @@ On n'est pas à l'abri d'effets secondaires ici.
 					'match',
 					['get', 'class'],
 					'motorway_construction',
-					highwayColor,
+					getHighwayColor(dark),
 					['trunk_construction', 'primary_construction'],
-					highwayColor,
+					getHighwayColor(dark),
 					'hsl(0,0%,100%)',
 				],
 				'line-width': [
@@ -1768,7 +1768,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 			},
 			paint: {
 				//'line-color': 'LightGray',
-				'line-color': highwayColor,
+				'line-color': getHighwayColor(dark),
 				'line-width': [
 					'interpolate',
 					['linear', 2],
