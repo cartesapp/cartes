@@ -101,12 +101,27 @@ export const osmRequest = async (featureType, id) => {
 				if (tags['addr:housenumber'] && !tags['addr:street']) {
 					const relationQuery = buildOverpassQuery(featureType, id, false, true)
 					const json = await resilientOverpassFetch(relationQuery)
-					const {
-						tags: { name, type },
-					} = json.elements[0]
 
-					if (type === 'associatedStreet') {
-						return [{ ...elements[0], tags: { ...tags, 'addr:street': name } }]
+					const relation = json.elements.find((element) => {
+						const {
+							tags: { type: osmType },
+						} = element
+
+						return osmType === 'associatedStreet'
+					})
+
+					if (relation) {
+						const newTags = {
+							...relation.tags,
+							'addr:street': relation.tags.name,
+						}
+						const newElement = {
+							...element,
+							tags: { ...element.tags, ...newTags },
+						}
+						console.log('cyan addr', relationQuery, json)
+						console.log('cyan addr2', newElement)
+						return buildStepFromOverpassNode(newElement, featureType, id)
 					}
 				} else {
 					const [element] = elements

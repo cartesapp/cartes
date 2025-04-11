@@ -54,9 +54,11 @@ export const stepOsmRequest = async (point, state = [], geocode = false) => {
 
 	if (!geocode) return result
 
+	const coordinates = element.center?.geometry.coordinates
+
 	const [photonAddress, photonFeature] = await geocodeGetAddress(
-		latitude,
-		longitude
+		latitude || coordinates[1],
+		longitude || coordinates[0]
 	)
 	return { ...result, photonAddress, photonFeature }
 }
