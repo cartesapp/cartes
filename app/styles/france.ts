@@ -2019,7 +2019,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 			'source-layer': 'transportation',
 			layout: { visibility: 'visible' },
 			paint: {
-				'line-color': dark ? 'hsl(240, 25%, 20%)' : 'hsl(240, 45%, 33%)',
+				'line-color': dark ? 'hsl(240, 70%, 50%)' : 'hsl(240, 45%, 33%)',
 				'line-width': [
 					'interpolate',
 					['linear', 2],
@@ -2053,7 +2053,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 			'source-layer': 'transportation',
 			layout: { visibility: 'visible' },
 			paint: {
-				'line-color': dark ? 'hsl(240, 40%, 40%)' : 'hsl(240, 71%, 72%)',
+				'line-color': dark ? 'hsl(240, 70%, 70%)' : 'hsl(240, 71%, 72%)',
 				'line-width': [
 					'interpolate',
 					['linear', 2],

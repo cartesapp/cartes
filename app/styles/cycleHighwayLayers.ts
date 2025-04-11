@@ -28,7 +28,7 @@ export const cycleHighwayLayers = (dark = false) => [
 			'line-join': 'round',
 		},
 		paint: {
-			'line-color': dark ? 'hsl(240, 40%, 40%)' : 'hsl(240, 71%, 72%)',
+			'line-color': dark ? 'hsl(240, 70%, 60%)' : 'hsl(240, 71%, 72%)',
 			'line-width': cycleHighwaysLineWidth(true),
 		},
 	},
@@ -44,7 +44,7 @@ export const cycleHighwayLayers = (dark = false) => [
 			'line-join': 'round',
 		},
 		paint: {
-			'line-color': dark ? 'hsl(0,0%,30%)' : 'hsl(0,0%,97%)',
+			'line-color': dark ? 'hsl(240,70%,80%)' : 'hsl(0,0%,97%)',
 			'line-width': cycleHighwaysLineWidth(),
 		},
 	},
