@@ -29,7 +29,7 @@ export default function Steps({
 
 	if (!steps?.length) return null
 
-	const allez = steps.map((step) => step?.key).join('->')
+	const allez = steps.map((step) => step?.allezValue).join('->')
 
 	return (
 		<section>
@@ -39,7 +39,7 @@ export default function Steps({
 			/>
 			<StepList
 				axis="y"
-				values={steps.map((step) => step?.key)}
+				values={steps.map((step) => step?.allezValue)}
 				onReorder={(newItems) =>
 					setSearchParams({ allez: newItems.join('->') })
 				}
@@ -47,7 +47,9 @@ export default function Steps({
 				{steps.map((step, index) => (
 					<Item
 						key={
-							console.log('step key', step?.key || index) || step?.key || index
+							console.log('step key', step?.allezValue || index) ||
+							step?.allezValue ||
+							index
 						}
 						{...{
 							index,
@@ -121,7 +123,7 @@ const Item = ({
 	const controls = useDragControls()
 	const [undoValue, setUndoValue] = useState(null)
 	const isMobile = useMediaQuery('(max-width: 800px)')
-	const key = step?.key
+	const allezValue = step?.allezValue
 	const stepDefaultName =
 		index == 0
 			? 'une origine'
@@ -130,8 +132,8 @@ const Item = ({
 			: 'cette étape'
 	return (
 		<Reorder.Item
-			key={key}
-			value={key}
+			key={allezValue}
+			value={allezValue}
 			dragListener={false}
 			dragControls={controls}
 			style={
@@ -202,7 +204,7 @@ const Item = ({
 						$between={true}
 					/>
 				)}
-				{key ? (
+				{allezValue ? (
 					<div
 						onPointerDown={(e) => {
 							setDisableDrag(true)
@@ -219,7 +221,7 @@ const Item = ({
 					<Placeholder />
 				)}
 				{index !== 0 && index !== state.length - 1 && (
-					<RemoveStepLink {...{ setSearchParams, stepKey: key, state }} />
+					<RemoveStepLink {...{ setSearchParams, allezValue, state }} />
 				)}
 			</ItemButtons>
 		</Reorder.Item>
@@ -230,13 +232,13 @@ const Placeholder = styled.div`
 	width: 1.6rem;
 `
 
-const RemoveStepLink = ({ setSearchParams, stepKey, state }) => {
-	//	if (!stepKey) return null // Empty steps should be possible to remove
+const RemoveStepLink = ({ setSearchParams, allezValue, state }) => {
+	//	if (!allezValue) return null // Empty steps should be possible to remove
 
 	return (
 		<RemoveStepLinkWrapper
 			onClick={() =>
-				setSearchParams({ allez: removeStatePart(stepKey, state) })
+				setSearchParams({ allez: removeStatePart(allezValue, state) })
 			}
 		>
 			<Image src={closeIcon} alt="Supprimer cette étape" />

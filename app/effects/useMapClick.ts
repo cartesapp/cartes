@@ -1,7 +1,7 @@
 import { buildAllezPart } from '@/app/SetDestination'
 import { clickableClasses } from '@/app/clickableLayers'
 import { createPolygon, createSearchBBox } from '@/app/createSearchPolygon'
-import { disambiguateWayRelation } from '@/app/osmRequest'
+import disambiguateWayRelation from '@/components/osm/disambiguateWayRelation'
 import { encodePlace } from '@/app/utils'
 import { replaceArrayIndex } from '@/components/utils/utils'
 import { useEffect } from 'react'
@@ -12,6 +12,7 @@ import { buildOsmFeatureCategory } from '@/components/osm/buildDescription'
 export default function useMapClick(
 	map,
 	state,
+	setState,
 	distanceMode,
 	itinerary,
 	isTransportsMode,
@@ -30,7 +31,6 @@ export default function useMapClick(
 		if (isTransportsMode) return
 
 		const onClick = async (e) => {
-			console.log('click event', e)
 			// interesting and tricky : without this timeout, it looks like another
 			// setSearchParams overrides this call
 
@@ -148,10 +148,12 @@ export default function useMapClick(
 
 			console.log('clicked name ', name)
 
-			setChargement({ id, featureType, name })
+			setChargement({ osmCode: encodePlace(featureType, id), name })
 			console.log('clicked name did set chargement', name)
 
 			const noDisambiguation = hasNwr
+
+			console.log('indigo will disambiguate', featureType, id, noDisambiguation)
 			const [element, realFeatureType] = await disambiguateWayRelation(
 				featureType,
 				id,
@@ -159,23 +161,14 @@ export default function useMapClick(
 				noDisambiguation
 			)
 
-			console.log('clicked on element', element)
-
+			console.log('indigo clicked element ', element)
 			if (element) {
 				console.log('reset OSMfeature after click on POI')
 				const { lng: longitude, lat: latitude } = e.lngLat
-				replaceArrayIndex(
-					state,
-					-1,
-					{
-						osmFeature: {
-							...element,
-							longitude,
-							latitude,
-						},
-					},
-					'merge'
-				)
+				const newState = replaceArrayIndex(state, -1, element, 'merge')
+
+				console.log('lightgreen new state after map click', element, newState)
+				setState(newState)
 
 				const osmFeatureCategory = buildOsmFeatureCategory(element)
 				// We store longitude and latitude in order to, in some cases, avoid a

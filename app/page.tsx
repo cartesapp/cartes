@@ -52,16 +52,16 @@ export async function generateMetadata(
 	const step = await stepOsmRequest(vers, undefined, true)
 	console.log('⏳️ TIME overpass', new Date().getTime() - date.getTime())
 
-	if (!step) return null
+	if (!step || step.requestState !== 'success') return null
 
-	const osmFeature = step.osmFeature
 	//console.log('OSMFEATURE', osmFeature)
-	const { lat, lon } = osmFeature || {}
+	const [lon, lat] = step.center.geometry.coordinates
 
-	const tags = osmFeature?.tags || {}
-	const modifiedTime = osmFeature?.timestamp
+	const tags = step?.tags || {}
+	const modifiedTime = step?.timestamp
+
 	const title = step.name || getName(tags),
-		descriptionFromOsm = buildDescription(step.osmFeature)
+		descriptionFromOsm = buildDescription(step)
 
 	const dateOg = new Date()
 	const image = tags.image || (await fetchOgImage(getUrl(tags)))
@@ -74,11 +74,10 @@ export async function generateMetadata(
 		? descriptionFromOsm + '. ' + address
 		: descriptionFromOsm
 
-	const url = osmFeature
-		? getFetchUrlBase() +
-		  '/lieu?allez=' +
-		  encodeURIComponent(buildAllezPartFromOsmFeature(osmFeature))
-		: undefined
+	const url =
+		getFetchUrlBase() +
+		'/lieu?allez=' +
+		encodeURIComponent(buildAllezPartFromOsmFeature(step))
 
 	console.log('URL meta', url)
 	const metadata = {
@@ -116,14 +115,14 @@ const Page = async (props) => {
 
 	const agencyEntry = await fetchAgency(searchParams)
 
+	const vers = state && state.length === 1 && state[0]
+
+	const similarNodes = await fetchSimilarNodes(vers)
+
+	const jsonLd = vers && (await buildPlaceJsonLd(vers))
+
 	// can't use next-yak for RSC where there is generateMetadata https://github.com/jantimon/next-yak/issues/112#issuecomment-2217800543
 
-	const vers = state && state.length === 1 && state[0]
-	const osmFeature = vers?.osmFeature
-
-	const similarNodes = await fetchSimilarNodes(osmFeature)
-
-	const jsonLd = osmFeature && (await buildPlaceJsonLd(osmFeature, vers))
 	return (
 		<main
 			style={{

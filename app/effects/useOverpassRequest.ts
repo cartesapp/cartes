@@ -4,6 +4,7 @@ import { fetchOverpassRequest, fetchSimilarNodes } from './fetchOverpassRequest'
 export default function useOverpassRequest(bbox, categories) {
 	const [features, setFeatures] = useState({})
 
+
 	useEffect(() => {
 		if (!bbox || !categories) return
 
@@ -23,18 +24,18 @@ export default function useOverpassRequest(bbox, categories) {
 	return [features]
 }
 
-export function useFetchSimilarNodes(osmFeature, givenSimilarNodes) {
+export function useFetchSimilarNodes(step, givenSimilarNodes) {
 	const [similarNodes, setSimilarNodes] = useState(givenSimilarNodes)
 
 	useEffect(() => {
 		const doFetch = async () => {
-			if (!osmFeature?.id) return
-			const features = await fetchSimilarNodes(osmFeature)
+			if (!step?.osmCode || !step?.center) return
+			const features = await fetchSimilarNodes(step)
 			setSimilarNodes(features)
 		}
 
 		doFetch()
-	}, [osmFeature?.id])
+	}, [step?.osmCode, step?.center])
 
 	return similarNodes
 }

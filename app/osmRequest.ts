@@ -1,67 +1,14 @@
-import turfDistance from '@turf/distance'
 import { centerOfMass } from '@turf/turf'
-import osmToGeojson from 'osmtogeojson'
 import { isServer } from './serverUrls'
-
-export const overpassRequestSuffix =
-	'https://overpass.cartes.app/api/interpreter?data='
-
-const buildOverpassUrl = (
-	featureType: 'node' | 'way' | 'relation',
-	id: string,
-	full = false,
-	relations = false,
-	meta = false
-) =>
-	`${overpassRequestSuffix}${encodeURIComponent(
-		`[out:json];${featureType}(id:${id});${
-			full ? '(._;>;);' : relations ? '<;' : ''
-		}out body${meta ? ` meta` : ''};`
-	)}`
-
-export const combinedOsmRequest = async (queries) => {
-	const requestBody = queries
-		.map((result) => {
-			const { osmId, featureType, latitude, longitude } = result
-
-			return `${featureType}(id:${osmId}); out body; `
-		})
-		.join('')
-
-	const requestString = `[out:json];${requestBody}`
-	const url = overpassRequestSuffix + encodeURIComponent(requestString)
-	console.log('OVERPASS1', url)
-	const request = await fetch(url, {
-		next: { revalidate: 5 * 60 },
-	})
-
-	const json = await request.json()
-
-	const { elements } = json
-
-	const results = queries
-		.map((query) => {
-			const found = elements.find(
-				(element) =>
-					query.osmId === element.id && query.featureType === element.type
-			)
-
-			if (!found) return false
-			const geoElement = {
-				...found,
-				lat: query.latitude,
-				lon: query.longitude,
-			}
-			return geoElement
-		})
-		.filter(Boolean)
-	console.log('requestString', requestString, results)
-
-	//TODO we don't handle housenumbers like in osmRequest, not sure we need this
-	//in this combinedOsmRequest function that is used to enrich photon search
-	//results with OSM tags
-	return results
-}
+//import osmApiRequest from '@/components/osm/osmApiRequest'
+import {
+	featureCollectionFromOsmNodes,
+	lonLatToPoint,
+} from '@/components/geoUtils'
+import { encodePlace } from './utils'
+import buildOsmFeatureGeojson from '@/components/osm/buildOsmFeatureGeojson'
+import { resilientOverpassFetch } from './overpassFetcher'
+import { omit } from '@/components/utils/utils'
 
 export const overpassFetchOptions = isServer
 	? {
@@ -72,7 +19,34 @@ export const overpassFetchOptions = isServer
 	  }
 	: { cache: 'force-cache' }
 
-export const osmRequest = async (featureType, id, full) => {
+export const overpassRequestSuffixs = [
+	'https://overpass.cartes.app/api/interpreter?data=',
+	'https://overpass-api.de/api/interpreter?data=',
+]
+
+const buildOverpassQuery = (
+	featureType: 'node' | 'way' | 'relation',
+	id: string,
+	full = false,
+	relations = false,
+	meta = false
+) =>
+	encodeURIComponent(
+		`[out:json];${featureType}(id:${id});${
+			full ? '(._;>;);' : relations ? '<;' : ''
+		}out body${meta ? ` meta` : ''};`
+	)
+
+export const osmRequest = async (featureType, id) => {
+	// Overpass requests for ways and relations necessitate "full" request mode
+	// to be able to rebuild its shape based on its node and ways elements
+	const full = ['way', 'relation'].includes(featureType)
+	const isNode = featureType === 'node'
+	if (!isNode && !full)
+		return console.error(
+			"This OSM feature is neither a node, a relation or a way, we don't know how to handle it"
+		)
+
 	console.log(
 		'lightgreen will make OSM request',
 		featureType,
@@ -81,170 +55,148 @@ export const osmRequest = async (featureType, id, full) => {
 		full
 	)
 
-	const url = buildOverpassUrl(featureType, id, full)
-	console.log('OVERPASS3', url, 'is server : ', isServer)
-	try {
-		const request = await fetch(url, overpassFetchOptions)
-		if (!request.ok) {
-			console.log('lightgreen request not ok', request)
+	// We tried setting up a local OSM api based on osm2psql
+	// that enables bypassing overpass, which is quite a slow
+	// software... well at least the main and only online overpass API, .de
+	// (it may be under heavy load)
+	//
+	// But these requests can fail for some features, hence the fallback call
+	// hereafter
+	//
+	// However, setting the osm database is quite hard. Despite its better
+	// performance, we're falling back to hosting our own overpass instance. It
+	// also takes less memory on our server than the full osm2psql db.
+	//
+	// We're keeping this code for a future optimisation, but using overpass for
+	// now.
+	/*
+	const directElement = await osmApiRequest(featureType, id)
 
-			return [{ id, failedServerOsmRequest: true, type: featureType }]
-		}
-		const json = await request.json()
+	if (
+		directElement &&
+		directElement !== 404 &&
+		directElement.requestState !== 'fail'
+	) {
+		return directElement
+	}
+	*/
+
+	const query = buildOverpassQuery(featureType, id, full)
+
+	try {
+		const json = await resilientOverpassFetch(query)
 
 		const elements = json.elements
 
+		if (!elements.length) return // TODO return what ?
+
 		if (featureType === 'node' && elements.length === 1) {
 			try {
-				const tags = elements[0].tags || {}
+				const [element] = elements
+				const tags = element.tags || {}
 				// handle this use case https://wiki.openstreetmap.org/wiki/Relation:associatedStreet
 				// example : https://www.openstreetmap.org/node/3663795073
+				// TODO this is broken, test and repair it, taking into account the new
+				// format of the state feature
+				const center = lonLatToPoint(element.lon, element.lat)
 				if (tags['addr:housenumber'] && !tags['addr:street']) {
-					const relationRequest = await fetch(
-						buildOverpassUrl(featureType, id, false, true),
-						overpassFetchOptions
-					)
-					const json = await relationRequest.json()
-					const {
-						tags: { name, type },
-					} = json.elements[0]
+					const relationQuery = buildOverpassQuery(featureType, id, false, true)
+					const json = await resilientOverpassFetch(relationQuery)
 
-					if (type === 'associatedStreet') {
-						return [{ ...elements[0], tags: { ...tags, 'addr:street': name } }]
+					const relation = json.elements.find((element) => {
+						const {
+							tags: { type: osmType },
+						} = element
+
+						return osmType === 'associatedStreet'
+					})
+
+					if (relation) {
+						const newTags = omit(['type'], {
+							...relation.tags,
+							'addr:street': relation.tags.name,
+							name: `${tags['addr:housenumber']} ${relation.tags.name}`,
+						})
+
+						const newElement = {
+							...element,
+							tags: { ...element.tags, ...newTags },
+						}
+						console.log('cyan addr', relationQuery, json)
+						console.log('cyan addr2', newElement)
+						return buildStepFromOverpassNode(newElement, featureType, id)
 					}
+				} else {
+					const [element] = elements
+					return buildStepFromOverpassNode(element, featureType, id)
 				}
 			} catch (e) {
-				return elements
+				//TODO this is a copy of above, shouldn't happen when TODO above will be
+				//rewritten to handle housenumbers
+				const [element] = elements
+				return buildStepFromOverpassNode(element, featureType, id)
 			}
 		}
-		return elements
+		const element = elements.find((el) => el.id == id)
+
+		return buildStepFromOverpassWayOrRelation(
+			element,
+			elements,
+			id,
+			featureType
+		)
 	} catch (e) {
 		console.error(
 			'Probably a network error fetching OSM feature via Overpass',
 			e
 		)
-		return [{ id, failedServerOsmRequest: true, type: featureType }]
+		return [{ id, requestState: 'fail', featureType }]
 	}
 }
-
-export const disambiguateWayRelation = async (
-	presumedFeatureType,
-	id,
-	referenceLatLng,
-	noDisambiguation
+export const buildStepFromOverpassWayOrRelation = (
+	element,
+	elements,
+	id = null,
+	featureType = null
 ) => {
-	if (noDisambiguation) {
-		const result = await osmRequest(presumedFeatureType, id, false)
-		return [result.length ? result[0] : null, presumedFeatureType]
+	const adminCenter =
+			element && element.members?.find((el) => el.role === 'admin_centre'),
+		adminCenterNode =
+			adminCenter && elements.find((el) => el.id == adminCenter.ref)
+
+	//console.log('admincenter', relation, adminCenter, adminCenterNode)
+	const center = adminCenterNode
+		? lonLatToPoint(adminCenterNode.lon, adminCenterNode.lat)
+		: centerOfMass(
+				featureCollectionFromOsmNodes(elements.filter((el) => el.lat && el.lon))
+		  )
+	// TODO center could also be derived from this geojson ?
+	const geojson = buildOsmFeatureGeojson(element, elements)
+
+	const { tags } = element
+
+	return {
+		osmCode: encodePlace(featureType || element.type, id),
+		center,
+		tags,
+		geojson,
+		elements,
+		requestState: 'success',
 	}
-	if (presumedFeatureType === 'node') {
-		const result = await osmRequest('node', id, false)
-		return [result.length ? result[0] : null, 'node']
-	}
-
-	const request1 = await osmRequest('way', id, true)
-	const request2 = await osmRequest('relation', id, true)
-	if (request1.length && request2.length) {
-		// This is naïve, we take the first node, considering that the chances that the first node of the relation and way with same reconstructed id are close to our current location is extremely low
-		const node1 = request1.find((el) => el.type === 'node')
-		const node2 = request2.find((el) => el.type === 'node')
-		if (!node1)
-			return [request2.find((el) => el.type === 'relation'), 'relation']
-		if (!node2) {
-			const way = request1.find((el) => el.type === 'way')
-			const enrichedWay = enrichOsmFeatureWithPolyon(way, request1)
-
-			return [enrichedWay, 'way']
-		}
-		const reference = [referenceLatLng.lng, referenceLatLng.lat]
-		const distance1 = turfDistance([node1.lon, node1.lat], reference)
-		const distance2 = turfDistance([node2.lon, node2.lat], reference)
-		console.log(
-			'Ambiguous relation/node id, computing distances : ',
-			distance1,
-			distance2
-		)
-		if (distance1 < distance2) {
-			const way = request1.find((el) => el.type === 'way')
-			const enrichedWay = enrichOsmFeatureWithPolyon(way, request1)
-
-			return [enrichedWay, 'way']
-		}
-		return [request2.find((el) => el.type === 'relation'), 'relation']
-	}
-
-	if (!request1.length && request2.length)
-		return [request2.find((el) => el.type === 'relation'), 'relation']
-	if (!request2.length && request1.length) {
-		const way = request1.find((el) => el.type === 'way')
-		const enrichedWay = enrichOsmFeatureWithPolyon(way, request1)
-
-		return [enrichedWay, 'way']
-	}
-
-	return [null, null]
 }
 
-const buildWayPolygon = (way, elements) => {
-	const nodes = way.nodes.map((id) => elements.find((el) => el.id === id)),
-		polygon = {
-			type: 'Feature',
-			geometry: {
-				type: 'Polygon',
-				coordinates: [[...nodes, nodes[0]].map(({ lat, lon }) => [lon, lat])],
-			},
-		}
-	return polygon
-}
-// This does not seem to suffice, OSM relations are more complicated than that
-// so we fallback to a library even if it adds 35 kb for now
-/*
-const buildRelationMultiPolygon = (relation, elements) => {
-	const ways = relation.members
-		.filter(({ type, role, ref }) => type === 'way' && role === 'outer')
-		.map(({ ref }) => elements.find((el) => el.id === ref))
-
-	const polygon = {
-		type: 'Feature',
-		geometry: {
-			type: 'Polygon',
-			coordinates: ways.map((way) =>
-				way.nodes
-					.map((id) => elements.find((el) => el.id === id))
-					.map(({ lat, lon }) => [lon, lat])
-			),
-		},
+export const buildStepFromOverpassNode = (
+	element,
+	featureType = null,
+	id = null
+) => {
+	const tags = element.tags || {}
+	const center = lonLatToPoint(element.lon, element.lat)
+	return {
+		osmCode: encodePlace(featureType || element.type, id || element.id),
+		center,
+		tags,
+		geojson: center,
+		requestState: 'success',
 	}
-	return polygon
-}
-*/
-
-export const enrichOsmFeatureWithPolyon = (element, elements) => {
-	const polygon =
-		element.type === 'way'
-			? buildWayPolygon(element, elements)
-			: element.type === 'relation'
-			? osmToGeojson({ elements }).features.find(
-					(feature) =>
-						['Polygon', 'MultiPolygon'].includes(feature.geometry.type) // A merge may be necessary, or rather a rewrite of drawquickSearch's addSource ways features
-			  )
-			: undefined
-
-	if (polygon === undefined) {
-		const message =
-			'Tried to enrich wrong OSM type element, or relation has no polygons, only LineStrings for instance, e.g. r2969716, a LineString river. TODO'
-		console.error(
-			message,
-			element.type,
-			osmToGeojson({ elements }).features.map((feature) => feature.geometry)
-		)
-		//throw new Error(message + ' ' + element.type)
-		return element
-	}
-
-	const center = centerOfMass(polygon)
-
-	const [lon, lat] = center.geometry.coordinates
-
-	return { ...element, lat, lon, polygon }
 }

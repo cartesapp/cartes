@@ -4,7 +4,7 @@ import { useMediaQuery } from 'usehooks-ts'
 import { styled } from 'next-yak'
 
 export default function ClickItineraryInstruction({ state }) {
-	const stepKeys = state?.map((step) => step != null && step.key),
+	const stepKeys = state?.map((step) => step != null && step.allezValue),
 		validSteps = stepKeys.filter(Boolean),
 		stepsCount = validSteps.length
 

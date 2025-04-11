@@ -61,7 +61,6 @@ export default function Content(props) {
 		geolocation,
 		focusImage,
 		vers,
-		osmFeature,
 		similarNodes,
 		quickSearchFeaturesMap,
 		setDisableDrag,
@@ -76,7 +75,7 @@ export default function Content(props) {
 
 	useWhatChanged(props, 'Render component Content')
 
-	const tags = osmFeature?.tags
+	const tags = vers?.tags
 	const url = tags && getUrl(tags)
 
 	const ogImages = useOgImageFetcher(url),
@@ -106,13 +105,13 @@ export default function Content(props) {
 		// https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Cathédrale_Sainte-Croix_d'Orléans_2008_PD_33.JPG/300px-Cathédrale_Sainte-Croix_d'Orléans_2008_PD_33.JPG
 		// are the same but with a different URL
 		// hence prefer tag image, but this is questionable
-		osmFeature &&
-		(osmFeature.tags?.wikimedia_commons
-			? getThumb(osmFeature.tags.wikimedia_commons, 500)
+		vers &&
+		(vers.tags?.wikimedia_commons
+			? getThumb(vers.tags.wikimedia_commons, 500)
 			: wikidataPictureUrl)
 
 	const content = [
-		osmFeature && !osmFeature.failedServerOsmRequest,
+		vers && vers.requestState === 'success',
 		zoneImages,
 		bboxImages,
 		panoramaxImages,
@@ -140,16 +139,20 @@ export default function Content(props) {
 		!(itinerary.isItineraryMode && state.length >= 2) &&
 		!elections
 
-	const bookmarkable = geocodedClickedPoint || osmFeature // later : choice
+	const bookmarkable = geocodedClickedPoint || vers?.center // later : choice
 
-	const hasDestination = osmFeature || geocodedClickedPoint
+	const hasDestination = vers?.center || geocodedClickedPoint
+	//TODO haha these two variables are similar. Is the order really relevant ?
 
-	const nullEntryInState = state.findIndex((el) => el == null || el.key == null)
+	const nullEntryInState = state.findIndex(
+		(el) => el == null || el.allezValue == null
+	)
 	const hasNullEntryInState = nullEntryInState > -1
 
 	const isItineraryModeNoSteps =
 		itinerary.isItineraryMode &&
-		(state.length === 0 || !state.find((step) => step?.choice || step?.key))
+		(state.length === 0 ||
+			!state.find((step) => step?.choice || step?.allezValue))
 
 	const beingSearchedIndex = state?.findIndex(
 			(step) => step?.stepBeingSearched
@@ -161,7 +164,7 @@ export default function Content(props) {
 	const showSearch =
 		!styleChooser &&
 		// In itinerary mode, user is filling or editing one of the itinerary steps
-		(hasStepBeingSearched || !(osmFeature || itinerary.isItineraryMode)) // at first, on desktop, we kept the search bar considering we have room. But this divergence brings dev complexity
+		(hasStepBeingSearched || !(vers?.center || itinerary.isItineraryMode)) // at first, on desktop, we kept the search bar considering we have room. But this divergence brings dev complexity
 
 	const minimumQuickSearchZoom = getMinimumQuickSearchZoom(!sideSheet)
 
@@ -272,7 +275,7 @@ export default function Content(props) {
 			) : (
 				showContent && (
 					<ContentSection>
-						{osmFeature && (
+						{vers?.requestState === 'success' && (
 							<ModalCloseButton
 								title="Fermer l'encart point d'intérêt"
 								onClick={() => {
@@ -323,23 +326,25 @@ export default function Content(props) {
 										geocodedClickedPoint={geocodedClickedPoint}
 										geolocation={geolocation}
 										searchParams={searchParams}
-										osmFeature={osmFeature}
+										osmFeature={vers}
 									/>
 								)}
 								{bookmarkable && (
 									<BookmarkButton
 										geocodedClickedPoint={geocodedClickedPoint}
-										osmFeature={osmFeature}
+										osmFeature={vers}
 									/>
 								)}
 								{bookmarkable && (
-									<ShareButton {...{ geocodedClickedPoint, osmFeature }} />
+									<ShareButton
+										{...{ geocodedClickedPoint, osmFeature: vers }}
+									/>
 								)}
 							</PlaceButtonList>
 						)}
-						{osmFeature ? (
+						{vers?.requestState === 'success' ? (
 							<OsmFeature
-								data={osmFeature}
+								data={vers}
 								transportStopData={transportStopData}
 								photonFeature={vers.photonFeature}
 								similarNodes={similarNodes}

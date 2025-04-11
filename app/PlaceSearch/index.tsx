@@ -157,21 +157,19 @@ export default function PlaceSearch({
 					if (!results?.length) return
 					console.log('indigo res', results)
 
-					const osmFeature = sortBy(
+					const osmElement = sortBy(
 						({ lon, lat }) => -computeDistance(center, [lon, lat])
 					)(results.filter((element) => element.type === 'relation'))[0]
 
-					const centerId = osmFeature.members.find(
+					const centerId = osmElement.members.find(
 						(element) => element.role === 'admin_centre'
 					).ref
 
 					const center = results.find((result) => result.id === centerId)
 
-					console.log('indigo res', osmFeature, center)
-
 					const allez = buildAllezPart(
-						osmFeature.tags?.name,
-						encodePlace(osmFeature.type, osmFeature.id),
+						osmElement.tags?.name,
+						encodePlace(osmElement.type, osmElement.id),
 						center.lon,
 						center.lat
 					)
@@ -190,7 +188,7 @@ export default function PlaceSearch({
 					: {}),
 				...(searchValue === '' ? {} : { inputValue: searchValue }),
 				stepBeingSearched: oldStateEntry?.stepBeingSearched,
-				key: oldStateEntry?.key,
+				allezValue: oldStateEntry?.allezValue,
 			}
 			const safeStateEntry =
 				Object.keys(stateEntry).length > 0 ? stateEntry : null
@@ -265,7 +263,6 @@ export default function PlaceSearch({
 		(step.inputValue == null || step.inputValue === '') &&
 		isMyInputFocused &&
 		searchHistory.length > 0
-	console.log('PLOP s', searchHistory, step.inputValue, isMyInputFocused)
 
 	const shouldShowResults =
 		step.inputValue !== '' &&
@@ -369,7 +366,10 @@ export default function PlaceSearch({
 											const { osmId, featureType, longitude, latitude, name } =
 												newData.choice
 
-											setChargement({ id: osmId, featureType, name })
+											setChargement({
+												osmCode: encodePlace(featureType, osmId),
+												name,
+											})
 
 											const address = buildAddress(newData.choice, true)
 											const isOsmFeature = osmId && featureType

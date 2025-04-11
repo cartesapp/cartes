@@ -42,10 +42,11 @@ const url0 = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(
 	overpassRequest
 )}`
 
-const url = `https://overpass-api.de/api/interpreter?data=[out%3Ajson][timeout%3A60]%3B%0A%0A+%0Anode(46.53619267489865%2C-5.321763787258927%2C49.85923471774692%2C0.4460584783660738)(newer%3A"2024-07-12T00%3A00%3A00Z")%0A++++(if%3Aversion()+%3D%3D+1)->.all%3B%0A(%0A+node.all[shop][name]%3B%0A++node.all[amenity][name]%3B%0A)%3B%0Aout+meta%3B&target=mapql`
-
+// Pour l'instant on fait la requête sur le grand ouest
+// http://bboxfinder.com/#46.536193,-5.321764,49.859235,0.446058
 // TODO étendre le périmètre de recherche avec https://dev.overpass-api.de/overpass-doc/en/full_data/area.html
-// pas réussi en premier essai
+// Potentiel x5 d'indexation
+const url = `https://overpass-api.de/api/interpreter?data=[out%3Ajson][timeout%3A60]%3B%0A%0A+%0Anode(46.53619267489865%2C-5.321763787258927%2C49.85923471774692%2C0.4460584783660738)(newer%3A"2024-07-12T00%3A00%3A00Z")%0A++++(if%3Aversion()+%3D%3D+1)->.all%3B%0A(%0A+node.all[shop][name]%3B%0A++node.all[amenity][name]%3B%0A)%3B%0Aout+meta%3B&target=mapql`
 
 export const getRecentInterestingNodes = async () => {
 	try {

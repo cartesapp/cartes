@@ -1,5 +1,5 @@
-import { overpassRequestSuffix } from '@/app/osmRequest'
 import { debounce } from '../utils/utils'
+import { resilientOverpassFetch } from '@/app/overpassFetcher'
 
 function onlyNumbers(str) {
 	return /^\d+/.test(str)
@@ -18,12 +18,11 @@ out skel qt;
 	`
 
 	console.log('indigo overpass', overpassRequest)
-	const url = `${overpassRequestSuffix}${encodeURIComponent(overpassRequest)}`
+	const query = encodeURIComponent(overpassRequest)
 
-	console.log(url)
+	console.log('Query:', query)
 
-	const request = await fetch(url, { cache: 'force-cache' })
-	const json = await request.json()
+	const json = await resilientOverpassFetch(query)
 
 	then(json.elements || [])
 }

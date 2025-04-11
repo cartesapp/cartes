@@ -157,7 +157,7 @@ const BrouterModeContent = ({
 					style={{
 						background: deniveléColor(déniveléCumulé, distance),
 						padding: '0 .2rem',
-						borderRadius: '0.3rem;',
+						borderRadius: '0.3rem',
 					}}
 				>
 					{déniveléCumulé}&nbsp;m

@@ -97,10 +97,8 @@ export function useAddPanoramaxLayer(map, active, styleKey) {
 	}, [map, active, styleKey])
 }
 export default function useDrawPanoramaxPosition(map, position) {
-	console.log('yellow', position)
 	const hasPosition = position != null
 	const [source, setSource] = useState()
-	console.log('purple', hasPosition)
 	useEffect(() => {
 		if (!map || !hasPosition) return
 		const addIcon = async () => {
@@ -126,7 +124,6 @@ export default function useDrawPanoramaxPosition(map, position) {
 		addIcon()
 
 		return () => {
-			console.log('purple return')
 			setSource(null)
 			safeRemove(map)(['panoramax-marker'], ['panoramax-marker'])
 		}

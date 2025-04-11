@@ -1,8 +1,7 @@
 import { computeHumanDistance } from '@/app/RouteRésumé'
-import { buildAllezPart } from '@/app/SetDestination'
+import { buildAllezPartFromOsmFeature } from '@/app/SetDestination'
 import categoryGroupColors from '@/app/categoryGroupColors.yaml'
 import { OpenIndicator, getOh } from '@/app/osm/OpeningHours'
-import { encodePlace } from '@/app/utils'
 import { styled } from 'next-yak'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -14,25 +13,14 @@ export default function CategoryResult({
 	setSearchParams,
 	annuaireMode,
 }) {
-	const {
-		tags: { name: rawName, description, opening_hours: oh },
-		category,
-		type: featureType,
-		id,
-		lat,
-		lon,
-		distance,
-		bearing,
-	} = result
+	console.log('cyan test', result)
+	const { tags, category, distance, bearing } = result
+
+	const { name: rawName, description, opening_hours: oh } = tags || {}
 
 	const name = rawName || capitalise0(category.name) + ' sans nom'
 
-	const allez = buildAllezPart(
-		encodeURIComponent(name),
-		encodePlace(featureType, id),
-		lon,
-		lat
-	)
+	const allez = buildAllezPartFromOsmFeature(result)
 	const url = annuaireMode
 		? `/lieu?allez=${allez}`
 		: setSearchParams(

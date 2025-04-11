@@ -1,12 +1,13 @@
 import { useMemo } from 'react'
-import useDrawQuickSearchFeatures from './useDrawQuickSearchFeatures'
+import useDrawFeatures from './useDrawFeatures'
 
 export default function useDrawOsmFeaturePolygon(
 	map,
 	osmFeature,
 	safeStyleKey
 ) {
-	const code = osmFeature?.id
+	const code = osmFeature?.osmCode
+	console.log('indigo debug geojson', osmFeature)
 	const features = useMemo(() => (osmFeature ? [osmFeature] : []), [code])
 	const category = useMemo(
 		() => ({
@@ -19,7 +20,7 @@ export default function useDrawOsmFeaturePolygon(
 		[code]
 	)
 	const invert = true
-	useDrawQuickSearchFeatures(
+	useDrawFeatures(
 		map,
 		features,
 		false,

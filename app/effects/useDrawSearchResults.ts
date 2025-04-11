@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { combinedOsmRequest } from '../osmRequest'
-import useDrawQuickSearchFeatures from './useDrawQuickSearchFeatures'
+import useDrawFeatures from './useDrawFeatures'
+import combinedOsmFeaturesRequest from '@/components/osm/combinedOsmFeaturesRequest'
 
 export default function useDrawSearchResults(map, state, setOsmFeature) {
 	// Photon search results are not full OSM objectfs, lacking tags, so lacking
@@ -17,7 +17,7 @@ export default function useDrawSearchResults(map, state, setOsmFeature) {
 		if (!results) return
 
 		const doFetch = async () => {
-			const newFeatures = await combinedOsmRequest(results)
+			const newFeatures = await combinedOsmFeaturesRequest(results)
 			setFeatures(newFeatures)
 		}
 		doFetch()
@@ -26,7 +26,7 @@ export default function useDrawSearchResults(map, state, setOsmFeature) {
 		}
 	}, [map, setFeatures, resultsHash])
 
-	useDrawQuickSearchFeatures(map, features, false, category, setOsmFeature)
+	useDrawFeatures(map, features, false, category, setOsmFeature)
 }
 
 const category = {

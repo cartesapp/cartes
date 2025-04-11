@@ -35,6 +35,7 @@ import useSearchLocalTransit from './effects/useSearchLocalTransit'
 import useDrawItinerary from './itinerary/useDrawItinerary'
 import { computeCenterFromBbox } from './utils'
 import useMapContent from '@/components/map/useMapContent'
+import { addDefaultColor } from './transport/enrichTransportsData'
 
 if (process.env.NEXT_PUBLIC_MAPTILER == null) {
 	throw new Error('You have to configure env NEXT_PUBLIC_MAPTILER, see README')
@@ -52,7 +53,6 @@ export default function Map(props) {
 		vers,
 		target,
 		zoom,
-		osmFeature,
 		isTransportsMode,
 		transportsData,
 		agencyAreas,
@@ -90,7 +90,7 @@ export default function Map(props) {
 	useWhatChanged(props, 'Render component Map')
 
 	const mapContainerRef = useRef(null)
-	const stepsLength = state.filter((step) => step?.key).length
+	const stepsLength = state.filter((step) => step?.allezValue).length
 	const [autoPitchPreference, setAutoPitchPreference] = useLocalStorage(
 		'autoPitchPreference',
 		null,
@@ -140,12 +140,13 @@ export default function Map(props) {
 	const wikidataPicture = wikidata?.pictureUrl
 
 	const wikidataPictureObject = wikidataPicture &&
-		osmFeature && {
+		vers &&
+		vers.requestState === 'success' && {
 			thumbnailUrl: wikidataPicture,
 			title: wikidata.pictureName, //could be better
 			fromWikidata: true,
-			lat: osmFeature.lat,
-			lon: osmFeature.lon,
+			lon: vers.center.geometry.coordinates[0],
+			lat: vers.center.geometry.coordinates[1],
 		}
 
 	useImageSearch(
@@ -184,12 +185,14 @@ export default function Map(props) {
 
 	const hasItinerary = stepsLength > 1
 
-	useDrawTransport(
-		map,
-		clickedStopData[1]?.features,
-		safeStyleKey,
-		hasItinerary
+	const clickedStopDataFeatures = clickedStopData[1]?.features || []
+
+	const enrichedStopFeatures = useMemo(
+		() => addDefaultColor(clickedStopDataFeatures, null),
+		[clickedStopData[0]]
 	)
+	console.log('purple enriched', enrichedStopFeatures)
+	useDrawTransport(map, enrichedStopFeatures, safeStyleKey, hasItinerary)
 
 	useDrawItinerary(
 		map,
@@ -201,7 +204,6 @@ export default function Map(props) {
 		itinerary.date
 	)
 
-	console.log('indigo state', state)
 	const onSearchResultClick = useCallback(
 		(feature) => {
 			setState([...state.slice(0, -1), defaultState.vers])
@@ -291,6 +293,7 @@ export default function Map(props) {
 	useMapClick(
 		map,
 		state,
+		setState,
 		distanceMode,
 		itinerary,
 		isTransportsMode,
@@ -311,7 +314,8 @@ export default function Map(props) {
 	 *
 	 * */
 	useEffect(() => {
-		if (!map || !vers || !osmFeature) return
+		if (!map || !vers) return
+		if (!(vers.geojson || vers.center)) return
 		if (stepsLength > 1) return
 
 		const tailoredZoom = //TODO should be defined by the feature's polygon if any
@@ -325,8 +329,8 @@ export default function Map(props) {
 			vers,
 			tailoredZoom
 		)
-		if (osmFeature.polygon) {
-			const bbox = getBbox(osmFeature.polygon)
+		if (vers.geojson) {
+			const bbox = getBbox(vers.geojson)
 			map.fitBounds(bbox, {
 				maxZoom: 17.5, // We don't want to zoom at door level for a place, just at street level
 			})
@@ -335,8 +339,9 @@ export default function Map(props) {
 				setAutoPitchPreference(Math.round(new Date().getTime() / 1000))
 			const auto3d = !autoPitchPreferenceIsNo
 
+			const center = vers.center.geometry.coordinates
 			map.flyTo({
-				center: [vers.longitude, vers.latitude],
+				center,
 				zoom: tailoredZoom,
 				pitch: autoPitchPreferenceIsNo ? 0 : 40, // pitch in degrees
 				bearing: autoPitchPreferenceIsNo ? 0 : 15, // bearing in degrees
@@ -349,7 +354,6 @@ export default function Map(props) {
 	}, [
 		map,
 		vers,
-		osmFeature,
 		stepsLength,
 		autoPitchPreferenceIsNo,
 		setAutoPitchPreference,

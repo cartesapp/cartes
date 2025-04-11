@@ -14,9 +14,11 @@ export default function SimilarNodes({ node, similarNodes: features }) {
 
 	const category = findCategory(tags)
 
-	const { lat, lon } = node
+	const { coordinates } = node.center.geometry
 
-	const bbox = computeBbox(node)
+	const [lon, lat] = coordinates
+
+	const bbox = computeBbox({ lon, lat })
 	const [quickSearchFeaturesMap] = useOverpassRequest(
 		bbox,
 		category ? [category] : []
@@ -24,22 +26,22 @@ export default function SimilarNodes({ node, similarNodes: features }) {
 
 	if (!category) return null
 
-	const reference = [lon, lat]
 	const featuresWithDistance =
 		features &&
 		features
-			.filter((feature) => feature.id !== node.id && feature.tags.name)
+			.filter((feature) => feature.id !== node.id && feature.tags?.name)
 			.map((feature) => {
-				const { lon: lon2, lat: lat2 } = feature
+				const { coordinates: coordinates2 } = feature.center.geometry
 				return {
 					...feature,
-					distance: turfDistance([lon2, lat2], reference),
-					bearing: bearing(reference, [lon2, lat2]),
+					distance: turfDistance(coordinates2, coordinates),
+					bearing: bearing(coordinates, coordinates2),
 				}
 			})
 
 	const closestFeatures =
 		features && sortBy(({ distance }) => distance)(featuresWithDistance)
+
 	console.log('node', closestFeatures)
 	/*
 	 * Trouver la catégorie du lieu

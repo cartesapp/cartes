@@ -25,11 +25,11 @@ export default function CategoryResults({
 			.flat()
 			//			.filter((feature) => feature.tags.name)
 			.map((feature) => {
-				const { lon: lon2, lat: lat2 } = feature
+				const { coordinates } = feature.center.geometry
 				return {
 					...feature,
-					distance: turfDistance([lon2, lat2], center),
-					bearing: bearing(center, [lon2, lat2]),
+					distance: turfDistance(coordinates, center),
+					bearing: bearing(center, coordinates),
 				}
 			}),
 		results = sortBy((result) => result.distance)(resultsWithoutOrder)
@@ -57,7 +57,7 @@ export default function CategoryResults({
 				{results.map((result) => (
 					<CategoryResult
 						annuaireMode={annuaireMode}
-						key={result.id}
+						key={result.osmCode}
 						result={result}
 						setSearchParams={setSearchParams}
 					/>

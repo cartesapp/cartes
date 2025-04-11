@@ -3,12 +3,12 @@ import { colors } from '@/components/utils/colors'
 import parseOpeningHours from 'opening_hours'
 import { useEffect, useState } from 'react'
 import { buildAllezPart } from '../SetDestination'
-import { encodePlace } from '../utils'
+import { decodePlace, encodePlace } from '../utils'
 import buildSvgImage from './buildSvgImage'
 import { safeRemove } from './utils'
 import useEffectDebugger from '@/components/useEffectDebugger'
 
-export default function useDrawQuickSearchFeatures(
+export default function useDrawFeatures(
 	map,
 	features,
 	showOpenOnly,
@@ -17,13 +17,6 @@ export default function useDrawQuickSearchFeatures(
 	backgroundColor = colors['color'],
 	invert = false
 ) {
-	if (features && features.length)
-		console.log(
-			'chartreuse useDrawQuickSearchFeatures',
-			map,
-			features,
-			category
-		)
 	const setSearchParams = useSetSearchParams()
 	const baseId = `features-${category.name}-`
 
@@ -44,9 +37,9 @@ export default function useDrawQuickSearchFeatures(
 		const mapImageName = 'cartesapp-' + iconName // avoid collisions
 
 		const mapImage = map.getImage(mapImageName)
-		console.log('chartreuse before switch build image')
+		let unsubscribeEvents = () => null
 		if (mapImage)
-			draw(
+			unsubscribeEvents = draw(
 				map,
 				baseId,
 				setSearchParams,
@@ -56,14 +49,13 @@ export default function useDrawQuickSearchFeatures(
 				category
 			)
 		else {
-			console.log('chartreuse will build image')
 			buildSvgImage(
 				imageFilename,
 				imageFinalFilename,
 				(img) => {
 					map.addImage(mapImageName, img)
 
-					draw(
+					unsubscribeEvents = draw(
 						map,
 						baseId,
 						setSearchParams,
@@ -80,7 +72,7 @@ export default function useDrawQuickSearchFeatures(
 
 		// for cleaning ?
 		const cleanup = () => {
-			console.log('chartreuse cleanup', features.length, baseId, category)
+			unsubscribeEvents()
 			safeRemove(map)(
 				[
 					baseId + 'points',
@@ -124,42 +116,44 @@ export default function useDrawQuickSearchFeatures(
 
 		const pointsData = {
 			type: 'FeatureCollection',
-			features: shownFeatures.map((f) => {
-				const geometry = {
-					type: 'Point',
-					coordinates: [f.lon, f.lat],
-				}
+			features: shownFeatures
+				.map((feature) => {
+					if (!feature.center) return null
+					const tags = feature.tags || {}
+					const isOpenColor = {
+						true: '#4ce0a5ff',
+						false: '#e95748ff',
+						null: isOpenByDefault ? false : 'beige',
+					}[feature.isOpen]
 
-				const tags = f.tags || {}
-				const isOpenColor = {
-					true: '#4ce0a5ff',
-					false: '#e95748ff',
-					null: isOpenByDefault ? false : 'beige',
-				}[f.isOpen]
-
-				return {
-					type: 'Feature',
-					geometry,
-					properties: {
-						id: f.id,
-						tags,
-						name: tags.name,
-						featureType: f.type,
-						isOpenColor: isOpenColor,
-					},
-				}
-			}),
+					const [featureType, id] = decodePlace(feature.osmCode)
+					const { geometry } = feature.center
+					return {
+						type: 'Feature',
+						geometry,
+						properties: {
+							id,
+							tags,
+							name: tags.name,
+							featureType,
+							isOpenColor: isOpenColor,
+						},
+					}
+				})
+				.filter(Boolean),
 		}
 		const waysData = {
 			type: 'FeatureCollection',
 			features: shownFeatures
-				.filter((f) => f.polygon)
 				.map((f) => {
+					const shape = f.polygon || f.geojson
+					if (!shape) return null
+					console.log('indigo debug geojson', shape)
 					const tags = f.tags || {}
 					const feature = {
 						type: 'Feature',
 						geometry: !invert
-							? f.polygon.geometry
+							? shape.geometry
 							: // thanks ! https://stackoverflow.com/questions/43561504/mapbox-how-to-get-a-semi-transparent-mask-everywhere-but-on-a-specific-area
 							  {
 									type: 'Polygon',
@@ -171,7 +165,7 @@ export default function useDrawQuickSearchFeatures(
 											[180, -90],
 											[-180, -90],
 										],
-										f.polygon.geometry.coordinates[0],
+										shape.geometry.coordinates[0],
 									],
 							  },
 						properties: {
@@ -181,7 +175,8 @@ export default function useDrawQuickSearchFeatures(
 						},
 					}
 					return feature
-				}),
+				})
+				.filter(Boolean),
 		}
 		sources.ways.setData(waysData)
 		sources.points.setData(pointsData)
@@ -280,13 +275,13 @@ const draw = (
 	})
 
 	// gestion des actions en cas de clic sur un POI (l'icone ou le cercle d'ouverture)
-	map.on('click', async (e) => {
+	const onClickHandler = async (e) => {
 		//on teste si le clic a eu lieu dans l'un des 2 layers possibles, sinon on arrête
 		const features = map.queryRenderedFeatures(e.point, {
-			layers: [baseId + 'points', baseId + 'points-is-open']
-		});
+			layers: [baseId + 'points', baseId + 'points-is-open'],
+		})
 		if (!features.length) return
-		console.log("point trouvé au clic dans " + baseId)
+		console.log('point trouvé au clic dans ' + baseId)
 
 		// on charge les infos sur le POI
 		const feature = features[0]
@@ -310,6 +305,7 @@ const draw = (
 			200
 		)
 
+		//TODO not sure this works with our osmFeature refacto
 		// on charge les données et on les affiche ?
 		const osmFeature = { ...properties, tags }
 		console.log(
@@ -317,7 +313,8 @@ const draw = (
 			osmFeature
 		)
 		setOsmFeature(osmFeature)
-	})
+	}
+	map.on('click', onClickHandler)
 
 	// change pointer when entering or leaving a POI
 	map.on('mouseenter', baseId + 'points', () => {
@@ -332,4 +329,10 @@ const draw = (
 	map.on('mouseleave', baseId + 'points-is-open', () => {
 		map.getCanvas().style.cursor = ''
 	})
+
+	return () => {
+		map.off('click', onClickHandler)
+		//not unsubscribing other events because they do not trigger an error
+		//TODO why ? do they work ?
+	}
 }
