@@ -3,6 +3,7 @@ import mapboxPolyline from '@mapbox/polyline'
 import { addDefaultColor } from './enrichTransportsData'
 
 export const decodeTransportsData = ([agencyId, agencyData]) => {
+	console.log('purple will decode transports data')
 	const { polylines, points, features: featuresRaw } = agencyData
 	const lineStrings =
 		polylines &&
