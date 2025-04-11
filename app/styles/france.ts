@@ -1220,7 +1220,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 				visibility: 'visible',
 			},
 			paint: {
-				'line-color': 'hsl(240,13%,70%)',
+				'line-color': dark ? 'hsl(240,13%,40%)' : 'hsl(240,13%,70%)',
 				'line-width': [
 					'interpolate',
 					['linear', 2],
@@ -1320,7 +1320,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 				visibility: 'visible',
 			},
 			paint: {
-				'line-color': dark ? '#4a5060' : '#8c97ae',
+				'line-color': dark ? '#5a6070' : '#8c97ae',
 				'line-width': [
 					'interpolate',
 					['linear', 2],
@@ -1361,7 +1361,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 			},
 			paint: {
 				//'line-color': 'Silver',
-				'line-color': getHighwayOutlineColor(dark),
+				'line-color': dark ? '#4a4646' : getHighwayOutlineColor(dark),
 				'line-width': [
 					'interpolate',
 					['linear', 2],
