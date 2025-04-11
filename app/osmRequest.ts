@@ -1,6 +1,6 @@
 import { centerOfMass } from '@turf/turf'
 import { isServer } from './serverUrls'
-import osmApiRequest from '@/components/osm/osmApiRequest'
+//import osmApiRequest from '@/components/osm/osmApiRequest'
 import {
 	featureCollectionFromOsmNodes,
 	lonLatToPoint,
@@ -54,13 +54,21 @@ export const osmRequest = async (featureType, id) => {
 		full
 	)
 
-	// We're setting up a local OSM api based on osm2psql
+	// We tried setting up a local OSM api based on osm2psql
 	// that enables bypassing overpass, which is quite a slow
 	// software... well at least the main and only online overpass API, .de
 	// (it may be under heavy load)
 	//
 	// But these requests can fail for some features, hence the fallback call
 	// hereafter
+	//
+	// However, setting the osm database is quite hard. Despite its better
+	// performance, we're falling back to hosting our own overpass instance. It
+	// also takes less memory on our server than the full osm2psql db.
+	//
+	// We're keeping this code for a future optimisation, but using overpass for
+	// now.
+	/*
 	const directElement = await osmApiRequest(featureType, id)
 
 	if (
@@ -70,6 +78,7 @@ export const osmRequest = async (featureType, id) => {
 	) {
 		return directElement
 	}
+	*/
 
 	const query = buildOverpassQuery(featureType, id, full)
 
