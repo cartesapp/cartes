@@ -7,6 +7,7 @@ import {
 } from '@/components/geoUtils'
 import { encodePlace } from './utils'
 import buildOsmFeatureGeojson from '@/components/osm/buildOsmFeatureGeojson'
+import { resilientOverpassFetch } from './overpassFetcher'
 
 export const overpassFetchOptions = isServer
 	? {
@@ -22,18 +23,18 @@ export const overpassRequestSuffixs = [
 	'https://overpass-api.de/api/interpreter?data=',
 ]
 
-const buildOverpassUrl = (
+const buildOverpassQuery = (
 	featureType: 'node' | 'way' | 'relation',
 	id: string,
 	full = false,
 	relations = false,
 	meta = false
 ) =>
-	`${overpassRequestSuffix}${encodeURIComponent(
+	encodeURIComponent(
 		`[out:json];${featureType}(id:${id});${
 			full ? '(._;>;);' : relations ? '<;' : ''
 		}out body${meta ? ` meta` : ''};`
-	)}`
+	)
 
 export const osmRequest = async (featureType, id) => {
 	// Overpass requests for ways and relations necessitate "full" request mode
@@ -70,16 +71,10 @@ export const osmRequest = async (featureType, id) => {
 		return directElement
 	}
 
-	const url = buildOverpassUrl(featureType, id, full)
+	const query = buildOverpassQuery(featureType, id, full)
 
 	try {
-		const request = await fetch(url, overpassFetchOptions)
-		if (!request.ok) {
-			console.log('lightgreen request not ok', request)
-
-			return [{ id, requestState: 'fail', type: featureType }]
-		}
-		const json = await request.json()
+		const json = await resilientOverpassFetch(query)
 
 		const elements = json.elements
 
@@ -95,11 +90,8 @@ export const osmRequest = async (featureType, id) => {
 				// format of the state feature
 				const center = lonLatToPoint(element.lon, element.lat)
 				if (tags['addr:housenumber'] && !tags['addr:street']) {
-					const relationRequest = await fetch(
-						buildOverpassUrl(featureType, id, false, true),
-						overpassFetchOptions
-					)
-					const json = await relationRequest.json()
+					const relationQuery = buildOverpassQuery(featureType, id, false, true)
+					const json = await resilientOverpassFetch(relationQuery)
 					const {
 						tags: { name, type },
 					} = json.elements[0]
