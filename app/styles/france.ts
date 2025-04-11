@@ -2358,7 +2358,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 				'text-max-width': 5,
 			},
 			paint: {
-				'text-color': 'white',
+				'text-color': dark ? 'black' : 'white',
 				'text-opacity': [
 					'step',
 					['zoom'],
