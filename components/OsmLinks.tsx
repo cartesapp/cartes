@@ -1,11 +1,10 @@
+import { decodePlace } from '@/app/utils'
 import osmLogo from '@/public/openstreetmap.svg'
 import { styled } from 'next-yak'
 import Image from 'next/image'
 
-export default function OsmLinks({
-	data: { type: featureType2, featureType: featureType1, id },
-}) {
-	const featureType = featureType1 || featureType2
+export default function OsmLinks({ data }) {
+	const [featureType, id] = decodePlace(data.osmCode)
 	return (
 		<Wrapper>
 			<a

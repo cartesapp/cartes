@@ -727,6 +727,20 @@
   query: '[public_transport=station][train=yes]'
   icon: train
 
+- name: métro
+  title: Arrêt de métro
+  query: '[station=subway]'
+  icon: metro
+  open by default: true
+  group: Déplacements
+
+- name: tram
+  title: Arrêt de tram
+  query: '[railway=tram_stop]'
+  icon: tram
+  open by default: true
+  group: Déplacements
+
 - name: magasin-velo
   title: Magasin vélo
   group: Déplacements
