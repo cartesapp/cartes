@@ -2010,7 +2010,7 @@ On n'est pas à l'abri d'effets secondaires ici.
 			metadata: {},
 			filter: ['all', ['in', 'subclass', 'tram', 'light_rail']],
 		},
-		...cycleHighwayLayers,
+		...cycleHighwayLayers(dark),
 		{
 			id: 'Cycleway outline',
 			type: 'line',
