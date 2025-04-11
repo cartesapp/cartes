@@ -138,6 +138,7 @@ export default function useDrawItinerary(
 					? 0
 					: state.findIndex((step) => step == null || !step.allezValue),
 			awaitingNewStep = stepIndexToEdit != null
+
 		const onClick = (e) => {
 			const distancePointsLayer = map.getLayer('distancePoints')
 			const features =
@@ -257,14 +258,11 @@ export const useMemoPointsFromState = (state) => {
 	const result = useMemo(() => {
 		const points = state
 			.map((step, index) => {
-				if (step == null || !(step.latitude && step.longitude)) return
-				const { longitude, latitude, allezValue, stepBeingSearched } = step
+				if (step == null || !step.center) return
+				const { center, allezValue, stepBeingSearched } = step
+
 				return {
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [+longitude, +latitude],
-					},
+					...center,
 					properties: {
 						allezValue,
 						letter: letterFromIndex(index),

@@ -20,11 +20,20 @@ export const stepOsmRequest = async (point, state = [], geocode = false) => {
 		)
 	if (found) return found // already cached, don't make useless requests
 
+	const center = lonLatToPoint(longitude, latitude)
+
+	if (osmCode === '') {
+		return {
+			center,
+			allezValue: point,
+			name,
+		}
+	}
+
 	const [featureType, featureId] = decodePlace(osmCode)
 
 	const element = await osmRequest(featureType, featureId)
 
-	const center = lonLatToPoint(longitude, latitude)
 	// Failed, but we can still use the data encoded in the URL
 	if (element.failedRequest) {
 		return {
