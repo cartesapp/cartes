@@ -17,7 +17,7 @@ export const overpassFetchOptions = isServer
 	  }
 	: { cache: 'force-cache' }
 export const overpassRequestSuffix =
-	'https://overpass-api.de/api/interpreter?data='
+	'https://overpass.cartes.app/api/interpreter?data='
 
 const buildOverpassUrl = (
 	featureType: 'node' | 'way' | 'relation',

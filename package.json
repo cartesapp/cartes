@@ -58,7 +58,7 @@
 		"@next/eslint-plugin-next": "^15.0.0",
 		"@next/mdx": "^15.0.0",
 		"@octokit/rest": "^21.0.2",
-		"@openstreetmap/id-tagging-schema": "^6.8.1",
+		"@openstreetmap/id-tagging-schema": "6.10.0",
 		"@opentelemetry/api": "^1.9.0",
 		"@panoramax/web-viewer": "3.2.1",
 		"@react-aria/utils": "^3.25.3",

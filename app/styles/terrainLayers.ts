@@ -6,7 +6,10 @@ const isImportantContourLine = [
 	['==', ['get', 'div'], 1000],
 	['==', ['get', 'div'], 2000],
 ]
-export const contourLayers = [
+
+// @dark : is the base layer dark (satellite is dark) or light (regular vector
+// map is light) ?
+const contourLayers = (dark) => [
 	{
 		id: 'Contour index',
 		type: 'line',
@@ -16,7 +19,7 @@ export const contourLayers = [
 			visibility: 'visible',
 		},
 		paint: {
-			'line-color': 'hsl(22, 35%, 55%)',
+			'line-color': `hsl(22, 35%, ${dark ? 95 : 55}%)`,
 			'line-width': 1.3,
 			'line-opacity': {
 				stops: [
@@ -36,7 +39,7 @@ export const contourLayers = [
 			visibility: 'visible',
 		},
 		paint: {
-			'line-color': 'hsl(22, 35%, 55%)',
+			'line-color': `hsl(22, 35%, ${dark ? 95 : 55}%)`,
 			'line-width': 0.8,
 			'line-opacity': 0.5,
 		},
@@ -65,9 +68,9 @@ export const contourLayers = [
 			'text-rotation-alignment': 'map',
 		},
 		paint: {
-			'text-color': 'hsl(20, 28%, 32%)',
+			'text-color': `hsl(20, 28%, ${dark ? 100 : 32}%)`,
 			'text-halo-blur': 1,
-			'text-halo-color': 'hsl(0, 0%, 100%)',
+			'text-halo-color': `hsl(0, 0%, ${dark ? 0 : 100}%)`,
 			'text-halo-width': 0.5,
 		},
 		metadata: {},
@@ -75,7 +78,7 @@ export const contourLayers = [
 	},
 ]
 
-export const hillshadeLayers = [
+const hillshadeLayers = (dark) => [
 	{
 		id: 'Hillshade',
 		type: 'hillshade',
@@ -83,13 +86,23 @@ export const hillshadeLayers = [
 		layout: {
 			visibility: 'visible',
 		},
-		paint: {
-			'hillshade-accent-color': 'hsl(51, 30%, 79%)',
-			'hillshade-shadow-color': 'hsl(0, 0%, 50%)',
-			'hillshade-highlight-color': 'hsl(0, 0%, 83%)',
-		},
+		paint: dark
+			? // just inverted the values, we can probably do much better for dark
+			  {
+					'hillshade-accent-color': 'hsl(51, 30%, 20%)',
+					'hillshade-shadow-color': 'hsl(0, 0%, 50%)',
+					'hillshade-highlight-color': 'hsl(0, 0%, 17%)',
+			  }
+			: {
+					'hillshade-accent-color': 'hsl(51, 30%, 79%)',
+					'hillshade-shadow-color': 'hsl(0, 0%, 50%)',
+					'hillshade-highlight-color': 'hsl(0, 0%, 83%)',
+			  },
 	},
 ]
 
-const terrainLayers = [...hillshadeLayers, ...contourLayers]
-export default terrainLayers
+const createTerrainLayers = (dark) => [
+	...hillshadeLayers(dark),
+	...contourLayers(dark),
+]
+export default createTerrainLayers

@@ -1,11 +1,12 @@
 import { safeRemove } from '@/app/effects/utils'
-import Image from 'next/image'
-import reliefIcon from '@/public/relief.svg'
 import reliefIconChecked from '@/public/relief-choisi.svg'
-import { StyleElementChooserWrapper } from './PanoramaxChooser'
+import reliefIcon from '@/public/relief.svg'
+import Image from 'next/image'
 import { useEffect } from 'react'
 import { pmtilesServerUrl } from '../serverUrls'
-import terrainLayers, { contourLayers, hillshadeLayers } from './terrainLayers'
+import { StyleElementChooserWrapper } from './PanoramaxChooser'
+import { homeMadeTerrainStyles } from './styles'
+import createTerrainLayers from './terrainLayers'
 
 export default function TerrainChooser({
 	searchParams,
@@ -14,7 +15,7 @@ export default function TerrainChooser({
 	zoom,
 	styleKey,
 }) {
-	if (styleKey !== 'france') return
+	if (!homeMadeTerrainStyles.includes(styleKey)) return
 
 	const reliefChecked = searchParams.relief === 'oui'
 
@@ -46,7 +47,7 @@ export default function TerrainChooser({
 	)
 }
 
-export function AddTerrain({ map, active }) {
+export function AddTerrain({ map, active, styleKey }) {
 	useEffect(() => {
 		if (!active) return
 
@@ -65,6 +66,7 @@ export function AddTerrain({ map, active }) {
 			minzoom: 13,
 		})
 
+		const terrainLayers = createTerrainLayers(styleKey === 'satellite')
 		terrainLayers.map((layer) => map.addLayer(layer))
 
 		return () => {
@@ -73,6 +75,6 @@ export function AddTerrain({ map, active }) {
 				['contours', 'terrain-rgb']
 			)
 		}
-	}, [map, active])
+	}, [map, active, styleKey])
 	return null
 }

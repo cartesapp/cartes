@@ -42,7 +42,6 @@ export const styles = {
 		url: satellite(key),
 		name: 'Satellite',
 		emoji: '🛰️',
-		hasTerrain: true,
 	},
 	satelliteHybrid: {
 		url: maptilerUrl('hybrid'),
@@ -116,3 +115,4 @@ export const styles = {
 }
 
 export const getStyle = (styleKey) => ({ ...styles[styleKey], key: styleKey })
+export const homeMadeTerrainStyles = ['france', 'satellite']

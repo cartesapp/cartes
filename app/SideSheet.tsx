@@ -2,13 +2,25 @@ import { styled } from 'next-yak'
 import Content from './Content'
 import LeftVerticalBar from '@/components/LeftVerticalBar'
 
+import { useLocalStorage } from 'usehooks-ts'
+export const defaultLayoutPreferences = { leftPanelOpen: true }
 export default function SideSheet(props) {
+	const [layoutPreferences, setLayoutPreferences] = useLocalStorage(
+		'layoutPreferences',
+		defaultLayoutPreferences,
+		{
+			initializeWithValue: false,
+		}
+	)
+	const { leftPanelOpen } = layoutPreferences
 	return (
 		<>
-			<SideSheetWrapper>
-				<Content {...props} sideSheet={true} />
-			</SideSheetWrapper>
-			<LeftVerticalBar />
+			{leftPanelOpen ? (
+				<SideSheetWrapper>
+					<Content {...props} sideSheet={true} />
+				</SideSheetWrapper>
+			) : null}
+			<LeftVerticalBar {...{ layoutPreferences, setLayoutPreferences }} />
 		</>
 	)
 }

@@ -1,11 +1,32 @@
+import reduceLeftPanelIcon from '@/public/reduce-left-panel.svg'
+import openLeftPanelIcon from '@/public/open-left-panel.svg'
 import { styled } from 'next-yak'
+import Image from 'next/image'
 import Link from 'next/link'
 import useSetSearchParams from './useSetSearchParams'
 
-export default function LeftVerticalBar() {
+export default function LeftVerticalBar({
+	layoutPreferences,
+	setLayoutPreferences,
+}) {
+	const { leftPanelOpen } = layoutPreferences
+
 	const setSearchParams = useSetSearchParams()
 	return (
 		<Aside>
+			<button
+				onClick={() => {
+					setLayoutPreferences((preferences) => ({
+						...preferences,
+						leftPanelOpen: !preferences.leftPanelOpen,
+					}))
+				}}
+			>
+				<Image
+					src={leftPanelOpen ? reduceLeftPanelIcon : openLeftPanelIcon}
+					alt="Réduire l'encart"
+				/>
+			</button>
 			<AboutLink href={setSearchParams({ intro: true }, true)}>
 				<small>?</small>
 			</AboutLink>
@@ -16,10 +37,11 @@ export default function LeftVerticalBar() {
 const AboutLink = styled(Link)`
 	float: right;
 	position: absolute;
-	color: var(--lighterColor);
+	color: var(--color);
 	padding: 0rem 0.3rem 0.05rem 0.3rem;
 	line-height: 1.1rem;
-	border: 2px solid var(--lighterColor);
+	border: 2px solid var(--color);
+	opacity: 0.6;
 	border-radius: 2rem;
 	left: 0.8rem;
 	font-weight: bold;
@@ -42,4 +64,18 @@ const Aside = styled.aside`
 		2.6px 5.2px 6.5px -1.9px hsl(var(--shadow-color) / 0.29),
 		5px 10px 12.6px -2.5px hsl(var(--shadow-color) / 0.29);
 	box-shadow: var(--shadow-elevation-medium);
+
+	padding: 0.6rem 0.2rem;
+	button {
+		border: 0;
+		background: none;
+		margin: 0 auto;
+		padding: 0;
+		display: block;
+		opacity: 0.6;
+		img {
+			width: 1.2rem;
+			height: auto;
+		}
+	}
 `
