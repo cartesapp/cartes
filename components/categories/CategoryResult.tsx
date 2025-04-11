@@ -13,12 +13,10 @@ export default function CategoryResult({
 	setSearchParams,
 	annuaireMode,
 }) {
-	const {
-		tags: { name: rawName, description, opening_hours: oh },
-		category,
-		distance,
-		bearing,
-	} = result
+	console.log('cyan test', result)
+	const { tags, category, distance, bearing } = result
+
+	const { name: rawName, description, opening_hours: oh } = tags || {}
 
 	const name = rawName || capitalise0(category.name) + ' sans nom'
 
