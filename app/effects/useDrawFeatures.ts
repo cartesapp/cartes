@@ -72,7 +72,7 @@ export default function useDrawFeatures(
 
 		// for cleaning ?
 		const cleanup = () => {
-			unsubscribeEvents()
+			unsubscribeEvents && unsubscribeEvents()
 			safeRemove(map)(
 				[
 					baseId + 'points',
