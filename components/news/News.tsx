@@ -11,9 +11,7 @@ export default function News() {
 					{dateCool(news[0].date)}
 				</small>
 				<h2>{news[0].title}</h2>
-				<p>
-					<small>{news[0].description}</small>
-				</p>
+				<p>{news[0].description}</p>
 			</div>
 			<details>
 				<summary>
@@ -24,9 +22,7 @@ export default function News() {
 						<li key={title}>
 							<small>{dateCool(date)}</small>
 							<h2>{title}</h2>
-							<p>
-								<small>{description}</small>
-							</p>
+							<p>{description}</p>
 						</li>
 					))}
 				</ol>
@@ -60,18 +56,22 @@ const Section = styled.section`
 		color: var(--darkColor);
 		text-align: right;
 	}
-	ol {
+	details > ol {
 		list-style-type: none;
 		padding-left: 0;
 		li {
 			margin-bottom: 1rem;
 		}
 	}
+
 	h2 {
 		font-size: 100%;
 		margin: 0;
 	}
-	p {
+	> div > p,
+	ol p {
+		font-size: 80%;
+		line-height: 1.2rem;
 		margin: 0;
 	}
 `
