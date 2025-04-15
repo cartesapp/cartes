@@ -6,6 +6,7 @@ import {
 import { initialDate } from '@/app/itinerary/transit/utils'
 import { stepOsmRequest } from '@/app/stepOsmRequest'
 
+/* This little API is used by cava.cartes.app's uptime robots */
 export async function GET(request: { url: string | URL }) {
 	const requestUrl = new URL(request.url),
 		allez = requestUrl.searchParams.get('allez')
@@ -18,9 +19,13 @@ export async function GET(request: { url: string | URL }) {
 	try {
 		const start = state[0],
 			destination = state[1]
+
+		const [lng, lat] = start.center.geometry.coordinates
+		const [lngB, latB] = destination.center.geometry.coordinates
+
 		const json = await computeMotisTrip(
-			{ lng: start.longitude, lat: start.latitude },
-			{ lng: destination.longitude, lat: destination.latitude },
+			{ lng, lat },
+			{ lng: lngB, lat: latB },
 			date
 		)
 		if (json.state === 'error' || !json.content) {
