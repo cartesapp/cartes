@@ -13,15 +13,17 @@ export default function Introduction({
 		<ExplanationWrapper>
 			<News />
 			<Explanations />
-			<DialogButton
-				onClick={() => {
-					setTutorials({ ...tutorials, introduction: true })
-					setSearchParams({ intro: undefined })
-					setSnap(2)
-				}}
-			>
-				OK
-			</DialogButton>
+			<div>
+				<DialogButton
+					onClick={() => {
+						setTutorials({ ...tutorials, introduction: true })
+						setSearchParams({ intro: undefined })
+						setSnap(2)
+					}}
+				>
+					OK
+				</DialogButton>
+			</div>
 			{/*
 				<Analytics />
 			*/}
@@ -45,5 +47,9 @@ const ExplanationWrapper = styled.div`
 	p {
 		margin: 1rem 0;
 		line-height: 1.4rem;
+	}
+	> div > button {
+		display: block;
+		margin: 0 0 0 auto;
 	}
 `
