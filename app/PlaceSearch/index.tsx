@@ -33,6 +33,7 @@ import SearchLoader from './_components/SearchResults/SearchLoader'
 import SearchNoResults from './_components/SearchResults/SearchNoResults'
 import SearchResultsContainer from './_components/SearchResults/SearchResultsContainer'
 import useIcons from '../effects/useIcons'
+import { NewsPlop } from '@/components/news/NewsPlop'
 
 /* I'm  not sure of the interest to attache `results` to each state step.
  * It could be cached across the app. No need to re-query photon for identical
@@ -273,12 +274,15 @@ export default function PlaceSearch({
 
 	const icons = useIcons()
 
+	const aboutLink = setSearchParams({ intro: !searchParams.intro }, true)
 	return (
 		<div>
 			<LogoWrapper $sideSheet={sideSheet}>
-				<LogoCarteApp
-					link={setSearchParams({ intro: !searchParams.intro }, true)}
+				<NewsPlop
+					href={aboutLink}
+					title="Découvrez les dernières améliorations de Cartes.app"
 				/>
+				<LogoCarteApp link={aboutLink} />
 				<SearchBar
 					state={state}
 					value={value}
@@ -413,6 +417,7 @@ const LogoWrapper = styled.div`
 	justify-content: start;
 	align-items: center;
 	margin-bottom: 0.4rem;
+	position: relative;
 
 	> a {
 		margin: 0;

@@ -1,3 +1,5 @@
+import Introduction from '@/components/Introduction'
+import MapContent from '@/components/MapContent'
 import PaymentBlock from '@/components/PaymentBlock'
 import { ContentLoaderWrapper, Loader } from '@/components/loader'
 import useSetSearchParams from '@/components/useSetSearchParams'
@@ -9,7 +11,7 @@ import { useLocalStorage } from 'usehooks-ts'
 import BookmarkButton from './BookmarkButton'
 import Bookmarks from './Bookmarks'
 import ClickedPoint from './ClickedPoint'
-import { ContentSection, ContentWrapper, ExplanationWrapper } from './ContentUI'
+import { ContentSection, ContentWrapper } from './ContentUI'
 import ElectionsContent from './Elections'
 import { FeatureImage } from './FeatureImage'
 import OsmFeature from './OsmFeature'
@@ -21,7 +23,6 @@ import SetDestination from './SetDestination'
 import ShareButton from './ShareButton'
 import { DialogButton, ModalCloseButton } from './UI'
 import { ZoneImages } from './ZoneImages'
-import Explanations from './explanations.mdx'
 import Itinerary from './itinerary/Itinerary'
 import { getHasStepBeingSearched } from './itinerary/Steps'
 import getUrl from './osm/getUrl'
@@ -30,7 +31,6 @@ import { defaultAgencyFilter } from './transport/AgencyFilter'
 import { defaultTransitFilter } from './transport/TransitFilter'
 import TransportMap from './transport/TransportMap'
 import useOgImageFetcher from './useOgImageFetcher'
-import MapContent from '@/components/MapContent'
 
 export default function Content(props) {
 	const {
@@ -200,21 +200,14 @@ export default function Content(props) {
 
 	if (showIntroduction)
 		return (
-			<ExplanationWrapper>
-				<Explanations />
-				<DialogButton
-					onClick={() => {
-						setTutorials({ ...tutorials, introduction: true })
-						setSearchParams({ intro: undefined })
-						setSnap(2)
-					}}
-				>
-					OK
-				</DialogButton>
-				{/*
-				<Analytics />
-			*/}
-			</ExplanationWrapper>
+			<Introduction
+				{...{
+					setTutorials,
+					tutorials,
+					setSearchParams,
+					setSnap,
+				}}
+			/>
 		)
 
 	if (searchParams.abonnement)
