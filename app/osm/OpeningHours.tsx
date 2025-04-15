@@ -1,5 +1,8 @@
 import parseOpeningHours from 'opening_hours'
 import { styled } from 'next-yak'
+import { useState } from 'react'
+import Image from 'next/image'
+import chevronIcon from '@/public/chevron-bas.svg'
 
 const getStartOfToday = (date) => {
 	const startOfToday = date || new Date()
@@ -85,10 +88,19 @@ export const OpeningHours = ({ opening_hours }) => {
 		: {}
 
 	console.log(ohPerDay)
+	const [detailsOpen, setDetailsOpen] = useState(false)
 	return (
 		<Wrapper>
-			<details open={false}>
-				<summary title="Voir tous les horaires">
+			<details open={detailsOpen}>
+				<summary
+					title="Voir tous les horaires"
+					onClick={(e) => {
+						setDetailsOpen((detailsOpen) => !detailsOpen)
+						e.stopPropagation()
+						e.preventDefault()
+					}}
+				>
+					<OpenIndicator isOpen={isOpen === 'error' ? false : isOpen} />{' '}
 					{isOpen === 'error' && <span>Problème dans les horaires</span>}
 					{nextChange === 'error' ? null : !nextChange ? (
 						<span>Ouvert 24/24 7j/7</span>
@@ -97,7 +109,11 @@ export const OpeningHours = ({ opening_hours }) => {
 							{isOpen ? 'Ouvert' : 'Fermé'} jusqu'à {formatDate(nextChange)}
 						</span>
 					)}
-					<OpenIndicator isOpen={isOpen === 'error' ? false : isOpen} />{' '}
+					<DetailsHandle
+						src={chevronIcon}
+						alt={detailsOpen ? 'Consulter les horaires' : 'Fermer les horaires'}
+						$detailsOpen={detailsOpen}
+					/>
 				</summary>
 
 				{intervals != null && !ohPerDay.error ? (
@@ -140,14 +156,7 @@ const Wrapper = styled.div`
 		display: flex;
 		align-items: center;
 	}
-	summary::before {
-		content: '▶'; 
-		margin-right: 8px;
-		transition: transform 0.3s;
-	}
-	details[open] summary::before {
-		transform: rotate(90deg);
-	}
+
 	ul {
 		padding-left: 2rem;
 		width: 100%;
@@ -183,4 +192,12 @@ const OpenIndicatorContainer = styled.span`
 	height: 1rem;
 	border-radius: 2rem;
 	background: ${(p) => (p.$isOpen ? '#37c267' : '#b5325d')};
+`
+
+const DetailsHandle = styled(Image)`
+	margin-left: 0.4rem;
+	width: 0.6rem;
+	height: auto;
+	transition: transform 0.3s;
+	transform: ${(p) => (p.$detailsOpen ? 'rotate(180deg)' : 'rotate(0deg)')};
 `
