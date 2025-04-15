@@ -1,6 +1,7 @@
 import { DialogButton } from '@/app/UI'
-import { ExplanationWrapper } from '@/app/ContentUI'
 import Explanations from '@/components/explanations.mdx'
+import News from './news/News'
+import { styled } from 'next-yak'
 
 export default function Introduction({
 	setTutorials,
@@ -10,6 +11,7 @@ export default function Introduction({
 }) {
 	return (
 		<ExplanationWrapper>
+			<News />
 			<Explanations />
 			<DialogButton
 				onClick={() => {
@@ -26,3 +28,22 @@ export default function Introduction({
 		</ExplanationWrapper>
 	)
 }
+
+const ExplanationWrapper = styled.div`
+	padding-top: 0.1rem;
+	h1 {
+		margin-top: 0;
+		margin-bottom: -0.4rem;
+	}
+	ol {
+		padding-left: 1.5rem;
+	}
+	margin: 1vw 1rem;
+	a {
+		color: var(--darkestColor);
+	}
+	p {
+		margin: 1rem 0;
+		line-height: 1.4rem;
+	}
+`

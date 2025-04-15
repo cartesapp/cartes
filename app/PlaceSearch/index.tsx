@@ -33,7 +33,7 @@ import SearchLoader from './_components/SearchResults/SearchLoader'
 import SearchNoResults from './_components/SearchResults/SearchNoResults'
 import SearchResultsContainer from './_components/SearchResults/SearchResultsContainer'
 import useIcons from '../effects/useIcons'
-import { NewsPlop } from '@/components/NewsPlop'
+import { NewsPlop } from '@/components/news/NewsPlop'
 
 /* I'm  not sure of the interest to attache `results` to each state step.
  * It could be cached across the app. No need to re-query photon for identical
