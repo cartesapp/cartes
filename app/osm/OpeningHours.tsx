@@ -89,7 +89,6 @@ export const OpeningHours = ({ opening_hours }) => {
 		<Wrapper>
 			<details open={false}>
 				<summary title="Voir tous les horaires">
-					<OpenIndicator isOpen={isOpen === 'error' ? false : isOpen} />{' '}
 					{isOpen === 'error' && <span>Problème dans les horaires</span>}
 					{nextChange === 'error' ? null : !nextChange ? (
 						<span>Ouvert 24/24 7j/7</span>
@@ -98,6 +97,7 @@ export const OpeningHours = ({ opening_hours }) => {
 							{isOpen ? 'Ouvert' : 'Fermé'} jusqu'à {formatDate(nextChange)}
 						</span>
 					)}
+					<OpenIndicator isOpen={isOpen === 'error' ? false : isOpen} />{' '}
 				</summary>
 
 				{intervals != null && !ohPerDay.error ? (
@@ -139,6 +139,14 @@ const Wrapper = styled.div`
 		list-style-type: none;
 		display: flex;
 		align-items: center;
+	}
+	summary::before {
+		content: '▶'; 
+		margin-right: 8px;
+		transition: transform 0.3s;
+	}
+	details[open] summary::before {
+		transform: rotate(90deg);
 	}
 	ul {
 		padding-left: 2rem;
