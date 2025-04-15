@@ -274,16 +274,15 @@ export default function PlaceSearch({
 
 	const icons = useIcons()
 
+	const aboutLink = setSearchParams({ intro: !searchParams.intro }, true)
 	return (
 		<div>
 			<LogoWrapper $sideSheet={sideSheet}>
 				<NewsPlop
-					href="#"
+					href={aboutLink}
 					title="Découvrez les dernières améliorations de Cartes.app"
 				/>
-				<LogoCarteApp
-					link={setSearchParams({ intro: !searchParams.intro }, true)}
-				/>
+				<LogoCarteApp link={aboutLink} />
 				<SearchBar
 					state={state}
 					value={value}
