@@ -1,4 +1,3 @@
-import { centerOfMass } from '@turf/turf'
 import osmToGeojson from 'osmtogeojson'
 
 export default function buildOsmFeaturesGeojson(element, elements) {

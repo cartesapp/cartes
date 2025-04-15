@@ -1,3 +1,7 @@
+import {
+	buildStepFromOverpassNode,
+	buildStepFromOverpassWayOrRelation,
+} from '@/app/osmRequest'
 import { resilientOverpassFetch } from '@/app/overpassFetcher'
 
 export default async function combinedOsmFeaturesRequest(queries) {
@@ -19,6 +23,8 @@ export default async function combinedOsmFeaturesRequest(queries) {
 
 	const { elements } = json
 
+	console.log('indigo combined', elements)
+
 	const results = queries
 		.map((query) => {
 			const found = elements.find(
@@ -27,12 +33,18 @@ export default async function combinedOsmFeaturesRequest(queries) {
 			)
 
 			if (!found) return false
-			const geoElement = {
-				...found,
-				lat: query.latitude,
-				lon: query.longitude,
-			}
-			return geoElement
+			const feature =
+				query.featureType === 'node'
+					? buildStepFromOverpassNode(found, query.featureType, query.osmId)
+					: buildStepFromOverpassWayOrRelation(
+							found,
+							elements,
+							query.osmId,
+							query.featureType
+					  )
+
+			console.log('indigo combined', feature)
+			return feature
 		})
 		.filter(Boolean)
 	console.log('requestString', requestString, results)

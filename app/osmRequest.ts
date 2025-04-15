@@ -170,6 +170,7 @@ export const buildStepFromOverpassWayOrRelation = (
 		: centerOfMass(
 				featureCollectionFromOsmNodes(elements.filter((el) => el.lat && el.lon))
 		  )
+
 	// TODO center could also be derived from this geojson ?
 	const geojson = buildOsmFeatureGeojson(element, elements)
 
