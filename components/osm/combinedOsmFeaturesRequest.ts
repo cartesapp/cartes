@@ -1,3 +1,7 @@
+import {
+	buildStepFromOverpassNode,
+	buildStepFromOverpassWayOrRelation,
+} from '@/app/osmRequest'
 import { resilientOverpassFetch } from '@/app/overpassFetcher'
 
 export default async function combinedOsmFeaturesRequest(queries) {
@@ -5,7 +9,7 @@ export default async function combinedOsmFeaturesRequest(queries) {
 		.map((result) => {
 			const { osmId, featureType, latitude, longitude } = result
 
-			return `${featureType}(id:${osmId}); out body; `
+			return `${featureType}(id:${osmId});(._;>;); out body; `
 		})
 		.join('')
 
@@ -27,12 +31,17 @@ export default async function combinedOsmFeaturesRequest(queries) {
 			)
 
 			if (!found) return false
-			const geoElement = {
-				...found,
-				lat: query.latitude,
-				lon: query.longitude,
-			}
-			return geoElement
+			const feature =
+				query.featureType === 'node'
+					? buildStepFromOverpassNode(found, query.featureType, query.osmId)
+					: buildStepFromOverpassWayOrRelation(
+							found,
+							elements,
+							query.osmId,
+							query.featureType
+					  )
+
+			return feature
 		})
 		.filter(Boolean)
 	console.log('requestString', requestString, results)

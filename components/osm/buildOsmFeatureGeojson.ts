@@ -1,4 +1,3 @@
-import { centerOfMass } from '@turf/turf'
 import osmToGeojson from 'osmtogeojson'
 
 export default function buildOsmFeaturesGeojson(element, elements) {
@@ -28,14 +27,14 @@ export default function buildOsmFeaturesGeojson(element, elements) {
 }
 
 const buildWayPolygon = (way, elements) => {
-	const nodes = way.nodes.map((id) => elements.find((el) => el.id === id)),
-		polygon = {
-			type: 'Feature',
-			geometry: {
-				type: 'Polygon',
-				coordinates: [[...nodes, nodes[0]].map(({ lat, lon }) => [lon, lat])],
-			},
-		}
+	const nodes = way.nodes.map((id) => elements.find((el) => el.id === id))
+	const polygon = {
+		type: 'Feature',
+		geometry: {
+			type: 'Polygon',
+			coordinates: [[...nodes, nodes[0]].map(({ lat, lon }) => [lon, lat])],
+		},
+	}
 	return polygon
 }
 
