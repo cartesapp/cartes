@@ -5,7 +5,7 @@
     - quitter la fiche de l'arrêt supprime bien les lignes de la carte
 
     Également une petite nouveauté: un chevron montre plus clairement que l'on peut consulter tous les horaires d'ouverture d'un lieu au clic.
-  date: 2025-04-15
+  date: 2025-04-16
 - title: 🟣 Un indicateur de nouveautés !
   description: |
     Nous avons ajouté une petite boule de notification de nouveautés ! Vous serez ainsi informé en un clic des améliorations de Cartes :)
