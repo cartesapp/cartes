@@ -1,32 +1,51 @@
+'use client'
+
 import { styled } from 'next-yak'
-import news from './news.yaml'
 import { dateCool } from '@/app/blog/utils'
+import { useEffect, useState } from 'react'
 
 export default function News() {
+	const [news, setNews] = useState(null)
+	useEffect(() => {
+		const doFetch = async () => {
+			const request = await fetch('/api/news')
+			const json = await request.json()
+			setNews(json)
+		}
+		doFetch()
+	}, [setNews])
+
+	const lastMdxSource = news && news[0].descriptionMdx
 	return (
 		<Section>
 			<small>Nouveautés</small>
-			<div>
-				<small style={{ color: 'var(--darkColor)' }}>
-					{dateCool(news[0].date)}
-				</small>
-				<h2>{news[0].title}</h2>
-				<p>{news[0].description}</p>
-			</div>
-			<details>
-				<summary>
-					<small>Voir la suite</small>
-				</summary>
-				<ol>
-					{news.slice(1).map(({ date, title, description }) => (
-						<li key={title}>
-							<small>{dateCool(date)}</small>
-							<h2>{title}</h2>
-							<p>{description}</p>
-						</li>
-					))}
-				</ol>
-			</details>
+			{!news ? (
+				'Chargement'
+			) : (
+				<>
+					<div>
+						<small style={{ color: 'var(--darkColor)' }}>
+							{dateCool(news[0].date)}
+						</small>
+						<h2>{news[0].title}</h2>
+						<p dangerouslySetInnerHTML={{ __html: lastMdxSource }} />
+					</div>
+					<details>
+						<summary>
+							<small>Voir la suite</small>
+						</summary>
+						<ol>
+							{news.slice(1).map(({ date, title, descriptionMdx }) => (
+								<li key={title}>
+									<small>{dateCool(date)}</small>
+									<h2>{title}</h2>
+									<p dangerouslySetInnerHTML={{ __html: descriptionMdx }} />
+								</li>
+							))}
+						</ol>
+					</details>
+				</>
+			)}
 		</Section>
 	)
 }
