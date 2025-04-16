@@ -1,6 +1,5 @@
 - title: 🩹 Résolution de bugs sur la carte
   description: |
-    Quelques bugs ont été résolus : 
     - les lieux trouvés par une recherche sont à nouveau affichés sur la carte
     - le clic sur un arrêt de bus affiche à nouveau les lignes qui y passent
     - quitter la fiche de l'arrêt supprime bien les lignes de la carte
