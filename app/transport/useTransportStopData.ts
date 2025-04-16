@@ -38,6 +38,9 @@ export default function useTransportStopData(osmFeature, gtfsStopIds) {
 			}
 		}
 		doFetch()
+		return () => {
+			setData([])
+		}
 	}, [setData, osmFeature, gtfsStopIds])
 
 	useEffect(() => {
