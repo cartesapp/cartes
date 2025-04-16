@@ -28,7 +28,6 @@ export default function buildOsmFeaturesGeojson(element, elements) {
 
 const buildWayPolygon = (way, elements) => {
 	const nodes = way.nodes.map((id) => elements.find((el) => el.id === id))
-	console.log('indigo combined center2', nodes, way, elements)
 	const polygon = {
 		type: 'Feature',
 		geometry: {

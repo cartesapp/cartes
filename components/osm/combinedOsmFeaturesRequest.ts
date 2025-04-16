@@ -9,7 +9,7 @@ export default async function combinedOsmFeaturesRequest(queries) {
 		.map((result) => {
 			const { osmId, featureType, latitude, longitude } = result
 
-			return `${featureType}(id:${osmId}); out body; `
+			return `${featureType}(id:${osmId});(._;>;); out body; `
 		})
 		.join('')
 
@@ -22,8 +22,6 @@ export default async function combinedOsmFeaturesRequest(queries) {
 	const json = await resilientOverpassFetch(query, options)
 
 	const { elements } = json
-
-	console.log('indigo combined', elements)
 
 	const results = queries
 		.map((query) => {
@@ -43,7 +41,6 @@ export default async function combinedOsmFeaturesRequest(queries) {
 							query.featureType
 					  )
 
-			console.log('indigo combined', feature)
 			return feature
 		})
 		.filter(Boolean)

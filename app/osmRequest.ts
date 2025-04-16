@@ -167,7 +167,10 @@ export const buildStepFromOverpassWayOrRelation = (
 	//console.log('admincenter', relation, adminCenter, adminCenterNode)
 	const center = adminCenterNode
 		? lonLatToPoint(adminCenterNode.lon, adminCenterNode.lat)
-		: centerOfMass(
+		: // TODO wait, did we recode client-side the "out center" overpass directive ?
+		  // Or is our centerOfMass a voluntary addition because out center's center is
+		  // different ?
+		  centerOfMass(
 				featureCollectionFromOsmNodes(elements.filter((el) => el.lat && el.lon))
 		  )
 
