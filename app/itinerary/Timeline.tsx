@@ -26,6 +26,8 @@ export default function Timeline({ itinerary }) {
 				<Link href={setSearchParams({ mode: 'velo' }, true)}>
 					<Line
 						{...{
+							relativeWidth:
+								cyclingSeconds / Math.max(cyclingSeconds, walkingSeconds),
 							connectionsTimeRange,
 							connection: { seconds: cyclingSeconds },
 							connectionRange: [now, now + cyclingSeconds],
@@ -46,6 +48,8 @@ export default function Timeline({ itinerary }) {
 				<Link href={setSearchParams({ mode: 'marche' }, true)}>
 					<Line
 						{...{
+							relativeWidth:
+								walkingSeconds / Math.max(cyclingSeconds, walkingSeconds),
 							connectionsTimeRange,
 							connection: { seconds: walkingSeconds },
 							connectionRange: [now, now + walkingSeconds],

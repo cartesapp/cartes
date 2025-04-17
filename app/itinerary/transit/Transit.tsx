@@ -159,6 +159,9 @@ const TransitTimeline = ({
 						index={index}
 						choix={choix}
 						connectionsTimeRange={connectionsTimeRange}
+						relativeWidth={
+							0.6 // by construction, I think it's at least 0.6, so safe for <Line/>
+						}
 					/>
 				))}
 			</ul>
@@ -189,6 +192,7 @@ const Connection = ({
 	choix,
 	connectionsTimeRange,
 	selected,
+	relativeWidth,
 }) => {
 	return (
 		<ConnectionLi
@@ -196,6 +200,7 @@ const Connection = ({
 			onClick={() => setSelectedConnection(index)}
 		>
 			<Line
+				relativeWidth={relativeWidth}
 				connectionsTimeRange={connectionsTimeRange}
 				transports={connection.transports}
 				connection={connection}

@@ -13,6 +13,7 @@ export const Line = ({
 	choix,
 	index,
 	componentMode,
+	relativeWidth = 0,
 }) => {
 	const setSearchParams = useSetSearchParams()
 	console.log('lightgreen line', transports, setSearchParams)
@@ -69,7 +70,7 @@ export const Line = ({
 							color: '#555',
 						}}
 					>
-						{to - from > 25 * 60 // 10 minutes TODO this should be calculated : does it fit ?? show '-' and title=
+						{relativeWidth > 0.5
 							? humanDuration(connection.seconds).single
 							: ' - '}
 					</small>
