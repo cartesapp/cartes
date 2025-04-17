@@ -11,6 +11,8 @@ import { useLocalStorage, useMediaQuery } from 'usehooks-ts'
 import { styles } from '../styles/styles'
 import useGeolocation from './useGeolocation'
 import useMapIcons from './useMapIcons'
+import { MaplibreTerradrawControl } from '@watergis/maplibre-gl-terradraw'
+import '@watergis/maplibre-gl-terradraw/dist/maplibre-gl-terradraw.css'
 
 /*
  *
@@ -260,6 +262,29 @@ export default function useAddMap(
 			map.addControl(indoorEqual)
 		}
 
+		// As default, all Terra Draw modes are enabled,
+		// you can disable options if you don't want to use them.
+		const draw = new MaplibreTerradrawControl({
+			modes: [
+				'render',
+				'point',
+				'linestring',
+				'polygon',
+				'rectangle',
+				'circle',
+				'freehand',
+				'angled-rectangle',
+				'sensor',
+				'sector',
+				'select',
+				'delete-selection',
+				'delete',
+				'download',
+			],
+			open: true,
+		})
+		map.addControl(draw, 'top-right')
+
 		return () => {
 			if (!map || !scale) return
 			try {
@@ -267,6 +292,7 @@ export default function useAddMap(
 				map.removeControl(navigationControl)
 				map.removeControl(geolocate)
 				indoorEqual && map.removeControl(indoorEqual)
+				map.removeControl(draw)
 			} catch (e) {
 				console.log('Error removing scale')
 			}
