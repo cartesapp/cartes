@@ -1,28 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Pool } from 'pg'
 
-// Fonction pour convertir les coordonnées de EPSG:3857 (Web Mercator) vers EPSG:4326 (lat/lon)
-function convertWebMercatorToLatLon(x: number, y: number): [number, number] {
-	// Constantes pour la conversion
-	const R = 6378137 // Rayon de la Terre en mètres
-	const MAX_LATITUDE = 85.0511287798 // Latitude maximale supportée par la projection Web Mercator
-
-	// Conversion de x vers longitude
-	const lon = (x * 180) / (R * Math.PI)
-
-	// Conversion de y vers latitude
-	let lat = (y * 180) / (R * Math.PI)
-	lat =
-		((2 * Math.atan(Math.exp((lat * Math.PI) / 180)) - Math.PI / 2) * 180) /
-		Math.PI
-
-	// Limiter la latitude aux valeurs valides
-	lat = Math.max(Math.min(MAX_LATITUDE, lat), -MAX_LATITUDE)
-
-	// Arrondir à 7 décimales pour la précision
-	return [parseFloat(lat.toFixed(7)), parseFloat(lon.toFixed(7))]
-}
-
 // Configuration de la connexion PostgreSQL
 const pool = new Pool({
 	host: '51.159.100.169',
@@ -44,15 +22,18 @@ function getQuery(
           SELECT
             n.id as id,
             n.tags AS tags,
-            to_jsonb(p.tags) AS metadata,
-            ST_AsGeoJSON(p.way) as geometry
-          FROM
-            planet_osm_nodes AS n
-          LEFT JOIN
-            planet_osm_point AS p
-          ON p.osm_id = n.id
-          WHERE
-            n.id = $1
+            json_build_object(
+              'created', n.created,
+              'version', n.version,
+              'changeset_id', n.changeset_id,
+              'user_id', n.user_id,
+              'user', u.name) AS metadata,
+            ST_AsGeoJSON(g.geom) as geometry,
+            NULL::real AS area,
+          FROM planet_osm_nodes as n
+            LEFT JOIN planet_osm_users AS u ON n.user_id = u.id
+            LEFT JOIN nodes_geom AS g ON n.id = g.id
+          WHERE n.id =  $1
         `,
 				params: [osmId],
 			}
@@ -60,19 +41,20 @@ function getQuery(
 			return {
 				query: `
           SELECT
-            w.id AS id,
+            w.id as id,
             w.tags AS tags,
-            to_jsonb(u.tags) AS metadata,
-            ST_AsGeoJSON(u.way) as geometry
-          FROM
-            planet_osm_ways AS w
-          LEFT JOIN
-          (
-           SELECT osm_id, tags, way FROM planet_osm_line WHERE osm_id = $1
-           UNION
-           SELECT osm_id, tags, way FROM planet_osm_polygon WHERE osm_id = $1
-          ) AS u ON u.osm_id = w.id
-          WHERE w.id = $1
+            json_build_object(
+              'created', w.created,
+              'version', w.version,
+              'changeset_id', w.changeset_id,
+              'user_id', w.user_id,
+              'user', u.name) AS metadata,
+            ST_AsGeoJSON(g.geom) as geometry,
+            g.area as area
+          FROM planet_osm_ways as w
+            LEFT JOIN planet_osm_users AS u ON w.user_id = u.id
+            LEFT JOIN ways_geom AS g ON w.id = g.id
+          WHERE w.id =  $1
         `,
 				params: [osmId],
 			}
@@ -80,17 +62,20 @@ function getQuery(
 			return {
 				query: `
           SELECT
-            r.id AS id,
+            r.id as id,
             r.tags AS tags,
-            to_jsonb(p.tags) AS metadata,
-            ST_AsGeoJSON(p.way) as geometry
-          FROM
-            planet_osm_rels AS r
-          LEFT JOIN
-            planet_osm_polygon AS p
-          ON p.osm_id = -r.id
-          WHERE
-            r.id = $1
+            json_build_object(
+              'created', r.created,
+              'version', r.version,
+              'changeset_id', r.changeset_id,
+              'user_id', r.user_id,
+              'user', u.name) AS metadata,
+            ST_AsGeoJSON(g.geom) as geometry,
+            g.area as area
+          FROM planet_osm_rels as r
+            LEFT JOIN planet_osm_users AS u ON r.user_id = u.id
+            LEFT JOIN rels_geom AS g ON r.id = g.id
+          WHERE r.id =  $1
         `,
 				params: [osmId],
 			}
@@ -105,6 +90,7 @@ export async function GET(request: NextRequest) {
 		const featureType = searchParams.get('featureType')
 		const osmId = parseInt(searchParams.get('osmId') || '0')
 
+		// on vérifie qu'il y a bien un type et un id dans la requête
 		if (!featureType || !osmId) {
 			return NextResponse.json(
 				{ error: 'Les paramètres featureType et osmId sont requis' },
@@ -112,6 +98,7 @@ export async function GET(request: NextRequest) {
 			)
 		}
 
+		// on vérifie que le type est le bon
 		if (!['node', 'way', 'relation'].includes(featureType)) {
 			return NextResponse.json(
 				{ error: 'featureType doit être node, way ou relation' },
@@ -143,49 +130,8 @@ export async function GET(request: NextRequest) {
 			}
 
 			const row = result.rows[0]
-			// Convertir les coordonnées de la géométrie de EPSG:3857 vers EPSG:4326 (lat/lon)
-			const rawGeometry = JSON.parse(row.geometry)
-			let geometry = { ...rawGeometry }
+			let geometry = JSON.parse(row.geometry)
 
-			// Convertir les coordonnées selon le type de géométrie
-			if (geometry.type === 'Point') {
-				const [lat, lon] = convertWebMercatorToLatLon(
-					geometry.coordinates[0],
-					geometry.coordinates[1]
-				)
-				geometry.coordinates = [lon, lat] // GeoJSON utilise [longitude, latitude]
-			} else if (geometry.type === 'LineString') {
-				geometry.coordinates = geometry.coordinates.map((coord) => {
-					const [lat, lon] = convertWebMercatorToLatLon(coord[0], coord[1])
-					return [lon, lat]
-				})
-			} else if (geometry.type === 'Polygon') {
-				geometry.coordinates = geometry.coordinates.map((ring) =>
-					ring.map((coord) => {
-						const [lat, lon] = convertWebMercatorToLatLon(coord[0], coord[1])
-						return [lon, lat]
-					})
-				)
-			} else if (geometry.type === 'MultiPolygon') {
-				geometry.coordinates = geometry.coordinates.map((polygon) =>
-					polygon.map((ring) =>
-						ring.map((coord) => {
-							const [lat, lon] = convertWebMercatorToLatLon(coord[0], coord[1])
-							return [lon, lat]
-						})
-					)
-				)
-			}
-
-			// Mettre à jour le système de coordonnées de référence
-			if (geometry.crs) {
-				geometry.crs = {
-					type: 'name',
-					properties: {
-						name: 'EPSG:4326',
-					},
-				}
-			}
 			// Traiter les tags selon leur type
 			let tags = row.tags
 			try {
@@ -201,19 +147,14 @@ export async function GET(request: NextRequest) {
 			} catch (error) {
 				console.error('Erreur lors du parsing des tags:', error, row.tags)
 			}
-			// filtrer les metadata pour enlever les tags déjà dans la propriété tags
-			let metadata = row.metadata
-			for (let key in metadata) {
-				if (tags.hasOwnProperty(key)) {
-					delete metadata[key]
-				}
-			}
-			// Ajouter lat/lon directement dans les propriétés pour les points
+
+			// Préparer les propriétés
 			const properties = {
 				featureType,
 				osm_id: row.id,
+				area: row.area,
 				tags: tags,
-				metadata: metadata,
+				metadata: row.metadata,
 			}
 
 			// Si c'est un point, ajouter lat/lon directement dans les propriétés
