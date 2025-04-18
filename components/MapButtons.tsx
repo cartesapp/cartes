@@ -1,15 +1,9 @@
-import useMeasureDistance from '@/app/useMeasureDistance'
 import useSetSearchParams from '@/components/useSetSearchParams'
 import { omit } from '@/components/utils/utils'
 import { css, styled } from 'next-yak'
 import Link from 'next/link'
-import ItineraryButton, { ResetIcon } from './itinerary/ItineraryButton'
+import ItineraryButton from './itinerary/ItineraryButton'
 
-const ResetDistanceButton = styled.button`
-	position: absolute;
-	bottom: -0.5rem;
-	right: -1.7rem;
-`
 export const mapButtonSize = '2.15rem'
 export const MapButtonsWrapper = styled.div`
 	position: fixed;
@@ -65,13 +59,10 @@ export default function MapButtons({
 	styleChooser,
 	setStyleChooser,
 	style,
-	setDistanceMode,
-	distanceMode,
 	map,
 	itinerary,
 	searchParams,
 }) {
-	const [distance, resetDistance] = useMeasureDistance(map, distanceMode)
 	const setSearchParams = useSetSearchParams()
 
 	return (
@@ -119,22 +110,6 @@ export default function MapButtons({
 					<StyleChooserIcon />
 				</button>
 			</MapButton>
-			<MapButton $active={distanceMode}>
-				<button
-					onClick={() => setDistanceMode(!distanceMode)}
-					title="Mesurer une distance"
-				>
-					<div>
-						<DistanceIcon />
-					</div>
-					{distanceMode ? <small>{distance}</small> : null}
-				</button>
-				{distanceMode && (
-					<ResetDistanceButton onClick={() => resetDistance()}>
-						<ResetIcon />
-					</ResetDistanceButton>
-				)}
-			</MapButton>
 			<ItineraryButton {...itinerary} />
 			<MapButton $active={searchParams.favoris === 'oui'}>
 				<Link
@@ -170,18 +145,5 @@ export const StyleChooserIcon = () => (
 		width="100"
 		height="100"
 		alt="Icône fond de carte"
-	/>
-)
-export const DistanceIcon = () => (
-	<img
-		css={css`
-			width: 1.4rem;
-			height: 1.4rem;
-			margin: 0 !important;
-		`}
-		src={'/distance.svg'}
-		width="100"
-		height="100"
-		alt="Icône distance"
 	/>
 )

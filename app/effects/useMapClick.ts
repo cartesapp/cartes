@@ -13,7 +13,7 @@ export default function useMapClick(
 	map,
 	state,
 	setState,
-	distanceMode,
+	drawMode,
 	itinerary,
 	isTransportsMode,
 	setLatLngClicked,
@@ -186,7 +186,7 @@ export default function useMapClick(
 			}
 		}
 
-		if (!map || distanceMode || itinerary.isItineraryMode) return
+		if (!map || drawMode || itinerary.isItineraryMode) return
 
 		map.on('click', onClick)
 		return () => {
@@ -195,7 +195,7 @@ export default function useMapClick(
 		}
 	}, [
 		map,
-		distanceMode,
+		drawMode,
 		itinerary.isItineraryMode,
 		gares,
 		clickGare,

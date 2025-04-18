@@ -125,8 +125,6 @@ export default function Map(props) {
 		setSearchParams({ geoloc: undefined })
 	}, [map, triggerGeolocation, shouldGeolocate, setSearchParams])
 
-	const [distanceMode, setDistanceMode] = useState(false)
-
 	const padding = useComputeMapPadding(trackedSnap, searchParams)
 	console.log({ trackedSnap, padding })
 
@@ -300,7 +298,7 @@ export default function Map(props) {
 		map,
 		state,
 		setState,
-		distanceMode,
+		searchParams.dessin,
 		itinerary,
 		isTransportsMode,
 		setLatLngClicked,
@@ -434,8 +432,6 @@ export default function Map(props) {
 					style,
 					setStyleChooser,
 					styleChooser,
-					distanceMode,
-					setDistanceMode,
 					map,
 					itinerary,
 					searchParams,
