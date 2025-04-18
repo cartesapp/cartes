@@ -1,3 +1,9 @@
+- title: 🖍️ Une panoplie de dessin et mesure
+  description: |
+    Vous pouvez maintenant dessiner des formes sur la carte via le 🗺️ menu fond de carte. On utiliser le projet [TerraDraw](https://terradraw.water-gis.com).
+
+    En conséquence, l'outil maison de mesure de distance est remplacé par ce kit bien plus puissant.
+  date: 2025-04-18
 - title: 🩹 Résolution de bugs sur la carte
   description: |
     - les lieux trouvés par une recherche sont à nouveau affichés sur la carte
