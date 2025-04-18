@@ -11,6 +11,7 @@ import useAddMap, { globeLight, highZoomLight } from './effects/useAddMap'
 import { getStyle } from './styles/styles'
 import useHoverOnMapFeatures from './useHoverOnMapFeatures'
 import useTerrainControl from './useTerrainControl'
+import useTerraDraw from './effects/useTerraDraw'
 
 import { useWhatChanged } from '@/components/utils/useWhatChanged'
 import getBbox from '@turf/bbox'
@@ -223,6 +224,7 @@ export default function Map(props) {
 	useDrawSearchResults(map, state, onSearchResultClick)
 
 	useTerrainControl(map, style, searchParams.relief)
+	useTerraDraw(map, searchParams.dessin)
 
 	useEffect(() => {
 		if (!map) return

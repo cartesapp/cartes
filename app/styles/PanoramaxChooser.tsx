@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import panoramaxIcon from '@/public/panoramax-simple.svg'
 import panoramaxIconChecked from '@/public/panoramax-simple-choisi.svg'
-import {styled} from 'next-yak'
+import { styled } from 'next-yak'
 
 export default function ({ searchParams, setSearchParams, setZoom, zoom }) {
 	const checked = searchParams.panoramax != null || searchParams.rue === 'oui'
@@ -25,7 +25,7 @@ export default function ({ searchParams, setSearchParams, setZoom, zoom }) {
 						src={checked ? panoramaxIconChecked : panoramaxIcon}
 						alt="Logo du projet Panoramax"
 					/>
-					Photos de rue
+					Panoramax
 				</span>
 			</label>
 		</StyleElementChooserWrapper>
