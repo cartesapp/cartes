@@ -564,76 +564,6 @@
   hidden: true
 
 #######################
-# GROUP : LOISIRS
-#######################
-
-- name: Pique-nique
-  group: Loisirs
-  dictionary:
-    - picnic
-    - pique-nique
-    - table
-    - banc
-    - casse-croute
-  query: '[tourism=picnic_site]'
-  icon: picnic
-
-- name: Camping
-  group: Loisirs
-  dictionary:
-    - camping
-    - camping-car
-    - tente
-    - caravane
-  query: '[tourism~"camp_site|caravan_site"]'
-  icon: camping
-
-- name: plage
-  group: Loisirs
-  query: '[natural=beach]'
-  icon: beach
-
-- name: Musique
-  group: Loisirs
-  dictionary:
-    - concert
-    - festival
-    - scène
-  query:
-    - '[amenity=music_venue]'
-    - '["amenity"~"bar|pub|cafe|restaurant|biergarten|fast_food"][live_music=yes]'
-    - '[amenity=theatre]["theatre:type"=concert_hall]'
-    - '[amenity=nightclub]'
-    - '[amenity=festival_grounds]'
-    - '[amenity=theatre]' # Exemple : salle de concert à Brest https://www.openstreetmap.org/way/42531718#map=18/48.38500/-4.48092
-  icon: music
-
-- name: Jeux pour enfants
-  group: Loisirs
-  dictionary:
-    - terrain de jeu
-    - manège
-    - aire de jeu
-  query:
-    - '[leisure=playground]'
-    - '[landuse=recreation_ground]'
-    - '[attraction=carousel]'
-  icon: playground
-
-- name: lieu-culte
-  title: Lieu de culte
-  group: Loisirs
-  dictionary:
-    - église
-    - temple
-    - mosquée
-    - prière
-    - cathédrale
-  query:
-    - '[amenity=place_of_worship]'
-  icon: place_of_worship
-
-#######################
 # GROUP : SANTE
 #######################
 
@@ -832,6 +762,76 @@
     - batterie
   query: '[amenity=recycling]["recycling:batteries"=yes]'
   icon: recycling
+
+#######################
+# GROUP : LOISIRS
+#######################
+
+- name: Pique-nique
+  group: Loisirs
+  dictionary:
+    - picnic
+    - pique-nique
+    - table
+    - banc
+    - casse-croute
+  query: '[tourism=picnic_site]'
+  icon: picnic
+
+- name: Camping
+  group: Loisirs
+  dictionary:
+    - camping
+    - camping-car
+    - tente
+    - caravane
+  query: '[tourism~"camp_site|caravan_site"]'
+  icon: camping
+
+- name: plage
+  group: Loisirs
+  query: '[natural=beach]'
+  icon: beach
+
+- name: Musique
+  group: Loisirs
+  dictionary:
+    - concert
+    - festival
+    - scène
+  query:
+    - '[amenity=music_venue]'
+    - '["amenity"~"bar|pub|cafe|restaurant|biergarten|fast_food"][live_music=yes]'
+    - '[amenity=theatre]["theatre:type"=concert_hall]'
+    - '[amenity=nightclub]'
+    - '[amenity=festival_grounds]'
+    - '[amenity=theatre]' # Exemple : salle de concert à Brest https://www.openstreetmap.org/way/42531718#map=18/48.38500/-4.48092
+  icon: music
+
+- name: Jeux pour enfants
+  group: Loisirs
+  dictionary:
+    - terrain de jeu
+    - manège
+    - aire de jeu
+  query:
+    - '[leisure=playground]'
+    - '[landuse=recreation_ground]'
+    - '[attraction=carousel]'
+  icon: playground
+
+- name: lieu-culte
+  title: Lieu de culte
+  group: Loisirs
+  dictionary:
+    - église
+    - temple
+    - mosquée
+    - prière
+    - cathédrale
+  query:
+    - '[amenity=place_of_worship]'
+  icon: place_of_worship
 
 #######################
 # GROUP : CULTURE
