@@ -6,7 +6,7 @@ import distanceIconLight from '@/public/distance-light.svg'
 export default function TerraDrawButton({ searchParams, setSearchParams }) {
 	const checked = searchParams.dessin === 'oui'
 	return (
-		<StyleElementChooserWrapper>
+		<StyleElementChooserWrapper $checked={checked}>
 			<label title="Afficher sur la carte les photos de rue Panoramax disponibles">
 				<input
 					type="checkbox"
@@ -24,7 +24,7 @@ export default function TerraDrawButton({ searchParams, setSearchParams }) {
 						src={checked ? distanceIcon : distanceIconLight}
 						alt="Icône d'une règle pour mesurer des distances et tracer des formes"
 					/>
-					Dessin
+					<span>Dessin</span>
 				</span>
 			</label>
 		</StyleElementChooserWrapper>
