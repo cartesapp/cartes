@@ -393,6 +393,177 @@
   icon: tea
 
 #######################
+# GROUP : COMMERCES (NON ALIMENTAIRES)
+#######################
+
+- name: Librairie
+  group: Culture
+  dictionary:
+    - livres
+    - bouquins
+  query: '[shop="books"]'
+  icon: book
+
+- name: Presse
+  group: Culture
+  dictionary:
+    - kiosque
+    - magazines
+    - presse
+  query: '[shop~"newsagent|kiosk"]'
+  icon: newspaper
+
+- name: Vêtements
+  group: Commerces
+  dictionary:
+    - shopping
+    - fringues
+  query: '[shop~"clothes"]'
+  icon: clothes
+
+- name: Chaussures
+  group: Commerces
+  dictionary:
+    - shopping
+    - chaussures
+  query: '[shop~"shoes"]'
+  icon: shoes
+  icon alias: shop-shoes
+
+- name: Téléphonie
+  group: Commerces
+  dictionary:
+    - téléphone
+    - portable
+    - mobile
+    - accessoires
+  query: '[shop~"mobile_phone"]'
+  icon: shop
+
+- name: Bijouterie
+  group: Commerces
+  dictionary:
+    - bijou
+    - bague
+    - boucle d'oreille
+    - collier
+    - montre
+  query: '[shop~"jewelry"]'
+  icon: shop
+
+- name: Opticien
+  group: Commerces
+  dictionary:
+    - lunettes
+    - lentilles de contact
+  query: '[shop~"optician"]'
+  icon: shop
+
+- name: Centre commercial
+  group: Commerces
+  dictionary:
+    - courses
+    - shopping
+  query: '[shop=mall]'
+  icon: shop
+
+- name: Casier à colis
+  group: Commerces
+  dictionary:
+    - locker
+    - pickup
+    - colis
+  query: '[amenity=parcel_locker]'
+  icon: parcel_locker
+
+- name: Magasin de bricolage
+  group: Commerces
+  dictionary:
+    - jardinage
+    - outils
+    - outillage
+    - matériaux
+    - quincaillerie
+  query: '[shop~"doityourself|hardware"]'
+  icon: shop
+
+- name: Jardinerie
+  group: Commerces
+  dictionary:
+    - jardinage
+    - plantes
+  query: '[shop~"garden_centre"]'
+  icon: shop
+  hidden: true
+
+- name: Fleuriste
+  group: Commerces
+  dictionary:
+    - fleur
+    - bouquet
+  query: '[shop~"florist"]'
+  icon: shop
+
+- name: Serrurier
+  group: Commerces
+  dictionary:
+    - serrure
+    - clé
+    - clef
+    - copie de clé
+  query: '[shop~"locksmith"]'
+  icon: shop
+  hidden: true
+
+- name: Magasin de meubles
+  group: Commerces
+  dictionary:
+    - mobilier
+    - décoration
+  query: '[shop~"furniture"][shop!~"garden_furniture"]'
+  icon: shop
+
+- name: Magasin de décoration
+  group: Commerces
+  dictionary:
+    - mobilier
+    - décoration
+    - intérieur
+  query: '[shop~"interior_decoration"]'
+  icon: shop
+  hidden: true
+
+- name: Ustensiles de cuisine
+  group: Commerces
+  dictionary:
+    - casserole
+    - couverts
+    - vaisselle
+    - électroménager
+  query: '[shop~"houseware"]'
+  icon: shop
+  hidden: true
+
+- name: Cuisiniste
+  group: Commerces
+  dictionary:
+    - conception de cuisine
+    - cuisine
+  query: '[shop~"kitchen"]'
+  icon: shop
+  hidden: true
+
+- name: Magasin de puériculture
+  group: Commerces
+  dictionary:
+    - bébé
+    - biberon
+    - poussette
+  query: '[shop~"baby_goods"]'
+  icon: shop
+  hidden: true
+
+#######################
 # GROUP : LOISIRS
 #######################
 
@@ -732,178 +903,6 @@
 #######################
 # GROUP : TOURISME
 #######################
-
-
-#######################
-# GROUP : COMMERCES (NON ALIMENTAIRES)
-#######################
-
-- name: Librairie
-  group: Culture
-  dictionary:
-    - livres
-    - bouquins
-  query: '[shop="books"]'
-  icon: book
-
-- name: Presse
-  group: Culture
-  dictionary:
-    - kiosque
-    - magazines
-    - presse
-  query: '[shop~"newsagent|kiosk"]'
-  icon: newspaper
-
-- name: Vêtements
-  group: Commerces
-  dictionary:
-    - shopping
-    - fringues
-  query: '[shop~"clothes"]'
-  icon: clothes
-
-- name: Chaussures
-  group: Commerces
-  dictionary:
-    - shopping
-    - chaussures
-  query: '[shop~"shoes"]'
-  icon: shoes
-  icon alias: shop-shoes
-
-- name: Téléphonie
-  group: Commerces
-  dictionary:
-    - téléphone
-    - portable
-    - mobile
-    - accessoires
-  query: '[shop~"mobile_phone"]'
-  icon: shop
-
-- name: Bijouterie
-  group: Commerces
-  dictionary:
-    - bijou
-    - bague
-    - boucle d'oreille
-    - collier
-    - montre
-  query: '[shop~"jewelry"]'
-  icon: shop
-
-- name: Opticien
-  group: Commerces
-  dictionary:
-    - lunettes
-    - lentilles de contact
-  query: '[shop~"optician"]'
-  icon: shop
-
-- name: Centre commercial
-  group: Commerces
-  dictionary:
-    - courses
-    - shopping
-  query: '[shop=mall]'
-  icon: shop
-
-- name: Casier à colis
-  group: Commerces
-  dictionary:
-    - locker
-    - pickup
-    - colis
-  query: '[amenity=parcel_locker]'
-  icon: parcel_locker
-
-- name: Magasin de bricolage
-  group: Commerces
-  dictionary:
-    - jardinage
-    - outils
-    - outillage
-    - matériaux
-    - quincaillerie
-  query: '[shop~"doityourself|hardware"]'
-  icon: shop
-
-- name: Jardinerie
-  group: Commerces
-  dictionary:
-    - jardinage
-    - plantes
-  query: '[shop~"garden_centre"]'
-  icon: shop
-  hidden: true
-
-- name: Fleuriste
-  group: Commerces
-  dictionary:
-    - fleur
-    - bouquet
-  query: '[shop~"florist"]'
-  icon: shop
-
-- name: Serrurier
-  group: Commerces
-  dictionary:
-    - serrure
-    - clé
-    - clef
-    - copie de clé
-  query: '[shop~"locksmith"]'
-  icon: shop
-  hidden: true
-
-- name: Magasin de meubles
-  group: Commerces
-  dictionary:
-    - mobilier
-    - décoration
-  query: '[shop~"furniture"][shop!~"garden_furniture"]'
-  icon: shop
-
-- name: Magasin de décoration
-  group: Commerces
-  dictionary:
-    - mobilier
-    - décoration
-    - intérieur
-  query: '[shop~"interior_decoration"]'
-  icon: shop
-  hidden: true
-
-- name: Ustensiles de cuisine
-  group: Commerces
-  dictionary:
-    - casserole
-    - couverts
-    - vaisselle
-    - électroménager
-  query: '[shop~"houseware"]'
-  icon: shop
-  hidden: true
-
-- name: Cuisiniste
-  group: Commerces
-  dictionary:
-    - conception de cuisine
-    - cuisine
-  query: '[shop~"kitchen"]'
-  icon: shop
-  hidden: true
-
-- name: Magasin de puériculture
-  group: Commerces
-  dictionary:
-    - bébé
-    - biberon
-    - poussette
-  query: '[shop~"baby_goods"]'
-  icon: shop
-  hidden: true
 
 #######################
 # GROUP : DÉPLACEMENTS
