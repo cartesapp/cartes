@@ -1432,25 +1432,52 @@
   hidden: true
 
 #######################
-# GROUP : Services publics
+# GROUP : Administration
 #######################
 ## https://wiki.openstreetmap.org/wiki/France/Services_Publics
 
 - name: Mairie
-  group: Services publics
+  group: Administration
   dictionary:
     - hôtel de ville
   query: '[amenity=townhall]'
   icon: classical-building
 
 - name: Préfecture
-  group: Services publics
+  group: Administration
   dictionary:
     - sous-préfecture
     - préfet
   query: '[office=government][government=prefecture]'
   icon: classical-building
   hidden: true
+
+- title: Justice
+  group: Administration
+  name: justice
+  dictionary:
+    - tribunal
+    - cour
+    - cour d'appel
+    - judiciaire
+  query:
+    - '[amenity=courthouse]'
+  icon: classical-building
+
+- name: France Travail
+  group: Administration
+  dictionary:
+    - pole emploi
+    - pôle emploi
+    - ANPE
+    - chomage
+    - chômage
+  query: '[office=government][government=employment_agency]'
+  icon: building
+
+#######################
+# GROUP : Services publics
+#######################
 
 - name: Police
   group: Services publics
@@ -1489,29 +1516,6 @@
     - la poste
   query: '[amenity=post_box]'
   icon: post
-
-- title: Justice
-  group: Services publics
-  name: justice
-  dictionary:
-    - tribunal
-    - cour
-    - cour d'appel
-    - judiciaire
-  query:
-    - '[amenity=courthouse]'
-  icon: classical-building
-
-- name: France Travail
-  group: Services publics
-  dictionary:
-    - pole emploi
-    - pôle emploi
-    - ANPE
-    - chomage
-    - chômage
-  query: '[office=government][government=employment_agency]'
-  icon: building
 
 - title: Établissement scolaire
   group: Services publics
