@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { StyleElementChooserWrapper } from './PanoramaxChooser'
 import distanceIcon from '@/public/distance.svg'
+import distanceIconLight from '@/public/distance-light.svg'
 
 export default function TerraDrawButton({ searchParams, setSearchParams }) {
 	const checked = searchParams.dessin === 'oui'
@@ -20,7 +21,7 @@ export default function TerraDrawButton({ searchParams, setSearchParams }) {
 				/>
 				<span>
 					<Image
-						src={checked ? distanceIcon : distanceIcon}
+						src={checked ? distanceIcon : distanceIconLight}
 						alt="Icône d'une règle pour mesurer des distances et tracer des formes"
 					/>
 					Dessin
