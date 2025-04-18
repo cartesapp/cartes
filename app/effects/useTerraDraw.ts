@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import '@watergis/maplibre-gl-terradraw/dist/maplibre-gl-terradraw.css'
 import { MaplibreMeasureControl } from '@watergis/maplibre-gl-terradraw'
 
 export default function useTerraDraw(map, dessin) {
@@ -24,6 +25,9 @@ export default function useTerraDraw(map, dessin) {
 				'download',
 			],
 			open: true,
+			distanceUnit: 'kilometers',
+			areaUnit: 'metric',
+			computeElevation: true,
 		})
 
 		map.addControl(control, 'top-left')

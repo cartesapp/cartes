@@ -11,7 +11,6 @@ import { useLocalStorage, useMediaQuery } from 'usehooks-ts'
 import { styles } from '../styles/styles'
 import useGeolocation from './useGeolocation'
 import useMapIcons from './useMapIcons'
-import '@watergis/maplibre-gl-terradraw/dist/maplibre-gl-terradraw.css'
 
 /*
  *
