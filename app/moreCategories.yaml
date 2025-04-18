@@ -393,57 +393,175 @@
   icon: tea
 
 #######################
-# GROUP : LOISIRS
+# GROUP : COMMERCES (NON ALIMENTAIRES)
 #######################
 
-- name: Musique
+- name: Librairie
+  group: Culture
   dictionary:
-    - concert
-    - festival
-    - scène
-  query:
-    - '[amenity=music_venue]'
-    - '["amenity"~"bar|pub|cafe|restaurant|biergarten|fast_food"][live_music=yes]'
-    - '[amenity=theatre]["theatre:type"=concert_hall]'
-    - '[amenity=nightclub]'
-    - '[amenity=festival_grounds]'
-    - '[amenity=theatre]' # Exemple : salle de concert à Brest https://www.openstreetmap.org/way/42531718#map=18/48.38500/-4.48092
-  icon: music
-  group: Loisirs
+    - livres
+    - bouquins
+  query: '[shop="books"]'
+  icon: book
 
-- name: Théâtre
+- name: Presse
+  group: Culture
   dictionary:
-    - théâtre
-    - scène
-  query:
-    - '[amenity=theatre]' # Exemple : salle de concert à Brest https://www.openstreetmap.org/way/42531718#map=18/48.38500/-4.48092
-  icon: theatre
-  group: Loisirs
+    - kiosque
+    - magazines
+    - presse
+  query: '[shop~"newsagent|kiosk"]'
+  icon: newspaper
 
-- name: Jeux pour enfants
-  group: Loisirs
+- name: Vêtements
+  group: Commerces
   dictionary:
-    - terrain de jeu
-    - manège
-    - aire de jeu
-  query:
-    - '[leisure=playground]'
-    - '[landuse=recreation_ground]'
-    - '[attraction=carousel]'
-  icon: playground
+    - shopping
+    - fringues
+  query: '[shop~"clothes"]'
+  icon: clothes
 
-- name: lieu-culte
-  title: Lieu de culte
-  group: Loisirs
+- name: Chaussures
+  group: Commerces
   dictionary:
-    - église
-    - temple
-    - mosquée
-    - prière
-    - cathédrale
-  query:
-    - '[amenity=place_of_worship]'
-  icon: place_of_worship
+    - shopping
+    - chaussures
+  query: '[shop~"shoes"]'
+  icon: shoes
+  icon alias: shop-shoes
+
+- name: Téléphonie
+  group: Commerces
+  dictionary:
+    - téléphone
+    - portable
+    - mobile
+    - accessoires
+  query: '[shop~"mobile_phone"]'
+  icon: shop
+
+- name: Bijouterie
+  group: Commerces
+  dictionary:
+    - bijou
+    - bague
+    - boucle d'oreille
+    - collier
+    - montre
+  query: '[shop~"jewelry"]'
+  icon: shop
+
+- name: Opticien
+  group: Commerces
+  dictionary:
+    - lunettes
+    - lentilles de contact
+  query: '[shop~"optician"]'
+  icon: shop
+
+- name: Centre commercial
+  group: Commerces
+  dictionary:
+    - courses
+    - shopping
+  query: '[shop=mall]'
+  icon: shop
+
+- name: Casier à colis
+  group: Commerces
+  dictionary:
+    - locker
+    - pickup
+    - colis
+  query: '[amenity=parcel_locker]'
+  icon: parcel_locker
+
+- name: Magasin de bricolage
+  group: Commerces
+  dictionary:
+    - jardinage
+    - outils
+    - outillage
+    - matériaux
+    - quincaillerie
+  query: '[shop~"doityourself|hardware"]'
+  icon: shop
+
+- name: Jardinerie
+  group: Commerces
+  dictionary:
+    - jardinage
+    - plantes
+  query: '[shop~"garden_centre"]'
+  icon: shop
+  hidden: true
+
+- name: Fleuriste
+  group: Commerces
+  dictionary:
+    - fleur
+    - bouquet
+  query: '[shop~"florist"]'
+  icon: shop
+
+- name: Serrurier
+  group: Commerces
+  dictionary:
+    - serrure
+    - clé
+    - clef
+    - copie de clé
+  query: '[shop~"locksmith"]'
+  icon: shop
+  hidden: true
+
+- name: Magasin de meubles
+  group: Commerces
+  dictionary:
+    - mobilier
+    - décoration
+  query: '[shop~"furniture"][shop!~"garden_furniture"]'
+  icon: shop
+
+- name: Magasin de décoration
+  group: Commerces
+  dictionary:
+    - mobilier
+    - décoration
+    - intérieur
+  query: '[shop~"interior_decoration"]'
+  icon: shop
+  hidden: true
+
+- name: Ustensiles de cuisine
+  group: Commerces
+  dictionary:
+    - casserole
+    - couverts
+    - vaisselle
+    - électroménager
+  query: '[shop~"houseware"]'
+  icon: shop
+  hidden: true
+
+- name: Cuisiniste
+  group: Commerces
+  dictionary:
+    - conception de cuisine
+    - cuisine
+  query: '[shop~"kitchen"]'
+  icon: shop
+  hidden: true
+
+- name: Magasin de puériculture
+  group: Commerces
+  dictionary:
+    - bébé
+    - biberon
+    - poussette
+  query: '[shop~"baby_goods"]'
+  icon: shop
+  hidden: true
 
 #######################
 # GROUP : SANTE
@@ -456,6 +574,7 @@
     - DAE
   query: '[emergency=defibrillator]'
   icon: defibrillator
+
 - name: hôpital
   group: Santé
   dictionary:
@@ -463,6 +582,7 @@
     - clinique
   query: '[amenity=hospital]'
   icon: hospital
+
 - name: clinique
   group: Santé
   dictionary:
@@ -472,6 +592,15 @@
     - '[amenity=clinic]'
     - '[healthcare=clinic]'
   icon: hospital
+
+- name: maison de santé
+  group: Santé
+  dictionary:
+    - centre de soins
+    - centre de santé
+  query: '[healthcare=centre]'
+  icon: doctors
+  hidden: true
 
 - name: médecin
   group: Santé
@@ -516,6 +645,70 @@
     - bébé
   query: '[healthcare=midwife]'
   icon: nurse
+  hidden: true
+
+- name: podologue
+  group: Santé
+  dictionary:
+    - pédicure
+    - pedicure
+  query: '[healthcare=podiatrist]'
+  icon: shoes
+  icon alias: podiatrist
+  hidden: true
+
+- name: kiné
+  group: Santé
+  dictionary:
+    - physiothérapeute
+    - kinésithérapeute
+    - masseur
+    - massage
+  query: '[healthcare=physiotherapist]'
+  icon: nurse
+  hidden: true
+
+- name: orthophoniste
+  group: Santé
+  dictionary:
+    - logopède
+    - logopede
+    - logopédiste
+    - orthophonie
+  query: '[healthcare=speech_therapist]'
+  icon: hospital
+  hidden: true
+
+- name: psychologue
+  group: Santé
+  dictionary:
+    - psychologie
+    - psychothérapeute
+    - psychothérapie
+  query: '[healthcare=psychotherapist]'
+  icon: hospital
+  hidden: true
+
+- name: don du sang
+  group: Santé
+  dictionary:
+    - EFS
+    - don de sang
+  query: '[healthcare=blood_donation]'
+  icon: nurse
+  hidden: true
+
+- name: laboratoire
+  group: Santé
+  dictionary:
+    - biologie médicale
+    - analyse médicale
+    - analyse sanguine
+    - laboratoire d'analyse
+    - prélèvement
+  query: '[healthcare=laboratory]'
+  icon: nurse
+  hidden: true
 
 #######################
 # GROUP : POUBELLES
@@ -571,6 +764,76 @@
   icon: recycling
 
 #######################
+# GROUP : LOISIRS
+#######################
+
+- name: Pique-nique
+  group: Loisirs
+  dictionary:
+    - picnic
+    - pique-nique
+    - table
+    - banc
+    - casse-croute
+  query: '[tourism=picnic_site]'
+  icon: picnic
+
+- name: Camping
+  group: Loisirs
+  dictionary:
+    - camping
+    - camping-car
+    - tente
+    - caravane
+  query: '[tourism~"camp_site|caravan_site"]'
+  icon: camping
+
+- name: plage
+  group: Loisirs
+  query: '[natural=beach]'
+  icon: beach
+
+- name: Musique
+  group: Loisirs
+  dictionary:
+    - concert
+    - festival
+    - scène
+  query:
+    - '[amenity=music_venue]'
+    - '["amenity"~"bar|pub|cafe|restaurant|biergarten|fast_food"][live_music=yes]'
+    - '[amenity=theatre]["theatre:type"=concert_hall]'
+    - '[amenity=nightclub]'
+    - '[amenity=festival_grounds]'
+    - '[amenity=theatre]' # Exemple : salle de concert à Brest https://www.openstreetmap.org/way/42531718#map=18/48.38500/-4.48092
+  icon: music
+
+- name: Jeux pour enfants
+  group: Loisirs
+  dictionary:
+    - terrain de jeu
+    - manège
+    - aire de jeu
+  query:
+    - '[leisure=playground]'
+    - '[landuse=recreation_ground]'
+    - '[attraction=carousel]'
+  icon: playground
+
+- name: lieu-culte
+  title: Lieu de culte
+  group: Loisirs
+  dictionary:
+    - église
+    - temple
+    - mosquée
+    - prière
+    - cathédrale
+  query:
+    - '[amenity=place_of_worship]'
+  icon: place_of_worship
+
+#######################
 # GROUP : CULTURE
 #######################
 
@@ -582,29 +845,17 @@
   query: '[amenity=library]'
   icon: book
 
-- name: Librairie
+- name: Théâtre
   group: Culture
   dictionary:
-    - livres
-    - bouquins
-  query: '[shop="books"]'
-  icon: book
-
-- name: Journaux
-  group: Culture
-  dictionary:
-    - kiosque
-    - magazines
-    - presse
-  query: '[shop~"newsagent|kiosk"]'
-  icon: newspaper
-
-#######################
-# GROUP : TOURISME
-#######################
+    - théâtre
+    - scène
+  query:
+    - '[amenity=theatre]' # Exemple : salle de concert à Brest https://www.openstreetmap.org/way/42531718#map=18/48.38500/-4.48092
+  icon: theatre
 
 - name: Musée
-  group: Tourisme
+  group: Culture
   dictionary:
     - musée
   query:
@@ -612,8 +863,8 @@
   icon: museum
 
 - name: Œuvre d'art
-  group: Tourisme
-  dictionary:
+  group: Culture
+  dictionary:git diff
     - statue
     - sculpture
     - fresque
@@ -622,7 +873,7 @@
   icon: artwork
 
 - name: Attraction
-  group: Tourisme
+  group: Culture
   dictionary:
     - bâtiment
     - site
@@ -637,7 +888,7 @@
   icon: attraction
 
 - name: Information
-  group: Tourisme
+  group: Culture
   dictionary:
     - panneau
     - information
@@ -648,69 +899,10 @@
   query: '[tourism=information]'
   icon: information
 
-- name: Pique-nique
-  group: Tourisme
-  dictionary:
-    - picnic
-    - pique-nique
-    - table
-    - banc
-    - casse-croute
-  query: '[tourism=picnic_site]'
-  icon: picnic
-
-- name: Camping
-  group: Tourisme
-  dictionary:
-    - camping
-    - camping-car
-    - tente
-    - caravane
-  query: '[tourism~"camp_site|caravan_site"]'
-  icon: camping
-
-- name: plage
-  group: Tourisme
-  query: '[natural=beach]'
-  icon: beach
 
 #######################
-# GROUP : COMMERCES (NON ALIMENTAIRES)
+# GROUP : TOURISME
 #######################
-
-- name: Vêtements
-  group: Commerces
-  dictionary:
-    - shopping
-    - fringues
-  query: '[shop=clothes]'
-  icon: clothes
-
-- name: Chaussures
-  group: Commerces
-  dictionary:
-    - shopping
-    - chaussures
-  query: '[shop=shoes]'
-  icon: shoes
-  icon alias: shop-shoes
-
-- name: Centre commercial
-  group: Commerces
-  dictionary:
-    - courses
-    - shopping
-  query: '[shop=mall]'
-  icon: shop
-
-- name: Casier à colis
-  group: Commerces
-  dictionary:
-    - locker
-    - pickup
-    - colis
-  query: '[amenity=parcel_locker]'
-  icon: parcel_locker
 
 #######################
 # GROUP : DÉPLACEMENTS
@@ -1241,16 +1433,109 @@
   hidden: true
 
 #######################
-# GROUP : DIVERS
+# GROUP : Administration
+#######################
+## https://wiki.openstreetmap.org/wiki/France/Services_Publics
+
+- name: Mairie
+  group: Administration
+  dictionary:
+    - hôtel de ville
+  query: '[amenity=townhall]'
+  icon: classical-building
+
+- name: Préfecture
+  group: Administration
+  dictionary:
+    - sous-préfecture
+    - préfet
+  query: '[office=government][government=prefecture]'
+  icon: classical-building
+  hidden: true
+
+- title: Justice
+  group: Administration
+  name: justice
+  dictionary:
+    - tribunal
+    - cour
+    - cour d'appel
+    - judiciaire
+  query:
+    - '[amenity=courthouse]'
+  icon: classical-building
+
+- name: France Travail
+  group: Administration
+  dictionary:
+    - pole emploi
+    - pôle emploi
+    - ANPE
+    - chomage
+    - chômage
+  query: '[office=government][government=employment_agency]'
+  icon: building
+
+#######################
+# GROUP : Services publics
 #######################
 
 - name: Police
-  group: Divers
+  group: Services publics
   dictionary:
     - gendarmerie
-    - comissariat
+    - commissariat
   query: '[amenity=police]'
   icon: police
+
+- title: Pompiers
+  group: Services publics
+  name: pompiers
+  dictionary:
+    - incendie
+    - 18
+    - feu
+  query:
+    - '[amenity=fire_station]'
+  icon: fire
+
+- name: Agence postale
+  group: Services publics
+  dictionary:
+    - bureau de poste
+    - poste
+    - colis
+    - la poste
+  query: '[amenity=post_office]'
+  icon: post
+
+- name: Boite aux lettres
+  group: Services publics
+  dictionary:
+    - poste
+    - lettres
+    - la poste
+  query: '[amenity=post_box]'
+  icon: post
+
+- title: Établissement scolaire
+  group: Services publics
+  name: education
+  dictionary:
+    - université
+    - collège
+    - école
+    - primaire
+    - groupe scolaire
+  query:
+    - '[amenity=college]'
+    - '[amenity=university]'
+    - '[amenity=school]'
+  icon: college
+
+#######################
+# GROUP : DIVERS
+#######################
 
 - name: Point d'eau
   group: Divers # dans "Divers" plutôt que Boissons car c'est un usage pratique, non commercial de la boisson, plutôt qu'un usage "plaisir"
@@ -1263,15 +1548,6 @@
     - '[amenity=drinking_water]'
     - '[drinking_water=yes]'
   icon: water
-
-- name: Agence postale
-  group: Divers
-  dictionary:
-    - poste
-    - colis
-    - la poste
-  query: '[amenity=post_office]'
-  icon: post
 
 - title: Coiffeur
   group: Divers
@@ -1301,6 +1577,7 @@
     - '[amenity=coworking_space]'
     - '[office=coworking]'
   icon: coworking
+
 - title: Cordonnier
   group: Divers
   name: Cordonnier
@@ -1312,6 +1589,7 @@
     - lacets
   query: '[craft=shoemaker]'
   icon: shoes
+
 - title: Cimetière
   group: Divers
   name: cimetière
@@ -1321,42 +1599,3 @@
     - '[amenity=grave_yard]'
     - '[landuse=cemetery]'
   icon: cemetery
-
-## Peut-être carrément une catégorie "services publics"
-## https://wiki.openstreetmap.org/wiki/France/Services_Publics
-- title: Justice
-  group: Divers
-  name: justice
-  dictionary:
-    - tribunal
-    - cour
-    - cour d'appel
-    - judiciaire
-  query:
-    - '[amenity=courthouse]'
-  icon: classical-building
-
-- title: Pompiers
-  group: Divers
-  name: pompiers
-  dictionary:
-    - incendie
-    - 18
-    - feu
-  query:
-    - '[amenity=fire_station]'
-  icon: fire
-- title: Établissement scolaire
-  group: Divers
-  name: education
-  dictionary:
-    - université
-    - collège
-    - école
-    - primaire
-    - groupe scolaire
-  query:
-    - '[amenity=college]'
-    - '[amenity=university]'
-    - '[amenity=school]'
-  icon: college
