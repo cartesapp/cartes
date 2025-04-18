@@ -31,6 +31,7 @@ export default function useTerraDraw(map, dessin) {
 		})
 
 		map.addControl(control, 'top-left')
+
 		return () => {
 			try {
 				map.removeControl(control)
