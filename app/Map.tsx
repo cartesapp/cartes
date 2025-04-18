@@ -11,6 +11,7 @@ import useAddMap, { globeLight, highZoomLight } from './effects/useAddMap'
 import { getStyle } from './styles/styles'
 import useHoverOnMapFeatures from './useHoverOnMapFeatures'
 import useTerrainControl from './useTerrainControl'
+import useTerraDraw from './effects/useTerraDraw'
 
 import { useWhatChanged } from '@/components/utils/useWhatChanged'
 import getBbox from '@turf/bbox'
@@ -124,8 +125,6 @@ export default function Map(props) {
 		setSearchParams({ geoloc: undefined })
 	}, [map, triggerGeolocation, shouldGeolocate, setSearchParams])
 
-	const [distanceMode, setDistanceMode] = useState(false)
-
 	const padding = useComputeMapPadding(trackedSnap, searchParams)
 	console.log({ trackedSnap, padding })
 
@@ -223,6 +222,7 @@ export default function Map(props) {
 	useDrawSearchResults(map, state, onSearchResultClick)
 
 	useTerrainControl(map, style, searchParams.relief)
+	useTerraDraw(map, searchParams.dessin)
 
 	useEffect(() => {
 		if (!map) return
@@ -298,7 +298,7 @@ export default function Map(props) {
 		map,
 		state,
 		setState,
-		distanceMode,
+		searchParams.dessin,
 		itinerary,
 		isTransportsMode,
 		setLatLngClicked,
@@ -432,8 +432,6 @@ export default function Map(props) {
 					style,
 					setStyleChooser,
 					styleChooser,
-					distanceMode,
-					setDistanceMode,
 					map,
 					itinerary,
 					searchParams,

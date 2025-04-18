@@ -10,7 +10,7 @@ import { ResolvingMetadata } from 'next/dist/lib/metadata/types/metadata-interfa
 import { Props } from 'next/script'
 import { Suspense } from 'react'
 import Container from './Container'
-import PaymentBanner from './PaymentBanner'
+//import PaymentBanner from './PaymentBanner'
 import { buildAllezPartFromOsmFeature } from './SetDestination'
 import { fetchSimilarNodes } from './effects/fetchOverpassRequest'
 import getName from './osm/getName'
@@ -137,7 +137,9 @@ const Page = async (props) => {
 				/>
 			)}
 			<Suspense>
-				<PaymentBanner parameter={searchParams.abonnement} />
+				{/*
+		<PaymentBanner parameter={searchParams.abonnement} />
+		*/}
 
 				<Container
 					searchParams={searchParams}

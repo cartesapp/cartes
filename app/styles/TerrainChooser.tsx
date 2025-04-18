@@ -21,7 +21,7 @@ export default function TerrainChooser({
 
 	return (
 		<>
-			<StyleElementChooserWrapper>
+			<StyleElementChooserWrapper $checked={reliefChecked}>
 				<label title="Afficher sur la carte les lignes de niveau">
 					<input
 						type="checkbox"
@@ -39,7 +39,7 @@ export default function TerrainChooser({
 							src={!reliefChecked ? reliefIcon : reliefIconChecked}
 							alt="Logo représentant des lignes de niveau"
 						/>
-						Relief
+						<span>Relief</span>
 					</span>
 				</label>
 			</StyleElementChooserWrapper>

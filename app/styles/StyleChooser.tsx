@@ -6,6 +6,7 @@ import { ModalCloseButton } from '../UI'
 import PanoramaxChooser from './PanoramaxChooser'
 import TerrainChooser from './TerrainChooser'
 import { styles } from './styles'
+import TerraDrawButton from './TerraDrawButton'
 
 const styleList = Object.entries(styles)
 
@@ -42,6 +43,7 @@ export default function StyleChooser({
 						styleKey: style.key,
 					}}
 				/>
+				<TerraDrawButton {...{ searchParams, setSearchParams }} />
 			</StyleOptions>
 			<Styles
 				styleList={styleList.filter(([, el]) => !el.secondary && !el.unlisted)}
@@ -64,7 +66,9 @@ export default function StyleChooser({
 
 const StyleOptions = styled.section`
 	display: flex;
-	padding: 0 2rem;
+	padding: 0 0.4rem;
+	font-size: 95%;
+	justify-content: center;
 `
 const Styles = ({ style, styleList, setSearchParams, searchParams }) => {
 	return (
