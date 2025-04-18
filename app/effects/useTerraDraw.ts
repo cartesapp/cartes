@@ -1,14 +1,12 @@
 import { useEffect } from 'react'
-import { MaplibreTerradrawControl } from '@watergis/maplibre-gl-terradraw'
+import { MaplibreMeasureControl } from '@watergis/maplibre-gl-terradraw'
 
 export default function useTerraDraw(map, dessin) {
 	useEffect(() => {
 		if (!map) return
 		if (!dessin) return
 
-		// As default, all Terra Draw modes are enabled,
-		// you can disable options if you don't want to use them.
-		const control = new MaplibreTerradrawControl({
+		const control = new MaplibreMeasureControl({
 			modes: [
 				'render',
 				'point',
