@@ -396,7 +396,34 @@
 # GROUP : LOISIRS
 #######################
 
+- name: Pique-nique
+  group: Loisirs
+  dictionary:
+    - picnic
+    - pique-nique
+    - table
+    - banc
+    - casse-croute
+  query: '[tourism=picnic_site]'
+  icon: picnic
+
+- name: Camping
+  group: Loisirs
+  dictionary:
+    - camping
+    - camping-car
+    - tente
+    - caravane
+  query: '[tourism~"camp_site|caravan_site"]'
+  icon: camping
+
+- name: plage
+  group: Loisirs
+  query: '[natural=beach]'
+  icon: beach
+
 - name: Musique
+  group: Loisirs
   dictionary:
     - concert
     - festival
@@ -409,16 +436,6 @@
     - '[amenity=festival_grounds]'
     - '[amenity=theatre]' # Exemple : salle de concert à Brest https://www.openstreetmap.org/way/42531718#map=18/48.38500/-4.48092
   icon: music
-  group: Loisirs
-
-- name: Théâtre
-  dictionary:
-    - théâtre
-    - scène
-  query:
-    - '[amenity=theatre]' # Exemple : salle de concert à Brest https://www.openstreetmap.org/way/42531718#map=18/48.38500/-4.48092
-  icon: theatre
-  group: Loisirs
 
 - name: Jeux pour enfants
   group: Loisirs
@@ -657,29 +674,17 @@
   query: '[amenity=library]'
   icon: book
 
-- name: Librairie
+- name: Théâtre
   group: Culture
   dictionary:
-    - livres
-    - bouquins
-  query: '[shop="books"]'
-  icon: book
-
-- name: Journaux
-  group: Culture
-  dictionary:
-    - kiosque
-    - magazines
-    - presse
-  query: '[shop~"newsagent|kiosk"]'
-  icon: newspaper
-
-#######################
-# GROUP : TOURISME
-#######################
+    - théâtre
+    - scène
+  query:
+    - '[amenity=theatre]' # Exemple : salle de concert à Brest https://www.openstreetmap.org/way/42531718#map=18/48.38500/-4.48092
+  icon: theatre
 
 - name: Musée
-  group: Tourisme
+  group: Culture
   dictionary:
     - musée
   query:
@@ -687,8 +692,8 @@
   icon: museum
 
 - name: Œuvre d'art
-  group: Tourisme
-  dictionary:
+  group: Culture
+  dictionary:git diff
     - statue
     - sculpture
     - fresque
@@ -697,7 +702,7 @@
   icon: artwork
 
 - name: Attraction
-  group: Tourisme
+  group: Culture
   dictionary:
     - bâtiment
     - site
@@ -712,7 +717,7 @@
   icon: attraction
 
 - name: Information
-  group: Tourisme
+  group: Culture
   dictionary:
     - panneau
     - information
@@ -723,35 +728,32 @@
   query: '[tourism=information]'
   icon: information
 
-- name: Pique-nique
-  group: Tourisme
-  dictionary:
-    - picnic
-    - pique-nique
-    - table
-    - banc
-    - casse-croute
-  query: '[tourism=picnic_site]'
-  icon: picnic
 
-- name: Camping
-  group: Tourisme
-  dictionary:
-    - camping
-    - camping-car
-    - tente
-    - caravane
-  query: '[tourism~"camp_site|caravan_site"]'
-  icon: camping
+#######################
+# GROUP : TOURISME
+#######################
 
-- name: plage
-  group: Tourisme
-  query: '[natural=beach]'
-  icon: beach
 
 #######################
 # GROUP : COMMERCES (NON ALIMENTAIRES)
 #######################
+
+- name: Librairie
+  group: Culture
+  dictionary:
+    - livres
+    - bouquins
+  query: '[shop="books"]'
+  icon: book
+
+- name: Presse
+  group: Culture
+  dictionary:
+    - kiosque
+    - magazines
+    - presse
+  query: '[shop~"newsagent|kiosk"]'
+  icon: newspaper
 
 - name: Vêtements
   group: Commerces
