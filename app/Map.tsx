@@ -491,4 +491,10 @@ const MapContainer = styled.div`
 		position: absolute;
 		top: 26rem;
 	}
+	:global(.maplibregl-ctrl-top-left) {
+		z-index: 10;
+		@media (min-width: 800px) {
+			margin-top: 2rem;
+		}
+	}
 `
