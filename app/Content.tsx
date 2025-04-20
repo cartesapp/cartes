@@ -319,7 +319,7 @@ export default function Content(props) {
 										geocodedClickedPoint={geocodedClickedPoint}
 										geolocation={geolocation}
 										searchParams={searchParams}
-										osmFeature={vers}
+										vers={vers}
 									/>
 								)}
 								{bookmarkable && (

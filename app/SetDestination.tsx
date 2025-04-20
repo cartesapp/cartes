@@ -97,8 +97,9 @@ export default function SetDestination({
 	geocodedClickedPoint,
 	geolocation,
 	searchParams,
-	osmFeature,
+	vers,
 }) {
+	const osmFeature = vers.osmCode ? vers : null
 	const setSearchParams = useSetSearchParams()
 
 	const destinationPart =
@@ -125,6 +126,7 @@ export default function SetDestination({
 	const href = setSearchParams(newSearchParams, true, false)
 
 	const destination = destinationPart.split('|').slice(2)
+
 	if (!destination.length) return null
 	const origin = geolocation && [geolocation.longitude, geolocation.latitude]
 
