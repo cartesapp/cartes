@@ -30,6 +30,8 @@ export default function useTerraDraw(map, dessin) {
 			computeElevation: true,
 		})
 
+		control.fontGlyphs = ['RobotoRegular-NotoSansRegular']
+
 		map.addControl(control, 'top-left')
 
 		return () => {
