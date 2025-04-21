@@ -770,6 +770,28 @@
 # GROUP : LOISIRS
 #######################
 
+- name: cinema
+  title: Cinéma
+  group: Loisirs
+  dictionnary:
+    - film
+    - projection
+    - scéance
+  query: '[amenity=cinema]'
+  icon: cinema
+
+- name: Aquarium
+  group: Loisirs
+  query: '[tourism=aquarium]'
+  icon: fish
+  icon alias: tourism-fish
+  hidden: true
+
+- name: Zoo
+  group: Loisirs
+  query: '[tourism=zoo]'
+  icon: zoo
+
 - name: Pique-nique
   group: Loisirs
   dictionary:
