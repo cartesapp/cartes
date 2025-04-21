@@ -285,6 +285,7 @@
     - torréfacteur
   query: '[shop=coffee]'
   icon: cafe
+  icon alias: shop-cafe
 
 - name: Caviste
   group: Alimentation
@@ -293,6 +294,7 @@
     - bouteille
   query: '[shop=wine]'
   icon: bottle
+  icon alias: shop-wine
 
 - name: Confiserie
   group: Alimentation
@@ -391,6 +393,7 @@
     - menthe
   query: '[shop=tea]'
   icon: tea
+  icon alias: shop-tea
 
 #######################
 # GROUP : COMMERCES (NON ALIMENTAIRES)
