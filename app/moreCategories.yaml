@@ -864,7 +864,7 @@
 
 - name: Œuvre d'art
   group: Culture
-  dictionary:git diff
+  dictionary:
     - statue
     - sculpture
     - fresque
