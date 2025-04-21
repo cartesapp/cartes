@@ -400,7 +400,7 @@
 #######################
 
 - name: Librairie
-  group: Culture
+  group: Commerces
   dictionary:
     - livres
     - bouquins
@@ -408,7 +408,7 @@
   icon: book
 
 - name: Presse
-  group: Culture
+  group: Commerces
   dictionary:
     - kiosque
     - magazines
