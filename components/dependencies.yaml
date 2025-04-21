@@ -46,6 +46,9 @@
 - img: /indoorequal.svg
   text: Indoor=
   url: indoorequal.org
+- img: https://water-gis.com/images/logo.svg
+  text: TerraDraw
+  url: terradraw.water-gis.com
 - img: /three-dots.svg
   text: Le vôtre ?
   url: github.com/cartesapp/cartes/issues
