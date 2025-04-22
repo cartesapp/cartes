@@ -441,7 +441,7 @@
     - mobile
     - accessoires
   query: '[shop~"mobile_phone"]'
-  icon: shop
+  icon: mobile-phone
 
 - name: Bijouterie
   group: Commerces
@@ -452,7 +452,7 @@
     - collier
     - montre
   query: '[shop~"jewelry"]'
-  icon: shop
+  icon: jewelry-store
 
 - name: Opticien
   group: Commerces
@@ -460,7 +460,7 @@
     - lunettes
     - lentilles de contact
   query: '[shop~"optician"]'
-  icon: shop
+  icon: optician
 
 - name: Centre commercial
   group: Commerces
@@ -468,7 +468,7 @@
     - courses
     - shopping
   query: '[shop=mall]'
-  icon: shop
+  icon: grocery
 
 - name: Casier à colis
   group: Commerces
@@ -488,7 +488,7 @@
     - matériaux
     - quincaillerie
   query: '[shop~"doityourself|hardware"]'
-  icon: shop
+  icon: hardware
 
 - name: Jardinerie
   group: Commerces
@@ -496,7 +496,7 @@
     - jardinage
     - plantes
   query: '[shop~"garden_centre"]'
-  icon: shop
+  icon: garden-centre
   hidden: true
 
 - name: Fleuriste
@@ -505,7 +505,7 @@
     - fleur
     - bouquet
   query: '[shop~"florist"]'
-  icon: shop
+  icon: florist
 
 - name: Serrurier
   group: Commerces
@@ -515,7 +515,7 @@
     - clef
     - copie de clé
   query: '[shop~"locksmith"]'
-  icon: shop
+  icon: locksmith
   hidden: true
 
 - name: Magasin de meubles
@@ -524,7 +524,7 @@
     - mobilier
     - décoration
   query: '[shop~"furniture"][shop!~"garden_furniture"]'
-  icon: shop
+  icon: furniture
 
 - name: Magasin de décoration
   group: Commerces
@@ -533,7 +533,7 @@
     - décoration
     - intérieur
   query: '[shop~"interior_decoration"]'
-  icon: shop
+  icon: decoration
   hidden: true
 
 - name: Ustensiles de cuisine
@@ -553,7 +553,7 @@
     - conception de cuisine
     - cuisine
   query: '[shop~"kitchen"]'
-  icon: shop
+  icon: kitchen
   hidden: true
 
 - name: Magasin de puériculture
@@ -563,7 +563,7 @@
     - biberon
     - poussette
   query: '[shop~"baby_goods"]'
-  icon: shop
+  icon: baby
   hidden: true
 
 #######################
@@ -923,7 +923,6 @@
     - nature
   query: '[tourism=information]'
   icon: information
-
 
 #######################
 # GROUP : TOURISME
