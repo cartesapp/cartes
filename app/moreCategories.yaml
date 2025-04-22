@@ -177,7 +177,7 @@
     - '["amenity"="bar"]'
     - '["amenity"="cafe"]'
     - '["amenity"="pub"]'
-  icon: beer
+  icon: bar
 
 - name: Bar à bière
   group: Bars et boisson
@@ -218,7 +218,7 @@
     - blanc
     - sec
   query: '["drink:wine"]'
-  icon: bottle
+  icon: wine
 
 - name: Bubble Tea
   group: Bars et boisson
@@ -252,7 +252,7 @@
   dictionary:
     - infusion
   query: '["cuisine"="teahouse"]'
-  icon: tea
+  icon: teapot
 
 #######################
 # GROUP : ALIMENTATION (COMMERCES DE BOUCHE)
@@ -294,7 +294,6 @@
     - bouteille
   query: '[shop=wine]'
   icon: bottle
-  icon alias: shop-wine
 
 - name: Confiserie
   group: Alimentation
@@ -392,7 +391,7 @@
     - infusion
     - menthe
   query: '[shop=tea]'
-  icon: tea
+  icon: teapot
   icon alias: shop-tea
 
 #######################

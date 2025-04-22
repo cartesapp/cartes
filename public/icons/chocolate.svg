@@ -1,3 +1,4 @@
-<svg width="15" height="15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" viewBox="0 0 15 15">
-  <path d="M1 12.5C1 8 5.5 8 6.5 3.5C6.5 3.5 7.25 1 7.5 1C7.75 1 8.5 3.5 8.5 3.5C9.5 8 14 8 14 12.5C14 15 1 15 1 12.5z"/>
+<svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M8 17.9987L24 8L40 17.9987L24 28L8 17.9987ZM34.7003 17.9987L24 11.3121L13.3023 17.9987L15.3283 19.265L23.8721 13.9651L32.5454 19.3453L34.7003 17.9987Z" />
+<path d="M24 30.9774L6.58947 20L4 25.2965L24 38L44 25.2965L41.4105 20L24 30.9774Z" />
 </svg>
