@@ -6,6 +6,7 @@ import { fileURLToPath } from 'url'
 const __filename = fileURLToPath(import.meta.url)
 import { withYak } from 'next-yak/withYak'
 import CopyPlugin from 'copy-webpack-plugin'
+import withBundleAnalyzer from '@next/bundle-analyzer'
 
 import mdxOptions from './mdxOptions.mjs'
 
@@ -115,7 +116,7 @@ const nextConfig = {
 
 const withMDX = createMDX({ options: mdxOptions })
 
-export default withSentryConfig(
+const withSentry = withSentryConfig(
 	withYak(withContentlayer(withMDX(nextConfig))),
 
 	{
@@ -153,3 +154,7 @@ export default withSentryConfig(
 		automaticVercelMonitors: true,
 	}
 )
+
+export default withBundleAnalyzer({
+	openAnalyzer: false,
+})(withSentry)

@@ -55,6 +55,7 @@
 		"@mapbox/polyline": "^1.2.1",
 		"@mapbox/sphericalmercator": "^2.0.0",
 		"@mdx-js/loader": "^3.1.0",
+		"@next/bundle-analyzer": "^15.3.1",
 		"@next/eslint-plugin-next": "^15.0.0",
 		"@next/mdx": "^15.0.0",
 		"@octokit/rest": "^21.0.2",

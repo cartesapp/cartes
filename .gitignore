@@ -42,3 +42,4 @@ public/osmand-icons
 # Sentry Config File
 .env.sentry-build-plugin
 public/communes*
+analyze/
