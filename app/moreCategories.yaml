@@ -844,19 +844,6 @@
     - '[attraction=carousel]'
   icon: playground
 
-- name: lieu-culte
-  title: Lieu de culte
-  group: Loisirs
-  dictionary:
-    - église
-    - temple
-    - mosquée
-    - prière
-    - cathédrale
-  query:
-    - '[amenity=place_of_worship]'
-  icon: place_of_worship
-
 #######################
 # GROUP : CULTURE
 #######################
@@ -1612,6 +1599,19 @@
     - lacets
   query: '[craft=shoemaker]'
   icon: shoes
+
+- name: lieu-culte
+  title: Lieu de culte
+  group: Divers
+  dictionary:
+    - église
+    - temple
+    - mosquée
+    - prière
+    - cathédrale
+  query:
+    - '[amenity=place_of_worship]'
+  icon: place_of_worship
 
 - title: Cimetière
   group: Divers
