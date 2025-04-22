@@ -855,6 +855,7 @@
     - médiathèque
   query: '[amenity=library]'
   icon: book
+  icon alias: library
 
 - name: Théâtre
   group: Culture

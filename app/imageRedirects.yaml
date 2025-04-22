@@ -7,7 +7,6 @@
 # part 1/3 : using cartes.app icons already described in moreCategories.yaml (so already included in /svgo/bulk)
 in categories:
   town_hall: classical-building
-  bar: beer
   garden: tree
   park: tree
   books: book
@@ -15,7 +14,6 @@ in categories:
   atm: bank
   biergarten: beer
   bus_station: bus
-  clinic: hospital
   courthouse: classical-building
   dentist: tooth
   drinking_water: water
@@ -24,12 +22,10 @@ in categories:
   food_court: restaurant
   grave_yard: cemetery
   camp_site: camping
-  wine: grapes
   swimming: swimming_outdoor
   swimming_pool: swimming_outdoor
   school: college
-  library: book
-  alcohol: bottle
+  alcohol: wine
   coworking_space: coworking
   pinic_site: picnic
   cycling: bicycle
