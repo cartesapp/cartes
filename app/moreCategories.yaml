@@ -594,7 +594,7 @@
   query:
     - '[amenity=clinic]'
     - '[healthcare=clinic]'
-  icon: hospital
+  icon: clinic
 
 - name: maison de santé
   group: Santé
@@ -602,7 +602,7 @@
     - centre de soins
     - centre de santé
   query: '[healthcare=centre]'
-  icon: doctors
+  icon: clinic
   hidden: true
 
 - name: médecin
@@ -668,7 +668,7 @@
     - masseur
     - massage
   query: '[healthcare=physiotherapist]'
-  icon: nurse
+  icon: physiotherapist
   hidden: true
 
 - name: orthophoniste
@@ -679,7 +679,7 @@
     - logopédiste
     - orthophonie
   query: '[healthcare=speech_therapist]'
-  icon: hospital
+  icon: clinic
   hidden: true
 
 - name: psychologue
@@ -689,7 +689,7 @@
     - psychothérapeute
     - psychothérapie
   query: '[healthcare=psychotherapist]'
-  icon: hospital
+  icon: lounging
   hidden: true
 
 - name: don du sang
@@ -710,7 +710,7 @@
     - laboratoire d'analyse
     - prélèvement
   query: '[healthcare=laboratory]'
-  icon: nurse
+  icon: laboratory
   hidden: true
 
 #######################
