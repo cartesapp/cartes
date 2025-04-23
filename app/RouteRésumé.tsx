@@ -1,5 +1,6 @@
 import DownloadGPXWrapper from '@/components/DownloadGPXWrapper'
 import ElevationGraph from '@/components/itinerary/ElevationGraph'
+import SafeCyclingIcon from '@/public/safe-cycling.svg?component'
 import { styled } from 'next-yak'
 import LightsWarning from './LightsWarning'
 import ProfileChooser from './ProfileChooser'
@@ -190,17 +191,33 @@ const BrouterModeContent = ({
 				<p
 					style={{
 						textAlign: 'right',
+						marginTop: '.4rem',
 					}}
 				>
 					<small>
-						{data.safe.safeRatio < 0.3
-							? '❗️'
+						<SafeCyclingIcon
+							style={{
+								width: '1rem',
+								height: 'auto',
+								verticalAlign: 'middle',
+								marginRight: '.4rem',
+								fill:
+									data.safe.safeRatio < 0.3
+										? 'crimson'
+										: data.safe.safeRatio < 0.5
+										? 'darkorange'
+										: '#4ab54a',
+							}}
+							title={
+								'Icône représentant le niveau de sécurité du trajet à vélo'
+							}
+						/>
+						Trajet sécurisé à {Math.round(data.safe.safeRatio * 100)}%{' '}
+						{data.safe.safeRatio < 0.01
+							? ' !'
 							: data.safe.safeRatio < 0.5
-							? '⚠️ '
-							: ''}{' '}
-						Trajet <Securised>sécurisé</Securised> à{' '}
-						{Math.round(data.safe.safeRatio * 100)}%{' '}
-						{data.safe.safeRatio < 0.5 ? 'seulement' : ''}
+							? 'seulement'
+							: ''}
 					</small>
 				</p>
 			)}
@@ -246,9 +263,3 @@ const deniveléColor = (height, distance) => {
 	const difficulty = Math.round(index)
 	return deniveléColors[difficulty]
 }
-
-const Securised = styled.span`
-	text-decoration: underline;
-	text-decoration-color: LightSeaGreen;
-	text-decoration-thickness: 2px;
-`
