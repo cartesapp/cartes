@@ -566,6 +566,107 @@
   hidden: true
 
 #######################
+# GROUP : SERVICES
+#######################
+
+- name: Agence postale
+  group: Services
+  dictionary:
+    - bureau de poste
+    - poste
+    - la poste
+    - lettre
+    - colis
+  query: '[amenity=post_office]'
+  icon: post
+  icon alias: post_office
+
+- name: Coiffeur
+  group: Services
+  dictionary:
+    - coiffure
+    - cheveux
+  query: '[shop=hairdresser]'
+  icon: hairdresser
+
+- name: Cordonnier
+  group: Services
+  dictionary:
+    - cordonnerie
+    - chaussure
+    - resemmelage
+    - clefs
+    - lacets
+  query:
+    - '[craft=shoemaker]'
+    - '[shop=shoe_repair]'
+  icon: shoes
+  icon alias: shoemaker
+
+- name: Laverie
+  group: Services
+  dictionary:
+    - laverie
+    - lessive
+    - sèche-linge
+    - linge
+    - lavomatic
+    - pressing
+  query:
+    - '[shop=laundry]'
+    - '[shop=dry_cleaning]'
+  icon: laundry
+
+- name: Banque
+  group: Services
+  dictionary:
+    - crédit
+    - livret
+    - compte
+    - argent
+  query:
+    - '[amenity=bank]'
+  icon: bank
+
+- name: Bureau de change
+  group: Services
+  dictionary:
+    - monnaie
+    - argent
+  query:
+    - '[amenity=bureau_de_change]'
+  icon: bank
+  icon alias: bureau_de_change
+  hidden: true
+
+- name: Assurance
+  group: Services
+  dictionary:
+    - sinistre
+  query: '[office=insurance]'
+  icon: insurance
+
+- name: Avocat
+  group: Services
+  dictionary:
+    - loi
+    - juge
+    - juridique
+    - procès
+  query: '[office=lawyer]'
+  icon: lawyer
+
+- name: Agent immobilier
+  group: Services
+  dictionary:
+    - location
+    - gestion
+    - appartement
+    - maison
+  query: '[office=estate_agent]'
+  icon: real_estate_agency
+
+#######################
 # GROUP : SANTE
 #######################
 
@@ -1525,16 +1626,6 @@
     - '[amenity=fire_station]'
   icon: fire
 
-- name: Agence postale
-  group: Services publics
-  dictionary:
-    - bureau de poste
-    - poste
-    - colis
-    - la poste
-  query: '[amenity=post_office]'
-  icon: post
-
 - name: Boite aux lettres
   group: Services publics
   dictionary:
@@ -1575,27 +1666,6 @@
     - '[drinking_water=yes]'
   icon: water
 
-- title: Coiffeur
-  group: Divers
-  name: coiffeur
-  query: '[shop=hairdresser]'
-  icon: hairdresser
-
-- title: Laverie
-  group: Divers
-  name: laverie
-  dictionary:
-    - laverie
-    - lessive
-    - sèche-linge
-    - linge
-    - lavomatic
-    - pressing
-  query:
-    - '[shop=laundry]'
-    - '[shop=dry_cleaning]'
-  icon: laundry
-
 - title: Espace de cotravail (coworking)
   group: Divers
   name: cotravail
@@ -1603,18 +1673,6 @@
     - '[amenity=coworking_space]'
     - '[office=coworking]'
   icon: coworking
-
-- title: Cordonnier
-  group: Divers
-  name: Cordonnier
-  dictionary:
-    - cordonnerie
-    - chaussures
-    - resemmelage
-    - clefs
-    - lacets
-  query: '[craft=shoemaker]'
-  icon: shoes
 
 - name: lieu-culte
   title: Lieu de culte

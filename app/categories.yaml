@@ -100,7 +100,8 @@
     - '[atm=yes]'
   open by default: true
   icon: bank
-  group: Divers
+  icon alias: atm
+  group: Services
 - name: Hôtel
   dictionary:
     - chambre d'hôte
