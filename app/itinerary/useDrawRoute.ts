@@ -50,16 +50,16 @@ export default function useDrawRoute(
 				'text-font': ['RobotoRegular-NotoSansRegular'],
 			},
 		})
-		
+
 		// Ajouter une source pour le point de position sur l'itinéraire
 		map.addSource(id + 'Position', {
 			type: 'geojson',
 			data: {
 				type: 'FeatureCollection',
-				features: []
-			}
-		});
-		
+				features: [],
+			},
+		})
+
 		// Ajouter une couche pour afficher le point de position
 		map.addLayer({
 			id: id + 'PositionPoint',
@@ -67,11 +67,11 @@ export default function useDrawRoute(
 			source: id + 'Position',
 			paint: {
 				'circle-radius': 8,
-				'circle-color': '#ff3300',
+				'circle-color': '#2988e6',
 				'circle-stroke-color': '#ffffff',
-				'circle-stroke-width': 3
-			}
-		});
+				'circle-stroke-width': 1,
+			},
+		})
 		console.log('indigo add layer poinst', id + 'Points')
 		map.addLayer(
 			{
@@ -220,34 +220,37 @@ export default function useDrawRoute(
 			}
 		}
 	}, [isItineraryMode, geojson, map, id])
-	
+
 	// Effet pour mettre à jour la position du point sur l'itinéraire
 	useEffect(() => {
-		if (!map || !geojson || !geojson.features || !geojson.features.length) return;
-		
+		if (!map || !geojson || !geojson.features || !geojson.features.length)
+			return
+
 		// Si itiPosition est défini, afficher le point à cette position
 		if (itiPosition !== null && map.getSource(id + 'Position')) {
-			const coordinates = geojson.features[0].geometry.coordinates[itiPosition];
-			
+			const coordinates = geojson.features[0].geometry.coordinates[itiPosition]
+
 			if (coordinates) {
 				map.getSource(id + 'Position').setData({
 					type: 'FeatureCollection',
-					features: [{
-						type: 'Feature',
-						geometry: {
-							type: 'Point',
-							coordinates: [coordinates[0], coordinates[1]]
+					features: [
+						{
+							type: 'Feature',
+							geometry: {
+								type: 'Point',
+								coordinates: [coordinates[0], coordinates[1]],
+							},
+							properties: {},
 						},
-						properties: {}
-					}]
-				});
+					],
+				})
 			}
 		} else if (map.getSource(id + 'Position')) {
 			// Sinon, effacer le point
 			map.getSource(id + 'Position').setData({
 				type: 'FeatureCollection',
-				features: []
-			});
+				features: [],
+			})
 		}
-	}, [map, geojson, itiPosition, id]);
+	}, [map, geojson, itiPosition, id])
 }
