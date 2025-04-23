@@ -102,7 +102,9 @@ const LineChart = ({ data, baseElevation }) => {
 		const relativeX = (clickX / rect.width) * WIDTH
 
 		const closestPoint = findClosestPoint(relativeX)
-		setSelectedPoint(closestPoint)
+		setSelectedPoint((point) =>
+			point?.x === closestPoint.x ? null : closestPoint
+		)
 	}
 
 	let d = `M${x(data[0].x)} ${y(data[0].y)} ${data
