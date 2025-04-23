@@ -895,6 +895,29 @@
   icon: bow_and_arrow
   hidden: true
 
+- name: Escape game
+  group: Loisirs
+  query: '[leisure=escape_game]'
+  icon: locksmith
+  icon alias: escape_game
+
+- name: salle d'arcade
+  group: Loisirs
+  dictionnary:
+    - jeux vidéos
+    - flipper
+  query: '[leisure=amusement_arcade]'
+  icon: gaming
+
+- name: bar à jeux
+  group: Loisirs
+  dictionnary:
+    - cartes
+  query:
+    - '[cafe~"board_game(s)?"]'
+    - '[amenity~"cafe|bar"][~"board_game(s)?"~"yes"]'
+  icon: casino
+
 - name: Aquarium
   group: Loisirs
   query: '[tourism=aquarium]'
