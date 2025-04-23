@@ -1,15 +1,15 @@
 export const gtfsServerUrl =
-	process.env.NEXT_PUBLIC_LOCAL_GTFS_SERVER === 'true'
+	process.env.NEXT_PUBLIC_LOCAL_SERVER === 'true'
 		? 'http://localhost:3001'
 		: process.env.NEXT_PUBLIC_GTFS_SERVER_URL
 
 export const pmtilesServerUrl =
-	process.env.NEXT_PUBLIC_LOCAL_GTFS_SERVER === 'true'
+	process.env.NEXT_PUBLIC_LOCAL_SERVER === 'true'
 		? 'http://localhost:3001'
 		: process.env.NEXT_PUBLIC_PMTILES_SERVER_URL
 
 export const motisServerUrl =
-	process.env.NEXT_PUBLIC_LOCAL_GTFS_SERVER === 'true'
+	process.env.NEXT_PUBLIC_LOCAL_SERVER === 'true'
 		? 'http://localhost:3000'
 		: process.env.NEXT_PUBLIC_MOTIS_SERVER_URL
 
