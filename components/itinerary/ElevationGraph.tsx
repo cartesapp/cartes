@@ -57,11 +57,19 @@ const LineChart = ({ data, baseElevation }) => {
 	let TICK_COUNT = 3
 	let MAX_X = Math.max(...data.map((d) => d.x))
 	let MAX_Y = Math.max(...data.map((d) => d.y))
+	let MIN_Y = Math.min(...data.map((d) => d.y))
+
+	const isQuiteFlat = MAX_Y - MIN_Y < 30
+	const quiteFlatFactor = isQuiteFlat ? 0.4 : 1
 
 	let x = (val) => (val / MAX_X) * WIDTH
-	let y = (val) => HEIGHT - (val / MAX_Y) * HEIGHT
+	let y = (val) => (HEIGHT - (val / MAX_Y) * HEIGHT) * quiteFlatFactor
 	let x_ticks = getTicks(TICK_COUNT, MAX_X)
-	let y_ticks = getTicks(TICK_COUNT, MAX_Y).reverse()
+	let y_ticks = getTicks(TICK_COUNT, MAX_Y)
+		.reverse()
+		.map((tick) => tick * quiteFlatFactor)
+
+	console.log('ticks', MAX_Y - MIN_Y)
 
 	let d = `M${x(data[0].x)} ${y(data[0].y)} ${data
 		.slice(1)
