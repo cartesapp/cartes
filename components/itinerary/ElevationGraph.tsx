@@ -53,6 +53,7 @@ export default function ElevationGraph({ feature }) {
 }
 
 const LineChart = ({ data, baseElevation }) => {
+	console.log('orange', data)
 	let HEIGHT = 150
 	let WIDTH = HEIGHT * 2.4
 	let TICK_COUNT = 3
@@ -190,7 +191,7 @@ const LineChart = ({ data, baseElevation }) => {
 								position: 'absolute',
 								right: 0,
 								top: `${y(selectedPoint.y)}px`,
-								transform: 'translateY(-50%)',
+								transform: 'translateY(-80%)',
 								color: 'var(--darkColor)',
 								fontWeight: 'bold',
 								background: 'white',

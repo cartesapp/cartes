@@ -1,18 +1,5 @@
 import turfDistance from '@turf/distance'
-const lineProgress = [
-	0,
-	'blue',
-	0.1,
-	'royalblue',
-	0.3,
-	'cyan',
-	0.5,
-	'lime',
-	0.7,
-	'yellow',
-	1,
-	'red',
-]
+
 export function computeSlopeGradient(geojson) {
 	const slopeColor = (slope) => {
 		if (slope < 0) return '#8f53c1' // give another color for negative slopes ?

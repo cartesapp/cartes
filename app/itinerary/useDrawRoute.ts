@@ -1,9 +1,8 @@
+import { useDimensions } from '@/components/react-modal-sheet/hooks'
 import getBbox from '@turf/bbox'
 import { useEffect } from 'react'
-import { useMediaQuery } from 'usehooks-ts'
-import { computeSlopeGradient } from './computeSlopeGradient'
 import { safeRemove } from '../effects/utils'
-import { useDimensions } from '@/components/react-modal-sheet/hooks'
+import { computeSlopeGradient } from './computeSlopeGradient'
 
 /*
  * Draws the walk or cycle route provided by BRouter directly as Geojson, and
