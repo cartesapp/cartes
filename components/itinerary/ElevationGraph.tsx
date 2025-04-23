@@ -1,6 +1,7 @@
 import computeDistance from '@turf/distance'
 import { styled } from 'next-yak'
 import React from 'react'
+import { computeSlopeGradient } from '../../app/itinerary/computeSlopeGradient'
 
 export default function ElevationGraph({ feature }) {
 	console.log('purple', feature)
@@ -40,6 +41,21 @@ export default function ElevationGraph({ feature }) {
 		[]
 	)
 	console.log('purple data for chart', data)
+	
+	// Créer un geojson pour calculer le gradient de pente
+	const featureForGradient = {
+		type: 'FeatureCollection',
+		features: [
+			{
+				type: 'Feature',
+				geometry: {
+					type: 'LineString',
+					coordinates: coordinates
+				},
+				properties: {}
+			}
+		]
+	}
 
 	return (
 		<section
@@ -47,12 +63,12 @@ export default function ElevationGraph({ feature }) {
 				margin: '1.6rem 0.4rem',
 			}}
 		>
-			<LineChart data={data} baseElevation={lowest} />
+			<LineChart data={data} baseElevation={lowest} featureForGradient={featureForGradient} />
 		</section>
 	)
 }
 
-const LineChart = ({ data, baseElevation }) => {
+const LineChart = ({ data, baseElevation, featureForGradient }) => {
 	console.log('orange', data)
 	let HEIGHT = 150
 	let WIDTH = HEIGHT * 2.4
@@ -108,6 +124,57 @@ const LineChart = ({ data, baseElevation }) => {
 		)
 	}
 
+	// Calculer le gradient de pente pour colorer le chemin
+	const slopeGradient = computeSlopeGradient(featureForGradient)
+	
+	// Créer des segments de chemin avec des couleurs différentes selon la pente
+	const pathSegments = []
+	let currentIndex = 0
+	
+	// Première position
+	let pathD = `M${x(data[0].x)} ${y(data[0].y)}`
+	
+	// Pour chaque segment du gradient (qui est un tableau plat [position, couleur, position, couleur, ...])
+	for (let i = 0; i < slopeGradient.length; i += 2) {
+		const progress = slopeGradient[i]
+		const color = slopeGradient[i + 1]
+		
+		// Trouver l'index du point correspondant à cette progression
+		const targetIndex = Math.floor(progress * data.length)
+		
+		// Si on a des points à ajouter entre currentIndex et targetIndex
+		if (targetIndex > currentIndex) {
+			// Ajouter tous les points intermédiaires
+			for (let j = currentIndex + 1; j <= targetIndex && j < data.length; j++) {
+				pathD += ` L${x(data[j].x)} ${y(data[j].y)}`
+			}
+			
+			// Ajouter ce segment au tableau avec sa couleur
+			pathSegments.push({
+				d: pathD,
+				color: color
+			})
+			
+			// Commencer un nouveau segment
+			if (targetIndex < data.length - 1) {
+				pathD = `M${x(data[targetIndex].x)} ${y(data[targetIndex].y)}`
+				currentIndex = targetIndex
+			}
+		}
+	}
+	
+	// S'assurer que le dernier segment est complet jusqu'à la fin
+	if (currentIndex < data.length - 1) {
+		for (let j = currentIndex + 1; j < data.length; j++) {
+			pathD += ` L${x(data[j].x)} ${y(data[j].y)}`
+		}
+		pathSegments.push({
+			d: pathD,
+			color: slopeGradient[slopeGradient.length - 1]
+		})
+	}
+	
+	// Chemin complet pour le remplissage (sans couleur de pente)
 	let d = `M${x(data[0].x)} ${y(data[0].y)} ${data
 		.slice(1)
 		.map((d) => {
@@ -137,7 +204,16 @@ const LineChart = ({ data, baseElevation }) => {
 						stroke={'none'}
 						fill={'url(#gradient)'}
 					/>
-					<path d={d} />
+					{/* Dessiner chaque segment avec sa couleur de pente */}
+					{pathSegments.map((segment, index) => (
+						<path 
+							key={index} 
+							d={segment.d} 
+							stroke={segment.color} 
+							strokeWidth="2" 
+							fill="none" 
+						/>
+					))}
 					<circle
 						cx={x(data[0].x)}
 						cy={y(data[0].y)}
