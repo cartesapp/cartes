@@ -159,7 +159,6 @@ export default function Map(props) {
 		wikidataPictureObject
 	)
 
-	// TODO reactivate
 	useSearchLocalTransit(map, isTransportsMode, center, zoom)
 
 	const agencyId = searchParams.agence
