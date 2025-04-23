@@ -1,18 +1,10 @@
 import turfDistance from '@turf/distance'
 
-export const hasSignificantSlope = (slopeGradient, totalDistance = null, elevationDiff = null) => {
-	// Si on a fourni la distance totale et la différence d'élévation, on utilise le ratio
-	if (totalDistance !== null && elevationDiff !== null) {
-		// Si la pente moyenne est supérieure à 3%, on considère qu'il y a une pente significative
-		return (elevationDiff / totalDistance) > 0.03;
-	}
-	
-	// Sinon on utilise la méthode basée sur les couleurs
-	return slopeGradient.find(
+export const hasSignificantSlope = (slopeGradient) =>
+	slopeGradient.find(
 		(el) =>
 			typeof el === 'string' && ['orange', 'orangeRed', 'crimson'].includes(el)
 	)
-}
 
 export const baseColor = '#8f53c1'
 
