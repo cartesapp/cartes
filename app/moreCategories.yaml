@@ -1649,15 +1649,6 @@
     - '[amenity=fire_station]'
   icon: fire
 
-- name: Boite aux lettres
-  group: Services publics
-  dictionary:
-    - poste
-    - lettres
-    - la poste
-  query: '[amenity=post_box]'
-  icon: post
-
 - title: Établissement scolaire
   group: Services publics
   name: education
@@ -1676,6 +1667,15 @@
 #######################
 # GROUP : DIVERS
 #######################
+
+- name: Boite aux lettres
+  group: Divers
+  dictionary:
+    - poste
+    - lettres
+    - la poste
+  query: '[amenity=post_box]'
+  icon: post
 
 - name: Point d'eau
   group: Divers # dans "Divers" plutôt que Boissons car c'est un usage pratique, non commercial de la boisson, plutôt qu'un usage "plaisir"
