@@ -50,13 +50,7 @@ export default function LightsWarning({ longitude, latitude }) {
 const Wrapper = styled.div`
 	margin-top: 0.6rem;
 	strong {
-		background: var(--darkerColor);
-		color: white;
 		font-weight: normal;
-		padding: 0 0.3rem;
-		border-radius: 0.2rem;
-		box-shadow: -1px 0px 1px red;
-		white-space: nowrap;
 	}
 	> small {
 		display: flex;
