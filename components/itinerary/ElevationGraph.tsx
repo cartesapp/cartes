@@ -77,13 +77,13 @@ const LineChart = ({ data, baseElevation }) => {
 				.map((v) => v + effectiveMinY)
 				.reverse()
 		: getTicks(TICK_COUNT, MAX_Y).reverse()
-	
+
 	// Fonction pour trouver le point le plus proche d'une coordonnée x
 	const findClosestPoint = (clickX) => {
 		const svgX = (clickX / WIDTH) * MAX_X
 		let closest = data[0]
 		let minDistance = Math.abs(closest.x - svgX)
-		
+
 		for (let i = 1; i < data.length; i++) {
 			const distance = Math.abs(data[i].x - svgX)
 			if (distance < minDistance) {
@@ -100,7 +100,7 @@ const LineChart = ({ data, baseElevation }) => {
 		const rect = svgElement.getBoundingClientRect()
 		const clickX = e.clientX - rect.left
 		const relativeX = (clickX / rect.width) * WIDTH
-		
+
 		const closestPoint = findClosestPoint(relativeX)
 		setSelectedPoint(closestPoint)
 	}
@@ -117,8 +117,8 @@ const LineChart = ({ data, baseElevation }) => {
 	return (
 		<LineChartWrapper>
 			<div className="LineChart">
-				<svg 
-					width={'100%'} 
+				<svg
+					width={'100%'}
 					viewBox={`-10 0 ${WIDTH + 20} ${HEIGHT + 10}`}
 					onClick={handleGraphClick}
 					style={{ cursor: 'pointer' }}
@@ -152,8 +152,8 @@ const LineChart = ({ data, baseElevation }) => {
 							<circle
 								cx={x(selectedPoint.x)}
 								cy={y(selectedPoint.y)}
-								r="5"
-								fill={'var(--darkColor)'}
+								r="7"
+								fill={'var(--color)'}
 								stroke={'white'}
 								strokeWidth="2"
 							/>
@@ -162,7 +162,7 @@ const LineChart = ({ data, baseElevation }) => {
 								y1={y(selectedPoint.y)}
 								x2={WIDTH + 10}
 								y2={y(selectedPoint.y)}
-								stroke={'var(--lighterColor)'}
+								stroke={'var(--darkColor)'}
 								strokeWidth="1"
 								strokeDasharray="3,3"
 							/>
@@ -183,19 +183,22 @@ const LineChart = ({ data, baseElevation }) => {
 						</div>
 					))}
 					{selectedPoint && (
-						<div 
-							style={{ 
-								position: 'absolute', 
-								right: 0, 
+						<div
+							style={{
+								position: 'absolute',
+								right: 0,
 								top: `${y(selectedPoint.y)}px`,
 								transform: 'translateY(-50%)',
 								color: 'var(--darkColor)',
 								fontWeight: 'bold',
 								background: 'white',
-								padding: '2px 4px',
+								padding: '.1rem .1rem .2rem',
+								height: '1.2rem',
+								lineHeight: '1rem',
 								borderRadius: '3px',
+								border: '1px dashed var(--color)',
 								fontSize: '90%',
-								boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+								boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
 							}}
 						>
 							{Math.round(selectedPoint.y + baseElevation)} <small>m</small>
