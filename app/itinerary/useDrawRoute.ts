@@ -8,7 +8,13 @@ import { computeSlopeGradient } from './computeSlopeGradient'
  * Draws the walk or cycle route provided by BRouter directly as Geojson, and
  * also the distance line that sets the context
  * */
-export default function useDrawRoute(isItineraryMode, map, geojson, id) {
+export default function useDrawRoute(
+	isItineraryMode,
+	map,
+	geojson,
+	id,
+	itiPosition = null
+) {
 	const { width, height } = useDimensions()
 
 	useEffect(() => {
