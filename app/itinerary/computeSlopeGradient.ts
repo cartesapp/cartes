@@ -10,11 +10,14 @@ export const baseColor = '#8f53c1'
 
 export function computeSlopeGradient(geojson) {
 	const slopeColor = (slope) => {
+		console.log('crimson slope', slope)
 		if (slope < 0) return baseColor // give another color for negative slopes ?
 		if (slope < 3) return baseColor
 		if (slope < 5) return 'yellow'
 		if (slope < 7.5) return 'orange'
 		if (slope < 12) return 'OrangeRed'
+		if (slope < 18) return 'red'
+
 		return 'crimson'
 	}
 	//console.log('indigo', geojson)
