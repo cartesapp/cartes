@@ -81,6 +81,7 @@ const LineChart = ({ data, baseElevation, featureForGradient }) => {
 	let MAX_Y = Math.max(...data.map((d) => d.y))
 	let MIN_Y = Math.min(...data.map((d) => d.y))
 
+	const distance = data[data.length - 1].cumulatedDistance * 1000
 	// Si la différence d'élévation est faible (<30m), on centre la ligne autour du milieu de l'axe y
 	const flattenGraph = MAX_Y - MIN_Y < 30
 	const centerY = flattenGraph ? (MAX_Y + MIN_Y) / 2 : 0
