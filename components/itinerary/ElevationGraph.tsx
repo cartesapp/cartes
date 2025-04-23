@@ -57,11 +57,20 @@ const LineChart = ({ data, baseElevation }) => {
 	let TICK_COUNT = 3
 	let MAX_X = Math.max(...data.map((d) => d.x))
 	let MAX_Y = Math.max(...data.map((d) => d.y))
+	let MIN_Y = Math.min(...data.map((d) => d.y))
+	
+	// Si la différence d'élévation est faible (<30m), on centre la ligne autour du milieu de l'axe y
+	const flattenGraph = MAX_Y - MIN_Y < 30
+	const centerY = flattenGraph ? (MAX_Y + MIN_Y) / 2 : 0
+	const effectiveMaxY = flattenGraph ? centerY + 15 : MAX_Y
+	const effectiveMinY = flattenGraph ? centerY - 15 : 0
 
 	let x = (val) => (val / MAX_X) * WIDTH
-	let y = (val) => HEIGHT - (val / MAX_Y) * HEIGHT
+	let y = (val) => HEIGHT - ((val - effectiveMinY) / (effectiveMaxY - effectiveMinY)) * HEIGHT
 	let x_ticks = getTicks(TICK_COUNT, MAX_X)
-	let y_ticks = getTicks(TICK_COUNT, MAX_Y).reverse()
+	let y_ticks = flattenGraph 
+		? getTicks(TICK_COUNT, effectiveMaxY - effectiveMinY).map(v => v + effectiveMinY).reverse()
+		: getTicks(TICK_COUNT, MAX_Y).reverse()
 
 	let d = `M${x(data[0].x)} ${y(data[0].y)} ${data
 		.slice(1)
