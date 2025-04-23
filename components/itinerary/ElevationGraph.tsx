@@ -1,7 +1,10 @@
 import computeDistance from '@turf/distance'
 import { styled } from 'next-yak'
 import React from 'react'
-import { computeSlopeGradient } from '../../app/itinerary/computeSlopeGradient'
+import {
+	computeSlopeGradient,
+	hasSignificantSlope,
+} from '../../app/itinerary/computeSlopeGradient'
 
 export default function ElevationGraph({ feature }) {
 	console.log('purple', feature)
@@ -81,9 +84,12 @@ const LineChart = ({ data, baseElevation, featureForGradient }) => {
 	let MAX_Y = Math.max(...data.map((d) => d.y))
 	let MIN_Y = Math.min(...data.map((d) => d.y))
 
-	const distance = data[data.length - 1].cumulatedDistance * 1000
-	// Si la différence d'élévation est faible (<30m), on centre la ligne autour du milieu de l'axe y
-	const flattenGraph = MAX_Y - MIN_Y < 30
+	// Calculer le gradient de pente pour colorer le chemin
+	const slopeGradient = computeSlopeGradient(featureForGradient)
+	console.log('orange slopeGradient', slopeGradient)
+
+	// Si la différence d'élévation est faible, on centre la ligne autour du milieu de l'axe y
+	const flattenGraph = !hasSignificantSlope(slopeGradient)
 	const centerY = flattenGraph ? (MAX_Y + MIN_Y) / 2 : 0
 	const effectiveMaxY = flattenGraph ? centerY + 15 : MAX_Y
 	const effectiveMinY = flattenGraph ? centerY - 15 : 0
@@ -128,9 +134,6 @@ const LineChart = ({ data, baseElevation, featureForGradient }) => {
 			point?.x === closestPoint.x ? null : closestPoint
 		)
 	}
-
-	// Calculer le gradient de pente pour colorer le chemin
-	const slopeGradient = computeSlopeGradient(featureForGradient)
 
 	// Créer des segments de chemin avec des couleurs différentes selon la pente
 	const pathSegments = []
