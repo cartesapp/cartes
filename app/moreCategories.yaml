@@ -779,6 +779,21 @@
   query: '[amenity=cinema]'
   icon: cinema
 
+- name: Bowling
+  group: Loisirs
+  dictionary:
+    - quille
+  query: '[leisure=bowling_alley]'
+  icon: bowling-alley
+
+- name: Laser game
+  group: Loisirs
+  dictionary:
+    - lazer
+  query: '[sport=laser_tag]'
+  icon: bow_and_arrow
+  hidden: true
+
 - name: Aquarium
   group: Loisirs
   query: '[tourism=aquarium]'
