@@ -50,6 +50,28 @@ export default function useDrawRoute(
 				'text-font': ['RobotoRegular-NotoSansRegular'],
 			},
 		})
+		
+		// Ajouter une source pour le point de position sur l'itinéraire
+		map.addSource(id + 'Position', {
+			type: 'geojson',
+			data: {
+				type: 'FeatureCollection',
+				features: []
+			}
+		});
+		
+		// Ajouter une couche pour afficher le point de position
+		map.addLayer({
+			id: id + 'PositionPoint',
+			type: 'circle',
+			source: id + 'Position',
+			paint: {
+				'circle-radius': 8,
+				'circle-color': '#ff3300',
+				'circle-stroke-color': '#ffffff',
+				'circle-stroke-width': 3
+			}
+		});
 		console.log('indigo add layer poinst', id + 'Points')
 		map.addLayer(
 			{
@@ -189,12 +211,43 @@ export default function useDrawRoute(
 						baseId + 'Contour',
 						baseId + 'Points',
 						baseId + 'PointsSymbols',
+						baseId + 'PositionPoint',
 					],
-					[baseId]
+					[baseId, baseId + 'Position']
 				)
 			} catch (e) {
 				console.log('Could not remove useDrawRoute layers or source', e)
 			}
 		}
 	}, [isItineraryMode, geojson, map, id])
+	
+	// Effet pour mettre à jour la position du point sur l'itinéraire
+	useEffect(() => {
+		if (!map || !geojson || !geojson.features || !geojson.features.length) return;
+		
+		// Si itiPosition est défini, afficher le point à cette position
+		if (itiPosition !== null && map.getSource(id + 'Position')) {
+			const coordinates = geojson.features[0].geometry.coordinates[itiPosition];
+			
+			if (coordinates) {
+				map.getSource(id + 'Position').setData({
+					type: 'FeatureCollection',
+					features: [{
+						type: 'Feature',
+						geometry: {
+							type: 'Point',
+							coordinates: [coordinates[0], coordinates[1]]
+						},
+						properties: {}
+					}]
+				});
+			}
+		} else if (map.getSource(id + 'Position')) {
+			// Sinon, effacer le point
+			map.getSource(id + 'Position').setData({
+				type: 'FeatureCollection',
+				features: []
+			});
+		}
+	}, [map, geojson, itiPosition, id]);
 }

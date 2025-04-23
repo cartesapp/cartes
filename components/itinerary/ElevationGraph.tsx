@@ -102,8 +102,12 @@ const LineChart = ({
 	const slopeGradient = computeSlopeGradient(featureForGradient)
 	console.log('orange slopeGradient', slopeGradient)
 
-	// Si la différence d'élévation est faible, on centre la ligne autour du milieu de l'axe y
-	const flattenGraph = !hasSignificantSlope(slopeGradient)
+	// Calculer la distance totale et la différence d'élévation
+	const totalDistance = MAX_X * 1000; // en mètres (MAX_X est en km)
+	const elevationDiff = MAX_Y - MIN_Y; // en mètres
+	
+	// Si la différence d'élévation est faible par rapport à la distance, on centre la ligne
+	const flattenGraph = !hasSignificantSlope(slopeGradient, totalDistance, elevationDiff)
 	const centerY = flattenGraph ? (MAX_Y + MIN_Y) / 2 : 0
 	const effectiveMaxY = flattenGraph ? centerY + 15 : MAX_Y
 	const effectiveMinY = flattenGraph ? centerY - 15 : 0
