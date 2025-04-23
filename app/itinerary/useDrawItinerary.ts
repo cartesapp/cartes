@@ -161,7 +161,7 @@ export default function useDrawItinerary(
 					e.lngLat.lat
 				)
 
-				if (!state || state.length === 1) {
+				if (!state || state.length <= 1) {
 					const allez = allezPart + '->'
 					return setSearchParams({
 						allez,
