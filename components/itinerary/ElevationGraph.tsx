@@ -6,7 +6,11 @@ import {
 	hasSignificantSlope,
 } from '../../app/itinerary/computeSlopeGradient'
 
-export default function ElevationGraph({ feature }) {
+export default function ElevationGraph({
+	feature,
+	setItineraryPosition,
+	itineraryPosition,
+}) {
 	console.log('purple', feature)
 	if (!feature?.geometry) return
 	const { coordinates } = feature.geometry
@@ -67,15 +71,25 @@ export default function ElevationGraph({ feature }) {
 			}}
 		>
 			<LineChart
-				data={data}
-				baseElevation={lowest}
-				featureForGradient={featureForGradient}
+				{...{
+					data,
+					baseElevation: lowest,
+					featureForGradient,
+					setItineraryPosition,
+					itineraryPosition,
+				}}
 			/>
 		</section>
 	)
 }
 
-const LineChart = ({ data, baseElevation, featureForGradient }) => {
+const LineChart = ({
+	data,
+	baseElevation,
+	featureForGradient,
+	setItineraryPosition,
+	itineraryPosition,
+}) => {
 	console.log('orange', data)
 	let HEIGHT = 150
 	let WIDTH = HEIGHT * 2.4
@@ -94,8 +108,6 @@ const LineChart = ({ data, baseElevation, featureForGradient }) => {
 	const effectiveMaxY = flattenGraph ? centerY + 15 : MAX_Y
 	const effectiveMinY = flattenGraph ? centerY - 15 : 0
 
-	const [selectedPoint, setSelectedPoint] = React.useState(null)
-
 	let x = (val) => (val / MAX_X) * WIDTH
 	let y = (val) =>
 		HEIGHT - ((val - effectiveMinY) / (effectiveMaxY - effectiveMinY)) * HEIGHT
@@ -109,18 +121,20 @@ const LineChart = ({ data, baseElevation, featureForGradient }) => {
 	// Fonction pour trouver le point le plus proche d'une coordonnée x
 	const findClosestPoint = (clickX) => {
 		const svgX = (clickX / WIDTH) * MAX_X
-		let closest = data[0]
-		let minDistance = Math.abs(closest.x - svgX)
+		let closest = 0
+		let minDistance = Math.abs(data[0].x - svgX)
 
 		for (let i = 1; i < data.length; i++) {
 			const distance = Math.abs(data[i].x - svgX)
 			if (distance < minDistance) {
 				minDistance = distance
-				closest = data[i]
+				closest = i
 			}
 		}
 		return closest
 	}
+
+	const selectedPoint = data[itineraryPosition]
 
 	// Gestionnaire de clic sur le graphique
 	const handleGraphClick = (e) => {
@@ -130,8 +144,8 @@ const LineChart = ({ data, baseElevation, featureForGradient }) => {
 		const relativeX = (clickX / rect.width) * WIDTH
 
 		const closestPoint = findClosestPoint(relativeX)
-		setSelectedPoint((point) =>
-			point?.x === closestPoint.x ? null : closestPoint
+		setItineraryPosition(
+			itineraryPosition === closestPoint ? null : closestPoint
 		)
 	}
 

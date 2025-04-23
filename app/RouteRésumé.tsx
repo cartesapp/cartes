@@ -28,6 +28,8 @@ export default function RouteRésumé({
 	data,
 	bikeRouteProfile,
 	setBikeRouteProfile,
+	setItineraryPosition,
+	itineraryPosition,
 }) {
 	if (!data) return
 	if (data === 'loading')
@@ -75,6 +77,8 @@ export default function RouteRésumé({
 							setBikeRouteProfile,
 							mode,
 							data,
+							itineraryPosition,
+							setItineraryPosition,
 						}}
 					/>
 				)}
@@ -113,6 +117,8 @@ const BrouterModeContent = ({
 	data,
 	setBikeRouteProfile,
 	bikeRouteProfile,
+	itineraryPosition,
+	setItineraryPosition,
 }) => {
 	const features = data?.features
 	if (!features?.length) return null
@@ -204,7 +210,11 @@ const BrouterModeContent = ({
 					latitude={feature.geometry.coordinates[0][1]}
 				/>
 			)}
-			<ElevationGraph feature={feature} />
+			<ElevationGraph
+				feature={feature}
+				setItineraryPosition={setItineraryPosition}
+				itineraryPosition={itineraryPosition}
+			/>
 		</div>
 	)
 }
