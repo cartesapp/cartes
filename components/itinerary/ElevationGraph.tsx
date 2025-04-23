@@ -215,7 +215,7 @@ const LineChart = ({
 			<div className="LineChart">
 				<svg
 					width={'100%'}
-					viewBox={`-10 0 ${WIDTH + 20} ${HEIGHT + 10}`}
+					viewBox={`-10 -10 ${WIDTH + 20} ${HEIGHT + 20}`}
 					onClick={handleGraphClick}
 					style={{ cursor: 'pointer' }}
 				>
@@ -292,8 +292,7 @@ const LineChart = ({
 							style={{
 								position: 'absolute',
 								right: 0,
-								top: `${y(selectedPoint.y)}px`,
-								transform: 'translateY(-80%)',
+								top: `${(y(selectedPoint.y) / (HEIGHT + 30)) * 100}%`,
 								color: 'var(--darkColor)',
 								fontWeight: 'bold',
 								background: 'white',
