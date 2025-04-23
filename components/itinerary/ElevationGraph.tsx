@@ -1,5 +1,6 @@
 import computeDistance from '@turf/distance'
 import { styled } from 'next-yak'
+import React from 'react'
 
 export default function ElevationGraph({ feature }) {
 	console.log('purple', feature)
@@ -65,6 +66,8 @@ const LineChart = ({ data, baseElevation }) => {
 	const effectiveMaxY = flattenGraph ? centerY + 15 : MAX_Y
 	const effectiveMinY = flattenGraph ? centerY - 15 : 0
 
+	const [selectedPoint, setSelectedPoint] = React.useState(null)
+
 	let x = (val) => (val / MAX_X) * WIDTH
 	let y = (val) =>
 		HEIGHT - ((val - effectiveMinY) / (effectiveMaxY - effectiveMinY)) * HEIGHT
@@ -74,6 +77,33 @@ const LineChart = ({ data, baseElevation }) => {
 				.map((v) => v + effectiveMinY)
 				.reverse()
 		: getTicks(TICK_COUNT, MAX_Y).reverse()
+	
+	// Fonction pour trouver le point le plus proche d'une coordonnée x
+	const findClosestPoint = (clickX) => {
+		const svgX = (clickX / WIDTH) * MAX_X
+		let closest = data[0]
+		let minDistance = Math.abs(closest.x - svgX)
+		
+		for (let i = 1; i < data.length; i++) {
+			const distance = Math.abs(data[i].x - svgX)
+			if (distance < minDistance) {
+				minDistance = distance
+				closest = data[i]
+			}
+		}
+		return closest
+	}
+
+	// Gestionnaire de clic sur le graphique
+	const handleGraphClick = (e) => {
+		const svgElement = e.currentTarget
+		const rect = svgElement.getBoundingClientRect()
+		const clickX = e.clientX - rect.left
+		const relativeX = (clickX / rect.width) * WIDTH
+		
+		const closestPoint = findClosestPoint(relativeX)
+		setSelectedPoint(closestPoint)
+	}
 
 	let d = `M${x(data[0].x)} ${y(data[0].y)} ${data
 		.slice(1)
@@ -87,7 +117,12 @@ const LineChart = ({ data, baseElevation }) => {
 	return (
 		<LineChartWrapper>
 			<div className="LineChart">
-				<svg width={'100%'} viewBox={`-10 0 ${WIDTH + 20} ${HEIGHT + 10}`}>
+				<svg 
+					width={'100%'} 
+					viewBox={`-10 0 ${WIDTH + 20} ${HEIGHT + 10}`}
+					onClick={handleGraphClick}
+					style={{ cursor: 'pointer' }}
+				>
 					<defs>
 						<linearGradient id="gradient" x1="0" x2="0" y1="0" y2="1">
 							<stop offset="5%" stopColor="var(--lighterColor)" />
@@ -112,6 +147,27 @@ const LineChart = ({ data, baseElevation }) => {
 						r="3"
 						fill={'var(--lightestColor2)'}
 					/>
+					{selectedPoint && (
+						<>
+							<circle
+								cx={x(selectedPoint.x)}
+								cy={y(selectedPoint.y)}
+								r="5"
+								fill={'var(--darkColor)'}
+								stroke={'white'}
+								strokeWidth="2"
+							/>
+							<line
+								x1={x(selectedPoint.x)}
+								y1={y(selectedPoint.y)}
+								x2={WIDTH + 10}
+								y2={y(selectedPoint.y)}
+								stroke={'var(--lighterColor)'}
+								strokeWidth="1"
+								strokeDasharray="3,3"
+							/>
+						</>
+					)}
 				</svg>
 				<XAxis>
 					{x_ticks.map((v, i) => (
@@ -126,6 +182,25 @@ const LineChart = ({ data, baseElevation }) => {
 							{Math.round(v + baseElevation)} <small>m</small>
 						</div>
 					))}
+					{selectedPoint && (
+						<div 
+							style={{ 
+								position: 'absolute', 
+								right: 0, 
+								top: `${y(selectedPoint.y)}px`,
+								transform: 'translateY(-50%)',
+								color: 'var(--darkColor)',
+								fontWeight: 'bold',
+								background: 'white',
+								padding: '2px 4px',
+								borderRadius: '3px',
+								fontSize: '90%',
+								boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+							}}
+						>
+							{Math.round(selectedPoint.y + baseElevation)} <small>m</small>
+						</div>
+					)}
 				</YAxis>
 			</div>
 		</LineChartWrapper>
