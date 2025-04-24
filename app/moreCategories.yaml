@@ -116,7 +116,8 @@
     - '[amenity=restaurant][cuisine~pizza]'
     - '[food=pizza]'
     - '["food:pizza"=yes]'
-  icon: pizza
+  icon: restaurant-pizza
+  icon alias: pizza
 
 - name: Sushis
   group: Restaurants
@@ -781,6 +782,7 @@
     - psychothérapie
   query: '[healthcare=psychotherapist]'
   icon: lounging
+  icon alias: psychotherapist
   hidden: true
 
 - name: don du sang
@@ -789,7 +791,7 @@
     - EFS
     - don de sang
   query: '[healthcare=blood_donation]'
-  icon: nurse
+  icon: blood-bank
   hidden: true
 
 - name: laboratoire
@@ -1821,3 +1823,114 @@
     - '[amenity=grave_yard]'
     - '[landuse=cemetery]'
   icon: cemetery
+
+- name: Distributeur automatique
+  group: Divers
+  dictionary:
+    - libre-service
+    - en-cas
+    - barre
+    - confiserie
+    - sucrerie
+    - canette
+    - soda
+    - boire
+  query: '[amenity=vending_machine][vending~"food|drinks"]'
+  icon: vending_machine
+
+- name: Distributeur de glaçons
+  group: Divers
+  dictionary:
+    - libre-service
+    - glacon
+    - glace
+    - froid
+  query: '[amenity=vending_machine][vending=ice_cubes]'
+  icon: snow
+  icon alias: ice_cubes
+  hidden: true
+
+- name: Distributeur de préservatifs
+  group: Divers
+  dictionary:
+    - libre-service
+    - capote
+    - sida
+    - protection
+  query: '[amenity=vending_machine][vending=condoms]'
+  icon: vending_condoms
+  hidden: true
+
+- name: Distributeur de protections hygiéniques
+  group: Divers
+  dictionary:
+    - libre-service
+    - serviette
+    - tampon
+    - cup
+    - menstruelle
+    - règle
+    - marguerite
+  query:
+    - '[amenity=vending_machine][vending=feminine_hygiene]'
+    - '["toilets:menstrual_products"="yes|limited"]'
+  icon: waterfall
+  icon alias: feminine_hygiene
+  hidden: true
+
+- name: Distributeur de pains
+  group: Divers
+  dictionary:
+    - libre-service
+    - baguette
+    - boulanger
+  query: '[amenity=vending_machine][vending=bread]'
+  icon: bread
+  icon alias: self_service-bread
+  hidden: true
+
+- name: Distributeur de pizzas
+  group: Divers
+  dictionary:
+    - libre-service
+    - italien
+  query: '[amenity=vending_machine][vending=pizza]'
+  icon: restaurant-pizza
+  icon alias: self_service-pizza
+  hidden: true
+
+- name: Sacs à déjection
+  group: Divers
+  dictionary:
+    - libre-service
+    - caca
+    - crotte
+    - chien
+  query: '[amenity=vending_machine][vending=excrement_bags]'
+  icon: vending_excrement_bags
+  hidden: true
+
+- name: Lavomatic
+  group: Divers
+  dictionary:
+    - libre-service
+    - machine à laver
+    - linge
+    - miele
+  query:
+    - '[amenity=washing_machine]'
+    - '[shop=laundry][self_service=yes]'
+  icon: laundry
+  icon alias: washing_machine
+  hidden: true
+
+- name: Photomaton
+  group: Divers
+  dictionary:
+    - libre-service
+    - identité
+    - photo
+    - cabine
+  query: '[amenity=photo_booth]'
+  icon: photo_booth
+  hidden: true
