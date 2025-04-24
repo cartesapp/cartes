@@ -987,34 +987,38 @@
   icon: book
   icon alias: library
 
+- name: Boite à livres
+  group: Culture
+  dictionary:
+    - libre-service
+  query: '[amenity=public_bookcase]'
+  icon: public_bookcase
+
 - name: Théâtre
   group: Culture
   dictionary:
     - théâtre
     - scène
+    - spectacle
+    - concert
   query:
     - '[amenity=theatre]' # Exemple : salle de concert à Brest https://www.openstreetmap.org/way/42531718#map=18/48.38500/-4.48092
   icon: theatre
 
-- name: Musée
+- name: Centre artistique
   group: Culture
   dictionary:
-    - musée
+    - centre culturel
+    - spectacle
+    - musique
+    - peinture
+    - concert
   query:
-    - '[tourism=museum]'
-  icon: museum
+    - '[amenity=arts_centre]'
+  icon: palette
+  icon alias: arts_centre
 
-- name: Œuvre d'art
-  group: Culture
-  dictionary:
-    - statue
-    - sculpture
-    - fresque
-    - mosaïque
-  query: '[tourism=artwork]'
-  icon: artwork
-
-- name: Attraction
+- name: Attraction touristique
   group: Culture
   dictionary:
     - bâtiment
@@ -1024,10 +1028,41 @@
     - église
     - place
     - pont
-  query:
-    - '[tourism=attraction]'
-    - '[tourism=museum]'
+  query: '[tourism~"attraction|museum"]'
   icon: attraction
+
+- name: Musée
+  group: Culture
+  dictionary:
+    - musée
+    - exposition
+  query:
+    - '[tourism=museum]'
+  icon: museum
+
+- name: Musée d'art
+  group: Culture
+  dictionary:
+    - peinture
+    - sculpture
+    - exposition
+    - galerie
+  query:
+    - '[tourism=gallery]'
+  icon: art_gallery
+  icon alias: gallery
+
+- name: Œuvre d'art
+  group: Culture
+  dictionary:
+    - oeuvre
+    - statue
+    - sculpture
+    - fresque
+    - mosaïque
+  query: '[tourism=artwork]'
+  icon: artwork
+  hidden: true
 
 - name: Information
   group: Culture
@@ -1040,6 +1075,73 @@
     - nature
   query: '[tourism=information]'
   icon: information
+
+- name: Site archéologique
+  group: Culture
+  dictionary:
+    - fouille
+    - antique
+    - antiquité
+    - civilisation
+  query: '[historic=archaeological_site]'
+  icon: archaeological
+  icon alias: archaeological_site
+
+- name: Chateau
+  group: Culture
+  dictionary:
+    - palais
+    - manoir
+    - fort
+    - forteresse
+  query: '[historic~"castle|fort|manor"]'
+  icon: castle
+
+- name: Fortification
+  group: Culture
+  dictionary:
+    - muraille
+  query: '[historic~"wall"]' # matchs castle_wall and citywalls
+  icon: city_wall
+  hidden: true
+
+- name: Memorial
+  group: Culture
+  dictionary:
+    - monument
+    - souvenir
+    - plaque
+    - stèle
+    - commémoration
+    - arbre
+  query:
+    - '[historic~"monument|memorial"]'
+    - '[denotation=memorial]'
+  icon: monument
+
+- name: Objet historique
+  group: Culture
+  dictionary:
+    - aqueduc
+    - champ de bataille
+    - canon
+    - mine
+    - borne
+    - monastère
+    - télégraphe
+    - ruines
+    - pierre runique
+    - tank
+    - char
+    - tombe
+    - stèle
+    - calvaire
+    - oratoire
+    - statue de la Vierge
+    - épave
+  query:
+    - '[historic]["historic"!~"yes|church|archaeological_site|castle|fort|manor|wall|monument|memorial"]'
+  icon: historic
 
 #######################
 # GROUP : TOURISME

@@ -40,8 +40,6 @@ in categories:
 # part 2/3 : using new icons not already described in moreCategories.yaml (added with round gray background)
 not in categories:
   office: building
-  gallery: art_gallery
-  castle:
 
 # part 3/3 : to be added as small icons without circle
 small:
