@@ -469,15 +469,6 @@
   query: '[shop=mall]'
   icon: grocery
 
-- name: Casier à colis
-  group: Commerces
-  dictionary:
-    - locker
-    - pickup
-    - colis
-  query: '[amenity=parcel_locker]'
-  icon: parcel_locker
-
 - name: Magasin de bricolage
   group: Commerces
   dictionary:
@@ -1676,6 +1667,15 @@
     - la poste
   query: '[amenity=post_box]'
   icon: post
+
+- name: Casier à colis
+  group: Divers
+  dictionary:
+    - locker
+    - pickup
+    - colis
+  query: '[amenity=parcel_locker]'
+  icon: parcel_locker
 
 - name: Point d'eau
   group: Divers # dans "Divers" plutôt que Boissons car c'est un usage pratique, non commercial de la boisson, plutôt qu'un usage "plaisir"
