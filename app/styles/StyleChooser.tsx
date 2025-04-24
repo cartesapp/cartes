@@ -74,7 +74,10 @@ const Styles = ({ style, styleList, setSearchParams, searchParams }) => {
 	return (
 		<StyleList>
 			{styleList.map(
-				([k, { name, imageAlt, title, image: imageProp, description }]) => {
+				([
+					k,
+					{ name, imageAlt, title, image: imageProp, description, inlineImage },
+				]) => {
 					const image = (imageProp || k) + '.png'
 
 					const setStyleUrl = () =>
@@ -104,7 +107,7 @@ const Styles = ({ style, styleList, setSearchParams, searchParams }) => {
 								title={'Passer au style ' + (title || name)}
 							>
 								<img
-									src={'/styles/' + image}
+									src={inlineImage || '/styles/' + image}
 									width="50"
 									height="50"
 									alt={imageAlt}

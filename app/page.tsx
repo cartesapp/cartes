@@ -68,6 +68,7 @@ export async function generateMetadata(
 	console.log('⏳️ TIME og', new Date().getTime() - dateOg.getTime())
 
 	const placeMap = buildPlaceMap(lat, lon)
+	console.log('🔥 buildPlaceMap', placeMap)
 
 	const address = step.photonAddress
 	const description = address

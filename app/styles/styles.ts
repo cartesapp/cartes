@@ -64,16 +64,22 @@ export const styles = {
 		name: 'IGN',
 		imageAlt: "Logo de l'IGN",
 		attribution: '© IGN',
-		list: [
-			{
-				url: carteFacile.mapStyle.simple,
-				name: 'IGN simple',
-			},
-			{
-				url: carteFacile.mapStyle.desaturated,
-				name: 'IGN désaturé',
-			},
-		],
+	},
+	'ign-simple': {
+		url: carteFacile.mapStyle.simple,
+		name: 'IGN simple',
+		attribution: '© IGN',
+		imageAlt: "Logo de l'IGN",
+		inlineImage: carteFacile.mapThumbnails.simple.src,
+		displayedIf: 'ign',
+	},
+	'ign-clair': {
+		url: carteFacile.mapStyle.desaturated,
+		name: 'IGN clair',
+		attribution: '© IGN',
+		imageAlt: "Logo de l'IGN",
+		inlineImage: carteFacile.mapThumbnails.desaturated.src,
+		displayedIf: 'ign',
 	},
 	osm: {
 		url: maptilerUrl('openstreetmap'),
