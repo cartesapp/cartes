@@ -7,6 +7,7 @@ import railStyle from './railStyle'
 import satellite from './satellite'
 import testStreetComplete from './test-street-complete'
 import voyageStyle from './voyage'
+import carteFacile from 'carte-facile'
 
 const key = process.env.NEXT_PUBLIC_MAPTILER
 
@@ -63,6 +64,16 @@ export const styles = {
 		name: 'IGN',
 		imageAlt: "Logo de l'IGN",
 		attribution: '© IGN',
+		list: [
+			{
+				url: carteFacile.mapStyle.simple,
+				name: 'IGN simple',
+			},
+			{
+				url: carteFacile.mapStyle.desaturated,
+				name: 'IGN désaturé',
+			},
+		],
 	},
 	osm: {
 		url: maptilerUrl('openstreetmap'),
