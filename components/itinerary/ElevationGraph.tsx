@@ -11,9 +11,15 @@ export default function ElevationGraph({
 	setItineraryPosition,
 	itineraryPosition,
 }) {
-	console.log('purple', feature)
 	if (!feature?.geometry) return
-	const { coordinates } = feature.geometry
+	const { coordinates: rawCoordinates } = feature.geometry
+
+	const coordinates = rawCoordinates.filter(
+		(point) => point.length === 3 // some point coordinate arrays returned by BRouter do not include an elevation,
+		// we just filter them.
+		// TODO Could result in some problems with the itiPosition
+		// prop
+	)
 
 	const start = {
 		type: 'Feature',
@@ -24,29 +30,28 @@ export default function ElevationGraph({
 		properties: {},
 	}
 	const lowest = Math.min(...coordinates.map((el) => el[2]))
-	const data = feature.geometry.coordinates.reduce(
-		(memo, [lon, lat, elevation], index) => {
-			const last = index && memo[memo.length - 1]
 
-			const newPoint = {
-				type: 'Feature',
-				geometry: { type: 'Point', coordinates: [lon, lat] },
-			}
-			const newDistance =
-				(last?.cumulatedDistance ?? 0) +
-				computeDistance(last ? last.point : start, newPoint)
-			return [
-				...memo,
-				{
-					x: newDistance,
-					y: elevation - lowest,
-					cumulatedDistance: newDistance,
-					point: newPoint,
-				},
-			]
-		},
-		[]
-	)
+	console.log('purple', feature, lowest)
+	const data = coordinates.reduce((memo, [lon, lat, elevation], index) => {
+		const last = index && memo[memo.length - 1]
+
+		const newPoint = {
+			type: 'Feature',
+			geometry: { type: 'Point', coordinates: [lon, lat] },
+		}
+		const newDistance =
+			(last?.cumulatedDistance ?? 0) +
+			computeDistance(last ? last.point : start, newPoint)
+		return [
+			...memo,
+			{
+				x: newDistance,
+				y: elevation - lowest,
+				cumulatedDistance: newDistance,
+				point: newPoint,
+			},
+		]
+	}, [])
 	console.log('purple data for chart', data)
 
 	// Créer un geojson pour calculer le gradient de pente
