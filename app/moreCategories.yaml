@@ -164,6 +164,22 @@
     - '["diet:vegan"~"yes|only"]'
   icon: veg
 
+- name: Saladerie
+  group: Restaurants
+  dictionary:
+    - salade
+  query: '[cuisine~salad]'
+  icon: restaurant
+
+- name: Tapas
+  group: Restaurants
+  dictionary:
+    - apéro
+    - espagne
+    - apéritif
+  query: '[cuisine=tapas]'
+  icon: restaurant
+
 #######################
 # GROUP : BARS & BOISSONS
 #######################
@@ -394,6 +410,16 @@
   query: '[shop=tea]'
   icon: teapot
   icon alias: shop-tea
+
+- name: Traiteur
+  group: Alimentation
+  dictionary:
+    - nourriture
+    - emporter
+    - restaurateur
+    - buffet
+  query: '[craft=caterer]'
+  icon: caterer
 
 #######################
 # GROUP : COMMERCES (NON ALIMENTAIRES)
