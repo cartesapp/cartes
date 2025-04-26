@@ -1784,6 +1784,80 @@
   icon: building
 
 #######################
+# SOUS-GROUPE : Les écoles
+
+- name: École maternelle
+  group: Administration
+  dictionary:
+    - enfant
+    - primaire
+    - groupe scolaire
+  query:
+    - '[amenity=school]["school:FR"="maternelle"]'
+    - '[amenity=school]["school:FR"="primaire"]'
+  icon: maternelle
+
+- name: École élémentaire
+  group: Administration
+  dictionary:
+    - enfant
+    - primaire
+    - groupe scolaire
+  query:
+    - '[amenity=school]["school:FR"="élémentaire"]'
+    - '[amenity=school]["school:FR"="primaire"]'
+  icon: school
+
+- name: Collège
+  group: Administration
+  dictionary:
+    - segpa
+    - collège
+    - ado
+  query:
+    - '[amenity=school]["school:FR"="collège"]'
+    - '[amenity=school]["school:FR"="secondaire"]'
+  icon: college
+
+- name: Lycée
+  group: Administration
+  dictionary:
+    - ado
+    - technique
+    - général
+    - prépa
+  query:
+    - '[amenity=school]["school:FR"="lycée"]'
+    - '[amenity=school]["school:FR"="secondaire"]'
+  icon: college
+
+- name: Enseignement supérieur
+  group: Administration
+  dictionary:
+    - faculté
+    - supérieur
+    - université
+  query:
+    - '[amenity=university]'
+    - '[amenity=college]'
+  icon: college
+
+- name: Établissement scolaire
+  group: Administration
+  dictionary:
+    - université
+    - collège
+    - école
+    - primaire
+    - groupe scolaire
+  query:
+    - '[amenity=school]'
+    - '[amenity=college]'
+    - '[amenity=university]'
+  icon: college
+  hidden: true
+
+#######################
 # GROUP : Services publics
 #######################
 
@@ -1805,21 +1879,6 @@
   query:
     - '[amenity=fire_station]'
   icon: fire
-
-- title: Établissement scolaire
-  group: Services publics
-  name: education
-  dictionary:
-    - université
-    - collège
-    - école
-    - primaire
-    - groupe scolaire
-  query:
-    - '[amenity=college]'
-    - '[amenity=university]'
-    - '[amenity=school]'
-  icon: college
 
 #######################
 # GROUP : DIVERS
