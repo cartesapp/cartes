@@ -583,6 +583,21 @@
   icon: baby
   hidden: true
 
+- name: Animalerie
+  group: Commerces
+  dictionary:
+    - croquettes
+    - jouet
+    - graines
+    - poisson
+    - oiseau
+    - chat
+    - chien
+    - hamster
+  query: '[shop=pet]'
+  icon: pet_store
+  icon alias: pet
+
 #######################
 # GROUP : SERVICES
 #######################
@@ -683,6 +698,14 @@
     - maison
   query: '[office=estate_agent]'
   icon: real_estate_agency
+
+- name: Salon de toilettage
+  group: Services
+  dictionary:
+    - chien
+    - nettoyage
+  query: '[shop=pet_grooming]'
+  icon: pet_grooming
 
 #######################
 # GROUP : SANTE
@@ -946,6 +969,19 @@
 
 - name: Zoo
   group: Loisirs
+  dictionary:
+    - lion
+    - tigre
+    - crocodile
+    - girafe
+    - singe
+    - zèbre
+    - panda
+    - tortue
+    - animalier
+    - animaux
+    - savane
+    - safari
   query: '[tourism=zoo]'
   icon: zoo
 
@@ -1934,6 +1970,39 @@
     - chien
   query: '[amenity=vending_machine][vending=excrement_bags]'
   icon: vending_excrement_bags
+  hidden: true
+
+- name: Canisette
+  group: Divers
+  dictionary:
+    - chien
+    - caca
+    - crotte
+    - toilettes
+    - vespachien
+    - vespachienne
+    - crottoir
+  query: '[amenity=dog_toilet]'
+  icon: dog_park
+  icon alias: dog_toilet
+  hidden: true
+
+- name: Parc canin
+  group: Divers
+  dictionary:
+    - chien
+    - caniparc
+    - promener
+  query: '[leisure=dog_park]'
+  icon: dog_park
+  hidden: true
+
+- name: Zone interdite aux chiens
+  group: Divers
+  dictionary:
+    - chien
+  query: '[dog=no]'
+  icon: dog_no
   hidden: true
 
 - name: Lavomatic
