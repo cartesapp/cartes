@@ -1,15 +1,20 @@
+import { useDimensions } from '@/components/react-modal-sheet/hooks'
 import getBbox from '@turf/bbox'
 import { useEffect } from 'react'
-import { useMediaQuery } from 'usehooks-ts'
-import { computeSlopeGradient } from './computeSlopeGradient'
 import { safeRemove } from '../effects/utils'
-import { useDimensions } from '@/components/react-modal-sheet/hooks'
+import { computeSlopeGradient } from './computeSlopeGradient'
 
 /*
  * Draws the walk or cycle route provided by BRouter directly as Geojson, and
  * also the distance line that sets the context
  * */
-export default function useDrawRoute(isItineraryMode, map, geojson, id) {
+export default function useDrawRoute(
+	isItineraryMode,
+	map,
+	geojson,
+	id,
+	itiPosition = null
+) {
 	const { width, height } = useDimensions()
 
 	useEffect(() => {
@@ -43,6 +48,28 @@ export default function useDrawRoute(isItineraryMode, map, geojson, id) {
 				'text-field': ['get', 'letter'],
 				'text-size': 16,
 				'text-font': ['RobotoRegular-NotoSansRegular'],
+			},
+		})
+
+		// Ajouter une source pour le point de position sur l'itinéraire
+		map.addSource(id + 'Position', {
+			type: 'geojson',
+			data: {
+				type: 'FeatureCollection',
+				features: [],
+			},
+		})
+
+		// Ajouter une couche pour afficher le point de position
+		map.addLayer({
+			id: id + 'PositionPoint',
+			type: 'circle',
+			source: id + 'Position',
+			paint: {
+				'circle-radius': 8,
+				'circle-color': '#2988e6',
+				'circle-stroke-color': '#ffffff',
+				'circle-stroke-width': 1,
 			},
 		})
 		console.log('indigo add layer poinst', id + 'Points')
@@ -184,12 +211,46 @@ export default function useDrawRoute(isItineraryMode, map, geojson, id) {
 						baseId + 'Contour',
 						baseId + 'Points',
 						baseId + 'PointsSymbols',
+						baseId + 'PositionPoint',
 					],
-					[baseId]
+					[baseId, baseId + 'Position']
 				)
 			} catch (e) {
 				console.log('Could not remove useDrawRoute layers or source', e)
 			}
 		}
 	}, [isItineraryMode, geojson, map, id])
+
+	// Effet pour mettre à jour la position du point sur l'itinéraire
+	useEffect(() => {
+		if (!map || !geojson || !geojson.features || !geojson.features.length)
+			return
+
+		// Si itiPosition est défini, afficher le point à cette position
+		if (itiPosition !== null && map.getSource(id + 'Position')) {
+			const coordinates = geojson.features[0].geometry.coordinates[itiPosition]
+
+			if (coordinates) {
+				map.getSource(id + 'Position').setData({
+					type: 'FeatureCollection',
+					features: [
+						{
+							type: 'Feature',
+							geometry: {
+								type: 'Point',
+								coordinates: [coordinates[0], coordinates[1]],
+							},
+							properties: {},
+						},
+					],
+				})
+			}
+		} else if (map.getSource(id + 'Position')) {
+			// Sinon, effacer le point
+			map.getSource(id + 'Position').setData({
+				type: 'FeatureCollection',
+				features: [],
+			})
+		}
+	}, [map, geojson, itiPosition, id])
 }

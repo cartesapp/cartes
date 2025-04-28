@@ -1,25 +1,23 @@
 import turfDistance from '@turf/distance'
-const lineProgress = [
-	0,
-	'blue',
-	0.1,
-	'royalblue',
-	0.3,
-	'cyan',
-	0.5,
-	'lime',
-	0.7,
-	'yellow',
-	1,
-	'red',
-]
+
+export const hasSignificantSlope = (slopeGradient) =>
+	slopeGradient.find(
+		(el) =>
+			typeof el === 'string' && ['orange', 'orangeRed', 'crimson'].includes(el)
+	)
+
+export const baseColor = '#8f53c1'
+
 export function computeSlopeGradient(geojson) {
 	const slopeColor = (slope) => {
-		if (slope < 0) return '#8f53c1' // give another color for negative slopes ?
-		if (slope < 3) return '#8f53c1'
+		console.log('crimson slope', slope)
+		if (slope < 0) return baseColor // give another color for negative slopes ?
+		if (slope < 3) return baseColor
 		if (slope < 5) return 'yellow'
 		if (slope < 7.5) return 'orange'
 		if (slope < 12) return 'OrangeRed'
+		if (slope < 18) return 'red'
+
 		return 'crimson'
 	}
 	//console.log('indigo', geojson)

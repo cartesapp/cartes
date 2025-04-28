@@ -1,5 +1,6 @@
 import DownloadGPXWrapper from '@/components/DownloadGPXWrapper'
 import ElevationGraph from '@/components/itinerary/ElevationGraph'
+import SafeCyclingIcon from '@/public/safe-cycling.svg?component'
 import { styled } from 'next-yak'
 import LightsWarning from './LightsWarning'
 import ProfileChooser from './ProfileChooser'
@@ -28,6 +29,8 @@ export default function RouteRésumé({
 	data,
 	bikeRouteProfile,
 	setBikeRouteProfile,
+	setItineraryPosition,
+	itineraryPosition,
 }) {
 	if (!data) return
 	if (data === 'loading')
@@ -75,6 +78,8 @@ export default function RouteRésumé({
 							setBikeRouteProfile,
 							mode,
 							data,
+							itineraryPosition,
+							setItineraryPosition,
 						}}
 					/>
 				)}
@@ -113,6 +118,8 @@ const BrouterModeContent = ({
 	data,
 	setBikeRouteProfile,
 	bikeRouteProfile,
+	itineraryPosition,
+	setItineraryPosition,
 }) => {
 	const features = data?.features
 	if (!features?.length) return null
@@ -184,17 +191,33 @@ const BrouterModeContent = ({
 				<p
 					style={{
 						textAlign: 'right',
+						marginTop: '.4rem',
 					}}
 				>
 					<small>
-						{data.safe.safeRatio < 0.3
-							? '❗️'
+						<SafeCyclingIcon
+							style={{
+								width: '1rem',
+								height: 'auto',
+								verticalAlign: 'middle',
+								marginRight: '.4rem',
+								fill:
+									data.safe.safeRatio < 0.3
+										? 'crimson'
+										: data.safe.safeRatio < 0.5
+										? 'darkorange'
+										: '#4ab54a',
+							}}
+							title={
+								'Icône représentant le niveau de sécurité du trajet à vélo'
+							}
+						/>
+						Trajet sécurisé à {Math.round(data.safe.safeRatio * 100)}%{' '}
+						{data.safe.safeRatio < 0.01
+							? ' !'
 							: data.safe.safeRatio < 0.5
-							? '⚠️ '
-							: ''}{' '}
-						Trajet <Securised>sécurisé</Securised> à{' '}
-						{Math.round(data.safe.safeRatio * 100)}%{' '}
-						{data.safe.safeRatio < 0.5 ? 'seulement' : ''}
+							? 'seulement'
+							: ''}
 					</small>
 				</p>
 			)}
@@ -204,7 +227,11 @@ const BrouterModeContent = ({
 					latitude={feature.geometry.coordinates[0][1]}
 				/>
 			)}
-			<ElevationGraph feature={feature} />
+			<ElevationGraph
+				feature={feature}
+				setItineraryPosition={setItineraryPosition}
+				itineraryPosition={itineraryPosition}
+			/>
 		</div>
 	)
 }
@@ -236,9 +263,3 @@ const deniveléColor = (height, distance) => {
 	const difficulty = Math.round(index)
 	return deniveléColors[difficulty]
 }
-
-const Securised = styled.span`
-	text-decoration: underline;
-	text-decoration-color: LightSeaGreen;
-	text-decoration-thickness: 2px;
-`

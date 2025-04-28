@@ -5,6 +5,7 @@ import { List, Nav } from './UI'
 import { description } from './metadata'
 import { dateCool } from './utils'
 import { allArticles } from './blogArticles'
+import News from '@/components/news/News'
 
 export default function Blog({ articles }) {
 	return (
@@ -23,6 +24,9 @@ export default function Blog({ articles }) {
 				l'avancement. L'application reste largement utilisable, mais
 				attendez-vous à quelques bugs.
 			</p>
+			<div style={{ margin: '2rem 0' }}>
+				<News />
+			</div>
 			<List>
 				{articles.map(
 					({ url, date, titre, lang, image, description, tags }) => {

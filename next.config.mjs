@@ -88,6 +88,27 @@ const nextConfig = {
 			},
 		})
 
+		const fileLoaderRule = config.module.rules.find((rule) =>
+			rule.test?.test?.('.svg')
+		)
+
+		config.module.rules.push(
+			{
+				...fileLoaderRule,
+				test: /\.svg$/i,
+				resourceQuery: {
+					not: [...fileLoaderRule.resourceQuery.not, /component/],
+				},
+			},
+
+			{
+				test: /\.svg$/i,
+				issuer: fileLoaderRule.issuer,
+				resourceQuery: /component/,
+				use: ['@svgr/webpack'],
+			}
+		)
+
 		config.resolve.alias = {
 			...config.resolve.alias,
 			//https://github.com/Turfjs/turf/issues/2200

@@ -8,7 +8,7 @@
    version="1.1"
    id="svg5"
    inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
-   sodipodi:docname="chevron-bas.svg"
+   sodipodi:docname="safe-cycling.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -40,9 +40,14 @@
      inkscape:groupmode="layer"
      id="layer1">
     <path
-       style="fill:#b1d4f6;fill-opacity:0.0751278;stroke:#2988e6;stroke-width:1;stroke-linejoin:round"
-       d="M 21.173069,16.890741 H 183.68459 l -0.14622,104.576749 -80.72678,78.24477 -81.679007,-78.96934 z"
+       style="fill-opacity:1;stroke:none;stroke-width:22.8141;stroke-dasharray:none"
+       d="M 10.590799,2.7733368 H 195.96896 c 0,0 0.65031,50.0847902 -15.66481,121.7081032 -26.92612,40.91259 -76.893,82.70209 -76.893,82.70209 0,0 -45.252597,-37.57494 -76.381664,-84.18831 C 9.6638803,42.443974 10.590799,2.7733368 10.590799,2.7733368 Z"
        id="path417"
        sodipodi:nodetypes="cccccc" />
+    <path
+       style="fill:none;fill-opacity:0.0751278;stroke:#ffffff;stroke-width:29.5947;stroke-dasharray:none;stroke-opacity:1"
+       d="M 57.04437,80.798803 93.484529,121.81544 158.65191,53.369036"
+       id="path4063"
+       sodipodi:nodetypes="ccc" />
   </g>
 </svg>

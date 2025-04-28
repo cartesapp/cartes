@@ -99,7 +99,7 @@ export default function SetDestination({
 	searchParams,
 	vers,
 }) {
-	const osmFeature = vers.osmCode ? vers : null
+	const osmFeature = vers?.osmCode ? vers : null
 	const setSearchParams = useSetSearchParams()
 
 	const destinationPart =

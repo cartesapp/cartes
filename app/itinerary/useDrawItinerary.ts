@@ -2,20 +2,15 @@ import useSetSearchParams from '@/components/useSetSearchParams'
 import { useEffect, useMemo } from 'react'
 import { useMediaQuery } from 'usehooks-ts'
 import { buildAllezPart, removeStatePart } from '../SetDestination'
+import useDrawCyclingSegments from '../effects/useDrawCyclingSegments'
 import useDrawTransit from '../effects/useDrawTransit'
 import { modeKeyFromQuery } from './Itinerary'
 import { letterFromIndex } from './Steps'
 import { geoSerializeSteps } from './areStepsEqual'
 import useDrawRoute from './useDrawRoute'
 import useFetchDrawBikeParkings from './useFetchDrawBikeParkings'
-import brouterResultToSegments from '@/components/cycling/brouterResultToSegments'
-import useDrawCyclingSegments from '../effects/useDrawCyclingSegments'
 import valhallaGeojson from './valhallaGeojson'
 
-const joinFeatureCollections = (elements) => ({
-	type: 'FeatureCollection',
-	features: elements.map((element) => element.features).flat(),
-})
 export default function useDrawItinerary(
 	map,
 	isItineraryMode,
@@ -96,7 +91,16 @@ export default function useDrawItinerary(
 		cyclingReady && routes.cycling.safe?.cyclingSegmentsGeojson
 	)
 
-	useDrawRoute(isItineraryMode, map, cyclingReady && routes.cycling, 'cycling')
+	const itiPosition = searchParams.itiPosition
+		? +searchParams.itiPosition
+		: undefined
+	useDrawRoute(
+		isItineraryMode,
+		map,
+		cyclingReady && routes.cycling,
+		'cycling',
+		itiPosition
+	)
 
 	useDrawRoute(
 		isItineraryMode,
@@ -105,7 +109,8 @@ export default function useDrawItinerary(
 			routes &&
 			routes.walking !== 'loading' &&
 			routes.walking,
-		'walking'
+		'walking',
+		itiPosition
 	)
 	const carReady = mode === 'car' && routes && routes.car !== 'loading' // If no mode, summary mode, we don't show this heavily polluting mode, the user has to force it
 
@@ -161,7 +166,7 @@ export default function useDrawItinerary(
 					e.lngLat.lat
 				)
 
-				if (!state || state.length === 1) {
+				if (!state || state.length <= 1) {
 					const allez = allezPart + '->'
 					return setSearchParams({
 						allez,

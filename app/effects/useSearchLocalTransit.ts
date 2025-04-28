@@ -9,7 +9,6 @@ import {
 	humanDepartureTime,
 	nowAsYYMMDD,
 } from '../transport/stop/Route'
-import useSetSearchParams from '@/components/useSetSearchParams'
 
 export default function useSearchLocalTransit(map, active, center, zoom) {
 	const [stops, setStops] = useState([])
@@ -19,8 +18,6 @@ export default function useSearchLocalTransit(map, active, center, zoom) {
 	const day = nowAsYYMMDD()
 	const [from, setFrom] = useState(null)
 	const [to, setTo] = useState(null)
-
-	const setSearchParams = useSetSearchParams()
 
 	useEffect(() => {
 		const intervalFunction = () => {
