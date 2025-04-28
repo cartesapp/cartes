@@ -1,5 +1,6 @@
 import useSetSearchParams from '@/components/useSetSearchParams'
 import informationIcon from '@/public/information.svg'
+import plusIcon from '@/public/plus.svg'
 import { css, styled } from 'next-yak'
 import Image from 'next/image'
 import { ModalCloseButton } from '../UI'
@@ -105,7 +106,15 @@ const Styles = ({ style, styleList, setSearchParams, searchParams }) => {
 			{styleList.map(
 				([
 					k,
-					{ name, imageAlt, title, image: imageProp, description, inlineImage },
+					{
+						name,
+						imageAlt,
+						title,
+						image: imageProp,
+						description,
+						inlineImage,
+						group,
+					},
 				]) => {
 					const image = (imageProp || k) + '.png'
 
@@ -119,6 +128,8 @@ const Styles = ({ style, styleList, setSearchParams, searchParams }) => {
 							false,
 							true
 						)
+
+					const isGroupLeader = group === k
 					return (
 						<li key={k}>
 							{/* Was previously a Link but for some reason probably after the
@@ -154,6 +165,14 @@ const Styles = ({ style, styleList, setSearchParams, searchParams }) => {
 											<Image
 												src={informationIcon}
 												alt="Informations sur le style"
+											/>
+										</aside>
+									)}
+									{isGroupLeader && (
+										<aside>
+											<Image
+												src={plusIcon}
+												alt="Ce style a plusieurs sous-styles"
 											/>
 										</aside>
 									)}
