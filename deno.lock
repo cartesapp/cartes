@@ -53,6 +53,7 @@
         "npm:babel-loader@^9.2.1",
         "npm:babel-plugin-react-compiler@^19.0.0-beta-37ed2a7-20241206",
         "npm:babel-plugin-webpack-alias@^2.1.2",
+        "npm:carte-facile@~0.4.10",
         "npm:contentlayer2@0.5.3",
         "npm:copy-webpack-plugin@^12.0.2",
         "npm:csv-loader@^3.0.5",
