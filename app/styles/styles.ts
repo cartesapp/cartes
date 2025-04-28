@@ -64,6 +64,7 @@ export const styles = {
 		name: 'IGN',
 		imageAlt: "Logo de l'IGN",
 		attribution: '© IGN',
+		group: 'ign',
 	},
 	'ign-simple': {
 		url: carteFacile.mapStyle.simple,
@@ -71,7 +72,7 @@ export const styles = {
 		attribution: '© IGN',
 		imageAlt: "Logo de l'IGN",
 		inlineImage: carteFacile.mapThumbnails.simple.src,
-		displayedIf: 'ign',
+		group: 'ign',
 	},
 	'ign-clair': {
 		url: carteFacile.mapStyle.desaturated,
@@ -79,7 +80,7 @@ export const styles = {
 		attribution: '© IGN',
 		imageAlt: "Logo de l'IGN",
 		inlineImage: carteFacile.mapThumbnails.desaturated.src,
-		displayedIf: 'ign',
+		group: 'ign',
 	},
 	osm: {
 		url: maptilerUrl('openstreetmap'),

@@ -8,7 +8,14 @@ import TerrainChooser from './TerrainChooser'
 import { styles } from './styles'
 import TerraDrawButton from './TerraDrawButton'
 
-const styleList = Object.entries(styles)
+const styleListRaw = Object.entries(styles),
+	styleList = styleListRaw.filter(
+		([key, value]) =>
+			(!value.group ||
+				// group leader
+				value.group === key) &&
+			!value.unlisted
+	)
 
 export default function StyleChooser({
 	style,
@@ -19,6 +26,28 @@ export default function StyleChooser({
 	setZoom,
 }) {
 	const setSearchParams = useSetSearchParams()
+
+	const conditionalStyles = style?.key
+		? styleListRaw.filter(
+				([key, el]) =>
+					el.group === style.key || (style.group && el.group === style.group)
+		  )
+		: []
+
+	const ifIndex =
+		conditionalStyles.length > 0 &&
+		styleList.findIndex(([key, value]) => key === conditionalStyles[0][1].group)
+
+	console.log('indigo ign', ifIndex, conditionalStyles)
+	const withConditionalStyles =
+		ifIndex >= 0
+			? [
+					...styleList.slice(0, ifIndex + 1),
+					...conditionalStyles.filter(([key, value]) => key !== value.group),
+
+					...styleList.slice(ifIndex + 1),
+			  ]
+			: styleList
 
 	return (
 		<Wrapper>
@@ -46,7 +75,7 @@ export default function StyleChooser({
 				<TerraDrawButton {...{ searchParams, setSearchParams }} />
 			</StyleOptions>
 			<Styles
-				styleList={styleList.filter(([, el]) => !el.secondary && !el.unlisted)}
+				styleList={withConditionalStyles.filter(([, el]) => !el.secondary)}
 				setSearchParams={setSearchParams}
 				searchParams={searchParams}
 				style={style}
@@ -54,7 +83,7 @@ export default function StyleChooser({
 			<details>
 				<summary>Autres styles</summary>
 				<Styles
-					styleList={styleList.filter(([, el]) => el.secondary && !el.unlisted)}
+					styleList={withConditionalStyles.filter(([, el]) => el.secondary)}
 					setSearchParams={setSearchParams}
 					style={style}
 					searchParams={searchParams}
