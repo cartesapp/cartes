@@ -8,6 +8,9 @@ import PanoramaxChooser from './PanoramaxChooser'
 import TerrainChooser from './TerrainChooser'
 import { styles } from './styles'
 import TerraDrawButton from './TerraDrawButton'
+import { motion ,  AnimatePresence} from "motion/react"
+
+
 
 const styleListRaw = Object.entries(styles),
 	styleList = styleListRaw.filter(
@@ -39,7 +42,6 @@ export default function StyleChooser({
 		conditionalStyles.length > 0 &&
 		styleList.findIndex(([key, value]) => key === conditionalStyles[0][1].group)
 
-	console.log('indigo ign', ifIndex, conditionalStyles)
 	const withConditionalStyles =
 		ifIndex >= 0
 			? [
@@ -103,6 +105,9 @@ const StyleOptions = styled.section`
 const Styles = ({ style, styleList, setSearchParams, searchParams }) => {
 	return (
 		<StyleList>
+
+		<AnimatePresence>
+
 			{styleList.map(
 				([
 					k,
@@ -130,13 +135,23 @@ const Styles = ({ style, styleList, setSearchParams, searchParams }) => {
 						)
 
 					const isGroupLeader = group === k
+					, isConditional = !isGroupLeader && group
 					return (
-						<li key={k}>
+						<motion.li key={k}
+						    initial={ isConditional && { opacity: 0.8, scale: .8, x: '-10px' }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            transition={{
+                duration: 0.2,
+            }}
+						      exit={{  opacity: 0.8, scale: .8, x: '-10px' }}
+
+
+						>
 							{/* Was previously a Link but for some reason probably after the
 						client useSetSearchParams change, the link reloads the page. Maybe solve this with an object href ? */}
 							<Button
 								$active={style.key === k}
-								$isConditional={!isGroupLeader && group}
+								$isConditional={isConditional}
 								onClick={() => {
 									setStyleUrl()
 									try {
@@ -179,10 +194,11 @@ const Styles = ({ style, styleList, setSearchParams, searchParams }) => {
 									)}
 								</div>
 							</Button>
-						</li>
+						</motion.li>
 					)
 				}
 			)}
+		</AnimatePresence>
 		</StyleList>
 	)
 }
