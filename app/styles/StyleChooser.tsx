@@ -136,6 +136,7 @@ const Styles = ({ style, styleList, setSearchParams, searchParams }) => {
 						client useSetSearchParams change, the link reloads the page. Maybe solve this with an object href ? */}
 							<Button
 								$active={style.key === k}
+								$isConditional={!isGroupLeader && group}
 								onClick={() => {
 									setStyleUrl()
 									try {
@@ -227,6 +228,11 @@ const Button = styled.button`
 			width: 1.2rem;
 			height: auto;
 		}
+		${(p) =>
+			p.$isConditional &&
+			css`
+				border-top: 2px solid var(--color);
+			`}
 	}
 `
 
