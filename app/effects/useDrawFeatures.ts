@@ -6,7 +6,6 @@ import { buildAllezPart } from '../SetDestination'
 import { decodePlace, encodePlace } from '../utils'
 import buildSvgImage from './buildSvgImage'
 import { safeRemove } from './utils'
-import useEffectDebugger from '@/components/useEffectDebugger'
 
 export default function useDrawFeatures(
 	map,
@@ -24,7 +23,7 @@ export default function useDrawFeatures(
 
 	const hasFeatures = features && features.length > 0
 
-	useEffectDebugger(() => {
+	useEffect(() => {
 		// on annule si la carte ou les features sont manquants
 		if (!map) return
 		if (!hasFeatures) return
