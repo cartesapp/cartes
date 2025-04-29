@@ -4,11 +4,15 @@ import useDrawFeatures from './useDrawFeatures'
 export default function useDrawOsmFeaturePolygon(
 	map,
 	osmFeature,
-	safeStyleKey
+	safeStyleKey,
+	hasItinerary
 ) {
 	const code = osmFeature?.osmCode
 	console.log('indigo debug geojson', osmFeature)
-	const features = useMemo(() => (osmFeature ? [osmFeature] : []), [code])
+	const features = useMemo(
+		() => (hasItinerary ? null : osmFeature ? [osmFeature] : []),
+		[code, hasItinerary]
+	)
 	const category = useMemo(
 		() => ({
 			name: 'vers-' + code,
