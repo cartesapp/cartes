@@ -12,6 +12,7 @@ const key = process.env.NEXT_PUBLIC_MAPTILER
 
 const maptilerUrl = (styleId) =>
 	`https://api.maptiler.com/maps/${styleId}/style.json?key=${key}`
+
 export const styles = {
 	/* This style will replace the base MapTiler style, for cost reduction
 	 * purposes (50 to 100 €/month in june !)
@@ -114,5 +115,6 @@ export const styles = {
 	},
 }
 
+export const styleExists = (styleKey) => styles[styleKey] != null
 export const getStyle = (styleKey) => ({ ...styles[styleKey], key: styleKey })
 export const homeMadeTerrainStyles = ['france', 'satellite']
