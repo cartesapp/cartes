@@ -33,6 +33,7 @@
         "npm:@panoramax/web-viewer@3.2.1",
         "npm:@react-aria/utils@^3.25.3",
         "npm:@sentry/nextjs@^8.55.0",
+        "npm:@svgr/webpack@^8.1.0",
         "npm:@turf/bbox-polygon@^7.1.0",
         "npm:@turf/bbox@^7.1.0",
         "npm:@turf/bearing@^7.1.0",
