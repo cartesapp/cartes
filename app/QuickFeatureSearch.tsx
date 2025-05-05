@@ -1,13 +1,18 @@
 'use client'
-import { categorySeparator, getCategories } from '@/components/categories'
+import {
+	categorySeparator,
+	filteredMoreCategories,
+	getCategories,
+} from '@/components/categories'
 import CategoryResults from '@/components/categories/CategoryResults'
+import categoryIconUrl from '@/components/categoryIconUrl'
 import useSetSearchParams from '@/components/useSetSearchParams'
 import { omit } from '@/components/utils/utils'
 import Fuse from 'fuse.js/basic'
 import { css } from 'next-yak'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import MoreCategories from './MoreCategories'
 import {
 	FeatureList,
@@ -17,9 +22,7 @@ import {
 	SpinningDiscBorder,
 } from './QuickFeatureSearchUI'
 import categories from './categories.yaml'
-import { filteredMoreCategories } from '@/components/categories'
 const moreCategories = filteredMoreCategories
-import categoryIconUrl from '@/components/categoryIconUrl'
 
 export function initializeFuse(categories) {
 	return new Fuse(categories, {
