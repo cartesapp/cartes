@@ -2,7 +2,6 @@ import categories from '@/app/categories.yaml'
 import {
 	buildStepFromOverpassNode,
 	buildStepFromOverpassWayOrRelation,
-	overpassFetchOptions,
 } from '@/app/osmRequest'
 import { resilientOverpassFetch } from '@/app/overpassFetcher'
 import { filteredMoreCategories as moreCategories } from '@/components/categories'

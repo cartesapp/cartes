@@ -180,7 +180,7 @@ export const buildStepFromOverpassWayOrRelation = (
 	const { tags } = element
 
 	return {
-		osmCode: encodePlace(featureType || element.type, id),
+		osmCode: encodePlace(featureType || element.type, id || element.id),
 		center,
 		tags,
 		geojson,
