@@ -1,13 +1,13 @@
 'use client'
+import { buildAddress } from '@/components/osm/buildAddress'
 import shareIcon from '@/public/share.svg'
 import { css } from 'next-yak'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { PlaceButton } from './PlaceButtonsUI'
-import { buildAllezPart, buildAllezPartFromOsmFeature } from './SetDestination'
+import { buildAllezPartFromOsmFeature } from './SetDestination'
 import getName from './osm/getName'
 import { getFetchUrlBase } from './serverUrls'
-import { buildAddress } from '@/components/osm/buildAddress'
 
 export default function ShareButton({ osmFeature, geocodedClickedPoint }) {
 	const urlBase = getFetchUrlBase()
