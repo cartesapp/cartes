@@ -15,6 +15,7 @@ export const categories = [...baseCategories, ...filteredMoreCategories]
  * @param value - La valeur du tag OSM (ex: "restaurant", "bakery", etc.)
  * @returns La première catégorie correspondante ou undefined si aucune ne correspond
  */
+//TODO is this an IA recoding of findCategory() ? Is it better anyhow ?
 export function findCategoryForTag(key: string, value: string) {
 	// Fonction pour vérifier si une requête correspond au tag
 	const matchesQuery = (query: string) => {

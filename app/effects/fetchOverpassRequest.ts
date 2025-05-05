@@ -45,7 +45,6 @@ const convertOverpassCategoryResultsToSteps = (json, categoryName) => {
 	)
 	console.log('Relations in similar nodes are not handled yet :', relations)
 
-
 	const nodesOrWays = json.elements.filter((element) =>
 		['way', 'node'].includes(element.type)
 	) // see TODO above about relations
