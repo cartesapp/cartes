@@ -1,5 +1,5 @@
 import { photonServerUrl } from '@/app/serverUrls'
-import { buildPhotonAddress } from './osm/buildAddress'
+import { buildAddress } from './osm/buildAddress'
 
 export async function geocodeLatLon(latitude, longitude) {
 	try {
@@ -43,7 +43,7 @@ export async function geocodeGetAddress(latitude, longitude) {
 	)
 	*/
 
-		const address = feature && buildPhotonAddress(feature)
+		const address = feature && buildAddress(feature, true)
 
 		return [address, feature]
 	} catch (e) {

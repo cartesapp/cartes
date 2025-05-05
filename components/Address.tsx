@@ -16,19 +16,10 @@ export const addressKeys = [
 	'contact:street',
 ]
 
-export default function Address({ tags, noPrefix, photonFeature }) {
+export default function Address({ tags, noPrefix }) {
 	const osmAddress = buildAddress(tags, noPrefix)
-	const noDuplicatePhotonAddress =
-		deduplicatePhotonAddress(osmAddress, photonFeature) || ''
 
-	return (
-		<>
-			<AddressElement>{osmAddress}</AddressElement>
-			{noDuplicatePhotonAddress && (
-				<AddressElement>{noDuplicatePhotonAddress}</AddressElement>
-			)}
-		</>
-	)
+	return <AddressElement>{osmAddress}</AddressElement>
 }
 export const AddressElement = styled.address`
 	line-height: 1.4rem;
