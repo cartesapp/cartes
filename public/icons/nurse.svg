@@ -1,50 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   width="48"
-   height="48"
-   viewBox="0 0 48 48"
-   fill="none"
-   version="1.1"
-   id="svg8"
-   sodipodi:docname="nurse.svg"
-   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <defs
-     id="defs12" />
-  <sodipodi:namedview
-     id="namedview10"
-     pagecolor="#ffffff"
-     bordercolor="#000000"
-     borderopacity="0.25"
-     inkscape:showpageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#d1d1d1"
-     showgrid="false"
-     inkscape:zoom="18.208333"
-     inkscape:cx="24.02746"
-     inkscape:cy="24"
-     inkscape:window-width="1920"
-     inkscape:window-height="1080"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="svg8" />
-  <path
-     d="M20 32C21.1046 32 22 31.1046 22 30C22 28.8954 21.1046 28 20 28C18.8954 28 18 28.8954 18 30C18 31.1046 18.8954 32 20 32Z"
-     id="path2"
-     style="fill:#ffffff" />
-  <path
-     d="M28 32C29.1046 32 30 31.1046 30 30C30 28.8954 29.1046 28 28 28C26.8954 28 26 28.8954 26 30C26 31.1046 26.8954 32 28 32Z"
-     id="path4"
-     style="fill:#ffffff" />
-  <path
-     fill-rule="evenodd"
-     clip-rule="evenodd"
-     d="M10 6C10 6 14 0 24 0C34 0 38 6 38 6L34.6476 16.0571C37.932 18.9873 40 23.2522 40 28C40 36.8366 32.8366 44 24 44C15.1634 44 8 36.8366 8 28C8 23.2522 10.068 18.9873 13.3524 16.0571L10 6ZM36 28C36 34.6274 30.6274 40 24 40C17.3726 40 12 34.6274 12 28L12.0008 27.8583C12.6538 27.9517 13.3212 28 14 28C19.3995 28 24.0851 24.9433 26.4207 20.4659C28.5638 23.8962 31.9707 26.4559 35.9895 27.4932C35.9965 27.6613 36 27.8302 36 28ZM22 4V8H18V12H22V16H26V12H30V8H26V4H22Z"
-     id="path6"
-     style="fill:#ffffff" />
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48" height="48" version="1.1" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+ <path d="m20 32c1.105 0 2-0.8954 2-2s-0.8954-2-2-2-2 0.8954-2 2 0.8954 2 2 2z"/>
+ <path d="m28 32c1.105 0 2-0.8954 2-2s-0.8954-2-2-2-2 0.8954-2 2 0.8954 2 2 2z"/>
+ <path d="m10 6s4-6 14-6 14 6 14 6l-3.352 10.06c3.284 2.93 5.352 7.195 5.352 11.94 0 8.837-7.163 16-16 16s-16-7.163-16-16c0-4.748 2.068-9.013 5.352-11.94l-3.352-10.06zm26 22c0 6.627-5.373 12-12 12s-12-5.373-12-12l8e-4 -0.1417c0.653 0.0934 1.32 0.1417 1.999 0.1417 5.4 0 10.09-3.057 12.42-7.534 2.143 3.43 5.55 5.99 9.569 7.027 7e-3 0.1681 0.0105 0.337 0.0105 0.5068zm-14-24v4h-4v4h4v4h4v-4h4v-4h-4v-4h-4z" clip-rule="evenodd" fill-rule="evenodd"/>
 </svg>

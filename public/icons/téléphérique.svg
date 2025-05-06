@@ -1,57 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   width="48"
-   height="48"
-   viewBox="0 0 48 48"
-   fill="none"
-   version="1.1"
-   id="svg4"
-   sodipodi:docname="téléphérique.svg"
-   inkscape:version="1.3.1 (9b9bdc1480, 2023-11-25, custom)"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <defs
-     id="defs4" />
-  <sodipodi:namedview
-     id="namedview4"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:showpageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#d1d1d1"
-     inkscape:zoom="6.4166667"
-     inkscape:cx="24"
-     inkscape:cy="24"
-     inkscape:window-width="1920"
-     inkscape:window-height="1175"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="svg4" />
-  <path
-     d="M28 4C28 5.10457 27.1046 6 26 6C24.8954 6 24 5.10457 24 4C24 2.89543 24.8954 2 26 2C27.1046 2 28 2.89543 28 4Z"
-     fill="white"
-     id="path1"
-     style="fill:#000000;fill-opacity:1" />
-  <path
-     d="M22 6C22 7.10457 21.1046 8 20 8C18.8954 8 18 7.10457 18 6C18 4.89543 18.8954 4 20 4C21.1046 4 22 4.89543 22 6Z"
-     fill="white"
-     id="path2"
-     style="fill:#000000;fill-opacity:1" />
-  <path
-     d="M42.4339 7.95237C43.5121 7.71276 44.192 6.64441 43.9524 5.56614C43.7128 4.48787 42.6444 3.80801 41.5661 4.04763L5.56614 12.0476C4.48787 12.2872 3.80801 13.3556 4.04763 14.4339C4.28724 15.5121 5.3556 16.192 6.43386 15.9524L42.4339 7.95237Z"
-     fill="white"
-     id="path3"
-     style="fill:#000000;fill-opacity:1" />
-  <path
-     fill-rule="evenodd"
-     clip-rule="evenodd"
-     d="M4 28C4 23.5817 7.58172 20 12 20H16.5585L18.0892 15.4102L22.6432 14.3982L20.7751 20H27.2254L25.1718 13.8363L29.0973 12.964L31.4415 20H36C40.4183 20 44 23.5817 44 28V40C44 42.2091 42.2091 44 40 44H8C5.79086 44 4 42.2091 4 40V28ZM32 24H36C38.2091 24 40 25.7909 40 28V36H32V24ZM12 24C9.79086 24 8 25.7909 8 28V36H16V24H12ZM20 24H28V40H20V24Z"
-     fill="white"
-     id="path4"
-     style="fill:#000000;fill-opacity:1" />
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48" height="48" fill="none" version="1.1" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+ <g fill="#000">
+  <path d="m28 4c0 1.105-0.8954 2-2 2s-2-0.8954-2-2 0.8954-2 2-2 2 0.8954 2 2z"/>
+  <path d="m22 6c0 1.105-0.8954 2-2 2s-2-0.8954-2-2 0.8954-2 2-2 2 0.8954 2 2z"/>
+  <path d="m42.43 7.952c1.078-0.2396 1.758-1.308 1.518-2.386s-1.308-1.758-2.386-1.519l-36 8c-1.078 0.2396-1.758 1.308-1.519 2.386 0.2396 1.078 1.308 1.758 2.386 1.518l36-8z"/>
+  <path d="m4 28c0-4.418 3.582-8 8-8h4.558l1.531-4.59 4.554-1.012-1.868 5.602h6.45l-2.054-6.164 3.926-0.8723 2.344 7.036h4.558c4.418 0 8 3.582 8 8v12c0 2.209-1.791 4-4 4h-32c-2.209 0-4-1.791-4-4v-12zm28-4h4c2.209 0 4 1.791 4 4v8h-8v-12zm-20 0c-2.209 0-4 1.791-4 4v8h8v-12h-4zm8 0h8v16h-8v-16z" clip-rule="evenodd" fill-rule="evenodd"/>
+ </g>
 </svg>

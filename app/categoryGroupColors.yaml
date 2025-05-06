@@ -1,13 +1,17 @@
-Bars et boisson: orange
-Restaurants: orange
-Alimentation: orange
-Loisirs: PaleVioletRed
-Tourisme: goldenrod
+# https://htmlcolorcodes.com/color-names/
+Restaurants: DarkOrange
+Bars et boisson: Coral
+Alimentation: Orange
+Commerces: SandyBrown
+Services: Peru
 Santé: Firebrick
+Loisirs: MediumSeaGreen
+Culture: LightSeaGreen
+Tourisme: goldenrod
 Poubelles: Olive
-Culture: CadetBlue
-Commerces: RosyBrown
 Déplacements: MediumPurple
 Sports: CornflowerBlue
+Services publics: RoyalBlue
+Administration: SteelBlue
 Divers: SlateGray
 Nature: SeaGreen

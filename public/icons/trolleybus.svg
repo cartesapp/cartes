@@ -1,42 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   width="48"
-   height="48"
-   viewBox="0 0 48 48"
-   fill="none"
-   version="1.1"
-   id="svg1"
-   sodipodi:docname="trolleybus.svg"
-   inkscape:version="1.3.1 (9b9bdc1480, 2023-11-25, custom)"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <defs
-     id="defs1" />
-  <sodipodi:namedview
-     id="namedview1"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:showpageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#d1d1d1"
-     inkscape:zoom="6.4166667"
-     inkscape:cx="24"
-     inkscape:cy="24"
-     inkscape:window-width="950"
-     inkscape:window-height="1163"
-     inkscape:window-x="962"
-     inkscape:window-y="4"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="svg1" />
-  <path
-     fill-rule="evenodd"
-     clip-rule="evenodd"
-     d="M20 8L22 0H18L16 8H14.8284C13.0174 8 11.2806 8.71942 10 10C8.71942 11.2806 8 13.0174 8 14.8284V36C8 37.4806 8.8044 38.7733 10 39.4649V41C10 42.6569 11.3431 44 13 44C14.6569 44 16 42.6569 16 41V40H32V41C32 42.6569 33.3431 44 35 44C36.6569 44 38 42.6569 38 41V39.4649C39.1956 38.7733 40 37.4806 40 36V14.8284C40 13.0174 39.2806 11.2806 38 10C36.7194 8.71942 34.9826 8 33.1716 8H30L32 0H28L26 8H20ZM36 16H12V28H36V16ZM14 36C15.1046 36 16 35.1046 16 34C16 32.8954 15.1046 32 14 32C12.8954 32 12 32.8954 12 34C12 35.1046 12.8954 36 14 36ZM36 34C36 35.1046 35.1046 36 34 36C32.8954 36 32 35.1046 32 34C32 32.8954 32.8954 32 34 32C35.1046 32 36 32.8954 36 34Z"
-     fill="white"
-     id="path1"
-     style="fill:#000000;fill-opacity:1" />
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48" height="48" fill="none" version="1.1" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+ <path d="m19.79 8.421 2.1-8.421h-4.21l-2.1 8.421h-1.23c-1.91 0-3.74 0.757-5.086 2.109-1.349 1.34-2.106 3.17-2.106 5.08v22.28c0 1.56 0.847 2.92 2.106 3.65v1.62c0 1.74 1.406 3.15 3.156 3.15s3.16-1.41 3.16-3.15v-1.06h16.84v1.06c0 1.74 1.41 3.15 3.16 3.15s3.16-1.41 3.16-3.15v-1.62c1.26-0.73 2.1-2.09 2.1-3.65v-22.28c0-1.91-0.76-3.74-2.1-5.08-1.35-1.352-3.18-2.109-5.09-2.109h-3.33l2.1-8.421h-4.21l-2.1 8.421zm16.84 8.419h-25.26v12.63h25.26zm-23.16 21.05c1.16 0 2.11-0.94 2.11-2.1s-0.95-2.11-2.11-2.11c-1.15 0-2.1 0.95-2.1 2.11s0.95 2.1 2.1 2.1zm23.16-2.1c0 1.16-0.95 2.1-2.1 2.1-1.16 0-2.11-0.94-2.11-2.1s0.95-2.11 2.11-2.11c1.15 0 2.1 0.95 2.1 2.11z" clip-rule="evenodd" fill="#000" fill-rule="evenodd" stroke-width="1.053"/>
 </svg>

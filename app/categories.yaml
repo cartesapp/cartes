@@ -60,7 +60,7 @@
     - '[drinking_water=yes]'
   icon: water
   open by default: true
-  group: Bars et boisson
+  group: Divers
 - name: toilettes
   dictionary:
     - WC
@@ -100,7 +100,8 @@
     - '[atm=yes]'
   open by default: true
   icon: bank
-  group: Divers
+  icon alias: atm
+  group: Services
 - name: Hôtel
   dictionary:
     - chambre d'hôte
@@ -126,4 +127,4 @@
     - film
   query: '[amenity=cinema]'
   icon: cinema
-  group: Culture
+  group: Loisirs

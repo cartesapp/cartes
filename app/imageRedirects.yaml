@@ -7,15 +7,12 @@
 # part 1/3 : using cartes.app icons already described in moreCategories.yaml (so already included in /svgo/bulk)
 in categories:
   town_hall: classical-building
-  bar: beer
   garden: tree
   park: tree
   books: book
   bicycle_rental: bicycle
-  atm: bank
   biergarten: beer
   bus_station: bus
-  clinic: hospital
   courthouse: classical-building
   dentist: tooth
   drinking_water: water
@@ -24,12 +21,9 @@ in categories:
   food_court: restaurant
   grave_yard: cemetery
   camp_site: camping
-  wine: grapes
   swimming: swimming_outdoor
   swimming_pool: swimming_outdoor
-  school: college
-  library: book
-  alcohol: bottle
+  alcohol: wine
   coworking_space: coworking
   pinic_site: picnic
   cycling: bicycle
@@ -45,8 +39,7 @@ in categories:
 # part 2/3 : using new icons not already described in moreCategories.yaml (added with round gray background)
 not in categories:
   office: building
-  gallery: art_gallery
-  castle:
+  waterfall:
 
 # part 3/3 : to be added as small icons without circle
 small:
@@ -59,4 +52,3 @@ small:
   lift-gate:
   waste_basket:
   cycle_barrier:
-  dog_park:
