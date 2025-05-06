@@ -15,7 +15,7 @@ const cycleHighwaysLineWidth = (outline = false) => [
 	outline ? 5 : 3,
 ]
 
-export const cycleHighwayLayers = [
+export const cycleHighwayLayers = (dark = false) => [
 	{
 		id: 'Cycle highways outline',
 		type: 'line',
@@ -28,7 +28,7 @@ export const cycleHighwayLayers = [
 			'line-join': 'round',
 		},
 		paint: {
-			'line-color': 'hsl(240, 71%, 72%)',
+			'line-color': dark ? 'hsl(240, 20%, 30%)' : 'hsl(240, 71%, 72%)',
 			'line-width': cycleHighwaysLineWidth(true),
 		},
 	},
@@ -44,7 +44,7 @@ export const cycleHighwayLayers = [
 			'line-join': 'round',
 		},
 		paint: {
-			'line-color': 'hsl(0,0%,97%)',
+			'line-color': dark ? 'hsl(240,40%,60%)' : 'hsl(0,0%,97%)',
 			'line-width': cycleHighwaysLineWidth(),
 		},
 	},
@@ -87,7 +87,7 @@ export const cycleHighwayLayers = [
 			'text-rotation-alignment': 'viewport',
 		},
 		paint: {
-			'icon-color': 'red',
+			'icon-color': dark ? '#aa3333' : 'red',
 		},
 	},
 ]
