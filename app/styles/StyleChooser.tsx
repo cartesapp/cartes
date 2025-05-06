@@ -1,5 +1,6 @@
 import useSetSearchParams from '@/components/useSetSearchParams'
 import informationIcon from '@/public/information.svg'
+import plusIcon from '@/public/plus.svg'
 import { css, styled } from 'next-yak'
 import Image from 'next/image'
 import { ModalCloseButton } from '../UI'
@@ -7,8 +8,18 @@ import PanoramaxChooser from './PanoramaxChooser'
 import TerrainChooser from './TerrainChooser'
 import { styles } from './styles'
 import TerraDrawButton from './TerraDrawButton'
+import { motion ,  AnimatePresence} from "motion/react"
 
-const styleList = Object.entries(styles)
+
+
+const styleListRaw = Object.entries(styles),
+	styleList = styleListRaw.filter(
+		([key, value]) =>
+			(!value.group ||
+				// group leader
+				value.group === key) &&
+			!value.unlisted
+	)
 
 export default function StyleChooser({
 	style,
@@ -19,6 +30,27 @@ export default function StyleChooser({
 	setZoom,
 }) {
 	const setSearchParams = useSetSearchParams()
+
+	const conditionalStyles = style?.key
+		? styleListRaw.filter(
+				([key, el]) =>
+					el.group === style.key || (style.group && el.group === style.group)
+		  )
+		: []
+
+	const ifIndex =
+		conditionalStyles.length > 0 &&
+		styleList.findIndex(([key, value]) => key === conditionalStyles[0][1].group)
+
+	const withConditionalStyles =
+		ifIndex >= 0
+			? [
+					...styleList.slice(0, ifIndex + 1),
+					...conditionalStyles.filter(([key, value]) => key !== value.group),
+
+					...styleList.slice(ifIndex + 1),
+			  ]
+			: styleList
 
 	return (
 		<Wrapper>
@@ -46,7 +78,7 @@ export default function StyleChooser({
 				<TerraDrawButton {...{ searchParams, setSearchParams }} />
 			</StyleOptions>
 			<Styles
-				styleList={styleList.filter(([, el]) => !el.secondary && !el.unlisted)}
+				styleList={withConditionalStyles.filter(([, el]) => !el.secondary)}
 				setSearchParams={setSearchParams}
 				searchParams={searchParams}
 				style={style}
@@ -54,7 +86,7 @@ export default function StyleChooser({
 			<details>
 				<summary>Autres styles</summary>
 				<Styles
-					styleList={styleList.filter(([, el]) => el.secondary && !el.unlisted)}
+					styleList={withConditionalStyles.filter(([, el]) => el.secondary)}
 					setSearchParams={setSearchParams}
 					style={style}
 					searchParams={searchParams}
@@ -73,8 +105,22 @@ const StyleOptions = styled.section`
 const Styles = ({ style, styleList, setSearchParams, searchParams }) => {
 	return (
 		<StyleList>
+
+		<AnimatePresence>
+
 			{styleList.map(
-				([k, { name, imageAlt, title, image: imageProp, description }]) => {
+				([
+					k,
+					{
+						name,
+						imageAlt,
+						title,
+						image: imageProp,
+						description,
+						inlineImage,
+						group,
+					},
+				]) => {
 					const image = (imageProp || k) + '.png'
 
 					const setStyleUrl = () =>
@@ -87,12 +133,25 @@ const Styles = ({ style, styleList, setSearchParams, searchParams }) => {
 							false,
 							true
 						)
+
+					const isGroupLeader = group === k
+					, isConditional = !isGroupLeader && group
 					return (
-						<li key={k}>
+						<motion.li key={k}
+						    initial={ isConditional && { opacity: 0.8, scale: .8, x: '-10px' }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            transition={{
+                duration: 0.2,
+            }}
+						      exit={{  opacity: 0.8, scale: .8, x: '-10px' }}
+
+
+						>
 							{/* Was previously a Link but for some reason probably after the
 						client useSetSearchParams change, the link reloads the page. Maybe solve this with an object href ? */}
 							<Button
 								$active={style.key === k}
+								$isConditional={isConditional}
 								onClick={() => {
 									setStyleUrl()
 									try {
@@ -104,7 +163,7 @@ const Styles = ({ style, styleList, setSearchParams, searchParams }) => {
 								title={'Passer au style ' + (title || name)}
 							>
 								<img
-									src={'/styles/' + image}
+									src={inlineImage || '/styles/' + image}
 									width="50"
 									height="50"
 									alt={imageAlt}
@@ -125,12 +184,21 @@ const Styles = ({ style, styleList, setSearchParams, searchParams }) => {
 											/>
 										</aside>
 									)}
+									{isGroupLeader && (
+										<aside>
+											<Image
+												src={plusIcon}
+												alt="Ce style a plusieurs sous-styles"
+											/>
+										</aside>
+									)}
 								</div>
 							</Button>
-						</li>
+						</motion.li>
 					)
 				}
 			)}
+		</AnimatePresence>
 		</StyleList>
 	)
 }
@@ -176,6 +244,11 @@ const Button = styled.button`
 			width: 1.2rem;
 			height: auto;
 		}
+		${(p) =>
+			p.$isConditional &&
+			css`
+				border-top: 2px solid var(--color);
+			`}
 	}
 `
 
