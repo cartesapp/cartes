@@ -35,7 +35,6 @@ function DrawCategory({
 	safeStyleKey,
 	features,
 }) {
-	console.log('indigo enquête', features)
 	useDrawFeatures(
 		map,
 		features,

@@ -1,14 +1,11 @@
 import { centerOfMass } from '@turf/turf'
 import { isServer } from './serverUrls'
 //import osmApiRequest from '@/components/osm/osmApiRequest'
-import {
-	featureCollectionFromOsmNodes,
-	lonLatToPoint,
-} from '@/components/geoUtils'
-import { encodePlace } from './utils'
+import { lonLatToPoint } from '@/components/geoUtils'
 import buildOsmFeatureGeojson from '@/components/osm/buildOsmFeatureGeojson'
-import { resilientOverpassFetch } from './overpassFetcher'
 import { omit } from '@/components/utils/utils'
+import { resilientOverpassFetch } from './overpassFetcher'
+import { encodePlace } from './utils'
 
 export const overpassFetchOptions = isServer
 	? {
@@ -164,18 +161,16 @@ export const buildStepFromOverpassWayOrRelation = (
 		adminCenterNode =
 			adminCenter && elements.find((el) => el.id == adminCenter.ref)
 
-	//console.log('admincenter', relation, adminCenter, adminCenterNode)
+	const geojson = buildOsmFeatureGeojson(element, elements)
+
 	const center = adminCenterNode
 		? lonLatToPoint(adminCenterNode.lon, adminCenterNode.lat)
 		: // TODO wait, did we recode client-side the "out center" overpass directive ?
 		  // Or is our centerOfMass a voluntary addition because out center's center is
 		  // different ?
-		  centerOfMass(
-				featureCollectionFromOsmNodes(elements.filter((el) => el.lat && el.lon))
-		  )
+		  centerOfMass(geojson)
 
-	// TODO center could also be derived from this geojson ?
-	const geojson = buildOsmFeatureGeojson(element, elements)
+	console.log('indigo enquête', element, elements, geojson)
 
 	const { tags } = element
 

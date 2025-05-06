@@ -20,7 +20,6 @@ export default function ShareButton({ osmFeature, geocodedClickedPoint }) {
 	const photonFeatures = geocodedClickedPoint?.data?.features,
 		photonFeatureProperties = photonFeatures && photonFeatures[0].properties
 
-	console.log('indigo enquête', osmFeature)
 	const text =
 		osmFeature?.name ||
 		(osmFeature?.tags
