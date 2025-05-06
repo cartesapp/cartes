@@ -1,29 +1,27 @@
+import { centerOfMass } from '@turf/turf'
 import osmToGeojson from 'osmtogeojson'
 
-export default function buildOsmFeaturesGeojson(element, elements) {
-	const polygon =
-		element.type === 'way'
-			? buildWayPolygon(element, elements)
-			: element.type === 'relation'
-			? osmToGeojson({ elements }).features.find(
-					(feature) =>
-						['Polygon', 'MultiPolygon'].includes(feature.geometry.type) // A merge may be necessary, or rather a rewrite of drawquickSearch's addSource ways features
-			  )
-			: undefined
+export default function buildOsmFeatureGeojson(element, elements) {
+	if (element.type === 'way') return buildWayPolygon(element, elements)
+	if (element.type === 'relation') {
+		const featureCollection = osmToGeojson({ elements })
+		const firstCurrentlyDrawableFeature = featureCollection.features.find(
+			(feature) => ['Polygon', 'MultiPolygon'].includes(feature.geometry.type) // A merge may be necessary, or rather a rewrite of drawquickSearch's addSource ways features
+		)
+		if (firstCurrentlyDrawableFeature) return firstCurrentlyDrawableFeature
 
-	if (polygon === undefined) {
 		const message =
 			'Tried to enrich wrong OSM type element, or relation has no polygons, only LineStrings for instance, e.g. r2969716, a LineString river. TODO'
 		console.error(
 			message,
 			element.type,
+			element,
 			osmToGeojson({ elements }).features.map((feature) => feature.geometry)
 		)
 		//throw new Error(message + ' ' + element.type)
-		return element
+		return centerOfMass(featureCollection)
 	}
-
-	return polygon
+	throw new Error('Nor a way nor a relation')
 }
 
 const buildWayPolygon = (way, elements) => {
