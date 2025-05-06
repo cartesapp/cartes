@@ -93,4 +93,7 @@ const Section = styled.section`
 		line-height: 1.2rem;
 		margin: 0;
 	}
+	ul {
+		margin-left: 1rem;
+	}
 `

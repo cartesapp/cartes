@@ -252,6 +252,8 @@ export default function useFetchItinerary(searchParams, state, allez) {
 				debut: undefined,
 				fin: undefined,
 				planification: undefined,
+				'profil-velo': undefined,
+				itiPosition: undefined,
 			}),
 		[setSearchParams]
 	)

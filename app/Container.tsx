@@ -51,7 +51,7 @@ import useOverpassRequest, {
 } from './effects/useOverpassRequest'
 import useFetchItinerary from './itinerary/useFetchItinerary'
 import Meteo from './meteo/Meteo'
-import { getStyle } from './styles/styles'
+import { getStyle, styleExists } from './styles/styles'
 import useTransportStopData from './transport/useTransportStopData'
 import useWikidata from './useWikidata'
 import useWikipediaInfoboxImages from './effects/useWikipediaInfoboxImages'
@@ -130,8 +130,16 @@ export default function Container(props) {
 	const [localStorageStyleKey, setLocalStorageStyleKey] = useState(null)
 	useEffect(() => {
 		try {
-			const style = searchParams.style || localStorage.getItem('style')
-			setLocalStorageStyleKey(style)
+			let styleKey = searchParams.style || localStorage.getItem('style')
+
+			if (!styleExists(styleKey)) {
+				console.error(
+					'Non-existing style : was it deleted, renamed ? Does it come from another branch ? Falling back to "france"'
+				)
+				styleKey = 'france'
+			}
+
+			setLocalStorageStyleKey(styleKey)
 		} catch (e) {}
 	}, [setLocalStorageStyleKey, searchParams.style])
 

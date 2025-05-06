@@ -1,3 +1,11 @@
+- title: 🚴 Itinéraire vélo v3
+  description: |
+    - le graphique de dénivelé est aplati si aucune pente orange ou rouge
+    - la pente est affichée sur le graphique, qui fait office de légende
+    - un nouveau niveau de pente rouge jusqu'à 18%, juste avant rouge-sang
+    - le clic sur le graphique est possible pour afficher l'élévation, et en parallèle sur la carte
+    - les voies vertes sont maintenant considérées comme sécurisées
+  date: 2025-04-23
 - title: 🖍️ Une panoplie de dessin et mesure
   description: |
     Vous pouvez maintenant dessiner des formes sur la carte via le 🗺️ menu fond de carte. On utiliser le projet [TerraDraw](https://terradraw.water-gis.com).

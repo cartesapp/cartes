@@ -3,7 +3,6 @@ import MapContent from '@/components/MapContent'
 import PaymentBlock from '@/components/PaymentBlock'
 import { ContentLoaderWrapper, Loader } from '@/components/loader'
 import useSetSearchParams from '@/components/useSetSearchParams'
-import { useWhatChanged } from '@/components/utils/useWhatChanged'
 import { getThumb } from '@/components/wikidata'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
@@ -73,7 +72,7 @@ export default function Content(props) {
 		setChargement,
 	} = props
 
-	useWhatChanged(props, 'Render component Content')
+	//useWhatChanged(props, 'Render component Content')
 
 	const tags = vers?.tags
 	const url = tags && getUrl(tags)

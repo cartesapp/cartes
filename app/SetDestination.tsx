@@ -6,13 +6,14 @@ import { encodePlace } from './utils'
 import turfDistance from '@turf/distance'
 import { computeHumanDistance } from './RouteRésumé'
 import { buildAddress } from '@/components/osm/buildAddress'
+import getName from './osm/getName'
 
 export function buildAllezPartFromOsmFeature(osmFeature) {
 	const hasTags = osmFeature.tags != null
 
 	return buildAllezPart(
 		hasTags
-			? osmFeature.tags.name || buildAddress(osmFeature.tags)
+			? getName(osmFeature.tags) || buildAddress(osmFeature.tags)
 			: 'Point sur la carte',
 		osmFeature.osmCode,
 		osmFeature.center.geometry.coordinates[0],
@@ -99,7 +100,7 @@ export default function SetDestination({
 	searchParams,
 	vers,
 }) {
-	const osmFeature = vers.osmCode ? vers : null
+	const osmFeature = vers?.osmCode ? vers : null
 	const setSearchParams = useSetSearchParams()
 
 	const destinationPart =

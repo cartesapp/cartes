@@ -4,7 +4,6 @@ import { fetchOverpassRequest, fetchSimilarNodes } from './fetchOverpassRequest'
 export default function useOverpassRequest(bbox, categories) {
 	const [features, setFeatures] = useState({})
 
-
 	useEffect(() => {
 		if (!bbox || !categories) return
 

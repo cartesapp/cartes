@@ -50,13 +50,17 @@ export default async function buildPlaceJsonLd(step) {
 		description: tags.description,
 		url,
 
-		address: {
-			'@type': 'PostalAddress',
-			addressLocality: addressProperties.city,
-			postalCode: addressProperties.postcode,
-			addressRegion: addressProperties.state,
-			addressCountry: addressProperties.countrycode,
-		},
+		...(addressProperties
+			? {
+					address: {
+						'@type': 'PostalAddress',
+						addressLocality: addressProperties.city,
+						postalCode: addressProperties.postcode,
+						addressRegion: addressProperties.state,
+						addressCountry: addressProperties.countrycode,
+					},
+			  }
+			: {}),
 		geo: {
 			'@type': 'GeoCoordinates',
 			latitude: lat,

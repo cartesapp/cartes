@@ -2,7 +2,6 @@ import categories from '@/app/categories.yaml'
 import {
 	buildStepFromOverpassNode,
 	buildStepFromOverpassWayOrRelation,
-	overpassFetchOptions,
 } from '@/app/osmRequest'
 import { resilientOverpassFetch } from '@/app/overpassFetcher'
 import { filteredMoreCategories as moreCategories } from '@/components/categories'
@@ -44,7 +43,6 @@ const convertOverpassCategoryResultsToSteps = (json, categoryName) => {
 		(element) => element.type === 'relation'
 	)
 	console.log('Relations in similar nodes are not handled yet :', relations)
-
 
 	const nodesOrWays = json.elements.filter((element) =>
 		['way', 'node'].includes(element.type)

@@ -1,9 +1,17 @@
+import { findCategory } from '../effects/fetchOverpassRequest'
+
 export const baseNameKeys = ['name:fr', 'name']
 
 export default function getName(tags) {
+	if (!tags) return
+
 	const name = tags['name:fr'] || tags['name']
 
-	return name
+	if (name) return name
+
+	const category = findCategory(tags)
+
+	if (category) return category['title'] || category.name
 }
 
 export const getNameKeys = (tags) => {

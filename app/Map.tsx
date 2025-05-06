@@ -8,12 +8,12 @@ import MapButtons, { mapButtonSize } from '@/components/MapButtons'
 import { goodIconSize, useComputeMapPadding } from '@/components/mapUtils'
 import useSetSearchParams from '@/components/useSetSearchParams'
 import useAddMap, { globeLight, highZoomLight } from './effects/useAddMap'
+import useTerraDraw from './effects/useTerraDraw'
 import { getStyle } from './styles/styles'
 import useHoverOnMapFeatures from './useHoverOnMapFeatures'
 import useTerrainControl from './useTerrainControl'
-import useTerraDraw from './effects/useTerraDraw'
 
-import { useWhatChanged } from '@/components/utils/useWhatChanged'
+import useMapContent from '@/components/map/useMapContent'
 import getBbox from '@turf/bbox'
 import { styled } from 'next-yak'
 import { useLocalStorage } from 'usehooks-ts'
@@ -34,10 +34,9 @@ import useMapClick from './effects/useMapClick'
 import useRightClick from './effects/useRightClick'
 import useSearchLocalTransit from './effects/useSearchLocalTransit'
 import useDrawItinerary from './itinerary/useDrawItinerary'
-import { computeCenterFromBbox } from './utils'
-import useMapContent from '@/components/map/useMapContent'
-import { addDefaultColor } from './transport/enrichTransportsData'
 import { polylineObjectToLineString } from './transport/decodeTransportsData'
+import { addDefaultColor } from './transport/enrichTransportsData'
+import { computeCenterFromBbox } from './utils'
 
 if (process.env.NEXT_PUBLIC_MAPTILER == null) {
 	throw new Error('You have to configure env NEXT_PUBLIC_MAPTILER, see README')
@@ -89,7 +88,7 @@ export default function Map(props) {
 		setChargement,
 	} = props
 
-	useWhatChanged(props, 'Render component Map')
+	//useWhatChanged(props, 'Render component Map')
 
 	const mapContainerRef = useRef(null)
 	const stepsLength = state.filter((step) => step?.allezValue).length
@@ -159,7 +158,6 @@ export default function Map(props) {
 		wikidataPictureObject
 	)
 
-	// TODO reactivate
 	useSearchLocalTransit(map, isTransportsMode, center, zoom)
 
 	const agencyId = searchParams.agence

@@ -12,6 +12,7 @@
 export default (tags) =>
 	tags.includes('highway=cycleway') || // the main safe way
 	tags.includes('highway=living_street') || // cars are forbidden or limited, in speed, and must give priority to bicycles ; wide enough for good pedestrian - cycles cohabitation
+	isVoieVerte(tags) ||
 	isSafePathV2Diff(tags)
 
 export const isSafePathV2Diff = (tags) =>

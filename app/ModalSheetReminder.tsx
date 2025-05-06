@@ -8,7 +8,6 @@ export const modalSheetBoxShadow = css`
 `
 const popSize = 6
 export default function ModalSheetReminder({ setOpen }) {
-	console.log('coucou de la loupe')
 	return (
 		<ReminderWrapper onClick={() => setOpen(true)}>
 			<Image src={loupe} width="10" height="10" alt="" />

@@ -1,10 +1,11 @@
 'use client'
+import { buildAddress } from '@/components/osm/buildAddress'
 import shareIcon from '@/public/share.svg'
 import { css } from 'next-yak'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { PlaceButton } from './PlaceButtonsUI'
-import { buildAllezPart, buildAllezPartFromOsmFeature } from './SetDestination'
+import { buildAllezPartFromOsmFeature } from './SetDestination'
 import getName from './osm/getName'
 import { getFetchUrlBase } from './serverUrls'
 
@@ -16,30 +17,29 @@ export default function ShareButton({ osmFeature, geocodedClickedPoint }) {
 		if (navigator.share) setNavigatorShare(true)
 	}, [setNavigatorShare])
 
-	const url = encodeURI(
-		`${urlBase}/?allez=${
-			osmFeature?.center
-				? buildAllezPartFromOsmFeature(osmFeature)
-				: buildAllezPart(
-						'Point sur la carte',
-						null,
-						geocodedClickedPoint.longitude,
-						geocodedClickedPoint.latitude
-				  )
-		}`
-	)
+	const photonFeatures = geocodedClickedPoint?.data?.features,
+		photonFeatureProperties = photonFeatures && photonFeatures[0].properties
+
+	console.log('indigo enquête', osmFeature)
 	const text =
-		geocodedClickedPoint &&
-		(getName(osmFeature?.tags || {}) ||
-			`Lon ${geocodedClickedPoint.longitude} | lat ${geocodedClickedPoint.latitude}`)
+		osmFeature?.name ||
+		(osmFeature?.tags
+			? getName(osmFeature?.tags)
+			: photonFeatureProperties
+			? buildAddress(photonFeatureProperties, true)
+			: `Lon ${geocodedClickedPoint.longitude} | lat ${geocodedClickedPoint.latitude}`)
+
+	const urlContent =
+		osmFeature?.center && osmFeature?.tags
+			? `${urlBase}/?allez=${buildAllezPartFromOsmFeature(osmFeature)}`
+			: `${urlBase}/?clic=${geocodedClickedPoint.latitude}|${geocodedClickedPoint.longitude}`
+
+	const url = encodeURI(urlContent)
 
 	return (
 		<PlaceButton>
 			{navigatorShare ? (
 				<button
-					css={css`
-						margin: 0 auto !important;
-					`}
 					title="Cliquez pour partager le lien"
 					onClick={() => {
 						navigator

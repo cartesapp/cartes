@@ -96,6 +96,11 @@ export default function Itinerary({
 								data: itinerary.routes[mode],
 								bikeRouteProfile,
 								setBikeRouteProfile,
+								setItineraryPosition: (itiPosition: number) =>
+									setSearchParams({ itiPosition }),
+								itineraryPosition: searchParams.itiPosition
+									? +searchParams.itiPosition
+									: undefined,
 							}}
 						/>
 					)}
