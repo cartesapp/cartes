@@ -168,6 +168,12 @@ export const buildStepFromOverpassWayOrRelation = (
 		: // TODO wait, did we recode client-side the "out center" overpass directive ?
 		  // Or is our centerOfMass a voluntary addition because out center's center is
 		  // different ?
+		  // Also see this comment : https://github.com/cartesapp/cartes/issues/926#issuecomment-2852458073
+		  // No hurry to investigate changing this logic to use better overpass
+		  // options, as long as this works.
+		  // It's an optimisation though, in particular getting rid of osmtogeojson
+		  // But we need to be sure that we do not have the need for this client side
+		  // for some tasks
 		  centerOfMass(geojson)
 
 	console.log('indigo enquête', element, elements, geojson)
