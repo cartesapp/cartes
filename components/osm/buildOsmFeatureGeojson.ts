@@ -6,7 +6,7 @@ export default function buildOsmFeatureGeojson(element, elements) {
 	if (element.type === 'relation') {
 		const featureCollection = osmToGeojson({ elements })
 		const firstCurrentlyDrawableFeature = featureCollection.features.find(
-			(feature) => ['Polygon', 'MultiPolygon'].includes(feature.geometry.type) // A merge may be necessary, or rather a rewrite of drawquickSearch's addSource ways features
+			(feature) => ['Polygon', 'MultiPolygon'].includes(feature.geometry.type) // A merge may be necessary, or rather a rewrite of drawquickSearch's addSource ways features to be able to draw any feature including rivers' LineStrings. I don't really know how hard it is
 		)
 		if (firstCurrentlyDrawableFeature) return firstCurrentlyDrawableFeature
 
