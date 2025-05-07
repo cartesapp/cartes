@@ -1,5 +1,5 @@
 import QuickFeatureSearch from '@/app/QuickFeatureSearch'
-import { fetchOverpassRequest } from '@/app/effects/fetchOverpassRequest'
+import { fetchOverpassCategoryRequest } from '@/app/effects/fetchOverpassRequest'
 import { PresentationWrapper } from '@/app/presentation/UI'
 import StaticPageHeader from '@/components/StaticPageHeader'
 import { buildPlaceMap } from '@/components/buildPlaceMap'
@@ -29,9 +29,7 @@ export default async function Page({ params, searchParams }) {
 
 	const results = categories?.length
 		? await Promise.all(
-				categories.map((category) =>
-					fetchOverpassRequest(bbox, category, false)
-				)
+				categories.map((category) => fetchOverpassCategoryRequest(bbox, category, false))
 		  )
 		: []
 
