@@ -123,8 +123,9 @@ const lightenLayers = (layers) =>
 
 // See cartesapp/serveur's process-openmaptiles.lua
 export const nameExpression = [
-	['get', 'name:fr'], // cartes.app est une application française
+	['get', 'name:fr'], // cartes.app est une application française et ce style en particulier l'est
 	['get', 'name:latin'], // keep compatibility with Panoramax's planet.pmtiles that cover other tiles than the 4 mega tiles surrounding the hexagone
+	['get', 'name'], // looks like Panoramax's planet.pmtiles switched from :latin to _. Keeping the former for compatibility, it's not costly
 	['get', 'name:en'], // we estimate that e.g. arab place names that don't have a french translation will be way more readable as english for French people. See e.g. /?lieu=n1091272140#18.99/33.5130054/36.3066407
 	['get', 'name_int'],
 ]
