@@ -17,7 +17,7 @@ export default function CategoryResults({
 	const setSearchParams = useSetSearchParams()
 	const resultsWithoutOrder = resultsEntries
 			.map(([k, list]) =>
-				list.map((v) => ({
+				(list || []).map((v) => ({
 					...v,
 					category: categories.find((cat) => cat.name === k),
 				}))
