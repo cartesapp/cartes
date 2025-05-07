@@ -1,5 +1,5 @@
 import { geocodeGetAddress } from '@/components/geocodeLatLon'
-import { osmRequest } from './osmRequest'
+import { osmElementRequest } from './osmRequest'
 import { isServer } from './serverUrls'
 import { decodePlace } from './utils'
 import { lonLatToPoint } from '@/components/geoUtils'
@@ -31,7 +31,7 @@ export const stepOsmRequest = async (point, state = [], geocode = false) => {
 
 	const [featureType, featureId] = decodePlace(osmCode)
 
-	const element = await osmRequest(featureType, featureId)
+	const element = await osmElementRequest(featureType, featureId)
 
 	// Failed, but we can still use the data encoded in the URL
 	if (element.failedRequest) {

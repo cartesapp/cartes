@@ -1,4 +1,4 @@
-import { osmRequest } from '@/app/osmRequest'
+import { osmElementRequest } from '@/app/osmRequest'
 import turfDistance from '@turf/distance'
 import buildOsmFeatureGeojson from './buildOsmFeatureGeojson'
 
@@ -13,16 +13,16 @@ export default async function disambiguateWayRelation(
 		noDisambiguation
 	)
 	if (noDisambiguation) {
-		const result = await osmRequest(presumedFeatureType, id)
+		const result = await osmElementRequest(presumedFeatureType, id)
 		return [result, presumedFeatureType]
 	}
 	if (presumedFeatureType === 'node') {
-		const result = await osmRequest('node', id)
+		const result = await osmElementRequest('node', id)
 		return [result, 'node']
 	}
 
-	const request1 = await osmRequest('way', id)
-	const request2 = await osmRequest('relation', id)
+	const request1 = await osmElementRequest('way', id)
+	const request2 = await osmElementRequest('relation', id)
 	if (request1.elements.length && request2.elements.length) {
 		// This is naïve, we take the first node, considering that the chances that the first node of the relation and way with same reconstructed id are close to our current location is extremely low
 		const node1 = request1.find((el) => el.type === 'node')

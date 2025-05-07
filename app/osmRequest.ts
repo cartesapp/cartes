@@ -6,7 +6,7 @@ import { omit } from '@/components/utils/utils'
 import { resilientOverpassFetch } from './overpassFetcher'
 import { encodePlace } from './utils'
 
-const buildOverpassQuery = (
+const buildOverpassElementQuery = (
 	featureType: 'node' | 'way' | 'relation',
 	id: string,
 	full = false,
@@ -17,15 +17,19 @@ const buildOverpassQuery = (
 		full ? '(._;>;);' : relations ? '<;' : ''
 	}out body${meta ? ` meta` : ''};`
 
-export const osmRequest = async (featureType, id) => {
-	// Overpass requests for ways and relations necessitate "full" request mode
-	// to be able to rebuild its shape based on its node and ways elements
-	const full = ['way', 'relation'].includes(featureType)
-	const isNode = featureType === 'node'
-	if (!isNode && !full)
+/**
+* Build, fetch and process the result of an Overpass query for 1 OSM element by type+ID
+*/
+export const osmElementRequest = async (featureType, id) => {
+	// stop if type is not correct
+	if (!['node', 'way', 'relation'].includes(featureType))
 		return console.error(
 			"This OSM feature is neither a node, a relation or a way, we don't know how to handle it"
 		)
+	// Overpass requests for ways and relations necessitate "full" request mode
+	// to be able to rebuild its shape based on its node and ways elements
+	// TODO we should try using the geom output to directly get the geometry.
+	const full = ['way', 'relation'].includes(featureType)
 
 	/*
 	console.log(
@@ -63,7 +67,7 @@ export const osmRequest = async (featureType, id) => {
 	}
 	*/
 
-	const query = buildOverpassQuery(featureType, id, full)
+	const query = buildOverpassElementQuery(featureType, id, full)
 
 	try {
 		const json = await resilientOverpassFetch(query)
@@ -82,7 +86,7 @@ export const osmRequest = async (featureType, id) => {
 				// format of the state feature
 				const center = lonLatToPoint(element.lon, element.lat)
 				if (tags['addr:housenumber'] && !tags['addr:street']) {
-					const relationQuery = buildOverpassQuery(featureType, id, false, true)
+					const relationQuery = buildOverpassElementQuery(featureType, id, false, true)
 					const json = await resilientOverpassFetch(relationQuery)
 
 					const relation = json.elements.find((element) => {
