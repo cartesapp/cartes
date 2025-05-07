@@ -28,10 +28,9 @@ export default function ShareButton({ osmFeature, geocodedClickedPoint }) {
 			? buildAddress(photonFeatureProperties, true)
 			: `Lon ${geocodedClickedPoint.longitude} | lat ${geocodedClickedPoint.latitude}`)
 
-	const urlContent =
-		osmFeature?.center && osmFeature?.tags
-			? `${urlBase}/?allez=${buildAllezPartFromOsmFeature(osmFeature)}`
-			: `${urlBase}/?clic=${geocodedClickedPoint.latitude}|${geocodedClickedPoint.longitude}`
+	const urlContent = osmFeature?.center
+		? `${urlBase}/?allez=${buildAllezPartFromOsmFeature(osmFeature)}`
+		: `${urlBase}/?clic=${geocodedClickedPoint.latitude}|${geocodedClickedPoint.longitude}`
 
 	const url = encodeURI(urlContent)
 
