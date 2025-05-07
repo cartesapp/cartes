@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import useDrawFeatures from '../effects/useDrawFeatures'
-import { buildOverpassRequest } from '../effects/fetchOverpassRequest'
 import { resilientOverpassFetch } from '../overpassFetcher'
 
 const category = {
@@ -16,17 +15,17 @@ export default function useFetchDrawBikeParkings(map, cycling) {
 	const [features, setFeatures] = useState(null)
 	const lastPoint = cycling?.features && getLastPoint(cycling.features)
 
-	const queryCore =
+	// build overpass query
+	const query =
 		lastPoint &&
-		`
-  node(around:${radius}, ${lastPoint[1]}, ${lastPoint[0]})["bicycle_parking"];
-		`
+		`[out:json];
+		node(around:${radius}, ${lastPoint[1]}, ${lastPoint[0]})["bicycle_parking"];
+		out body; >; out skel qt;`
 
 	useEffect(() => {
-		if (!queryCore) return
+		if (!query) return
 
 		const doFetch = async () => {
-			const query = buildOverpassRequest(queryCore)
 			const json = await resilientOverpassFetch(query)
 
 			console.log('vélo', json)
@@ -40,7 +39,7 @@ export default function useFetchDrawBikeParkings(map, cycling) {
 		// overpass bbox
 		// overpass query -> points
 		// draw on map -> v1
-	}, [queryCore, setFeatures])
+	}, [query, setFeatures])
 
 	const backgroundColor = '#57bff5'
 	useDrawFeatures(

@@ -79,7 +79,7 @@ const convertOverpassCategoryResultsToSteps = (json, categoryName) => {
 	}))
 }
 
-export const buildOverpassRequest = (queryCore) => `
+const buildOverpassRequest = (queryCore) => `
 [out:json];
 (
 ${queryCore}
