@@ -1,25 +1,10 @@
 import { centerOfMass } from '@turf/turf'
-import { isServer } from './serverUrls'
 //import osmApiRequest from '@/components/osm/osmApiRequest'
 import { lonLatToPoint } from '@/components/geoUtils'
 import buildOsmFeatureGeojson from '@/components/osm/buildOsmFeatureGeojson'
 import { omit } from '@/components/utils/utils'
 import { resilientOverpassFetch } from './overpassFetcher'
 import { encodePlace } from './utils'
-
-export const overpassFetchOptions = isServer
-	? {
-			headers: {
-				'User-Agent': 'Cartes.app',
-			},
-			next: { revalidate: 5 * 60 },
-	  }
-	: { cache: 'force-cache' }
-
-export const overpassRequestSuffixs = [
-	'https://overpass.cartes.app/api/interpreter?data=',
-	'https://overpass-api.de/api/interpreter?data=',
-]
 
 const buildOverpassQuery = (
 	featureType: 'node' | 'way' | 'relation',
