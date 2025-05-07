@@ -32,10 +32,8 @@ export async function fetchOverpassRequest(
 		})
 		.join('')
 	// TODO we're missing the "r" in "nwr" for "relations"
-	const overpassRequest = buildOverpassRequest(queryCore)
-
-	const query = encodeURIComponent(overpassRequest)
-	//	console.log('OVERPASS2 query:', overpassRequest)
+	const query = buildOverpassRequest(queryCore)
+	console.log('OVERPASS2 query:', query)
 	const json = await resilientOverpassFetch(query)
 
 	const nodeElements = convertOverpassCategoryResultsToSteps(

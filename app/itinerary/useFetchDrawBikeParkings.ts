@@ -26,8 +26,7 @@ export default function useFetchDrawBikeParkings(map, cycling) {
 		if (!queryCore) return
 
 		const doFetch = async () => {
-			const body = buildOverpassRequest(queryCore)
-			const query = encodeURIComponent(body)
+			const query = buildOverpassRequest(queryCore)
 			const json = await resilientOverpassFetch(query)
 
 			console.log('vélo', json)

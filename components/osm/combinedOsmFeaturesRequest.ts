@@ -13,8 +13,7 @@ export default async function combinedOsmFeaturesRequest(queries) {
 		})
 		.join('')
 
-	const requestString = `[out:json];${requestBody}`
-	const query = encodeURIComponent(requestString)
+	const query = `[out:json];${requestBody}`
 
 	const options = {
 		next: { revalidate: 5 * 60 },
@@ -44,7 +43,7 @@ export default async function combinedOsmFeaturesRequest(queries) {
 			return feature
 		})
 		.filter(Boolean)
-	console.log('requestString', requestString, results)
+	console.log('query', query, results)
 
 	//TODO we don't handle housenumbers like in osmRequest, not sure we need this
 	//in this combinedOsmRequest function that is used to enrich photon search

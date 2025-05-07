@@ -13,11 +13,9 @@ const buildOverpassQuery = (
 	relations = false,
 	meta = false
 ) =>
-	encodeURIComponent(
-		`[out:json];${featureType}(id:${id});${
-			full ? '(._;>;);' : relations ? '<;' : ''
-		}out body${meta ? ` meta` : ''};`
-	)
+	`[out:json];${featureType}(id:${id});${
+		full ? '(._;>;);' : relations ? '<;' : ''
+	}out body${meta ? ` meta` : ''};`
 
 export const osmRequest = async (featureType, id) => {
 	// Overpass requests for ways and relations necessitate "full" request mode

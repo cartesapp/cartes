@@ -18,11 +18,11 @@ const overpassFetchOptions = isServer
 
 /**
  * Fetch a request on each allowed server until success
- * @param urlPath The part of the URL encoding the request (to be added after the suffix encoding the server URL)
+ * @param query The Overpass query to fetch
  * @returns JSON data of the first successful request, or an error if they all fail
  */
 export async function resilientOverpassFetch(
-	urlPath: string,
+	query: string,
 	options: object = {}
 ) {
 	// Stocke la dernière erreur pour la renvoyer si toutes les tentatives échouent
@@ -30,7 +30,7 @@ export async function resilientOverpassFetch(
 
 	// Essaie chaque suffixe d'URL Overpass dans l'ordre
 	for (const suffix of overpassRequestSuffixs) {
-		const fullUrl = `${suffix}${urlPath}`
+		const fullUrl = `${suffix}${encodeURIComponent(query)}`
 
 		try {
 			const response = await fetch(fullUrl, {
