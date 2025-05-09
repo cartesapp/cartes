@@ -29,7 +29,9 @@ export default function SimilarNodes({ node, similarNodes: features }) {
 	const featuresWithDistance =
 		features &&
 		features
-			.filter((feature) => feature.id !== node.id && feature.tags?.name)
+			.filter(
+				(feature) => feature.osmCode !== node.osmCode && feature.tags?.name
+			)
 			.map((feature) => {
 				const { coordinates: coordinates2 } = feature.center.geometry
 				return {
@@ -42,7 +44,6 @@ export default function SimilarNodes({ node, similarNodes: features }) {
 	const closestFeatures =
 		features && sortBy(({ distance }) => distance)(featuresWithDistance)
 
-	console.log('node', closestFeatures)
 	/*
 	 * Trouver la catégorie du lieu
 	 * lancer une requête Overpass pour les éléments similaires autour
