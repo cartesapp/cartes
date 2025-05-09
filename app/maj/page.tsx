@@ -58,6 +58,9 @@ const Section = styled.section`
 const StyledList = styled.ol`
 	list-style-type: none;
 	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
 `
 
 const ListItem = styled.li`
@@ -66,6 +69,8 @@ const ListItem = styled.li`
 	padding: 1rem;
 	border-radius: 8px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	flex: 1 1 calc(50% - 1rem);
+	box-sizing: border-box;
 `
 
 const Header = styled.header`
