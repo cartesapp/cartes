@@ -42,18 +42,7 @@ const Main = styled.main`
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `
 
-const Section = styled.section`
-	ol {
-		list-style-type: disc;
-		padding-left: 1rem;
-		li {
-			header {
-				display: flex;
-				align-items: center;
-			}
-		}
-	}
-`
+const Section = styled.section``
 
 const StyledList = styled.ol`
 	list-style-type: none;
@@ -61,6 +50,7 @@ const StyledList = styled.ol`
 	display: flex;
 	flex-wrap: wrap;
 	gap: 1rem;
+	margin-top: 2rem;
 `
 
 const ListItem = styled.li`
@@ -71,6 +61,11 @@ const ListItem = styled.li`
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	flex: 1 1 calc(50% - 1rem);
 	box-sizing: border-box;
+	min-width: 12rem;
+	header {
+		display: flex;
+		align-items: center;
+	}
 `
 
 const Header = styled.header`
