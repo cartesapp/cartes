@@ -1,6 +1,11 @@
 export const gtfsServerUrl =
 	process.env.NEXT_PUBLIC_LOCAL_SERVER === 'true'
 		? 'http://localhost:3001'
+		: process.env.NEXT_PUBLIC_GTFS_SERVER_URL.replace('/gtfs', '/update')
+
+export const updateServerUrl =
+	process.env.NEXT_PUBLIC_LOCAL_SERVER === 'true'
+		? 'http://localhost:3002'
 		: process.env.NEXT_PUBLIC_GTFS_SERVER_URL
 
 export const pmtilesServerUrl =
