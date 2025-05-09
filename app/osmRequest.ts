@@ -18,6 +18,19 @@ const buildOverpassElementQuery = (
 	}out body${meta ? ` meta` : ''};`
 
 /**
+ * New Function to get 1 element with its geometry using overpass parameter `out geom`
+ * Since there is no recursion, no other element is returned than the requested one
+ * Not used yet, only for test
+*/
+const buildOverpassElementQueryNEW = (
+	featureType: 'node' | 'way' | 'relation',
+	id: string,
+	meta = false
+) =>
+	`[out:json];${featureType}(id:${id});
+	out ${meta ? 'meta' : 'body'} geom qt;`
+
+/**
 * Build, fetch and process the result of an Overpass query for 1 OSM element by type+ID
 */
 export const osmElementRequest = async (featureType, id) => {
@@ -68,6 +81,8 @@ export const osmElementRequest = async (featureType, id) => {
 	*/
 
 	const query = buildOverpassElementQuery(featureType, id, full)
+	//Etienne for test
+	//const queryNEW = buildOverpassElementQueryNEW(featureType, id, false)
 
 	try {
 		const json = await resilientOverpassFetch(query)
@@ -124,6 +139,18 @@ export const osmElementRequest = async (featureType, id) => {
 			}
 		}
 		const element = elements.find((el) => el.id == id)
+
+		//Etienne for test
+		/*
+		const jsonNEW = await resilientOverpassFetch(queryNEW)
+		if (jsonNEW.elements.length != 1)
+			console.error('Etienne erreur pas 1 seul élément:', jsonNEW.elements)
+		const elementNEW = jsonNEW.elements[0];
+		const geojsonOLD = buildOsmFeatureGeojson(element, elements)
+		console.log('Etienne geojson OLD:', geojsonOLD)
+		const geojsonNEW = buildGeojsonFromOverpassElement(elementNEW)
+		console.log('Etienne geojson NEW:', geojsonNEW)
+		*/
 
 		return buildStepFromOverpassWayOrRelation(
 			element,
@@ -190,5 +217,55 @@ export const buildStepFromOverpassNode = (
 		tags,
 		geojson: center,
 		requestState: 'success',
+	}
+}
+
+
+// Etienne : ré-écriture pour utiliser directement la géométrie fournie par Overpass
+/**
+* Build a geoJSON from the type and geometry of an OSM element returned by Overpass
+* Not used yet, only for test
+*/
+const buildGeojsonFromOverpassElement = (element) => {
+	console.log('Etienne element:', element)
+	// test if type is correct
+	if (!element)
+		return console.error('Etienne élément non défini')
+	if (!element.type || !['node','way','relation'].includes(element.type))
+		return console.error('Etienne Wrong type while reading overpass result')
+
+	// if relation, recursive call on members
+	if (element.type == 'relation')
+		// TODO maybe need to handle specific cases bases on role ?
+		return {
+			type: 'FeatureCollection',
+			features: element.members.map((element) => buildGeojsonFromOverpassElement(element))
+		}
+
+	// if point or way, determine geometry and type
+	var coordinates = [];
+	var type = null;
+	if (element.type == 'node') {
+		// for nodes : use lat + lon
+		type = 'Point'
+		coordinates = [element.lon, element.lat]
+	} else if (element.type == 'way') {
+		// for ways: transform overpass geometry in an array or coordinates
+		type =  'LineString';
+		coordinates = element.geometry.map((c) => [c.lon ,c.lat]);
+		// if first and last points are identical, it is most probably a polygon
+		if (coordinates[0].toString() === coordinates.at(-1).toString()) {
+			type = 'Polygon';
+			coordinates = [coordinates];
+		}
+	}
+	// then build and return feature geojson
+	return {
+		type: 'Feature',
+		geometry: {
+			type: type,
+			coordinates: coordinates,
+		},
+		properties: {}
 	}
 }
