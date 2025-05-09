@@ -10,30 +10,37 @@ export default async function () {
 	console.log(data)
 
 	return (
-		<main>
+		<Main>
 			<Section>
 				<h1>Les dernières mises à jour de Cartes.app</h1>
 				<p>
 					Ci-dessous, consultez les dernières mises à jour des données qui sont
 					utilisées pour cartes.app.
 				</p>
-				<ol>
+				<StyledList>
 					{data.map((item) => (
-						<li key={item.service}>
-							<header>
+						<ListItem key={item.service}>
+							<Header>
 								<h2>{item.service}</h2>
-							</header>
-							<small>{item.technology}</small>
+							</Header>
+							<SmallText>{item.technology}</SmallText>
 							<div>
-								<time dateTime={item.last}>{dateCool(item.last)}</time>
+								<Time dateTime={item.last}>{dateCool(item.last)}</Time>
 							</div>
-						</li>
+						</ListItem>
 					))}
-				</ol>
+				</StyledList>
 			</Section>
-		</main>
+		</Main>
 	)
 }
+
+const Main = styled.main`
+	background-color: #f9f9f9;
+	padding: 2rem;
+	border-radius: 8px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+`
 
 const Section = styled.section`
 	ol {
@@ -46,4 +53,38 @@ const Section = styled.section`
 			}
 		}
 	}
+`
+
+const StyledList = styled.ol`
+	list-style-type: none;
+	padding: 0;
+`
+
+const ListItem = styled.li`
+	background-color: #fff;
+	margin-bottom: 1rem;
+	padding: 1rem;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+`
+
+const Header = styled.header`
+	display: flex;
+	align-items: center;
+	margin-bottom: 0.5rem;
+	h2 {
+		margin: 0;
+		font-size: 1.2rem;
+		color: #333;
+	}
+`
+
+const SmallText = styled.small`
+	color: #777;
+	font-size: 0.9rem;
+`
+
+const Time = styled.time`
+	color: #555;
+	font-size: 0.9rem;
 `
