@@ -227,12 +227,11 @@ export const buildStepFromOverpassNode = (
 * @returns a geoJSON of type Point, LineString, Polygon or FeatureCollection
 */
 const buildGeojsonFromOverpassElement = (element) => {
-	console.log('Etienne element:', element)
 	// test if type is correct
 	if (!element)
-		return console.error('Etienne élément non défini')
+		return console.error('OVERPASS Element is undefined')
 	if (!element.type || !['node','way','relation'].includes(element.type))
-		return console.error('Etienne Wrong type while reading overpass result')
+		return console.error('OVERPASS Wrong OSM type while reading an element')
 
 	// if relation, recursive call on members
 	if (element.type == 'relation')
@@ -272,27 +271,24 @@ const buildGeojsonFromOverpassElement = (element) => {
 }
 
 /**
- * Build a modified Overpass Element by joining : osmCode, tags, geojson, center, ...
+ * Build an extended Overpass Element by joining : osmCode, tags, geojson, center, ...
  * @param element an element from the Overpass result property 'elements' including its geometry
- * @param featureType I don't know yet why this parameter was is the original function
- * @param id idem
- * @returns a hash with all the properties
+ * @returns a hash with all the properties which are interesting for us
  */
-export const buildStepFromOverpass = (
-	element,
-	featureType = null, // TODO check why this is used for
-	id = null,
-) => {
-	const osmCode = encodePlace(featureType || element.type, id || element.id)
-	const tags    = element.tags || {}
+export const extendOverpassElement = (element) => {
+	// calculate geojson and center
 	const geojson = buildGeojsonFromOverpassElement (element);
-	const center  = centerOfMass(geojson); //TODO extract admin center instead of center of mass
+	const center  = centerOfMass(geojson); //TODO extract admin center instead of center of mass for cities
+	// return extended element
 	return {
-		osmCode,
-		center,
-		tags,
+		type: element.type,
+		id: element.id,
+		osmCode: encodePlace(element.type, element.id), //useless here, should be calculated when needed
+		tags: element.tags || {},
+		//bounds: element.bounds,
 		geojson,
+		center,
 		elements: [], //should not be used anymore ?
-		requestState: 'success',
+		requestState: 'success', // TODO why this ?
 	}
 }

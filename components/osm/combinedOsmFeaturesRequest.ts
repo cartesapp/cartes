@@ -1,5 +1,5 @@
 import {
-	buildStepFromOverpass,
+	extendOverpassElement,
 } from '@/app/osmRequest'
 import { resilientOverpassFetch } from '@/app/overpassFetcher'
 
@@ -26,6 +26,6 @@ export default async function combinedOsmFeaturesRequest(queries) {
 	}
 	const json = await resilientOverpassFetch(query, options)
 
-	// return list of augmented elements (osmCode, tags, geojson, center, ...)
-	return json.elements.map((element) => buildStepFromOverpass(element) )
+	// return list of extended Overpass elements (osmCode, tags, geojson, center, ...)
+	return json.elements.map((element) => extendOverpassElement(element) )
 }

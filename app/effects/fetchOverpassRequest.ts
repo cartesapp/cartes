@@ -1,5 +1,5 @@
 import categories from '@/app/categories.yaml'
-import { buildStepFromOverpass } from '@/app/osmRequest'
+import { extendOverpassElement } from '@/app/osmRequest'
 import { resilientOverpassFetch } from '@/app/overpassFetcher'
 import { filteredMoreCategories as moreCategories } from '@/components/categories'
 import computeBboxArea from '@/components/utils/computeBboxArea'
@@ -45,13 +45,13 @@ export async function fetchOverpassCategoryRequest(
 	const json = await resilientOverpassFetch(query)
 
 	// build and return the result by joining :
-	//  - the modified element : osmCode, tags, geojson, center, ...
+	//  - the extended Overpass element : osmCode, tags, geojson, center, ...
 	//  - with the category name
 	const result = json.elements.map((element) => {
-		const modifiedElement = buildStepFromOverpass(element)
-		//console.log('OVERPASS RESULT element NEW:',modifiedElement)
+		const extendedElement = extendOverpassElement(element)
+		//console.log('OVERPASS RESULT element NEW:',extendedElement)
 		return {
-			...modifiedElement,
+			...extendedElement,
 			categoryName: category.name,
 		}
 	})
