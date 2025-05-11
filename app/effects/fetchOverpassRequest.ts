@@ -1,8 +1,5 @@
 import categories from '@/app/categories.yaml'
-import {
-	buildStepFromOverpassNode,
-	buildStepFromOverpassWayOrRelation,
-} from '@/app/osmRequest'
+import { buildStepFromOverpass } from '@/app/osmRequest'
 import { resilientOverpassFetch } from '@/app/overpassFetcher'
 import { filteredMoreCategories as moreCategories } from '@/components/categories'
 import computeBboxArea from '@/components/utils/computeBboxArea'
@@ -41,53 +38,24 @@ export async function fetchOverpassCategoryRequest(
 	// build the complete query with output parameters
 	const query = `[out:json];
 		(${queryCore});
-		out body; >; out skel qt;`
+		out body geom qt;`
 
 	// fetch the Overpass request
-	console.log('OVERPASS query:', query)
+	//console.log('OVERPASS query:', query)
 	const json = await resilientOverpassFetch(query)
 
-	const nodeElements = convertOverpassCategoryResultsToSteps(
-		json,
-		category.name
-	)
-	return nodeElements
-}
-
-// I suspect this should be handled by a code we already have, with just a loop
-// more
-const convertOverpassCategoryResultsToSteps = (json, categoryName) => {
-	const relations = json.elements.filter(
-		(element) => element.type === 'relation'
-	)
-	if (relations.length > 0) {
-		console.log(
-			'Relations in similar nodes are not handled yet :',
-			relations.length
-		)
-	}
-	const nodesOrWays = json.elements.filter((element) =>
-		['way', 'node'].includes(element.type)
-	) // TODO handle relations ?!?
-
-	const waysNodes = nodesOrWays
-		.filter((el) => el.type === 'way')
-		.map((el) => el.nodes)
-		.flat()
-
-	// Reject elements (nodes I guess ?) that are constituents of ways
-	const interestingElements = nodesOrWays.filter(
-		(el) => !waysNodes.find((id) => id === el.id)
-	)
-
-	const nodeElements = interestingElements.map((element) => {
-		if (element.type === 'node') return buildStepFromOverpassNode(element)
-		return buildStepFromOverpassWayOrRelation(element, json.elements)
+	// build and return the result by joining :
+	//  - the modified element : osmCode, tags, geojson, center, ...
+	//  - with the category name
+	const result = json.elements.map((element) => {
+		const modifiedElement = buildStepFromOverpass(element)
+		//console.log('OVERPASS RESULT element NEW:',modifiedElement)
+		return {
+			...modifiedElement,
+			categoryName: category.name,
+		}
 	})
-	return nodeElements.map((element) => ({
-		...element,
-		categoryName,
-	}))
+	return result
 }
 
 // This is very scientific haha

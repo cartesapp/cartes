@@ -221,10 +221,10 @@ export const buildStepFromOverpassNode = (
 }
 
 
-// Etienne : ré-écriture pour utiliser directement la géométrie fournie par Overpass
 /**
 * Build a geoJSON from the type and geometry of an OSM element returned by Overpass
-* Not used yet, only for test
+* @param element an element from the Overpass result property 'elements' including its geometry
+* @returns a geoJSON of type Point, LineString, Polygon or FeatureCollection
 */
 const buildGeojsonFromOverpassElement = (element) => {
 	console.log('Etienne element:', element)
@@ -236,7 +236,8 @@ const buildGeojsonFromOverpassElement = (element) => {
 
 	// if relation, recursive call on members
 	if (element.type == 'relation')
-		// TODO maybe need to handle specific cases bases on role ?
+		// TODO maybe need to handle specific cases based on role ?
+		// TODO need to check why FeatureCollections are not drawn on the map
 		return {
 			type: 'FeatureCollection',
 			features: element.members.map((element) => buildGeojsonFromOverpassElement(element))
@@ -267,5 +268,31 @@ const buildGeojsonFromOverpassElement = (element) => {
 			coordinates: coordinates,
 		},
 		properties: {}
+	}
+}
+
+/**
+ * Build a modified Overpass Element by joining : osmCode, tags, geojson, center, ...
+ * @param element an element from the Overpass result property 'elements' including its geometry
+ * @param featureType I don't know yet why this parameter was is the original function
+ * @param id idem
+ * @returns a hash with all the properties
+ */
+export const buildStepFromOverpass = (
+	element,
+	featureType = null, // TODO check why this is used for
+	id = null,
+) => {
+	const osmCode = encodePlace(featureType || element.type, id || element.id)
+	const tags    = element.tags || {}
+	const geojson = buildGeojsonFromOverpassElement (element);
+	const center  = centerOfMass(geojson); //TODO extract admin center instead of center of mass
+	return {
+		osmCode,
+		center,
+		tags,
+		geojson,
+		elements: [], //should not be used anymore ?
+		requestState: 'success',
 	}
 }
