@@ -90,46 +90,6 @@ export const osmElementRequest = async (featureType, id) => {
 			return console.error('OVERPASS result does not have only 1 element', json.elements)
 		const [element] = json.elements
 
-		// handle the case of a house in a associatedStreet relation
-		// https://wiki.openstreetmap.org/wiki/Relation:associatedStreet
-		// example : https://www.openstreetmap.org/node/3663795073
-		// is this old comment still true? : TODO this is broken, test and repair it,
-		// taking into account the new format of the state feature
-		const tags = element.tags || {}
-		if (featureType === 'node' && tags['addr:housenumber'] && !tags['addr:street']) {
-			try {
-				// fetch all the relations which include this node
-				const relationQuery = buildOverpassElementQueryNEW(featureType, id, false, true)
-				const json = await resilientOverpassFetch(relationQuery)
-
-				// find the relation of type associatedStreet
-				const relation = json.elements.find((element) => {
-					const {
-						tags: { type: osmType },
-					} = element
-
-					return osmType === 'associatedStreet'
-				})
-
-				//if found
-				if (relation) {
-					//build new tags for name and addr:street using name from the associatedStreet relation
-					const newTags = omit(['type'], {
-						...relation.tags,
-						'addr:street': relation.tags.name,
-						name: `${tags['addr:housenumber']} ${relation.tags.name}`,
-					})
-					//build a new element with additional tags
-					element = {
-						...element,
-						tags: { ...element.tags, ...newTags },
-					}
-				}
-			} catch (e) {
-				console.error('Overpass error while fetching associatedStreet relation')
-			}
-		}
-
 		//return the extended Overpass element (with osmCode, geojson, center, ...)
 		return extendOverpassElement(element)
 
@@ -251,6 +211,55 @@ const buildGeojsonFromOverpassElement = (element) => {
  * @returns a hash with all the properties which are interesting for us
  */
 export const extendOverpassElement = (element) => {
+	// stop if not element
+	if (!element) return {}
+	// TODO add other tests ?
+
+	const tags = element.tags || {}
+
+	// handle the case of a house in an associatedStreet relation
+	// https://wiki.openstreetmap.org/wiki/Relation:associatedStreet
+	// example : https://www.openstreetmap.org/node/3663795073
+	// is this old comment still true? : TODO this is broken, test and repair it,
+	// taking into account the new format of the state feature
+	if (element.type === 'node' && tags['addr:housenumber'] && !tags['addr:street'] && !tags['name']) {
+		try {
+			// fetch all the relations which include this node
+			const relationQuery = buildOverpassElementQueryNEW(element.type, element.id, false, true)
+			const json = resilientOverpassFetch(relationQuery)
+
+			// find the relation of type associatedStreet
+			const relation = json.elements.find((element) => {
+				const {
+					tags: { type: osmType },
+				} = element
+
+				return osmType === 'associatedStreet'
+			})
+
+			//if street relation found
+			if (relation) {
+				//build new tags for name and addr:street using name from the associatedStreet relation
+				const newTags = omit(['type'], {
+					...relation.tags,
+					'addr:street': relation.tags.name,
+					name: `${tags['addr:housenumber']} ${relation.tags.name}`,
+				})
+				//extend the element with the additional tags
+				element = {
+					...element,
+					tags: { ...element.tags, ...newTags },
+				}
+			}
+		} catch (e) {
+			console.error('Overpass error while fetching associatedStreet relation')
+		}
+	}
+
+	// TODO move here the case of the role admin center in a boundary relation
+
+	// TODO handle the case of several way elements for the same street
+
 	// calculate geojson and center
 	const geojson = buildGeojsonFromOverpassElement (element);
 	const center  = centerOfMass(geojson); //TODO extract admin center instead of center of mass for cities
