@@ -41,6 +41,12 @@ export default function ({ children }) {
 					title="Cartes"
 					href="https://cartes.app/cartes-search.xml"
 				/>
+				<link
+					rel="alternate"
+					type="application/rss+xml"
+					title="Le blog de Cartes"
+					href="https://cartes.app/feed.xml"
+				/>
 			</head>
 			<body>
 				<ThemeColorsProvider>{children}</ThemeColorsProvider>
