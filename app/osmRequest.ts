@@ -256,13 +256,18 @@ export const extendOverpassElement = (element) => {
 		}
 	}
 
-	// TODO move here the case of the role admin center in a boundary relation
+	// Handle the case of the role admin_centre in a type=boundary relation
+	const adminCentre = null
+	if (element.type == 'relation' && tags['type'] == 'boundary') {
+		adminCentre = element.members?.find((el) => el.role === 'admin_centre')
+	}
 
 	// TODO handle the case of several way elements for the same street
 
 	// calculate geojson and center
 	const geojson = buildGeojsonFromOverpassElement (element);
-	const center  = centerOfMass(geojson); //TODO extract admin center instead of center of mass for cities
+	const center = adminCentre ? buildGeojsonFromOverpassElement(adminCentre) : centerOfMass(geojson)
+
 	// return extended element
 	return {
 		type: element.type,
