@@ -1,60 +1,34 @@
 import { centerOfMass } from '@turf/turf'
 //import osmApiRequest from '@/components/osm/osmApiRequest'
-import { lonLatToPoint } from '@/components/geoUtils'
-import buildOsmFeatureGeojson from '@/components/osm/buildOsmFeatureGeojson'
 import { omit } from '@/components/utils/utils'
 import { resilientOverpassFetch } from './overpassFetcher'
 import { encodePlace } from './utils'
 
+/**
+ * Build the Overpass query to get 1 element with its geometry using parameter `out geom`
+ * Since there is no recursion, no other element is returned than the requested one
+ * (except when relations=true, which returns all the relations that include the
+ * requested element, and not the element itself)
+ */
 const buildOverpassElementQuery = (
 	featureType: 'node' | 'way' | 'relation',
 	id: string,
-	full = false,
-	relations = false,
-	meta = false
-) =>
-	`[out:json];${featureType}(id:${id});${
-		full ? '(._;>;);' : relations ? '<;' : ''
-	}out body${meta ? ` meta` : ''};`
-
-/**
- * New Function to get 1 element with its geometry using overpass parameter `out geom`
- * Since there is no recursion, no other element is returned than the requested one
- * Not used yet, only for test
-*/
-const buildOverpassElementQueryNEW = (
-	featureType: 'node' | 'way' | 'relation',
-	id: string,
 	meta = false,
-	relations = false,
+	relations = false
 ) =>
 	`[out:json];${featureType}(id:${id});
-	${ relations ? '<;' : '' }
+	${relations ? '<;' : ''}
 	out ${meta ? 'meta' : 'body'} geom qt;`
 
 /**
-* Build, fetch and process the result of an Overpass query for 1 OSM element by type+ID
-*/
+ * Build, fetch and process the result of an Overpass query for 1 OSM element by type+ID
+ */
 export const osmElementRequest = async (featureType, id) => {
 	// stop if type is not correct
 	if (!['node', 'way', 'relation'].includes(featureType))
 		return console.error(
 			"This OSM feature is neither a node, a relation or a way, we don't know how to handle it"
 		)
-	// Overpass requests for ways and relations necessitate "full" request mode
-	// to be able to rebuild its shape based on its node and ways elements
-	// TODO we should try using the geom output to directly get the geometry.
-	const full = ['way', 'relation'].includes(featureType)
-
-	/*
-	console.log(
-		'lightgreen will make OSM request',
-		featureType,
-		id,
-		'full : ',
-		full
-	)
-	*/
 
 	// We tried setting up a local OSM api based on osm2psql
 	// that enables bypassing overpass, which is quite a slow
@@ -82,17 +56,19 @@ export const osmElementRequest = async (featureType, id) => {
 	}
 	*/
 
-	const query = buildOverpassElementQueryNEW(featureType, id, false)
+	const query = buildOverpassElementQuery(featureType, id, false)
 
 	try {
 		const json = await resilientOverpassFetch(query)
 		if (json.elements.length != 1)
-			return console.error('OVERPASS result does not have only 1 element', json.elements)
+			return console.error(
+				'OVERPASS result does not have only 1 element',
+				json.elements
+			)
 		const [element] = json.elements
 
 		//return the extended Overpass element (with osmCode, geojson, center, ...)
 		return extendOverpassElement(element)
-
 	} catch (e) {
 		console.error(
 			'Probably a network error fetching OSM feature via Overpass',
@@ -101,71 +77,16 @@ export const osmElementRequest = async (featureType, id) => {
 		return [{ id, requestState: 'fail', featureType }]
 	}
 }
-export const buildStepFromOverpassWayOrRelation = (
-	element,
-	elements,
-	id = null,
-	featureType = null
-) => {
-	const adminCenter =
-			element && element.members?.find((el) => el.role === 'admin_centre'),
-		adminCenterNode =
-			adminCenter && elements.find((el) => el.id == adminCenter.ref)
-
-	const geojson = buildOsmFeatureGeojson(element, elements)
-
-	const center = adminCenterNode
-		? lonLatToPoint(adminCenterNode.lon, adminCenterNode.lat)
-		: // TODO wait, did we recode client-side the "out center" overpass directive ?
-		  // Or is our centerOfMass a voluntary addition because out center's center is
-		  // different ?
-		  // Also see this comment : https://github.com/cartesapp/cartes/issues/926#issuecomment-2852458073
-		  // No hurry to investigate changing this logic to use better overpass
-		  // options, as long as this works.
-		  // It's an optimisation though, in particular getting rid of osmtogeojson
-		  // But we need to be sure that we do not have the need for this client side
-		  // for some tasks
-		  centerOfMass(geojson)
-
-	const { tags } = element
-
-	return {
-		osmCode: encodePlace(featureType || element.type, id || element.id),
-		center,
-		tags,
-		geojson,
-		elements,
-		requestState: 'success',
-	}
-}
-
-export const buildStepFromOverpassNode = (
-	element,
-	featureType = null,
-	id = null
-) => {
-	const tags = element.tags || {}
-	const center = lonLatToPoint(element.lon, element.lat)
-	return {
-		osmCode: encodePlace(featureType || element.type, id || element.id),
-		center,
-		tags,
-		geojson: center,
-		requestState: 'success',
-	}
-}
-
 
 /**
-* Build a geoJSON from the type and geometry of an OSM element returned by Overpass
-* @param element an element from the Overpass result property 'elements' including its geometry
-* @returns a geoJSON of type Point, LineString, Polygon or FeatureCollection
-*/
+ * Build a geoJSON from the type and geometry of an OSM element returned by Overpass
+ * @param element an element from the Overpass result property 'elements' including its geometry
+ * @returns a geoJSON of type Point, LineString, Polygon or FeatureCollection
+ */
 const buildGeojsonFromOverpassElement = (element) => {
 	// test if type is correct
-	if (!element)
-		return console.error('OVERPASS Element is undefined')
-	if (!element.type || !['node','way','relation'].includes(element.type))
+	if (!element) return console.error('OVERPASS Element is undefined')
+	if (!element.type || !['node', 'way', 'relation'].includes(element.type))
 		return console.error('OVERPASS Wrong OSM type while reading an element')
 
 	// if relation, recursive call on members
@@ -174,24 +95,26 @@ const buildGeojsonFromOverpassElement = (element) => {
 		// TODO need to check why FeatureCollections are not drawn on the map
 		return {
 			type: 'FeatureCollection',
-			features: element.members.map((element) => buildGeojsonFromOverpassElement(element))
+			features: element.members.map((element) =>
+				buildGeojsonFromOverpassElement(element)
+			),
 		}
 
 	// if point or way, determine geometry and type
-	var coordinates = [];
-	var type = null;
+	var coordinates = []
+	var type = null
 	if (element.type == 'node') {
 		// for nodes : use lat + lon
 		type = 'Point'
 		coordinates = [element.lon, element.lat]
 	} else if (element.type == 'way') {
 		// for ways: transform overpass geometry in an array or coordinates
-		type =  'LineString';
-		coordinates = element.geometry.map((c) => [c.lon ,c.lat]);
+		type = 'LineString'
+		coordinates = element.geometry.map((c) => [c.lon, c.lat])
 		// if first and last points are identical, it is most probably a polygon
 		if (coordinates[0].toString() === coordinates.at(-1).toString()) {
-			type = 'Polygon';
-			coordinates = [coordinates];
+			type = 'Polygon'
+			coordinates = [coordinates]
 		}
 	}
 	// then build and return feature geojson
@@ -201,7 +124,7 @@ const buildGeojsonFromOverpassElement = (element) => {
 			type: type,
 			coordinates: coordinates,
 		},
-		properties: {}
+		properties: {},
 	}
 }
 
@@ -222,10 +145,20 @@ export const extendOverpassElement = (element) => {
 	// example : https://www.openstreetmap.org/node/3663795073
 	// is this old comment still true? : TODO this is broken, test and repair it,
 	// taking into account the new format of the state feature
-	if (element.type === 'node' && tags['addr:housenumber'] && !tags['addr:street'] && !tags['name']) {
+	if (
+		element.type === 'node' &&
+		tags['addr:housenumber'] &&
+		!tags['addr:street'] &&
+		!tags['name']
+	) {
 		try {
 			// fetch all the relations which include this node
-			const relationQuery = buildOverpassElementQueryNEW(element.type, element.id, false, true)
+			const relationQuery = buildOverpassElementQuery(
+				element.type,
+				element.id,
+				false,
+				true
+			)
 			const json = resilientOverpassFetch(relationQuery)
 
 			// find the relation of type associatedStreet
@@ -265,8 +198,10 @@ export const extendOverpassElement = (element) => {
 	// TODO handle the case of several way elements for the same street
 
 	// calculate geojson and center
-	const geojson = buildGeojsonFromOverpassElement (element);
-	const center = adminCentre ? buildGeojsonFromOverpassElement(adminCentre) : centerOfMass(geojson)
+	const geojson = buildGeojsonFromOverpassElement(element)
+	const center = adminCentre
+		? buildGeojsonFromOverpassElement(adminCentre)
+		: centerOfMass(geojson)
 
 	// return extended element
 	return {
