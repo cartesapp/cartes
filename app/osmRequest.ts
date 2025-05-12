@@ -60,11 +60,10 @@ export const osmElementRequest = async (featureType, id) => {
 
 	try {
 		const json = await resilientOverpassFetch(query)
-		if (json.elements.length != 1)
-			return console.error(
-				'OVERPASS result does not have only 1 element',
-				json.elements
-			)
+		if (json.elements.length != 1) {
+			console.error('OVERPASS OSM element not found', `${featureType}/${id}`)
+			return null
+		}
 		const [element] = json.elements
 
 		//return the extended Overpass element (with osmCode, geojson, center, ...)
