@@ -5,7 +5,7 @@ import { dateCool } from '../blog/utils'
 const url = updateServerUrl + '/dashboard'
 console.log(url)
 export default async function () {
-	const req = await fetch(url)
+	const req = await fetch(url, { cache: 'no-store' })
 	const data = await req.json()
 	console.log(data)
 
