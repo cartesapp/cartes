@@ -25,9 +25,11 @@ const buildOverpassElementQuery = (
 const buildOverpassElementQueryNEW = (
 	featureType: 'node' | 'way' | 'relation',
 	id: string,
-	meta = false
+	meta = false,
+	relations = false,
 ) =>
 	`[out:json];${featureType}(id:${id});
+	${ relations ? '<;' : '' }
 	out ${meta ? 'meta' : 'body'} geom qt;`
 
 /**
@@ -80,84 +82,57 @@ export const osmElementRequest = async (featureType, id) => {
 	}
 	*/
 
-	const query = buildOverpassElementQuery(featureType, id, full)
-	//Etienne for test
-	//const queryNEW = buildOverpassElementQueryNEW(featureType, id, false)
+	const query = buildOverpassElementQueryNEW(featureType, id, false)
 
 	try {
 		const json = await resilientOverpassFetch(query)
+		if (json.elements.length != 1)
+			return console.error('OVERPASS result does not have only 1 element', json.elements)
+		const [element] = json.elements
 
-		const elements = json.elements
-
-		if (!elements.length) return // TODO return what ?
-
-		if (featureType === 'node' && elements.length === 1) {
+		// handle the case of a house in a associatedStreet relation
+		// https://wiki.openstreetmap.org/wiki/Relation:associatedStreet
+		// example : https://www.openstreetmap.org/node/3663795073
+		// is this old comment still true? : TODO this is broken, test and repair it,
+		// taking into account the new format of the state feature
+		const tags = element.tags || {}
+		if (featureType === 'node' && tags['addr:housenumber'] && !tags['addr:street']) {
 			try {
-				const [element] = elements
-				const tags = element.tags || {}
-				// handle this use case https://wiki.openstreetmap.org/wiki/Relation:associatedStreet
-				// example : https://www.openstreetmap.org/node/3663795073
-				// TODO this is broken, test and repair it, taking into account the new
-				// format of the state feature
-				const center = lonLatToPoint(element.lon, element.lat)
-				if (tags['addr:housenumber'] && !tags['addr:street']) {
-					const relationQuery = buildOverpassElementQuery(featureType, id, false, true)
-					const json = await resilientOverpassFetch(relationQuery)
+				// fetch all the relations which include this node
+				const relationQuery = buildOverpassElementQueryNEW(featureType, id, false, true)
+				const json = await resilientOverpassFetch(relationQuery)
 
-					const relation = json.elements.find((element) => {
-						const {
-							tags: { type: osmType },
-						} = element
+				// find the relation of type associatedStreet
+				const relation = json.elements.find((element) => {
+					const {
+						tags: { type: osmType },
+					} = element
 
-						return osmType === 'associatedStreet'
+					return osmType === 'associatedStreet'
+				})
+
+				//if found
+				if (relation) {
+					//build new tags for name and addr:street using name from the associatedStreet relation
+					const newTags = omit(['type'], {
+						...relation.tags,
+						'addr:street': relation.tags.name,
+						name: `${tags['addr:housenumber']} ${relation.tags.name}`,
 					})
-
-					if (relation) {
-						const newTags = omit(['type'], {
-							...relation.tags,
-							'addr:street': relation.tags.name,
-							name: `${tags['addr:housenumber']} ${relation.tags.name}`,
-						})
-
-						const newElement = {
-							...element,
-							tags: { ...element.tags, ...newTags },
-						}
-						console.log('cyan addr', relationQuery, json)
-						console.log('cyan addr2', newElement)
-						return buildStepFromOverpassNode(newElement, featureType, id)
+					//build a new element with additional tags
+					element = {
+						...element,
+						tags: { ...element.tags, ...newTags },
 					}
-				} else {
-					const [element] = elements
-					return buildStepFromOverpassNode(element, featureType, id)
 				}
 			} catch (e) {
-				//TODO this is a copy of above, shouldn't happen when TODO above will be
-				//rewritten to handle housenumbers
-				const [element] = elements
-				return buildStepFromOverpassNode(element, featureType, id)
+				console.error('Overpass error while fetching associatedStreet relation')
 			}
 		}
-		const element = elements.find((el) => el.id == id)
 
-		//Etienne for test
-		/*
-		const jsonNEW = await resilientOverpassFetch(queryNEW)
-		if (jsonNEW.elements.length != 1)
-			console.error('Etienne erreur pas 1 seul élément:', jsonNEW.elements)
-		const elementNEW = jsonNEW.elements[0];
-		const geojsonOLD = buildOsmFeatureGeojson(element, elements)
-		console.log('Etienne geojson OLD:', geojsonOLD)
-		const geojsonNEW = buildGeojsonFromOverpassElement(elementNEW)
-		console.log('Etienne geojson NEW:', geojsonNEW)
-		*/
+		//return the extended Overpass element (with osmCode, geojson, center, ...)
+		return extendOverpassElement(element)
 
-		return buildStepFromOverpassWayOrRelation(
-			element,
-			elements,
-			id,
-			featureType
-		)
 	} catch (e) {
 		console.error(
 			'Probably a network error fetching OSM feature via Overpass',
