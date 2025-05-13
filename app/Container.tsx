@@ -134,7 +134,9 @@ export default function Container(props) {
 
 			if (!styleExists(styleKey)) {
 				console.error(
-					'Non-existing style : was it deleted, renamed ? Does it come from another branch ? Falling back to "france"'
+					'Non-existing style `' +
+						styleKey +
+						'`: was it deleted, renamed ? Does it come from another branch ? Falling back to "france"'
 				)
 				styleKey = 'france'
 			}
