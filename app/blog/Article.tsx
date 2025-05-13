@@ -14,6 +14,7 @@ import Link from 'next/link'
 import Sommaire from './Sommaire'
 
 export default async function Article({ post, slug }) {
+	console.log(post.body.code)
 	const MDXContent = getMDXComponent(post.body.code)
 	const lastEdit = await getLastEdit(slug)
 
