@@ -72,7 +72,7 @@
         "npm:maplibre-gl-indoorequal@^1.3.0",
         "npm:maplibre-gl@5.4",
         "npm:motion@12.11",
-        "npm:next-contentlayer2@0.5.3",
+        "npm:next-contentlayer2@0.5.8",
         "npm:next-mdx-remote@5",
         "npm:next-yak@~4.1.1",
         "npm:next@15.1",
