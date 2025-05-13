@@ -1,25 +1,24 @@
 import { osmElementRequest } from '@/app/osmRequest'
 import turfDistance from '@turf/distance'
-
+/**
+ * Check whether an OSM ID is a way or a relation
+ * (in case we don't have the intel,e.g. after a click on a tile element)
+ * @param presumedFeatureType presumed OSM type
+ * @param id OSM ID
+ * @param referenceLatLng LatLng of the clicked point
+ * @param noDisambiguation set to true to search by type+ID
+ * @returns the array [OverpassElement, OSM type]
+ */
 export default async function disambiguateWayRelation(
 	presumedFeatureType,
 	id,
 	referenceLatLng,
 	noDisambiguation
 ) {
-	console.log(
-		'lightgreen disambiguateWayRelation, noDisambiguation : ',
-		noDisambiguation
-	)
-	// if no disambigiation, get element by type+ID
-	if (noDisambiguation) {
+	// if no disambigiation, or presumed node, get element by type+ID
+	if (noDisambiguation || presumedFeatureType === 'node') {
 		const result = await osmElementRequest(presumedFeatureType, id)
 		return [result, presumedFeatureType]
-	}
-	// if presumed node, idem
-	if (presumedFeatureType === 'node') {
-		const result = await osmElementRequest('node', id)
-		return [result, 'node']
 	}
 
 	// fetch both way and relation by ID
