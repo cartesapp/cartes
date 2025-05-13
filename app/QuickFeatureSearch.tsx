@@ -83,12 +83,6 @@ export default function QuickFeatureSearch({
 		[searchInput, hasLieu]
 	)
 
-	console.log(
-		'cat score',
-		filteredCategories.map((el) => el.name + el.score),
-		filteredMoreCategories.map((el) => el.name + el.score)
-	)
-
 	const getNewSearchParamsLink = buildGetNewSearchParams(
 		searchParams,
 		setSearchParams

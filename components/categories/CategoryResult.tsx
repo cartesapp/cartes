@@ -13,7 +13,6 @@ export default function CategoryResult({
 	setSearchParams,
 	annuaireMode,
 }) {
-	console.log('cyan test', result)
 	const { tags, category, distance, bearing } = result
 
 	const { name: rawName, description, opening_hours: oh } = tags || {}

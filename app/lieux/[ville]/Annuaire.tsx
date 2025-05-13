@@ -1,17 +1,14 @@
 import QuickFeatureSearch from '@/app/QuickFeatureSearch'
-import {
-	computeBbox,
-	fetchOverpassRequest,
-} from '@/app/effects/fetchOverpassRequest'
+import { fetchOverpassRequest } from '@/app/effects/fetchOverpassRequest'
 import { PresentationWrapper } from '@/app/presentation/UI'
 import StaticPageHeader from '@/components/StaticPageHeader'
 import { buildPlaceMap } from '@/components/buildPlaceMap'
 import { getCategories } from '@/components/categories'
 import { styled } from 'next-yak'
 import Image from 'next/image'
-import fetchVille from './fetchVille'
 import Link from 'next/link'
 import removeAccent from 'remove-accents'
+import fetchVille from './fetchVille'
 
 const description = ''
 export default async function Page({ params, searchParams }) {
@@ -35,12 +32,9 @@ export default async function Page({ params, searchParams }) {
 		  )
 		: []
 
-	console.log('CAT', categories, bbox)
 	const quickSearchFeaturesMap = Object.fromEntries(
 		results.map((categoryResults, i) => [categoryNames[i], categoryResults])
 	)
-
-	console.log(quickSearchFeaturesMap)
 
 	const query = new URLSearchParams(searchParams).toString()
 	return (
