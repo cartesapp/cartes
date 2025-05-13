@@ -33,17 +33,12 @@ export default async function disambiguateWayRelation(
 		const wayDistance = turfDistance(wayResult.center, reference)
 		const relDistance = turfDistance(wayResult.center, reference)
 		// return the closest
-		if (wayDistance < relDistance)
-			return [wayResult, 'way']
-		else
-			return [relResult, 'relation']
-
+		if (wayDistance < relDistance) return [wayResult, 'way']
+		else return [relResult, 'relation']
 	}
 	// if only one exists, return it
-	if (wayResult)
-		return [wayResult, 'way']
-	if (relResult)
-		return [relResult, 'relation']
+	if (wayResult) return [wayResult, 'way']
+	if (relResult) return [relResult, 'relation']
 
 	//else return nothing
 	return [null, null]
