@@ -1,16 +1,14 @@
 import useSetSearchParams from '@/components/useSetSearchParams'
 import informationIcon from '@/public/information.svg'
 import plusIcon from '@/public/plus.svg'
+import { AnimatePresence, motion } from 'motion/react'
 import { css, styled } from 'next-yak'
 import Image from 'next/image'
 import { ModalCloseButton } from '../UI'
 import PanoramaxChooser from './PanoramaxChooser'
+import TerraDrawButton from './TerraDrawButton'
 import TerrainChooser from './TerrainChooser'
 import { styles } from './styles'
-import TerraDrawButton from './TerraDrawButton'
-import { motion ,  AnimatePresence} from "motion/react"
-
-
 
 const styleListRaw = Object.entries(styles),
 	styleList = styleListRaw.filter(
@@ -105,100 +103,99 @@ const StyleOptions = styled.section`
 const Styles = ({ style, styleList, setSearchParams, searchParams }) => {
 	return (
 		<StyleList>
+			<AnimatePresence>
+				{styleList.map(
+					([
+						k,
+						{
+							name,
+							imageAlt,
+							title,
+							image: imageProp,
+							description,
+							inlineImage,
+							group,
+						},
+					]) => {
+						const image = (imageProp || k) + '.png'
 
-		<AnimatePresence>
+						const setStyleUrl = () =>
+							setSearchParams(
+								{
+									style: k,
+									'choix du style': 'oui',
+									allez: searchParams.allez || undefined,
+								},
+								false,
+								true
+							)
 
-			{styleList.map(
-				([
-					k,
-					{
-						name,
-						imageAlt,
-						title,
-						image: imageProp,
-						description,
-						inlineImage,
-						group,
-					},
-				]) => {
-					const image = (imageProp || k) + '.png'
-
-					const setStyleUrl = () =>
-						setSearchParams(
-							{
-								style: k,
-								'choix du style': 'oui',
-								allez: searchParams.allez || undefined,
-							},
-							false,
-							true
-						)
-
-					const isGroupLeader = group === k
-					, isConditional = !isGroupLeader && group
-					return (
-						<motion.li key={k}
-						    initial={ isConditional && { opacity: 0.8, scale: .8, x: '-10px' }}
-            animate={{ opacity: 1, scale: 1, x: 0 }}
-            transition={{
-                duration: 0.2,
-            }}
-						      exit={{  opacity: 0.8, scale: .8, x: '-10px' }}
-
-
-						>
-							{/* Was previously a Link but for some reason probably after the
-						client useSetSearchParams change, the link reloads the page. Maybe solve this with an object href ? */}
-							<Button
-								$active={style.key === k}
-								$isConditional={isConditional}
-								onClick={() => {
-									setStyleUrl()
-									try {
-										localStorage.setItem('style', k)
-									} catch (e) {
-										console.log("Can't set local storage for style choice")
-									}
+						const isGroupLeader = group === k,
+							isConditional = !isGroupLeader && group
+						return (
+							<motion.li
+								key={k}
+								initial={
+									isConditional && { opacity: 0.8, scale: 0.8, x: '-10px' }
+								}
+								animate={{ opacity: 1, scale: 1, x: 0 }}
+								transition={{
+									duration: 0.2,
 								}}
-								title={'Passer au style ' + (title || name)}
+								exit={{ opacity: 0.8, scale: 0.8, x: '-10px' }}
 							>
-								<img
-									src={inlineImage || '/styles/' + image}
-									width="50"
-									height="50"
-									alt={imageAlt}
-								/>
-								<div>
-									{name}
-									{description && (
-										<aside
-											onClick={(e) => {
-												alert(description)
-												e.preventDefault()
-												e.stopPropagation()
-											}}
-										>
-											<Image
-												src={informationIcon}
-												alt="Informations sur le style"
-											/>
-										</aside>
-									)}
-									{isGroupLeader && (
-										<aside>
-											<Image
-												src={plusIcon}
-												alt="Ce style a plusieurs sous-styles"
-											/>
-										</aside>
-									)}
-								</div>
-							</Button>
-						</motion.li>
-					)
-				}
-			)}
-		</AnimatePresence>
+								{/* Was previously a Link but for some reason probably after the
+						client useSetSearchParams change, the link reloads the page. Maybe solve this with an object href ? */}
+								<Button
+									$active={style.key === k}
+									$isConditional={isConditional}
+									onClick={() => {
+										setStyleUrl()
+										try {
+											localStorage.setItem('style', k)
+										} catch (e) {
+											console.log("Can't set local storage for style choice")
+										}
+									}}
+									title={'Passer au style ' + (title || name)}
+								>
+									<img
+										src={inlineImage || '/styles/' + image}
+										width="50"
+										height="50"
+										alt={imageAlt}
+									/>
+									<div>
+										{name}
+										{description && (
+											<aside
+												onClick={(e) => {
+													alert(description)
+													e.preventDefault()
+													e.stopPropagation()
+												}}
+											>
+												<Image
+													src={informationIcon}
+													alt="Informations sur le style"
+												/>
+											</aside>
+										)}
+										{isGroupLeader && (
+											<aside>
+												<Image
+													src={plusIcon}
+													alt="Ce style a plusieurs sous-styles"
+												/>
+											</aside>
+										)}
+									</div>
+								</Button>
+							</motion.li>
+						)
+					}
+				)}
+			</AnimatePresence>
 		</StyleList>
 	)
 }

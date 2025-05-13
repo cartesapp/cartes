@@ -1,3 +1,4 @@
+import { getFetchUrlBase } from '../serverUrls'
 import cassini from './cassiniIgnStyle'
 import cyclOsm from './cyclOsmStyle'
 import elections from './elections'
@@ -7,7 +8,6 @@ import railStyle from './railStyle'
 import satellite from './satellite'
 import testStreetComplete from './test-street-complete'
 import voyageStyle from './voyage'
-import carteFacile from 'carte-facile'
 
 const key = process.env.NEXT_PUBLIC_MAPTILER
 
@@ -68,19 +68,17 @@ export const styles = {
 		group: 'ign',
 	},
 	'ign-simple': {
-		url: carteFacile.mapStyle.simple,
+		url: getFetchUrlBase() + '/api/carte-facile-ign?style=' + 'simple',
 		name: 'IGN simple',
 		attribution: '© IGN',
 		imageAlt: "Logo de l'IGN",
-		inlineImage: carteFacile.mapThumbnails.simple.src,
 		group: 'ign',
 	},
 	'ign-clair': {
-		url: carteFacile.mapStyle.desaturated,
+		url: getFetchUrlBase() + '/api/carte-facile-ign?style=' + 'desaturated',
 		name: 'IGN clair',
 		attribution: '© IGN',
 		imageAlt: "Logo de l'IGN",
-		inlineImage: carteFacile.mapThumbnails.desaturated.src,
 		group: 'ign',
 	},
 	osm: {
