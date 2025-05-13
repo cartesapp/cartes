@@ -56,10 +56,13 @@ export const osmElementRequest = async (featureType, id) => {
 	}
 	*/
 
+	// build the query
 	const query = buildOverpassElementQuery(featureType, id, false)
 
 	try {
+		// fetch the query
 		const json = await resilientOverpassFetch(query)
+		// check if element is found
 		if (json.elements.length != 1) {
 			console.error('OVERPASS OSM element not found', `${featureType}/${id}`)
 			return null
@@ -69,6 +72,7 @@ export const osmElementRequest = async (featureType, id) => {
 		//return the extended Overpass element (with osmCode, geojson, center, ...)
 		return extendOverpassElement(element)
 	} catch (e) {
+		// if overpass request failed, return element with 'fail' state
 		console.error(
 			'Probably a network error fetching OSM feature via Overpass',
 			e
@@ -91,7 +95,7 @@ const buildGeojsonFromOverpassElement = (element) => {
 	// if relation, recursive call on members
 	if (element.type == 'relation')
 		// TODO maybe need to handle specific cases based on role ?
-		// TODO need to check why FeatureCollections are not drawn on the map
+		// for example inner and outer in a multipolygon
 		return {
 			type: 'FeatureCollection',
 			features: element.members.map((element) =>
@@ -201,6 +205,8 @@ export const extendOverpassElement = (element) => {
 	const center = adminCentre
 		? buildGeojsonFromOverpassElement(adminCentre)
 		: centerOfMass(geojson)
+	// TODO : for rounded ways, centerOfMass is not on the line, this is unexpected for the user,
+	// we should move the center of mass to the closest node of the way.
 
 	// return extended element
 	return {
