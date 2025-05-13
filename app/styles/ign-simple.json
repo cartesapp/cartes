@@ -1,0 +1,7874 @@
+{
+	"version": 8,
+	"name": "Simple",
+	"metadata": {
+		"fr": {
+			"name": "Simple",
+			"description": "Une carte couleur de contextualisation géographique, adaptée à la plupart des usages.",
+			"use": "Recommandé pour les applications cartographiques générales. Ses couleurs légères permettent une superposition d'éléments, comme des marqueurs et différents types de données.",
+			"accessibility": "Les contrastes entre les toponymes et les différents aplats des zones géographiques sont travaillés ain d'être bien perceptibles selon une diversité de perceptions visuelles."
+		},
+		"en": {
+			"name": "Simple",
+			"description": "A colorful map for geographic contextualization, suitable for most uses.",
+			"use": "Recommended for general cartographic applications. Its light colors allow elements such as markers and different types of data to be superimposed.",
+			"accessibility": "Contrasts between toponyms and the different flat areas of the geographical zones are worked on so as to be clearly perceptible according to a diversity of visual perceptions."
+		},
+		"maputnik:renderer": "mlgljs"
+	},
+	"center": [2.5, 47],
+	"zoom": 5,
+	"sources": {
+		"plan_ign": {
+			"type": "vector",
+			"tiles": ["https://data.geopf.fr/tms/1.0.0/PLAN.IGN/{z}/{x}/{y}.pbf"],
+			"maxzoom": 18.9,
+			"attribution": "© IGN"
+		},
+		"admin_express": {
+			"type": "vector",
+			"tiles": [
+				"https://data.geopf.fr/tms/1.0.0/ADMIN_EXPRESS/{z}/{x}/{y}.pbf"
+			],
+			"minzoom": 0,
+			"maxzoom": 20,
+			"scheme": "xyz",
+			"attribution": "© IGN"
+		}
+	},
+	"sprite": "https://openmaptiles.github.io/osm-bright-gl-style/sprite",
+	"glyphs": "https://openmaptiles.geo.data.gouv.fr/fonts/{fontstack}/{range}.pbf",
+	"transition": {
+		"duration": 300,
+		"delay": 0
+	},
+	"layers": [
+		{
+			"id": "bckgrd",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "fond_opaque",
+			"minzoom": 0,
+			"maxzoom": 24,
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": {
+					"stops": [
+						[4, "rgba(229, 229, 217, 1)"],
+						[5, "rgba(214, 234, 209, 1)"],
+						[12, "rgba(214, 234, 209, 1)"],
+						[13, "rgba(240, 240, 237, 1)"]
+					]
+				},
+				"fill-opacity": 1
+			}
+		},
+		{
+			"id": "hydro surfacique - Estran",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "hydro_surf",
+			"filter": ["==", "symbo", "ZONE_D_ESTRAN"],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": "rgba(162, 216, 224, 1)"
+			}
+		},
+		{
+			"id": "orographie : relief - 0m",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "oro_relief",
+			"minzoom": 0,
+			"filter": ["==", "symbo", "HYPSO_0"],
+			"layout": {
+				"visibility": "none"
+			},
+			"paint": {
+				"fill-color": "#D6E5BA",
+				"fill-opacity": ["interpolate", ["linear"], ["zoom"], 5, 1, 6, 0]
+			}
+		},
+		{
+			"id": "orographie : relief - 100m",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "oro_relief",
+			"minzoom": 0,
+			"filter": ["==", "symbo", "HYPSO_100"],
+			"layout": {
+				"visibility": "none"
+			},
+			"paint": {
+				"fill-color": "#F7F2DA",
+				"fill-opacity": ["interpolate", ["linear"], ["zoom"], 5, 1, 6, 0]
+			}
+		},
+		{
+			"id": "orographie : relief - 200m",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "oro_relief",
+			"minzoom": 0,
+			"filter": ["==", "symbo", "HYPSO_200"],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": "rgba(218, 218, 206, 1)",
+				"fill-opacity": ["interpolate", ["linear"], ["zoom"], 4, 1, 5, 0]
+			}
+		},
+		{
+			"id": "orographie : relief - 1000m",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "oro_relief",
+			"minzoom": 0,
+			"filter": ["==", "symbo", "HYPSO_1000"],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": "rgba(207, 207, 194, 1)",
+				"fill-opacity": ["interpolate", ["linear"], ["zoom"], 4, 1, 5, 0]
+			}
+		},
+		{
+			"id": "orographie : relief - 3000m",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "oro_relief",
+			"minzoom": 0,
+			"filter": ["==", "symbo", "HYPSO_3000"],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": "rgba(197, 197, 183, 1)",
+				"fill-opacity": ["interpolate", ["linear"], ["zoom"], 4, 1, 5, 0]
+			}
+		},
+		{
+			"id": "orographie : relief - 4000m",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "oro_relief",
+			"minzoom": 0,
+			"filter": ["==", "symbo", "HYPSO_4000"],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": "rgba(187, 187, 173, 1)",
+				"fill-opacity": ["interpolate", ["linear"], ["zoom"], 4, 1, 5, 0]
+			}
+		},
+		{
+			"id": "orographie : relief - 5000m",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "oro_relief",
+			"minzoom": 0,
+			"filter": ["==", "symbo", "HYPSO_5000"],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": "rgba(174, 174, 160, 1)",
+				"fill-opacity": ["interpolate", ["linear"], ["zoom"], 4, 1, 5, 0]
+			}
+		},
+		{
+			"id": "orographie : relief - glacier",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "oro_relief",
+			"minzoom": 0,
+			"filter": ["==", "symbo", "GLACIER"],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": "#FFFFFF",
+				"fill-opacity": ["interpolate", ["linear"], ["zoom"], 5, 1, 6, 0]
+			}
+		},
+		{
+			"id": "bati ZAI - Vert",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "bati_zai",
+			"minzoom": 0,
+			"maxzoom": 24,
+			"filter": [
+				"any",
+				[
+					"in",
+					"nature",
+					"Golf",
+					"Hippodrome",
+					"Piscine",
+					"Sports mécaniques",
+					"Equipement de cyclisme",
+					"Autre équipement sportif",
+					"Centre équestre",
+					"Haras",
+					"Stade"
+				],
+				["in", "nature", "Espace public Vert"],
+				[
+					"in",
+					"nature",
+					"Aire de détente",
+					"Camping",
+					"Parc de loisirs",
+					"Parc zoologique"
+				]
+			],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": "rgba(214, 234, 209, 1)",
+				"fill-opacity": 1
+			}
+		},
+		{
+			"id": "bati surfacique cimetière",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "bati_surf",
+			"filter": [
+				"in",
+				"symbo",
+				"CIMETIERE_SURF",
+				"CIMETIERE_MILI_SURF",
+				"NECROPOLE_NATIONALE"
+			],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": "rgba(214, 234, 209, 1)",
+				"fill-opacity": 1
+			}
+		},
+		{
+			"id": "ocs - vegetation - zone boiséee, foret fermee, peupleraie",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "ocs_vegetation_surf",
+			"filter": [
+				"in",
+				"symbo",
+				"ZONE_BOISEE",
+				"ZONE_FORET_FERMEE_FEUIL",
+				"ZONE_FORET_FERMEE_CONI",
+				"ZONE_FORET_FERMEE_MIXTE",
+				"ZONE_PEUPLERAIE"
+			],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": "rgba(188, 223, 184, 1)",
+				"fill-opacity": {
+					"stops": [
+						[7, 0],
+						[8, 1]
+					]
+				}
+			}
+		},
+		{
+			"id": "ocs - vegetation - forêt ouverte",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "ocs_vegetation_surf",
+			"filter": ["in", "symbo", "ZONE_FORET_OUVERTE"],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": "rgba(188, 223, 184, 1)"
+			}
+		},
+		{
+			"id": "ocs - vegetation - lande ligneuse",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "ocs_vegetation_surf",
+			"filter": ["==", "symbo", "ZONE_LANDE_LIGNEUSE"],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": "rgba(214, 234, 209, 1)"
+			}
+		},
+		{
+			"id": "ocs - vegetation - vigne",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "ocs_vegetation_surf",
+			"filter": ["==", "symbo", "ZONE_VIGNE"],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": "rgba(188, 223, 184, 1)"
+			}
+		},
+		{
+			"id": "ocs - vegetation - verger",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "ocs_vegetation_surf",
+			"filter": ["==", "symbo", "ZONE_VERGER"],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": "rgba(188, 223, 184, 1)"
+			}
+		},
+		{
+			"id": "ocs - vegetation - canne à sucre, bananeraie",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "ocs_vegetation_surf",
+			"filter": ["==", "symbo", "ZONE_CANNE_BANANE"],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": "rgba(188, 223, 184, 1)"
+			}
+		},
+		{
+			"id": "ocs - vegetation - mangrovre",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "ocs_vegetation_surf",
+			"filter": ["==", "symbo", "ZONE_MANGROVE"],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": "rgba(192, 229, 219, 1)"
+			}
+		},
+		{
+			"id": "ocs - vegetation - marais",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "ocs_vegetation_surf",
+			"filter": ["==", "symbo", "ZONE_MARAIS"],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": "rgba(192, 229, 219, 1)",
+				"fill-opacity": 1
+			}
+		},
+		{
+			"id": "hydro surfacique - marais",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "hydro_surf",
+			"filter": ["==", "symbo", "ZONE_MARAIS"],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": "rgba(192, 229, 219, 1)"
+			}
+		},
+		{
+			"id": "ocs - vegetation - marais salant",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "ocs_vegetation_surf",
+			"filter": ["==", "symbo", "ZONE_MARAIS_SALANT"],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": "rgba(192, 229, 219, 1)"
+			}
+		},
+		{
+			"id": "ocs - Zone sable sec",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "ocs_nature_sol_surf",
+			"filter": ["all", ["in", "symbo", "ZONE_SABLE_SEC"]],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": "rgba(233, 232, 213, 1)"
+			}
+		},
+		{
+			"id": "ocs - Zone sable humide",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "ocs_nature_sol_surf",
+			"filter": ["in", "symbo", "ZONE_SABLE_HUMIDE", "FOND_CUVETTE_HUMIDE"],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": "rgba(192, 229, 219, 1)"
+			}
+		},
+		{
+			"id": "ocs - Zone graviers galets humides",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "ocs_nature_sol_surf",
+			"filter": ["==", "symbo", "GRAVIERS_GALETS_HUM"],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": "rgba(192, 229, 219, 1)"
+			}
+		},
+		{
+			"id": "ocs - Zone rocher hydro",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "ocs_nature_sol_surf",
+			"filter": ["==", "symbo", "ZONE_ROCHER_HYDRO"],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": "rgba(192, 229, 219, 1)"
+			}
+		},
+		{
+			"id": "ocs - Zone glacier",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "ocs_nature_sol_surf",
+			"filter": ["==", "symbo", "ZONE_GLACIER"],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-opacity": 1,
+				"fill-color": "rgba(255, 255, 255, 1)"
+			}
+		},
+		{
+			"id": "bati ZAI - Gris Bleu Elec",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "bati_zai",
+			"minzoom": 0,
+			"maxzoom": 24,
+			"filter": ["==", "nature", "Centrale électrique"],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": "#7993B6",
+				"fill-opacity": 0.3,
+				"fill-outline-color": "#7993B6"
+			}
+		},
+		{
+			"id": "zone batie",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "bati_zone_surf",
+			"minzoom": 7,
+			"maxzoom": 24,
+			"filter": ["==", "symbo", "ZONE_BATI"],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": "rgba(240, 240, 237, 1)",
+				"fill-opacity": ["interpolate", ["linear"], ["zoom"], 7, 0, 8, 1, 14, 1]
+			}
+		},
+		{
+			"id": "zone d'activité",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "bati_zone_surf",
+			"filter": ["==", "symbo", "ZONE_INDUS_ACTI"],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": "rgba(240, 240, 237, 1)"
+			}
+		},
+		{
+			"id": "hydro surfacique",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "hydro_surf",
+			"filter": ["in", "symbo", "SURFACE_D_EAU", "BASSIN", "ZONE_MARINE"],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": "rgba(151, 205, 213, 1)"
+			}
+		},
+		{
+			"id": "hydro surfacique temporaire",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "hydro_surf",
+			"filter": ["==", "symbo", "SURFACE_D_EAU_TEMP"],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": "rgba(192, 229, 219, 1)"
+			}
+		},
+		{
+			"id": "réseau hydro  - cours d'eau souterrain",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "hydro_reseau_sou",
+			"minzoom": 16,
+			"maxzoom": 24,
+			"filter": ["in", "symbo", "COURS_D_EAU_SOU", "COURS_D_EAU_MOY_SOU"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(151, 205, 213, 1)",
+				"line-width": {
+					"stops": [
+						[12, 1.5],
+						[17, 6.5]
+					]
+				},
+				"line-dasharray": [2, 2],
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "réseau hydro - filet interieur - aqueduc souterrain",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "hydro_reseau_sou",
+			"minzoom": 16,
+			"maxzoom": 24,
+			"filter": ["==", "symbo", "AQUEDUC_SOU"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(151, 205, 213, 1)",
+				"line-width": {
+					"stops": [
+						[12, 1.4],
+						[16, 3.5],
+						[17, 5.9]
+					]
+				},
+				"line-dasharray": [2, 2],
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "réseau hydro - carre - aqueduc souterrain",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "hydro_reseau_sou",
+			"minzoom": 16,
+			"filter": ["==", "symbo", "AQUEDUC_SOU"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(151, 205, 213, 1)",
+				"line-width": {
+					"stops": [
+						[12, 3.5],
+						[16, 8.7],
+						[17, 14.7]
+					]
+				},
+				"line-dasharray": [1, 5],
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Ferre souterrain - voie normale",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "ferre_sou",
+			"minzoom": 0,
+			"maxzoom": 18,
+			"filter": [
+				"in",
+				"symbo",
+				"VF_1_SOU",
+				"VF_2_SOU",
+				"VF_3_SOU",
+				"VF_4_SOU",
+				"VF_ELEC_1_SOU",
+				"VF_ELEC_2_SOU",
+				"VF_ELEC_3_SOU",
+				"VF_ELEC_4_SOU",
+				"VF_FERRO_ROUTIER_SOU"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(178, 178, 178, 1)",
+				"line-width": ["interpolate", ["linear"], ["zoom"], 14, 2, 20, 10],
+				"line-opacity": ["interpolate", ["linear"], ["zoom"], 17, 0.5, 18, 0],
+				"line-dasharray": [1, 2]
+			}
+		},
+		{
+			"id": "Ferre souterrain - trait perpendic épais",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "ferre_sou",
+			"minzoom": 0,
+			"maxzoom": 18,
+			"filter": [
+				"in",
+				"symbo",
+				"VF_1_SOU",
+				"VF_2_SOU",
+				"VF_3_SOU",
+				"VF_4_SOU",
+				"VF_ELEC_1_SOU",
+				"VF_ELEC_2_SOU",
+				"VF_ELEC_3_SOU",
+				"VF_ELEC_4_SOU",
+				"VF_FERRO_ROUTIER_SOU"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(178, 178, 178, 1)",
+				"line-width": {
+					"stops": [
+						[10, 3.5],
+						[17, 14.7]
+					]
+				},
+				"line-dasharray": [0.2, 6],
+				"line-opacity": ["interpolate", ["linear"], ["zoom"], 17, 0.5, 18, 0]
+			}
+		},
+		{
+			"id": "Ferre souterrain - voie etroite",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "ferre_sou",
+			"minzoom": 0,
+			"maxzoom": 18,
+			"filter": [
+				"in",
+				"symbo",
+				"VF_ETROITE_1_SOU",
+				"VF_ETROITE_2_SOU",
+				"VF_ETROITE_SOU"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(178, 178, 178, 1)",
+				"line-width": ["interpolate", ["linear"], ["zoom"], 14, 2, 20, 10],
+				"line-opacity": ["interpolate", ["linear"], ["zoom"], 17, 0.5, 18, 0],
+				"line-dasharray": [1, 2]
+			}
+		},
+		{
+			"id": "Ferre souterrain - trait perpendic fin",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "ferre_sou",
+			"minzoom": 0,
+			"maxzoom": 18,
+			"filter": [
+				"in",
+				"symbo",
+				"VF_ETROITE_1_SOU",
+				"VF_ETROITE_2_SOU",
+				"VF_ETROITE_SOU"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(178, 178, 178, 1)",
+				"line-width": {
+					"stops": [
+						[10, 3.5],
+						[17, 14.7]
+					]
+				},
+				"line-dasharray": [0.2, 6],
+				"line-opacity": ["interpolate", ["linear"], ["zoom"], 17, 0.5, 18, 0]
+			}
+		},
+		{
+			"id": "Ferre souterrain - voie service",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "ferre_sou",
+			"minzoom": 0,
+			"maxzoom": 18,
+			"filter": ["in", "symbo", "VF_SERVICE_SOU", "VF_NON_EXPLOITEE_SOU"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(178, 178, 178, 1)",
+				"line-width": ["interpolate", ["linear"], ["zoom"], 14, 1, 17, 2],
+				"line-dasharray": [5, 2, 1, 2],
+				"line-opacity": ["interpolate", ["linear"], ["zoom"], 17, 0.5, 18, 0]
+			}
+		},
+		{
+			"id": "Ferre souterrain - funic/urbain",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "ferre_sou",
+			"maxzoom": 18,
+			"filter": ["in", "symbo", "FUNI_CREMAILLERE_SOU", "TRANSPORT_URBAIN_SOU"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(178, 178, 178, 1)",
+				"line-width": ["interpolate", ["linear"], ["zoom"], 14, 2, 20, 10],
+				"line-opacity": ["interpolate", ["linear"], ["zoom"], 17, 0.5, 18, 0],
+				"line-dasharray": [1, 2]
+			}
+		},
+		{
+			"id": "Ferre souterrain - 2 trait perpendic - funic/urbain",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "ferre_sou",
+			"maxzoom": 18,
+			"filter": ["in", "symbo", "FUNI_CREMAILLERE_SOU", "TRANSPORT_URBAIN_SOU"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(178, 178, 178, 1)",
+				"line-width": {
+					"stops": [
+						[10, 3.5],
+						[17, 17]
+					]
+				},
+				"line-dasharray": [0.2, 0.2, 0.2, 6],
+				"line-opacity": ["interpolate", ["linear"], ["zoom"], 17, 0.5, 18, 0]
+			}
+		},
+		{
+			"id": "Chemin souterrain - piste cyclable",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_chemin_sou",
+			"minzoom": 13,
+			"filter": ["in", "symbo", "PISTE_CYCLABLE_SOU", "VOIE_VERTE_SOU"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[14, 1.1],
+						[15, 1.7],
+						[16, 2],
+						[17, 3.5]
+					]
+				},
+				"line-dasharray": [6, 2],
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Chemin souterrain - filet exterieur - escalier",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_chemin_sou",
+			"minzoom": 14,
+			"filter": ["==", "symbo", "ESCALIER_SOU"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[14, 1.75],
+						[15, 3],
+						[16, 4.2],
+						[17, 9.5]
+					]
+				},
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Chemin souterrain - filet interieur - escalier",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_chemin_sou",
+			"minzoom": 14,
+			"filter": ["==", "symbo", "ESCALIER_SOU"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[14, 1],
+						[15, 1.9],
+						[16, 2.7],
+						[17, 5.8]
+					]
+				},
+				"line-dasharray": [1, 0.2],
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Chemin souterrain - Rue pietonne",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_chemin_sou",
+			"minzoom": 14,
+			"filter": ["==", "symbo", "RUE_PIETONNE_SOU"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[14, 1],
+						[15, 1.2],
+						[16, 1.4],
+						[17, 2]
+					]
+				},
+				"line-dasharray": [1, 3],
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Chemin souterrain - sentier",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_chemin_sou",
+			"minzoom": 13,
+			"filter": ["==", "symbo", "SENTIER_SOU"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[14, 1],
+						[15, 1.2],
+						[16, 1.4],
+						[17, 2]
+					]
+				},
+				"line-dasharray": [4, 3],
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Chemin souterrain - chemin",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_chemin_sou",
+			"minzoom": 12,
+			"filter": ["==", "symbo", "CHEMIN_SOU"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[14, 1],
+						[15, 1.2],
+						[16, 1.4],
+						[17, 2]
+					]
+				},
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Routier souterrain - filet extérieur - route non revetu carrosable restreint",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sou",
+			"minzoom": 5,
+			"maxzoom": 18,
+			"filter": ["==", "symbo", "NON_REVETUE_CARRO_RESTREINT_SOU"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[14, 3.2],
+						[15, 5.4],
+						[16, 7.7],
+						[17, 16.8]
+					]
+				},
+				"line-dasharray": [2, 2],
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Routier souterrain - filet extérieur - route non revetu carrosable",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sou",
+			"minzoom": 5,
+			"filter": ["==", "symbo", "NON_REVETUE_CARRO_SOU"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[14, 3.2],
+						[15, 5.4],
+						[16, 7.7],
+						[17, 16.8]
+					]
+				},
+				"line-dasharray": [2, 2],
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Routier souterrain - filet extérieur - bretelle autoroute",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sou",
+			"minzoom": 12,
+			"filter": [
+				"in",
+				"symbo",
+				"BRET_AUTO_PEAGE_3_SOU",
+				"BRET_AUTO_PEAGE_2_SOU",
+				"BRET_AUTO_PEAGE_1_SOU",
+				"BRET_AUTO_LIBRE_3_SOU",
+				"BRET_AUTO_LIBRE_2_SOU",
+				"BRET_AUTO_LIBRE_1_SOU"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[12, 2.5],
+						[14, 3.7],
+						[15, 6.8],
+						[16, 8.4],
+						[17, 14]
+					]
+				},
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Routier souterrain - filet extérieur - route non classee restreint",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sou",
+			"minzoom": 5,
+			"filter": ["==", "symbo", "NON_CLASSEE_RESTREINT_SOU"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[14, 3.2],
+						[15, 5.4],
+						[16, 7.7],
+						[17, 16.8]
+					]
+				},
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Routier souterrain - filet extérieur - route non classee",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sou",
+			"minzoom": 5,
+			"filter": ["in", "symbo", "NON_CLASSEE_4_SOU", "NON_CLASSEE_SOU"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[14, 3.2],
+						[15, 5.4],
+						[16, 7.7],
+						[17, 16.8]
+					]
+				},
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Routier souterrain - filet extérieur - route locale",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sou",
+			"minzoom": 5,
+			"filter": [
+				"in",
+				"symbo",
+				"BRET_LOCALE_SOU",
+				"LOCALE_4_SOU",
+				"LOCALE_3_SOU",
+				"LOCALE_2_SOU",
+				"LOCALE_1_SOU"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[9, 2],
+						[14, 3.5],
+						[15, 6],
+						[16, 8.4],
+						[17, 18.3]
+					]
+				},
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Routier souterrain - filet extérieur - route locale en construction",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sou",
+			"minzoom": 11,
+			"filter": ["==", "symbo", "LOCALE_CONSTR_SOU"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[9, 2],
+						[14, 3.5],
+						[15, 6],
+						[16, 8.4],
+						[17, 18.3]
+					]
+				},
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Routier souterrain - filet extérieur - route regionale",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sou",
+			"minzoom": 5,
+			"filter": [
+				"in",
+				"symbo",
+				"BRET_REGIONALE_SOU",
+				"REGIONALE_4_SOU",
+				"REGIONALE_3_SOU",
+				"REGIONALE_2_SOU",
+				"REGIONALE_1_SOU"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[6, 1.5],
+						[9, 2.3],
+						[14, 5],
+						[15, 8.1],
+						[16, 11.2],
+						[17, 22]
+					]
+				},
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Routier souterrain - filet extérieur - route regionale en construction",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sou",
+			"minzoom": 10,
+			"filter": ["==", "symbo", "REGIONALE_CONSTR_SOU"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[6, 1.5],
+						[9, 2.3],
+						[14, 5],
+						[15, 8.1],
+						[16, 11.2],
+						[17, 22]
+					]
+				},
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Routier souterrain - filet extérieur - route principale",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sou",
+			"minzoom": 7,
+			"filter": [
+				"in",
+				"symbo",
+				"BRET_PRINCIPALE_SOU",
+				"PRINCIPALE_4_SOU",
+				"PRINCIPALE_3_SOU",
+				"PRINCIPALE_2_SOU",
+				"PRINCIPALE_1_SOU"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[6, 1.8],
+						[9, 2.7],
+						[14, 5.9],
+						[15, 9],
+						[16, 12.2],
+						[17, 22.5]
+					]
+				},
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Routier souterrain - filet extérieur - route principale en construction",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sou",
+			"minzoom": 10,
+			"filter": ["==", "symbo", "PRINCIPALE_CONSTR_SOU"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[6, 1.8],
+						[9, 2.7],
+						[14, 5.9],
+						[15, 9],
+						[16, 12.2],
+						[17, 22.5]
+					]
+				},
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Routier souterrain - filet extérieur - autoroute",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sou",
+			"minzoom": 7,
+			"filter": ["in", "symbo", "AUTOROU_PEAGE_SOU", "AUTOROU_LIBRE_SOU"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[6, 2.5],
+						[9, 3.5],
+						[14, 7.5],
+						[15, 11],
+						[16, 15],
+						[17, 26]
+					]
+				},
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Routier souterrain - filet extérieur - autoroute en construction",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sou",
+			"minzoom": 10,
+			"filter": ["==", "symbo", "AUTOROU_CONSTR_SOU"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[6, 2.5],
+						[9, 3.5],
+						[14, 7.5],
+						[15, 11],
+						[16, 15],
+						[17, 26]
+					]
+				},
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Routier souterrain - filet interieur - route non revetu carrosable restreint",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sou",
+			"minzoom": 5,
+			"maxzoom": 18,
+			"filter": ["==", "symbo", "NON_REVETUE_CARRO_RESTREINT_SOU"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[14, 2.3],
+						[15, 4.1],
+						[16, 6.3],
+						[17, 13.5]
+					]
+				},
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Routier souterrain - filet interieur - route non revetu carrosable",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sou",
+			"minzoom": 5,
+			"filter": ["==", "symbo", "NON_REVETUE_CARRO_SOU"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[14, 2.3],
+						[15, 4.1],
+						[16, 6.3],
+						[17, 13.5]
+					]
+				},
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Routier souterrain - filet interieur - bretelle autoroute",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sou",
+			"minzoom": 12,
+			"filter": [
+				"in",
+				"symbo",
+				"BRET_AUTO_PEAGE_3_SOU",
+				"BRET_AUTO_PEAGE_2_SOU",
+				"BRET_AUTO_PEAGE_1_SOU",
+				"BRET_AUTO_LIBRE_3_SOU",
+				"BRET_AUTO_LIBRE_2_SOU",
+				"BRET_AUTO_LIBRE_1_SOU"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[12, 1.5],
+						[14, 2.6],
+						[15, 5.2],
+						[16, 6.7],
+						[17, 10.8]
+					]
+				},
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Routier souterrain - filet interieur - route non classee restreint",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sou",
+			"minzoom": 5,
+			"filter": ["==", "symbo", "NON_CLASSEE_RESTREINT_SOU"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[14, 2.3],
+						[15, 4.1],
+						[16, 6.3],
+						[17, 13.5]
+					]
+				},
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Routier souterrain - filet interieur - route non classee",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sou",
+			"minzoom": 5,
+			"filter": ["in", "symbo", "NON_CLASSEE_4_SOU", "NON_CLASSEE_SOU"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[14, 2.3],
+						[15, 4.1],
+						[16, 6.3],
+						[17, 13.5]
+					]
+				},
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Routier souterrain - filet interieur - route locale",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sou",
+			"minzoom": 5,
+			"filter": [
+				"in",
+				"symbo",
+				"BRET_LOCALE_SOU",
+				"LOCALE_4_SOU",
+				"LOCALE_3_SOU",
+				"LOCALE_2_SOU",
+				"LOCALE_1_SOU"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[9, 1.3],
+						[14, 2.3],
+						[15, 4.1],
+						[16, 6.1],
+						[17, 13.1]
+					]
+				},
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Routier souterrain - filet interieur - route locale en construction",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sou",
+			"minzoom": 11,
+			"filter": ["==", "symbo", "LOCALE_CONSTR_SOU"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[9, 2],
+						[14, 3.5],
+						[15, 6],
+						[16, 8.4],
+						[17, 18.3]
+					]
+				},
+				"line-dasharray": [2, 2],
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Routier souterrain - filet interieur - route regionale",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sou",
+			"minzoom": 5,
+			"filter": [
+				"in",
+				"symbo",
+				"BRET_REGIONALE_SOU",
+				"REGIONALE_4_SOU",
+				"REGIONALE_3_SOU",
+				"REGIONALE_2_SOU",
+				"REGIONALE_1_SOU"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[6, 1.4],
+						[9, 1.5],
+						[14, 3.2],
+						[15, 5.8],
+						[16, 8.3],
+						[17, 16.2]
+					]
+				},
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Routier souterrain - filet interieur - route regionale en construction",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sou",
+			"minzoom": 10,
+			"filter": ["==", "symbo", "REGIONALE_CONSTR_SOU"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[4, 0.4],
+						[6, 1.5],
+						[9, 2.3],
+						[14, 5],
+						[15, 8.1],
+						[16, 11.2],
+						[17, 22]
+					]
+				},
+				"line-dasharray": [2, 2],
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Routier souterrain - filet interieur - route principale",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sou",
+			"minzoom": 5,
+			"filter": [
+				"in",
+				"symbo",
+				"BRET_PRINCIPALE_SOU",
+				"PRINCIPALE_4_SOU",
+				"PRINCIPALE_3_SOU",
+				"PRINCIPALE_2_SOU",
+				"PRINCIPALE_1_SOU"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[4, 0.5],
+						[6, 1.8],
+						[9, 2.1],
+						[14, 4.4],
+						[15, 7.3],
+						[16, 10],
+						[17, 18.5]
+					]
+				},
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Routier souterrain - filet interieur - route principale en construction",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sou",
+			"minzoom": 10,
+			"filter": ["==", "symbo", "PRINCIPALE_CONSTR_SOU"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[4, 0.5],
+						[6, 1.8],
+						[9, 2.7],
+						[14, 5.9],
+						[15, 9],
+						[16, 12.2],
+						[17, 22.5]
+					]
+				},
+				"line-dasharray": [2, 2],
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Routier souterrain - filet interieur - autoroute",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sou",
+			"minzoom": 5,
+			"filter": ["in", "symbo", "AUTOROU_PEAGE_SOU", "AUTOROU_LIBRE_SOU"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[4, 0.7],
+						[6, 2.5],
+						[9, 2.7],
+						[14, 5.8],
+						[15, 9],
+						[16, 12],
+						[17, 20.8]
+					]
+				},
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Routier souterrain - axe central - autoroute",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sou",
+			"minzoom": 13,
+			"filter": ["in", "symbo", "AUTOROU_PEAGE_SOU", "AUTOROU_LIBRE_SOU"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(197, 197, 197, 1)",
+				"line-width": {
+					"stops": [
+						[9, 0.6],
+						[14, 0.7],
+						[15, 1],
+						[16, 1.2],
+						[17, 2.1]
+					]
+				},
+				"line-dasharray": [2, 4],
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Routier souterrain - filet interieur - autoroute en construction",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sou",
+			"minzoom": 10,
+			"filter": ["==", "symbo", "AUTOROU_CONSTR_SOU"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[4, 0.7],
+						[6, 2.5],
+						[9, 3.5],
+						[14, 7.5],
+						[15, 11],
+						[16, 15],
+						[17, 26]
+					]
+				},
+				"line-dasharray": [2, 2],
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "Routier souterrain - axe central - autoroute en construction",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sou",
+			"minzoom": 13,
+			"filter": ["==", "symbo", "AUTOROU_CONSTR_SOU"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(197, 197, 197, 1)",
+				"line-width": {
+					"stops": [
+						[9, 0.6],
+						[14, 0.7],
+						[15, 1],
+						[16, 1.2],
+						[17, 2.1]
+					]
+				},
+				"line-dasharray": [2, 4],
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "réseau hydro - canal",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "hydro_reseau",
+			"filter": ["==", "symbo", "CANAL"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(151, 205, 213, 1)",
+				"line-width": {
+					"stops": [
+						[12, 1.4],
+						[17, 5.9]
+					]
+				}
+			}
+		},
+		{
+			"id": "réseau hydro - filet interieur - aqueduc",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "hydro_reseau",
+			"minzoom": 12,
+			"filter": ["==", "symbo", "AQUEDUC_AU_SOL"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(151, 205, 213, 1)",
+				"line-width": {
+					"stops": [
+						[12, 1.4],
+						[16, 3.5],
+						[17, 5.9]
+					]
+				}
+			}
+		},
+		{
+			"id": "réseau hydro - carre - aqueduc",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "hydro_reseau",
+			"minzoom": 12,
+			"filter": ["==", "symbo", "AQUEDUC_AU_SOL"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(151, 205, 213, 1)",
+				"line-width": {
+					"stops": [
+						[12, 3.5],
+						[16, 8.7],
+						[17, 14.7]
+					]
+				},
+				"line-dasharray": [1, 5]
+			}
+		},
+		{
+			"id": "réseau hydro - cours d'eau temporaire",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "hydro_reseau",
+			"filter": ["in", "symbo", "COURS_D_EAU_TEMP", "COURS_D_EAU_TEMP_MOY"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(151, 205, 213, 1)",
+				"line-width": {
+					"stops": [
+						[12, 1.5],
+						[17, 4]
+					]
+				},
+				"line-dasharray": [6, 2]
+			}
+		},
+		{
+			"id": "réseau hydro - cours d'eau moyen ",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "hydro_reseau",
+			"filter": ["==", "symbo", "COURS_D_EAU_MOY"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(151, 205, 213, 1)",
+				"line-width": {
+					"stops": [
+						[7, 2],
+						[12, 2.5]
+					]
+				}
+			}
+		},
+		{
+			"id": "réseau hydro - cours d'eau large ",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "hydro_reseau",
+			"filter": ["==", "symbo", "COURS_D_EAU_LAR"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(151, 205, 213, 1)",
+				"line-width": {
+					"stops": [
+						[7, 3],
+						[11, 5]
+					]
+				}
+			}
+		},
+		{
+			"id": "réseau hydro - cours d'eau",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "hydro_reseau",
+			"minzoom": 3,
+			"filter": ["==", "symbo", "COURS_D_EAU"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(151, 205, 213, 1)",
+				"line-width": [
+					"interpolate",
+					["exponential", 1.8],
+					["zoom"],
+					4,
+					0.7,
+					7,
+					2,
+					17,
+					10
+				]
+			}
+		},
+		{
+			"id": "bati sportif surfacique fond",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "bati_surf",
+			"minzoom": 14,
+			"filter": [
+				"in",
+				"symbo",
+				"TENNIS_SURF",
+				"SPORT_INDIF_SURF",
+				"FOOT_SURF",
+				"MULTI_SPORT_SURF",
+				"PISTE_SPORT_SURF",
+				"NATATION_SURF"
+			],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": "rgba(234, 237, 222, 1)",
+				"fill-opacity": ["interpolate", ["linear"], ["zoom"], 14, 0, 15, 1]
+			}
+		},
+		{
+			"id": "bati sportif surfacique",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "bati_surf",
+			"minzoom": 14,
+			"filter": [
+				"in",
+				"symbo",
+				"TENNIS_SURF",
+				"SPORT_INDIF_SURF",
+				"FOOT_SURF",
+				"MULTI_SPORT_SURF",
+				"PISTE_SPORT_SURF",
+				"NATATION_SURF"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(183, 206, 182, 1)",
+				"line-width": 1,
+				"line-opacity": ["interpolate", ["linear"], ["zoom"], 14, 0, 15, 1]
+			}
+		},
+		{
+			"id": "bati surfacique",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "bati_surf",
+			"minzoom": 14,
+			"filter": [
+				"all",
+				[
+					"!in",
+					"symbo",
+					"CIMETIERE_SURF",
+					"POSTE_ELEC_SURF",
+					"POSTE_ELEC_SURF",
+					"TENNIS_SURF",
+					"SPORT_INDIF_SURF",
+					"FOOT_SURF",
+					"MULTI_SPORT_SURF",
+					"PISTE_SPORT_SURF",
+					"NATATION_SURF",
+					"ECLUSE_SURF",
+					"CIMETIERE_MILI_SURF",
+					"PISTE_DUR",
+					"TENNIS_SURF",
+					"PISTE_SPORT_SURF",
+					"PISTE_SPORT_SURF",
+					"PISTE_HERBE",
+					"RESERVOIR_EAU_SURF",
+					"PECHERIE_SURF"
+				]
+			],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": "rgba(213, 213, 208, 1)",
+				"fill-outline-color": "rgba(151, 150, 137, 1)",
+				"fill-opacity": ["interpolate", ["linear"], ["zoom"], 14, 0, 15, 1],
+				"fill-antialias": true
+			}
+		},
+		{
+			"id": "bati transport surfacique - piste",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "bati_surf",
+			"filter": ["in", "symbo", "PISTE_DUR", "PISTE_HERBE"],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": "rgba(216, 216, 216, 1)"
+			}
+		},
+		{
+			"id": "construction linéaire - mur",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "bati_lin",
+			"filter": ["==", "symbo", "MUR"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(177, 177, 177, 1)",
+				"line-width": 0.3
+			}
+		},
+		{
+			"id": "construction linéaire - autre",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "bati_lin",
+			"filter": ["in", "symbo", "RUINE_LIN", "MUR_SOUTENEMENT", "FORTIF_LIN"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(177, 177, 177, 1)",
+				"line-width": 0.5
+			}
+		},
+		{
+			"id": "construction hydrographique linéaire - Barrage",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "bati_lin",
+			"minzoom": 13,
+			"filter": ["==", "symbo", "BARRAGE_LIN"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(177, 177, 177, 1)",
+				"line-width": {
+					"stops": [
+						[13, 1.5],
+						[17, 5]
+					]
+				}
+			}
+		},
+		{
+			"id": "construction hydrographique linéaire - Quai",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "bati_lin",
+			"minzoom": 12,
+			"filter": ["in", "symbo", "QUAI", "DIGUE"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[14, 1],
+						[17, 2.5]
+					]
+				}
+			}
+		},
+		{
+			"id": "Chemin a niveau - piste cyclable",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_chemin",
+			"minzoom": 13,
+			"filter": ["in", "symbo", "PISTE_CYCLABLE", "VOIE_VERTE"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[14, 1.1],
+						[15, 1.7],
+						[16, 2],
+						[17, 3.5],
+						[18, 6]
+					]
+				},
+				"line-dasharray": [6, 2]
+			}
+		},
+		{
+			"id": "Chemin a niveau - filet exterieur - escalier",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_chemin",
+			"minzoom": 14,
+			"filter": ["==", "symbo", "ESCALIER"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-width": {
+					"stops": [
+						[14, 1.75],
+						[15, 3],
+						[16, 4.2],
+						[17, 9.5]
+					]
+				},
+				"line-color": "rgba(187, 187, 187, 1)"
+			}
+		},
+		{
+			"id": "Chemin a niveau - filet interieur - escalier",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_chemin",
+			"minzoom": 14,
+			"filter": ["==", "symbo", "ESCALIER"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[14, 1],
+						[15, 1.9],
+						[16, 2.7],
+						[17, 5.8]
+					]
+				},
+				"line-dasharray": [1, 0.2]
+			}
+		},
+		{
+			"id": "Chemin a niveau - Rue pietonne",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_chemin",
+			"minzoom": 14,
+			"filter": ["==", "symbo", "RUE_PIETONNE"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[14, 1],
+						[15, 1.2],
+						[16, 1.4],
+						[17, 2],
+						[18, 5]
+					]
+				},
+				"line-dasharray": [1, 3]
+			}
+		},
+		{
+			"id": "Chemin a niveau - sentier",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_chemin",
+			"minzoom": 13,
+			"filter": ["==", "symbo", "SENTIER"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[14, 1],
+						[15, 1.2],
+						[16, 1.4],
+						[17, 2],
+						[18, 6]
+					]
+				},
+				"line-dasharray": [4, 3]
+			}
+		},
+		{
+			"id": "Chemin a niveau - chemin",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_chemin",
+			"minzoom": 12,
+			"filter": ["==", "symbo", "CHEMIN"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[14, 1],
+						[15, 1.2],
+						[16, 1.4],
+						[17, 2],
+						[18, 7]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier a niveau - filet extérieur - route non revetu carrosable restreint",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route",
+			"minzoom": 5,
+			"maxzoom": 18,
+			"filter": ["==", "symbo", "NON_REVETUE_CARRO_RESTREINT"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[14, 3.2],
+						[15, 5.4],
+						[16, 7.7],
+						[17, 16.8]
+					]
+				},
+				"line-dasharray": [2, 2]
+			}
+		},
+		{
+			"id": "Routier a niveau - filet extérieur - route non revetu carrosable",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route",
+			"minzoom": 5,
+			"filter": ["==", "symbo", "NON_REVETUE_CARRO"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[14, 3.2],
+						[15, 5.4],
+						[16, 7.7],
+						[17, 16.8]
+					]
+				},
+				"line-dasharray": [2, 2]
+			}
+		},
+		{
+			"id": "Routier a niveau - filet extérieur - bretelle autoroute",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route",
+			"minzoom": 12,
+			"filter": [
+				"in",
+				"symbo",
+				"BRET_AUTO_PEAGE_3",
+				"BRET_AUTO_PEAGE_2",
+				"BRET_AUTO_PEAGE_1",
+				"BRET_AUTO_LIBRE_3",
+				"BRET_AUTO_LIBRE_2",
+				"BRET_AUTO_LIBRE_1"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[12, 2.5],
+						[14, 3.7],
+						[15, 6.8],
+						[16, 8.4],
+						[17, 14]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier a niveau - filet extérieur - route non classee restreint",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route",
+			"minzoom": 5,
+			"filter": ["==", "symbo", "NON_CLASSEE_RESTREINT"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[14, 3.2],
+						[15, 5.4],
+						[16, 7.7],
+						[17, 16.8]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier a niveau - filet extérieur - route non classee",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route",
+			"minzoom": 5,
+			"filter": ["in", "symbo", "NON_CLASSEE_4", "NON_CLASSEE"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[14, 3],
+						[15, 5.4],
+						[16, 7.7],
+						[17, 16.8]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier a niveau - filet extérieur - route locale",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route",
+			"minzoom": 7,
+			"filter": [
+				"in",
+				"symbo",
+				"BRET_LOCALE",
+				"LOCALE_4",
+				"LOCALE_3",
+				"LOCALE_2",
+				"LOCALE_1"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[9, 2],
+						[14, 3.5],
+						[15, 6],
+						[16, 8.4],
+						[17, 18.3]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier a niveau - filet extérieur - route locale en construction",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route",
+			"minzoom": 11,
+			"filter": ["==", "symbo", "LOCALE_CONSTR"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[9, 2],
+						[14, 3.5],
+						[15, 6],
+						[16, 8.4],
+						[17, 18.3]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier a niveau - filet extérieur - route regionale",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route",
+			"minzoom": 8,
+			"filter": [
+				"in",
+				"symbo",
+				"BRET_REGIONALE",
+				"REGIONALE_4",
+				"REGIONALE_3",
+				"REGIONALE_2",
+				"REGIONALE_1"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[6, 1.5],
+						[9, 2.3],
+						[14, 5],
+						[15, 8.1],
+						[16, 11.2],
+						[17, 22]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier a niveau - filet extérieur - route regionale en construction",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route",
+			"minzoom": 10,
+			"filter": ["==", "symbo", "REGIONALE_CONSTR"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[6, 1.5],
+						[9, 2.3],
+						[14, 5],
+						[15, 8.1],
+						[16, 11.2],
+						[17, 22]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier a niveau - filet extérieur - route principale",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route",
+			"minzoom": 8,
+			"filter": [
+				"in",
+				"symbo",
+				"BRET_PRINCIPALE",
+				"PRINCIPALE_4",
+				"PRINCIPALE_3",
+				"PRINCIPALE_2",
+				"PRINCIPALE_1"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[6, 1.8],
+						[9, 2.7],
+						[14, 5.9],
+						[15, 9],
+						[16, 12.2],
+						[17, 22.5]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier a niveau - filet extérieur - route principale en construction",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route",
+			"minzoom": 10,
+			"filter": ["==", "symbo", "PRINCIPALE_CONSTR"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[6, 1.8],
+						[9, 2.7],
+						[14, 5.9],
+						[15, 9],
+						[16, 12.2],
+						[17, 22.5]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier a niveau - filet extérieur - autoroute",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route",
+			"minzoom": 8,
+			"filter": ["in", "symbo", "AUTOROU_PEAGE", "AUTOROU_LIBRE"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[6, 2.5],
+						[9, 3.5],
+						[14, 7.5],
+						[15, 11],
+						[16, 15],
+						[17, 26]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier a niveau - filet extérieur - autoroute en construction",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route",
+			"minzoom": 8,
+			"filter": ["==", "symbo", "AUTOROU_CONSTR"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(187, 187, 187, 1)",
+				"line-width": {
+					"stops": [
+						[6, 2.5],
+						[9, 3.5],
+						[14, 7.5],
+						[15, 11],
+						[16, 15],
+						[17, 26]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier a niveau - filet interieur - route non revetu carrosable restreint",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route",
+			"minzoom": 5,
+			"filter": ["==", "symbo", "NON_REVETUE_CARRO_RESTREINT"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[14, 2.3],
+						[15, 4.1],
+						[16, 6.3],
+						[17, 13.5]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier a niveau - filet interieur - route non revetu carrosable",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route",
+			"minzoom": 5,
+			"filter": ["==", "symbo", "NON_REVETUE_CARRO"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[14, 2.3],
+						[15, 4.1],
+						[16, 6.3],
+						[17, 13.5]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier a niveau - filet interieur - bretelle autoroute",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route",
+			"minzoom": 12,
+			"filter": [
+				"in",
+				"symbo",
+				"BRET_AUTO_PEAGE_3",
+				"BRET_AUTO_PEAGE_2",
+				"BRET_AUTO_PEAGE_1",
+				"BRET_AUTO_LIBRE_3",
+				"BRET_AUTO_LIBRE_2",
+				"BRET_AUTO_LIBRE_1"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[12, 1.5],
+						[14, 2.6],
+						[15, 5.2],
+						[16, 6.7],
+						[17, 10.8]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier a niveau - filet interieur - route non classee restreint",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route",
+			"minzoom": 5,
+			"filter": ["==", "symbo", "NON_CLASSEE_RESTREINT"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[14, 2.3],
+						[15, 4.1],
+						[16, 6.3],
+						[17, 13.5]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier a niveau - filet interieur - route non classee",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route",
+			"minzoom": 5,
+			"filter": ["in", "symbo", "NON_CLASSEE_4", "NON_CLASSEE"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[14, 2.3],
+						[15, 4.1],
+						[16, 6.3],
+						[17, 13.5]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier a niveau - filet interieur - route locale",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route",
+			"minzoom": 5,
+			"filter": [
+				"in",
+				"symbo",
+				"BRET_LOCALE",
+				"LOCALE_4",
+				"LOCALE_3",
+				"LOCALE_2",
+				"LOCALE_1"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[9, 1.3],
+						[14, 2.3],
+						[15, 4.1],
+						[16, 6.1],
+						[17, 13.1]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier a niveau - filet interieur - route locale en construction",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route",
+			"minzoom": 11,
+			"filter": ["==", "symbo", "LOCALE_CONSTR"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[9, 2],
+						[14, 3.5],
+						[15, 6],
+						[16, 8.4],
+						[17, 18.3]
+					]
+				},
+				"line-dasharray": [2, 2]
+			}
+		},
+		{
+			"id": "Routier a niveau - filet interieur - route regionale",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route",
+			"minzoom": 6,
+			"filter": [
+				"in",
+				"symbo",
+				"BRET_REGIONALE",
+				"REGIONALE_4",
+				"REGIONALE_3",
+				"REGIONALE_2",
+				"REGIONALE_1"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[4, 1.1],
+						[9, 1.5],
+						[14, 3.2],
+						[15, 5.8],
+						[16, 8.3],
+						[17, 16.2]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier a niveau - filet interieur - route regionale en construction",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route",
+			"minzoom": 10,
+			"filter": ["==", "symbo", "REGIONALE_CONSTR"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[4, 0.4],
+						[9, 2.3],
+						[14, 5],
+						[15, 8.1],
+						[16, 11.2],
+						[17, 22]
+					]
+				},
+				"line-dasharray": [2, 2]
+			}
+		},
+		{
+			"id": "Routier a niveau - filet interieur - route principale",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route",
+			"minzoom": 5,
+			"filter": [
+				"in",
+				"symbo",
+				"BRET_PRINCIPALE",
+				"PRINCIPALE_4",
+				"PRINCIPALE_3",
+				"PRINCIPALE_2",
+				"PRINCIPALE_1"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[4, 0.6],
+						[9, 2.1],
+						[14, 4.4],
+						[15, 7.3],
+						[16, 10],
+						[17, 18.5]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier a niveau - filet interieur - route principale en construction",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route",
+			"minzoom": 10,
+			"filter": ["==", "symbo", "PRINCIPALE_CONSTR"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[4, 0.5],
+						[9, 2.7],
+						[14, 5.9],
+						[15, 9],
+						[16, 12.2],
+						[17, 22.5]
+					]
+				},
+				"line-dasharray": [2, 2]
+			}
+		},
+		{
+			"id": "Routier a niveau - filet interieur - autoroute",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route",
+			"minzoom": 5,
+			"filter": ["in", "symbo", "AUTOROU_PEAGE", "AUTOROU_LIBRE"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[4, 0.7],
+						[9, 2.7],
+						[14, 5.8],
+						[15, 9],
+						[16, 12],
+						[17, 20.8]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier a niveau - axe central - autoroute",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route",
+			"minzoom": 13,
+			"filter": ["in", "symbo", "AUTOROU_PEAGE", "AUTOROU_LIBRE"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(197, 197, 197, 1)",
+				"line-width": {
+					"stops": [
+						[9, 0.6],
+						[14, 0.7],
+						[15, 1],
+						[16, 1.2],
+						[17, 2.1]
+					]
+				},
+				"line-dasharray": [2, 4]
+			}
+		},
+		{
+			"id": "Routier a niveau - filet interieur - autoroute en construction",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route",
+			"minzoom": 8,
+			"filter": ["==", "symbo", "AUTOROU_CONSTR"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[4, 0.7],
+						[9, 3.5],
+						[14, 7.5],
+						[15, 11],
+						[16, 15],
+						[17, 26]
+					]
+				},
+				"line-dasharray": [2, 2]
+			}
+		},
+		{
+			"id": "Routier a niveau - axe centrale - autoroute en construction",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route",
+			"minzoom": 13,
+			"filter": ["==", "symbo", "AUTOROU_CONSTR"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(197, 197, 197, 1)",
+				"line-width": {
+					"stops": [
+						[9, 0.6],
+						[14, 0.7],
+						[15, 1],
+						[16, 1.2],
+						[17, 2.1]
+					]
+				},
+				"line-dasharray": [2, 4]
+			}
+		},
+		{
+			"id": "Ferre a niveau - voie normale",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "ferre",
+			"minzoom": 10,
+			"filter": [
+				"in",
+				"symbo",
+				"VF_1",
+				"VF_2",
+				"VF_3",
+				"VF_4",
+				"VF_ELEC_1",
+				"VF_ELEC_2",
+				"VF_ELEC_3",
+				"VF_ELEC_4"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(178, 178, 178, 1)",
+				"line-width": ["interpolate", ["linear"], ["zoom"], 14, 2, 20, 10]
+			}
+		},
+		{
+			"id": "Ferre a niveau - voie normale trait perpendic",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "ferre",
+			"minzoom": 10,
+			"filter": [
+				"in",
+				"symbo",
+				"VF_1",
+				"VF_2",
+				"VF_3",
+				"VF_4",
+				"VF_ELEC_1",
+				"VF_ELEC_2",
+				"VF_ELEC_3",
+				"VF_ELEC_4"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(178, 178, 178, 1)",
+				"line-width": {
+					"stops": [
+						[10, 3.5],
+						[17, 14.7]
+					]
+				},
+				"line-dasharray": [0.2, 6]
+			}
+		},
+		{
+			"id": "Ferre a niveau - voie etroite",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "ferre",
+			"minzoom": 10,
+			"filter": ["in", "symbo", "VF_ETROITE_1", "VF_ETROITE_2", "VF_ETROITE"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(178, 178, 178, 1)",
+				"line-width": ["interpolate", ["linear"], ["zoom"], 14, 2, 20, 10]
+			}
+		},
+		{
+			"id": "Ferre a niveau - voie etroite trait perpendic",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "ferre",
+			"minzoom": 10,
+			"filter": ["in", "symbo", "VF_ETROITE_1", "VF_ETROITE_2", "VF_ETROITE"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(178, 178, 178, 1)",
+				"line-width": {
+					"stops": [
+						[10, 3.5],
+						[17, 14.7]
+					]
+				},
+				"line-dasharray": [0.2, 6]
+			}
+		},
+		{
+			"id": "Ferre a niveau - voie service",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "ferre",
+			"minzoom": 14,
+			"filter": ["in", "symbo", "VF_SERVICE", "VF_NON_EXPLOITEE"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(178, 178, 178, 1)",
+				"line-width": ["interpolate", ["linear"], ["zoom"], 14, 1, 17, 2],
+				"line-dasharray": [5, 2, 1, 2]
+			}
+		},
+		{
+			"id": "Ferre a niveau - voie en construction",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "ferre",
+			"minzoom": 10,
+			"maxzoom": 18,
+			"filter": ["==", "symbo", "VF_EN_CONSTR"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(178, 178, 178, 1)",
+				"line-width": ["interpolate", ["linear"], ["zoom"], 14, 2, 20, 10],
+				"line-dasharray": [2, 2]
+			}
+		},
+		{
+			"id": "Ferre a niveau - voie en construction trait perpendic",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "ferre",
+			"minzoom": 10,
+			"maxzoom": 18,
+			"filter": ["==", "symbo", "VF_EN_CONSTR"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(178, 178, 178, 1)",
+				"line-width": {
+					"stops": [
+						[10, 3.5],
+						[17, 14.7]
+					]
+				},
+				"line-dasharray": [0.2, 6]
+			}
+		},
+		{
+			"id": "Ferre a niveau - funic/urbain",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "ferre",
+			"filter": ["in", "symbo", "FUNI_CREMAILLERE", "TRANSPORT_URBAIN"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(178, 178, 178, 1)",
+				"line-width": ["interpolate", ["linear"], ["zoom"], 14, 2, 20, 10]
+			}
+		},
+		{
+			"id": "Ferre a niveau - 2 trait perpendic - funic/urbain",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "ferre",
+			"filter": ["in", "symbo", "FUNI_CREMAILLERE", "TRANSPORT_URBAIN"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(178, 178, 178, 1)",
+				"line-width": {
+					"stops": [
+						[10, 3.5],
+						[17, 17]
+					]
+				},
+				"line-dasharray": [0.2, 0.2, 0.2, 6]
+			}
+		},
+		{
+			"id": "liaison routiere - Bac Liaison Maritime",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_liaison",
+			"minzoom": 8,
+			"maxzoom": 18,
+			"filter": ["in", "symbo", "BAC_AUTO", "BAC", "LIAISON_MARITIME"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(144, 182, 211, 1)",
+				"line-width": {
+					"stops": [
+						[8, 1],
+						[13, 2.5]
+					]
+				},
+				"line-dasharray": [2, 2],
+				"line-opacity": 0.5
+			}
+		},
+		{
+			"id": "liaison routiere - Gue route",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_liaison",
+			"filter": ["==", "symbo", "GUE_ROUTE"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": {
+					"stops": [
+						[13, "#BEBEBE"],
+						[17, "#646464"],
+						[18, "#FFFFFF"]
+					]
+				},
+				"line-width": {
+					"stops": [
+						[14, 2.3],
+						[15, 4.1],
+						[16, 6.3],
+						[17, 13.5]
+					]
+				}
+			}
+		},
+		{
+			"id": "liaison routiere - Gue chemin",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_liaison",
+			"maxzoom": 18,
+			"filter": ["==", "symbo", "GUE_CHEMIN"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": {
+					"stops": [
+						[13, "#BEBEBE"],
+						[17, "#646464"]
+					]
+				},
+				"line-width": {
+					"stops": [
+						[14, 1.6],
+						[15, 2.9],
+						[16, 4.4],
+						[17, 6.5]
+					]
+				}
+			}
+		},
+		{
+			"id": "liaison routiere - filet extérieur - Pont passerelle",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_liaison",
+			"filter": [
+				"in",
+				"symbo",
+				"PONT_PASSERELLE",
+				"PONT_LIN",
+				"PONT_MOBILE_LIN"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(197, 197, 197, 1)",
+				"line-width": {
+					"stops": [
+						[14, 2.2],
+						[16, 5.4],
+						[20, 20]
+					]
+				}
+			}
+		},
+		{
+			"id": "liaison routiere - filet intérieur - Pont passerelle",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_liaison",
+			"maxzoom": 24,
+			"filter": [
+				"in",
+				"symbo",
+				"PONT_PASSERELLE",
+				"PONT_LIN",
+				"PONT_MOBILE_LIN"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(232, 232, 232, 1)",
+				"line-width": {
+					"stops": [
+						[14, 1.2],
+						[16, 4.4],
+						[20, 16]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier surfacique",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "routier_surf",
+			"filter": [
+				"in",
+				"symbo",
+				"SURF_ROUT_PRINC",
+				"SURF_ROUT_REG",
+				"SURF_ROUT_LOC",
+				"SURF_ROUT_NON_CLA"
+			],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": "#FFFFFF",
+				"fill-outline-color": "#000000"
+			}
+		},
+		{
+			"id": "Routier surfacique - Dalle de protection",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "routier_surf",
+			"maxzoom": 18,
+			"filter": ["==", "symbo", "DALLE_DE_PROTECTION"],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-opacity": 0.5,
+				"fill-color": "#FFFFFF",
+				"fill-outline-color": "#000000"
+			}
+		},
+		{
+			"id": "Routier surfacique - Escalier surfacique",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "routier_surf",
+			"maxzoom": 18,
+			"filter": ["==", "symbo", "ESCALIER_SURF"],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-opacity": 0.8,
+				"fill-color": "#FFFFFF",
+				"fill-outline-color": "rgba(143, 143, 143, 1)"
+			}
+		},
+		{
+			"id": "Routier surfacique - Péage surfacique",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "routier_surf",
+			"maxzoom": 18,
+			"filter": ["==", "symbo", "SURF_PEAGE"],
+			"layout": {
+				"visibility": "none"
+			},
+			"paint": {
+				"fill-color": "rgba(255, 255, 255, 1)",
+				"fill-outline-color": "rgba(187, 187, 187, 1)",
+				"fill-opacity": 1
+			}
+		},
+		{
+			"id": "bati transport surfacique - bati peage",
+			"type": "fill",
+			"source": "plan_ign",
+			"source-layer": "bati_surf",
+			"minzoom": 13,
+			"filter": ["==", "symbo", "BATI_PEAGE"],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"fill-color": "#DCDCDC",
+				"fill-outline-color": "#808080"
+			}
+		},
+		{
+			"id": "réseau hydro  - cours d'eau superieur",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "hydro_reseau_sup",
+			"filter": ["in", "symbo", "COURS_D_EAU_SUP", "COURS_D_EAU_MOY_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(151, 205, 213, 1)",
+				"line-width": {
+					"stops": [
+						[12, 1.5],
+						[17, 6.5]
+					]
+				}
+			}
+		},
+		{
+			"id": "réseau hydro - canal superieur",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "hydro_reseau_sup",
+			"filter": ["==", "symbo", "CANAL_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(151, 205, 213, 1)",
+				"line-width": {
+					"stops": [
+						[12, 1.4],
+						[17, 5.9]
+					]
+				}
+			}
+		},
+		{
+			"id": "réseau hydro - filet interieur - aqueduc superieur",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "hydro_reseau_sup",
+			"filter": ["==", "symbo", "AQUEDUC_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(151, 205, 213, 1)",
+				"line-width": {
+					"stops": [
+						[12, 1.4],
+						[16, 3.5],
+						[17, 5.9]
+					]
+				}
+			}
+		},
+		{
+			"id": "réseau hydro - carre - aqueduc superieur",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "hydro_reseau_sup",
+			"filter": ["==", "symbo", "AQUEDUC_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(151, 205, 213, 1)",
+				"line-width": {
+					"stops": [
+						[12, 3.5],
+						[16, 8.7],
+						[17, 14.7]
+					]
+				},
+				"line-dasharray": [1, 5]
+			}
+		},
+		{
+			"id": "Chemin superieur - piste cyclable",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_chemin_sup",
+			"minzoom": 13,
+			"filter": ["in", "symbo", "PISTE_CYCLABLE_SUP", "VOIE_VERTE_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[14, 1.1],
+						[15, 1.7],
+						[16, 2],
+						[17, 3.5],
+						[18, 6]
+					]
+				},
+				"line-dasharray": [6, 2]
+			}
+		},
+		{
+			"id": "Chemin superieur - filet exterieur - escalier",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_chemin_sup",
+			"minzoom": 14,
+			"filter": ["==", "symbo", "ESCALIER_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[14, 1.75],
+						[15, 3],
+						[16, 4.2],
+						[17, 9.5]
+					]
+				}
+			}
+		},
+		{
+			"id": "Chemin superieur - filet interieur - escalier",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_chemin_sup",
+			"minzoom": 14,
+			"filter": ["==", "symbo", "ESCALIER_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[14, 1],
+						[15, 1.9],
+						[16, 2.7],
+						[17, 5.8]
+					]
+				},
+				"line-dasharray": [1, 0.2]
+			}
+		},
+		{
+			"id": "Chemin superieur - Rue pietonne",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_chemin_sup",
+			"minzoom": 14,
+			"filter": ["==", "symbo", "RUE_PIETONNE_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[14, 1],
+						[15, 1.2],
+						[16, 1.4],
+						[17, 2],
+						[18, 5]
+					]
+				},
+				"line-dasharray": [1, 3]
+			}
+		},
+		{
+			"id": "Chemin superieur - sentier",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_chemin_sup",
+			"minzoom": 13,
+			"filter": ["==", "symbo", "SENTIER_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[14, 1],
+						[15, 1.2],
+						[16, 1.4],
+						[17, 2],
+						[18, 6]
+					]
+				},
+				"line-dasharray": [4, 3]
+			}
+		},
+		{
+			"id": "Chemin superieur - chemin",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_chemin_sup",
+			"minzoom": 12,
+			"filter": ["==", "symbo", "CHEMIN_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[14, 1],
+						[15, 1.2],
+						[16, 1.4],
+						[17, 2],
+						[18, 7]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier superieur - filet extérieur - route non revetu carrosable restreint",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sup",
+			"minzoom": 5,
+			"maxzoom": 18,
+			"filter": ["==", "symbo", "NON_REVETUE_CARRO_RESTREINT_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[14, 3.2],
+						[15, 5.4],
+						[16, 7.7],
+						[17, 16.8]
+					]
+				},
+				"line-dasharray": [2, 2]
+			}
+		},
+		{
+			"id": "Routier superieur - filet extérieur - route non revetu carrosable",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sup",
+			"minzoom": 5,
+			"filter": ["==", "symbo", "NON_REVETUE_CARRO_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[14, 3.2],
+						[15, 5.4],
+						[16, 7.7],
+						[17, 16.8]
+					]
+				},
+				"line-dasharray": [2, 2]
+			}
+		},
+		{
+			"id": "Routier superieur - filet extérieur - bretelle autoroute",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sup",
+			"minzoom": 12,
+			"filter": [
+				"in",
+				"symbo",
+				"BRET_AUTO_PEAGE_3_SUP",
+				"BRET_AUTO_PEAGE_2_SUP",
+				"BRET_AUTO_PEAGE_1_SUP",
+				"BRET_AUTO_LIBRE_3_SUP",
+				"BRET_AUTO_LIBRE_2_SUP",
+				"BRET_AUTO_LIBRE_1_SUP"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[12, 2.5],
+						[14, 3.7],
+						[15, 6.8],
+						[16, 8.4],
+						[17, 14]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier superieur - filet extérieur - route non classee restreint",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sup",
+			"minzoom": 5,
+			"filter": ["==", "symbo", "NON_CLASSEE_RESTREINT_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[14, 3.2],
+						[15, 5.4],
+						[16, 7.7],
+						[17, 16.8]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier superieur - filet extérieur - route non classee",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sup",
+			"minzoom": 5,
+			"filter": ["in", "symbo", "NON_CLASSEE_4_SUP", "NON_CLASSEE_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[14, 3.2],
+						[15, 5.4],
+						[16, 7.7],
+						[17, 16.8]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier superieur - filet extérieur - route locale",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sup",
+			"minzoom": 5,
+			"filter": [
+				"in",
+				"symbo",
+				"BRET_LOCALE_SUP",
+				"LOCALE_4_SUP",
+				"LOCALE_3_SUP",
+				"LOCALE_2_SUP",
+				"LOCALE_1_SUP"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[9, 2],
+						[14, 3.5],
+						[15, 6],
+						[16, 8.4],
+						[17, 18.3]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier superieur - filet extérieur - route locale en construction",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sup",
+			"minzoom": 11,
+			"filter": ["==", "symbo", "LOCALE_CONSTR_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[9, 2],
+						[14, 3.5],
+						[15, 6],
+						[16, 8.4],
+						[17, 18.3]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier superieur - filet extérieur - route regionale",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sup",
+			"minzoom": 8,
+			"filter": [
+				"in",
+				"symbo",
+				"BRET_REGIONALE_SUP",
+				"REGIONALE_4_SUP",
+				"REGIONALE_3_SUP",
+				"REGIONALE_2_SUP",
+				"REGIONALE_1_SUP"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[6, 1.5],
+						[9, 2.3],
+						[14, 5],
+						[15, 8.1],
+						[16, 11.2],
+						[17, 22]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier superieur - filet extérieur - route regionale en construction",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sup",
+			"minzoom": 10,
+			"filter": ["==", "symbo", "REGIONALE_CONSTR_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[6, 1.5],
+						[9, 2.3],
+						[14, 5],
+						[15, 8.1],
+						[16, 11.2],
+						[17, 22]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier superieur - filet extérieur - route principale",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sup",
+			"minzoom": 8,
+			"filter": [
+				"in",
+				"symbo",
+				"BRET_PRINCIPALE_SUP",
+				"PRINCIPALE_4_SUP",
+				"PRINCIPALE_3_SUP",
+				"PRINCIPALE_2_SUP",
+				"PRINCIPALE_1_SUP"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[6, 1.8],
+						[9, 2.7],
+						[14, 5.9],
+						[15, 9],
+						[16, 12.2],
+						[17, 22.5]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier superieur - filet extérieur - route principale en construction",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sup",
+			"minzoom": 10,
+			"filter": ["==", "symbo", "PRINCIPALE_CONSTR_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[6, 1.8],
+						[9, 2.7],
+						[14, 5.9],
+						[15, 9],
+						[16, 12.2],
+						[17, 22.5]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier superieur - filet extérieur - autoroute",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sup",
+			"minzoom": 8,
+			"filter": ["in", "symbo", "AUTOROU_PEAGE_SUP", "AUTOROU_LIBRE_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[6, 2.5],
+						[9, 3.5],
+						[14, 7.5],
+						[15, 11],
+						[16, 15],
+						[17, 26]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier superieur - filet extérieur - autoroute en construction",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sup",
+			"minzoom": 10,
+			"filter": ["==", "symbo", "AUTOROU_CONSTR_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(198, 197, 183, 1)",
+				"line-width": {
+					"stops": [
+						[6, 2.5],
+						[9, 3.5],
+						[14, 7.5],
+						[15, 11],
+						[16, 15],
+						[17, 26]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier superieur - filet interieur - route non revetu carrosable restreint",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sup",
+			"minzoom": 5,
+			"filter": ["==", "symbo", "NON_REVETUE_CARRO_RESTREINT_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[14, 2.3],
+						[15, 4.1],
+						[16, 6.3],
+						[17, 13.5]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier superieur - filet interieur - route non revetu carrosable",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sup",
+			"minzoom": 5,
+			"filter": ["==", "symbo", "NON_REVETUE_CARRO_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[14, 2.3],
+						[15, 4.1],
+						[16, 6.3],
+						[17, 13.5]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier superieur - filet interieur - bretelle autoroute",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sup",
+			"minzoom": 12,
+			"filter": [
+				"in",
+				"symbo",
+				"BRET_AUTO_PEAGE_3_SUP",
+				"BRET_AUTO_PEAGE_2_SUP",
+				"BRET_AUTO_PEAGE_1_SUP",
+				"BRET_AUTO_LIBRE_3_SUP",
+				"BRET_AUTO_LIBRE_2_SUP",
+				"BRET_AUTO_LIBRE_1_SUP"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[12, 1.5],
+						[14, 2.6],
+						[15, 5.2],
+						[16, 6.7],
+						[17, 10.8]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier superieur - filet interieur - route non classee restreint",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sup",
+			"minzoom": 5,
+			"filter": ["==", "symbo", "NON_CLASSEE_RESTREINT_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[14, 2.3],
+						[15, 4.1],
+						[16, 6.3],
+						[17, 13.5]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier superieur - filet interieur - route non classee",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sup",
+			"minzoom": 5,
+			"filter": ["in", "symbo", "NON_CLASSEE_4_SUP", "NON_CLASSEE_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[14, 2.3],
+						[15, 4.1],
+						[16, 6.3],
+						[17, 13.5]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier superieur - filet interieur - route locale",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sup",
+			"minzoom": 5,
+			"filter": [
+				"in",
+				"symbo",
+				"BRET_LOCALE_SUP",
+				"LOCALE_4_SUP",
+				"LOCALE_3_SUP",
+				"LOCALE_2_SUP",
+				"LOCALE_1_SUP"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[9, 1.3],
+						[14, 2.3],
+						[15, 4.1],
+						[16, 6.1],
+						[17, 13.1]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier superieur - filet interieur - route locale en construction",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sup",
+			"minzoom": 11,
+			"filter": ["==", "symbo", "LOCALE_CONSTR_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[9, 2],
+						[14, 3.5],
+						[15, 6],
+						[16, 8.4],
+						[17, 18.3]
+					]
+				},
+				"line-dasharray": [2, 2]
+			}
+		},
+		{
+			"id": "Routier superieur - filet interieur - route regionale",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sup",
+			"minzoom": 5,
+			"filter": [
+				"in",
+				"symbo",
+				"BRET_REGIONALE_SUP",
+				"REGIONALE_4_SUP",
+				"REGIONALE_3_SUP",
+				"REGIONALE_2_SUP",
+				"REGIONALE_1_SUP"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[6, 1.4],
+						[9, 1.5],
+						[14, 3.2],
+						[15, 5.8],
+						[16, 8.3],
+						[17, 16.2]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier superieur - filet interieur - route regionale en construction",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sup",
+			"minzoom": 10,
+			"filter": ["==", "symbo", "REGIONALE_CONSTR_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[6, 1.5],
+						[9, 2.3],
+						[14, 5],
+						[15, 8.1],
+						[16, 11.2],
+						[17, 22]
+					]
+				},
+				"line-dasharray": [2, 2]
+			}
+		},
+		{
+			"id": "Routier superieur - filet interieur - route principale",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sup",
+			"minzoom": 5,
+			"filter": [
+				"in",
+				"symbo",
+				"BRET_PRINCIPALE_SUP",
+				"PRINCIPALE_4_SUP",
+				"PRINCIPALE_3_SUP",
+				"PRINCIPALE_2_SUP",
+				"PRINCIPALE_1_SUP"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[4, 0.5],
+						[6, 1.8],
+						[9, 2.1],
+						[14, 4.4],
+						[15, 7.3],
+						[16, 10],
+						[17, 18.5]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier superieur - filet interieur - route principale en construction",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sup",
+			"minzoom": 10,
+			"filter": ["==", "symbo", "PRINCIPALE_CONSTR_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[6, 1.8],
+						[9, 2.7],
+						[14, 5.9],
+						[15, 9],
+						[16, 12.2],
+						[17, 22.5]
+					]
+				},
+				"line-dasharray": [2, 2]
+			}
+		},
+		{
+			"id": "Routier superieur - filet interieur - autoroute",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sup",
+			"minzoom": 5,
+			"filter": ["in", "symbo", "AUTOROU_PEAGE_SUP", "AUTOROU_LIBRE_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[4, 0.7],
+						[6, 2.5],
+						[9, 2.7],
+						[14, 5.8],
+						[15, 9],
+						[16, 12],
+						[17, 20.8]
+					]
+				}
+			}
+		},
+		{
+			"id": "Routier superieur - axe central - autoroute",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sup",
+			"minzoom": 13,
+			"filter": ["in", "symbo", "AUTOROU_PEAGE_SUP", "AUTOROU_LIBRE_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(197, 197, 197, 1)",
+				"line-width": {
+					"stops": [
+						[9, 0.6],
+						[14, 0.7],
+						[15, 1],
+						[16, 1.2],
+						[17, 2.1]
+					]
+				},
+				"line-dasharray": [2, 4]
+			}
+		},
+		{
+			"id": "Routier superieur - filet interieur - autoroute en construction",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sup",
+			"minzoom": 10,
+			"filter": ["==", "symbo", "AUTOROU_CONSTR_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(255, 255, 255, 1)",
+				"line-width": {
+					"stops": [
+						[4, 0.7],
+						[6, 2.5],
+						[9, 3.5],
+						[14, 7.5],
+						[15, 11],
+						[16, 15],
+						[17, 26]
+					]
+				},
+				"line-dasharray": [2, 2]
+			}
+		},
+		{
+			"id": "Routier superieur - axe centrale - autoroute en construction",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "routier_route_sup",
+			"minzoom": 13,
+			"filter": ["==", "symbo", "AUTOROU_CONSTR_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(197, 197, 197, 1)",
+				"line-width": {
+					"stops": [
+						[9, 0.6],
+						[14, 0.7],
+						[15, 1],
+						[16, 1.2],
+						[17, 2.1]
+					]
+				},
+				"line-dasharray": [2, 4]
+			}
+		},
+		{
+			"id": "Ferre superieur - voie normale",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "ferre_sup",
+			"minzoom": 10,
+			"filter": [
+				"in",
+				"symbo",
+				"VF_1_SUP",
+				"VF_2_SUP",
+				"VF_3_SUP",
+				"VF_4_SUP",
+				"VF_ELEC_1_SUP",
+				"VF_ELEC_2_SUP",
+				"VF_ELEC_3_SUP",
+				"VF_ELEC_4_SUP"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(178, 178, 178, 1)",
+				"line-width": ["interpolate", ["linear"], ["zoom"], 14, 2, 20, 10]
+			}
+		},
+		{
+			"id": "Ferre superieur - voie normale trait perpendic",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "ferre_sup",
+			"minzoom": 10,
+			"filter": [
+				"in",
+				"symbo",
+				"VF_1_SUP",
+				"VF_2_SUP",
+				"VF_3_SUP",
+				"VF_4_SUP",
+				"VF_ELEC_1_SUP",
+				"VF_ELEC_2_SUP",
+				"VF_ELEC_3_SUP",
+				"VF_ELEC_4_SUP"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(178, 178, 178, 1)",
+				"line-width": {
+					"stops": [
+						[10, 3.5],
+						[17, 14.7]
+					]
+				},
+				"line-dasharray": [0.2, 6]
+			}
+		},
+		{
+			"id": "Ferre superieur - voie etroite",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "ferre_sup",
+			"minzoom": 10,
+			"filter": [
+				"in",
+				"symbo",
+				"VF_ETROITE_1_SUP",
+				"VF_ETROITE_2_SUP",
+				"VF_ETROITE_SUP"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(178, 178, 178, 1)",
+				"line-width": ["interpolate", ["linear"], ["zoom"], 14, 2, 20, 10]
+			}
+		},
+		{
+			"id": "Ferre superieur - voie etroite trait perpendic",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "ferre_sup",
+			"minzoom": 10,
+			"filter": [
+				"in",
+				"symbo",
+				"VF_ETROITE_1_SUP",
+				"VF_ETROITE_2_SUP",
+				"VF_ETROITE_SUP"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(178, 178, 178, 1)",
+				"line-width": {
+					"stops": [
+						[10, 3.5],
+						[17, 14.7]
+					]
+				},
+				"line-dasharray": [0.2, 6]
+			}
+		},
+		{
+			"id": "Ferre superieur - voie service",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "ferre_sup",
+			"minzoom": 14,
+			"filter": ["in", "symbo", "VF_SERVICE_SUP", "VF_NON_EXPLOITEE_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(178, 178, 178, 1)",
+				"line-width": ["interpolate", ["linear"], ["zoom"], 14, 1, 17, 2],
+				"line-dasharray": [5, 2, 1, 2]
+			}
+		},
+		{
+			"id": "Ferre superieur - voie en construction",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "ferre_sup",
+			"minzoom": 10,
+			"maxzoom": 18,
+			"filter": ["==", "symbo", "VF_EN_CONSTR_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(178, 178, 178, 1)",
+				"line-width": ["interpolate", ["linear"], ["zoom"], 14, 2, 20, 10],
+				"line-dasharray": [2, 2]
+			}
+		},
+		{
+			"id": "Ferre superieur - voie en construction trait perpendic",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "ferre_sup",
+			"minzoom": 10,
+			"maxzoom": 18,
+			"filter": ["==", "symbo", "VF_EN_CONSTR_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(178, 178, 178, 1)",
+				"line-width": {
+					"stops": [
+						[10, 3.5],
+						[17, 14.7]
+					]
+				},
+				"line-dasharray": [0.2, 6]
+			}
+		},
+		{
+			"id": "Ferre superieur - funic/urbain",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "ferre_sup",
+			"filter": ["in", "symbo", "FUNI_CREMAILLERE_SUP", "TRANSPORT_URBAIN_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(178, 178, 178, 1)",
+				"line-width": ["interpolate", ["linear"], ["zoom"], 14, 2, 20, 10]
+			}
+		},
+		{
+			"id": "Ferre superieur - 2 trait perpendic - funic/urbain",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "ferre_sup",
+			"filter": ["in", "symbo", "FUNI_CREMAILLERE_SUP", "TRANSPORT_URBAIN_SUP"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(178, 178, 178, 1)",
+				"line-width": {
+					"stops": [
+						[10, 3.5],
+						[17, 17]
+					]
+				},
+				"line-dasharray": [0.2, 0.2, 0.2, 6]
+			}
+		},
+		{
+			"id": "hydro ponctuel",
+			"type": "circle",
+			"source": "plan_ign",
+			"source-layer": "hydro_ponc",
+			"minzoom": 13,
+			"filter": [
+				"in",
+				"symbo",
+				"FONTAINE",
+				"POINT_D_EAU",
+				"SOURCE",
+				"SOURCE_CAPTEE",
+				"PERTE",
+				"RESURGENCE",
+				"CASCADE",
+				"AUTRE_HYDRO_PONC"
+			],
+			"layout": {
+				"visibility": "visible"
+			},
+			"paint": {
+				"circle-radius": {
+					"stops": [
+						[14, 3],
+						[17, 7],
+						[20, 30]
+					]
+				},
+				"circle-color": "rgba(162, 216, 224, 1)",
+				"circle-opacity": 1,
+				"circle-stroke-width": 0
+			}
+		},
+		{
+			"id": "autre construction linéaire",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "bati_lin",
+			"filter": [
+				"in",
+				"symbo",
+				"CABLE",
+				"REMONTEE_MEC",
+				"HYDROCARBURES",
+				"CONDUITE_MATIERES_P",
+				"SPORT_MONTAGNE_LIN",
+				"PISTE_BOBSLEIGH",
+				"PISTE_LUGE",
+				"PISTE_AERO_LIN"
+			],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "round",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "#808080",
+				"line-width": 1
+			}
+		},
+		{
+			"id": "autre construction linéaire - trait perpend cable",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "bati_lin",
+			"filter": ["==", "symbo", "CABLE"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "#808080",
+				"line-width": 5,
+				"line-dasharray": [0.5, 10]
+			}
+		},
+		{
+			"id": "autre construction linéaire - trait perpend 1 remont",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "bati_lin",
+			"filter": ["==", "symbo", "REMONTEE_MEC"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "#808080",
+				"line-width": 6,
+				"line-dasharray": [1, 10]
+			}
+		},
+		{
+			"id": "autre construction linéaire - trait perpend 2 remont",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "bati_lin",
+			"filter": ["==", "symbo", "REMONTEE_MEC"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "#BEBEBE",
+				"line-width": 6,
+				"line-dasharray": [0.3, 0.4, 0.3, 10]
+			}
+		},
+		{
+			"id": "autre construction linéaire - trait perpend carbur",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "bati_lin",
+			"filter": ["in", "symbo", "HYDROCARBURES", "CONDUITE_MATIERES_P"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "#808080",
+				"line-width": 5,
+				"line-dasharray": [1, 10]
+			}
+		},
+		{
+			"id": "Limites - Etat",
+			"type": "line",
+			"source": "plan_ign",
+			"source-layer": "limite_lin",
+			"minzoom": 0,
+			"maxzoom": 24,
+			"filter": ["in", "symbo", "LIM_ETAT", "LIM_ETAT_ETRANGER"],
+			"layout": {
+				"visibility": "visible",
+				"line-cap": "butt",
+				"line-join": "round"
+			},
+			"paint": {
+				"line-color": "rgba(141, 141, 141, 1)",
+				"line-width": 1,
+				"line-opacity": 1,
+				"line-dasharray": [1, 1]
+			}
+		},
+		{
+			"id": "Limites - Region",
+			"type": "line",
+			"metadata": {
+				"group": "admin_limits"
+			},
+			"source": "admin_express",
+			"source-layer": "region",
+			"minzoom": 6,
+			"maxzoom": 8,
+			"layout": {
+				"visibility": "none"
+			},
+			"paint": {
+				"line-color": "rgba(165, 165, 165, 1)",
+				"line-opacity": ["interpolate", ["linear"], ["zoom"], 6, 0, 6.3, 1],
+				"line-width": ["interpolate", ["linear"], ["zoom"], 6, 1, 12, 2]
+			}
+		},
+		{
+			"id": "Limites - Departement",
+			"type": "line",
+			"metadata": {
+				"group": "admin_limits"
+			},
+			"source": "admin_express",
+			"source-layer": "departement",
+			"minzoom": 7.5,
+			"maxzoom": 10.5,
+			"layout": {
+				"visibility": "none"
+			},
+			"paint": {
+				"line-color": "rgba(165, 165, 165, 1)",
+				"line-opacity": ["interpolate", ["linear"], ["zoom"], 7.5, 0, 7.8, 1],
+				"line-width": ["interpolate", ["linear"], ["zoom"], 6, 1, 12, 2]
+			}
+		},
+		{
+			"id": "Limites - EPCI",
+			"type": "line",
+			"metadata": {
+				"group": "admin_limits"
+			},
+			"source": "admin_express",
+			"source-layer": "epci",
+			"minzoom": 10,
+			"maxzoom": 12.5,
+			"layout": {
+				"visibility": "none"
+			},
+			"paint": {
+				"line-color": "rgba(165, 165, 165, 1)",
+				"line-opacity": ["interpolate", ["linear"], ["zoom"], 10, 0, 10.3, 1],
+				"line-width": ["interpolate", ["linear"], ["zoom"], 6, 1, 12, 2]
+			}
+		},
+		{
+			"id": "Limites - Commune",
+			"type": "line",
+			"metadata": {
+				"group": "admin_limits"
+			},
+			"source": "admin_express",
+			"source-layer": "commune",
+			"minzoom": 12,
+			"layout": {
+				"visibility": "none"
+			},
+			"paint": {
+				"line-color": "rgba(165, 165, 165, 1)",
+				"line-opacity": ["interpolate", ["linear"], ["zoom"], 12, 0, 12.3, 1],
+				"line-width": 2
+			}
+		},
+		{
+			"id": "toponyme - ocs lineaire 3",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_ocs_lin",
+			"filter": ["==", "txt_typo", "OCS_FORET_3"],
+			"layout": {
+				"symbol-placement": "line",
+				"text-field": "{texte}",
+				"text-size": 12,
+				"text-anchor": "center",
+				"text-keep-upright": true,
+				"text-max-angle": 45,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Italic"]
+			},
+			"paint": {
+				"text-color": "#287B00",
+				"text-halo-width": 1,
+				"text-halo-color": "rgba(255, 255, 255, 0.5)"
+			}
+		},
+		{
+			"id": "toponyme - ocs lineaire 2",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_ocs_lin",
+			"filter": ["==", "txt_typo", "OCS_FORET_2"],
+			"layout": {
+				"symbol-placement": "line",
+				"text-field": "{texte}",
+				"text-size": 15,
+				"text-anchor": "center",
+				"text-keep-upright": true,
+				"text-max-angle": 45,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#287B00",
+				"text-halo-width": 1,
+				"text-halo-color": "rgba(255, 255, 255, 0.5)"
+			}
+		},
+		{
+			"id": "toponyme - ocs lineaire 1",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_ocs_lin",
+			"filter": ["==", "txt_typo", "OCS_FORET_1"],
+			"layout": {
+				"symbol-placement": "line",
+				"text-field": "{texte}",
+				"text-size": 18,
+				"text-anchor": "center",
+				"text-keep-upright": true,
+				"text-padding": 1,
+				"text-max-angle": 45,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#287B00",
+				"text-halo-width": 1,
+				"text-halo-color": "rgba(255, 255, 255, 0.5)"
+			}
+		},
+		{
+			"id": "toponyme - ocs ponc 3",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_ocs_ponc",
+			"filter": ["==", "txt_typo", "OCS_FORET_3"],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 12,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-anchor": "center",
+				"text-font": ["Source Sans Pro Italic"]
+			},
+			"paint": {
+				"text-color": "#287B00",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme - ocs ponc 2",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_ocs_ponc",
+			"filter": ["==", "txt_typo", "OCS_FORET_2"],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 15,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-anchor": "center",
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#287B00",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme - ocs ponc 1",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_ocs_ponc",
+			"filter": ["==", "txt_typo", "OCS_FORET_1"],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 16,
+				"text-allow-overlap": true,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#287B00",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme - hydro lineaire glacier",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_hydro_lin",
+			"filter": ["in", "txt_typo", "ORO_GLACIER_1", "ORO_GLACIER_2"],
+			"layout": {
+				"symbol-placement": "line",
+				"text-field": "{texte}",
+				"text-size": 12,
+				"text-anchor": "center",
+				"text-keep-upright": true,
+				"text-max-angle": 45,
+				"text-font": ["Source Sans Pro Italic"]
+			},
+			"paint": {
+				"text-color": "#447FB3",
+				"text-halo-width": 1,
+				"text-halo-color": "rgba(255, 255, 255, 0.5)"
+			}
+		},
+		{
+			"id": "toponyme - hydro lineaire 4",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_hydro_lin",
+			"minzoom": 13,
+			"filter": [
+				"in",
+				"txt_typo",
+				"TYPO_D_6",
+				"TYPO_D_8",
+				"TYPO_D_9",
+				"TYPO_D_10"
+			],
+			"layout": {
+				"symbol-placement": "line",
+				"text-field": "{texte}",
+				"text-size": 12,
+				"text-anchor": "center",
+				"text-keep-upright": true,
+				"text-max-angle": 45,
+				"text-padding": 10,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#447FB3",
+				"text-halo-width": 1,
+				"text-halo-color": "rgba(255, 255, 255, 0.5)"
+			}
+		},
+		{
+			"id": "toponyme - hydro lineaire 3",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_hydro_lin",
+			"minzoom": 11,
+			"filter": [
+				"in",
+				"txt_typo",
+				"HYD_LIN_3",
+				"HYD_LIN_4",
+				"HYD_LIN_5",
+				"TYPO_D_LIN_3",
+				"TYPO_D_LIN_4",
+				"HYD_SURF_3",
+				"HYD_SURF_3_T",
+				"HYD_SURF_4",
+				"HYD_SURF_4_T",
+				"HYD_SURF_5",
+				"HYD_SURF_5_T",
+				"TYPO_D_5",
+				"TYPO_D_7"
+			],
+			"layout": {
+				"symbol-placement": "line",
+				"text-field": "{texte}",
+				"text-size": 12,
+				"text-anchor": "center",
+				"text-keep-upright": true,
+				"text-max-angle": 45,
+				"text-padding": 10,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#447FB3",
+				"text-halo-width": 1,
+				"text-halo-color": "rgba(255, 255, 255, 0.5)"
+			}
+		},
+		{
+			"id": "toponyme - hydro lineaire 2",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_hydro_lin",
+			"minzoom": 9,
+			"filter": [
+				"in",
+				"txt_typo",
+				"HYD_LIN_2",
+				"TYPO_D_LIN_2",
+				"HYD_SURF_2",
+				"HYD_SURF_2_T",
+				"TYPO_D_4"
+			],
+			"layout": {
+				"symbol-placement": "line",
+				"text-field": "{texte}",
+				"text-size": 12,
+				"text-anchor": "center",
+				"text-keep-upright": true,
+				"text-max-angle": 45,
+				"text-padding": 10,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#447FB3",
+				"text-halo-width": 1,
+				"text-halo-color": "rgba(255, 255, 255, 0.5)"
+			}
+		},
+		{
+			"id": "toponyme - hydro lineaire 1",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_hydro_lin",
+			"minzoom": 7,
+			"filter": [
+				"in",
+				"txt_typo",
+				"HYD_LIN_1",
+				"HYD-LIN-1",
+				"TYPO_D_LIN_1",
+				"HYD_SURF_1",
+				"HYD_SURF_1_T",
+				"TYPO_D_1",
+				"TYPO_D_2",
+				"TYPO_D_3_T",
+				"TYPO_D_4_T"
+			],
+			"layout": {
+				"symbol-placement": "line",
+				"text-field": "{texte}",
+				"text-size": 12,
+				"text-anchor": "center",
+				"text-keep-upright": true,
+				"text-max-angle": 45,
+				"text-padding": 10,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#447FB3",
+				"text-halo-width": 1,
+				"text-halo-color": "rgba(255, 255, 255, 0.5)"
+			}
+		},
+		{
+			"id": "toponyme - hydro lineaire ocean",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_hydro_lin",
+			"filter": ["==", "txt_typo", "OCEAN_MER"],
+			"layout": {
+				"symbol-placement": "line",
+				"text-field": "{texte}",
+				"text-size": 14,
+				"text-anchor": "center",
+				"text-keep-upright": true,
+				"text-max-angle": 45,
+				"text-padding": 10,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#447FB3",
+				"text-halo-width": 1,
+				"text-halo-color": "rgba(255, 255, 255, 0.5)"
+			}
+		},
+		{
+			"id": "toponyme - hydro ponc glacier",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_hydro_ponc",
+			"filter": ["==", "txt_typo", "ORO_GLACIER_2"],
+			"layout": {
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 12,
+				"text-anchor": "center",
+				"text-allow-overlap": true,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Italic"],
+				"visibility": "visible"
+			},
+			"paint": {
+				"text-color": "#447FB3",
+				"text-halo-width": 1,
+				"text-halo-color": "rgba(255, 255, 255, 0.5)"
+			}
+		},
+		{
+			"id": "toponyme - hydro ponc 5",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_hydro_ponc",
+			"minzoom": 15,
+			"filter": ["in", "txt_typo", "TYPO_D_9", "TYPO_D_10", "TYPO_E_1_cyan"],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 12,
+				"text-allow-overlap": true,
+				"text-padding": 5,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#447FB3",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme - hydro ponc 4",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_hydro_ponc",
+			"minzoom": 13,
+			"filter": [
+				"in",
+				"txt_typo",
+				"HYD_SURF_4",
+				"HYD_SURF_4_T",
+				"HYD_SURF_5",
+				"HYD_SURF_5_T",
+				"TYPO_D_8",
+				"SOURCE"
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 12,
+				"text-allow-overlap": true,
+				"text-padding": 5,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#447FB3",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme - hydro ponc 3",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_hydro_ponc",
+			"minzoom": 9,
+			"filter": [
+				"in",
+				"txt_typo",
+				"HYD_SURF_3",
+				"TYPO_D_5",
+				"TYPO_D_6",
+				"TYPO_D_7"
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 12,
+				"text-allow-overlap": true,
+				"text-padding": 10,
+				"text-font": ["Source Sans Pro Regular"],
+				"symbol-z-order": "auto",
+				"symbol-avoid-edges": false,
+				"icon-allow-overlap": false,
+				"icon-ignore-placement": false,
+				"icon-rotation-alignment": "auto",
+				"icon-keep-upright": false,
+				"icon-pitch-alignment": "auto"
+			},
+			"paint": {
+				"text-color": "#447FB3",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1,
+				"text-translate-anchor": "map"
+			}
+		},
+		{
+			"id": "toponyme - hydro ponc 2B",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_hydro_ponc",
+			"minzoom": 7,
+			"filter": ["in", "txt_typo", "TYPO_D_3", "TYPO_D_4"],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 14,
+				"text-allow-overlap": false,
+				"text-padding": 10,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#447FB3",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme - hydro ponc 2",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_hydro_ponc",
+			"minzoom": 8,
+			"filter": ["in", "txt_typo", "moyen", "HYD_SURF_2", "TYPO_D_2"],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 14,
+				"text-allow-overlap": false,
+				"text-padding": 10,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#447FB3",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme - hydro ponc 1",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_hydro_ponc",
+			"minzoom": 5,
+			"filter": ["in", "txt_typo", "mer", "grand", "HYD_SURF_1", "TYPO_D_1"],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 14,
+				"text-allow-overlap": true,
+				"text-padding": 10,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#447FB3",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme - hydro ponc ocean",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_hydro_ponc",
+			"minzoom": 1,
+			"filter": ["==", "txt_typo", "ocean"],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": {
+					"stops": [
+						[1, 10],
+						[6, 20]
+					]
+				},
+				"text-allow-overlap": true,
+				"text-anchor": "center",
+				"text-padding": 10,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#447FB3",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme - oro lineaire 4",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_oro_lin",
+			"filter": ["in", "txt_typo", "ORO_SOMMET_3", "ORO_GORGE_2"],
+			"layout": {
+				"symbol-placement": "line",
+				"text-field": "{texte}",
+				"text-size": 11,
+				"text-anchor": "center",
+				"text-keep-upright": true,
+				"text-max-angle": 45,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Italic"]
+			},
+			"paint": {
+				"text-color": "#863831",
+				"text-halo-width": 1,
+				"text-halo-color": "rgba(255, 255, 255, 0.5)"
+			}
+		},
+		{
+			"id": "toponyme - oro lineaire 3",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_oro_lin",
+			"filter": [
+				"in",
+				"txt_typo",
+				"ORO_ILE_3",
+				"ORO_RELIEF_3",
+				"ORO_RELIEF_3_T",
+				"ORO_RELIEF_4",
+				"ORO_RELIEF_4_T",
+				"ORO_CAP_2",
+				"ORO_CAP_3",
+				"ORO_SOMMET_2",
+				"ORO_COL_2",
+				"ORO_GORGE_1",
+				"ORO_GORGE-1"
+			],
+			"layout": {
+				"symbol-placement": "line",
+				"text-field": "{texte}",
+				"text-size": 12,
+				"text-anchor": "center",
+				"text-keep-upright": true,
+				"text-max-angle": 45,
+				"text-padding": 10,
+				"text-font": ["Source Sans Pro Italic"]
+			},
+			"paint": {
+				"text-color": "#863831",
+				"text-halo-width": 1,
+				"text-halo-color": "rgba(255, 255, 255, 0.5)"
+			}
+		},
+		{
+			"id": "toponyme - oro lineaire 2",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_oro_lin",
+			"filter": [
+				"in",
+				"txt_typo",
+				"ORO_ILE_2",
+				"ORO_RELIEF_2",
+				"ORO_RELIEF_2_T",
+				"ORO_CAP_1",
+				"ORO_SOMMET_1"
+			],
+			"layout": {
+				"symbol-placement": "line",
+				"text-field": "{texte}",
+				"text-size": 15,
+				"text-anchor": "center",
+				"text-keep-upright": true,
+				"text-padding": 10,
+				"text-max-angle": 45,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#863831",
+				"text-halo-width": 1,
+				"text-halo-color": "rgba(255, 255, 255, 0.5)"
+			}
+		},
+		{
+			"id": "toponyme - oro lineaire 1",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_oro_lin",
+			"filter": [
+				"in",
+				"txt_typo",
+				"ORO_ILE_1",
+				"ORO_RELIEF_1",
+				"ORO_RELIEF_1_T"
+			],
+			"layout": {
+				"symbol-placement": "line",
+				"text-field": "{texte}",
+				"text-size": 20,
+				"text-anchor": "center",
+				"text-keep-upright": true,
+				"text-padding": 5,
+				"text-max-angle": 45,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#863831",
+				"text-halo-width": 1,
+				"text-halo-color": "rgba(255, 255, 255, 0.5)"
+			}
+		},
+		{
+			"id": "toponyme - oro ponc 4",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_oro_ponc",
+			"minzoom": 15,
+			"filter": [
+				"in",
+				"txt_typo",
+				"ORO_SOMMET_3",
+				"ORO_GORGE_2",
+				"GROTTE",
+				"GORGE",
+				"TYPO_G_8",
+				"TYPO_G_9"
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": {
+					"stops": [
+						[13, 11],
+						[16, 16]
+					]
+				},
+				"text-allow-overlap": true,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Italic"]
+			},
+			"paint": {
+				"text-color": "#863831",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme - oro ponc 3",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_oro_ponc",
+			"minzoom": 14,
+			"filter": [
+				"in",
+				"txt_typo",
+				"ORO_ILE_3",
+				"ORO_RELIEF_3",
+				"ORO_RELIEF_3_T",
+				"ORO_RELIEF_4",
+				"ORO_RELIEF_4_T",
+				"ORO_CAP_2",
+				"ORO_CAP_3",
+				"ORO_SOMMET_2",
+				"ORO_COL_2",
+				"ORO_GORGE_1",
+				"ORO_GORGE-1",
+				"TYPO_G_6",
+				"TYPO_G_7"
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 14,
+				"text-allow-overlap": true,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Italic"]
+			},
+			"paint": {
+				"text-color": "#863831",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme - oro ponc 2B",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_oro_ponc",
+			"minzoom": 9,
+			"filter": ["==", "txt_typo", "TYPO_G_4"],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": {
+					"stops": [
+						[13, 15],
+						[16, 19]
+					]
+				},
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#863831",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme - oro ponc 2",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_oro_ponc",
+			"minzoom": 9,
+			"filter": [
+				"in",
+				"txt_typo",
+				"ORO_ILE_2",
+				"ORO_RELIEF_2",
+				"ORO_RELIEF_2_T",
+				"ORO_CAP_1",
+				"ORO_COL_1",
+				"TYPO_G_5",
+				"ORO_SOMMET_1"
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 14,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#863831",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme - oro ponc 1B",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_oro_ponc",
+			"minzoom": 8,
+			"filter": ["in", "txt_typo", "TYPO_G_2", "TYPO_G_3"],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 14,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#863831",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme - oro ponc 1",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_oro_ponc",
+			"minzoom": 8,
+			"filter": [
+				"in",
+				"txt_typo",
+				"ORO_ILE_1",
+				"ORO_RELIEF_1",
+				"ORO_RELIEF_1_T",
+				"TYPO_G_1"
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 16,
+				"text-allow-overlap": true,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#863831",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme - oro ponc monde",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_oro_ponc",
+			"minzoom": 5,
+			"filter": [
+				"in",
+				"txt_typo",
+				"Basin",
+				"Depression",
+				"Desert",
+				"Geoarea",
+				"Gorge",
+				"Isthmus",
+				"Lake",
+				"Lowland",
+				"Pen/cape",
+				"Plain",
+				"Plateau",
+				"Range/mtn",
+				"Tundra",
+				"Valley",
+				"Island",
+				"Island group"
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 12,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Italic"]
+			},
+			"paint": {
+				"text-color": "#863831",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme - liaison maritime",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_routier_liaison_lin",
+			"minzoom": 8,
+			"maxzoom": 18,
+			"filter": ["in", "txt_typo", "LIAISON_MARITIME", "LIAISON_MAR"],
+			"layout": {
+				"symbol-placement": "line",
+				"text-field": "{texte}",
+				"text-size": 15,
+				"text-anchor": "center",
+				"text-keep-upright": true,
+				"text-max-angle": 45,
+				"text-padding": 10,
+				"text-font": ["Source Sans Pro Italic"],
+				"visibility": "visible"
+			},
+			"paint": {
+				"text-color": "#5792C2",
+				"text-halo-width": 1,
+				"text-halo-color": "rgba(255, 255, 255, 0.5)"
+			}
+		},
+		{
+			"id": "toponyme bati station de métro + bati ponctuel metro",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_bati_ponc",
+			"minzoom": 14,
+			"filter": [
+				"all",
+				["==", "txt_typo", "TYPO_E_1"],
+				["==", "symbo", "STATION_METRO"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 11,
+				"text-allow-overlap": false,
+				"text-offset": [0.3, -0.25],
+				"text-padding": 3,
+				"text-anchor": "bottom-left",
+				"text-font": ["Source Sans Pro"],
+				"icon-image": "Metro",
+				"icon-size": {
+					"stops": [
+						[15, 0.33],
+						[17, 0.6]
+					]
+				}
+			},
+			"paint": {
+				"text-color": "#3C3C3C",
+				"icon-color": "#646464"
+			}
+		},
+		{
+			"id": "toponyme ferre lineaire",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_ferre_lin",
+			"minzoom": 12,
+			"filter": ["in", "txt_typo", "FER_NOM", "FER_OUVRAGE"],
+			"layout": {
+				"symbol-placement": "line",
+				"text-field": "{texte}",
+				"text-size": 10,
+				"text-anchor": "center",
+				"text-offset": [0, -1],
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-width": 1,
+				"text-halo-color": "rgba(255, 255, 255, 1)"
+			}
+		},
+		{
+			"id": "toponyme religieux zoom 17 à 19",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_bati_ponc",
+			"minzoom": 16,
+			"filter": ["==", "txt_typo", "religieux"],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 11,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Italic"]
+			},
+			"paint": {
+				"text-color": "#000000"
+			}
+		},
+		{
+			"id": "toponyme religieux ge zoom 18 à 19",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_bati_ponc",
+			"minzoom": 17,
+			"filter": ["==", "txt_typo", "religieux_ge"],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 11,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Italic"]
+			},
+			"paint": {
+				"text-color": "#000000"
+			}
+		},
+		{
+			"id": "toponyme parc d'attractions zoom 15 à 19",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_bati_ponc",
+			"minzoom": 14,
+			"filter": [
+				"all",
+				["==", "txt_typo", "divers_bati"],
+				["==", "symbo", "PARC_ATTRACTIONS"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 11,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Italic"]
+			},
+			"paint": {
+				"text-color": "#000000"
+			}
+		},
+		{
+			"id": "toponyme parc d'attractions ge zoom 18 à 19",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_bati_ponc",
+			"minzoom": 17,
+			"filter": [
+				"all",
+				["==", "txt_typo", "divers_bati_ge"],
+				["==", "symbo", "PARC_ATTRACTIONS"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 11,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Italic"]
+			},
+			"paint": {
+				"text-color": "#000000"
+			}
+		},
+		{
+			"id": "toponyme bati divers",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_bati_ponc",
+			"minzoom": 15,
+			"filter": [
+				"all",
+				["==", "txt_typo", "divers_bati"],
+				["in", "symbo", "CENTRALE_ELECTRIQUE", "HIPPODROME", "STADE"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 11,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Italic"]
+			},
+			"paint": {
+				"text-color": "#000000"
+			}
+		},
+		{
+			"id": "toponyme Hippodrome ge zoom 15 a 17",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_bati_ponc",
+			"minzoom": 14,
+			"maxzoom": 17,
+			"filter": [
+				"all",
+				["==", "txt_typo", "divers_bati_ge"],
+				["==", "symbo", "HIPPODROME"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{designation}",
+				"text-size": 11,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Italic"]
+			},
+			"paint": {
+				"text-color": "#000000"
+			}
+		},
+		{
+			"id": "toponyme bati divers ge zoom 18 à 19",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_bati_ponc",
+			"minzoom": 17,
+			"filter": [
+				"all",
+				["==", "txt_typo", "divers_bati_ge"],
+				["in", "symbo", "CENTRALE_ELECTRIQUE", "HIPPODROME", "STADE"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 11,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Italic"]
+			},
+			"paint": {
+				"text-color": "#000000"
+			}
+		},
+		{
+			"id": "toponyme chateau",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_bati_ponc",
+			"minzoom": 16,
+			"filter": [
+				"all",
+				["==", "txt_typo", "divers_bati"],
+				["in", "symbo", "CHATEAU", "CHATEAU_FORT"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 11,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Italic"]
+			},
+			"paint": {
+				"text-color": "#000000"
+			}
+		},
+		{
+			"id": "toponyme chateau ge",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_bati_ponc",
+			"minzoom": 17,
+			"filter": [
+				"all",
+				["==", "txt_typo", "divers_bati_ge"],
+				["==", "symbo", "CHATEAU"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 11,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Italic"]
+			},
+			"paint": {
+				"text-color": "#000000"
+			}
+		},
+		{
+			"id": "toponyme station epuration, de pompage, usine de production eau",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_bati_ponc",
+			"minzoom": 14,
+			"filter": ["==", "txt_typo", "station"],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{designation}",
+				"text-anchor": "left",
+				"text-offset": [0.8, 0],
+				"text-size": 11,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Italic"]
+			},
+			"paint": {
+				"text-color": "#447FB3"
+			}
+		},
+		{
+			"id": "toponyme bati ponc gare",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_bati_ponc",
+			"minzoom": 15,
+			"filter": ["==", "txt_typo", "gore"],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{designation}",
+				"text-size": 11,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Italic"]
+			},
+			"paint": {
+				"text-color": "#000000"
+			}
+		},
+		{
+			"id": "toponyme bati ponc barrage",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_bati_ponc",
+			"minzoom": 12,
+			"filter": ["==", "txt_typo", "BARRAGE_PONC"],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-anchor": "left",
+				"text-offset": [0.8, 0],
+				"text-size": 11,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro"]
+			},
+			"paint": {
+				"text-color": "#447FB3"
+			}
+		},
+		{
+			"id": "toponyme bati ponc phare - niveau 13",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_bati_ponc",
+			"maxzoom": 13,
+			"filter": ["==", "txt_typo", "PHARE"],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-anchor": "right",
+				"text-size": 11,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro"]
+			},
+			"paint": {
+				"text-color": "#532A2A"
+			}
+		},
+		{
+			"id": "toponyme bati ponc phare - niveau 14à19",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_bati_ponc",
+			"minzoom": 14,
+			"filter": [
+				"all",
+				["==", "symbo", "PHARE"],
+				["in", "txt_typo", "TYPO_C_6", "TYPO_C_7", "TYPO_C_8", "TYPO_E_GE"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-anchor": "right",
+				"text-size": {
+					"stops": [
+						[13, 12],
+						[18, 18]
+					]
+				},
+				"text-allow-overlap": false,
+				"text-offset": [-2, 0],
+				"text-padding": 3,
+				"text-font": ["Source Sans Pro"]
+			},
+			"paint": {
+				"text-color": "#532A2A"
+			}
+		},
+		{
+			"id": "toponyme bati ponc autre",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_bati_ponc",
+			"minzoom": 13,
+			"filter": [
+				"in",
+				"txt_typo",
+				"BAT_ACTIVITE",
+				"BAT_FORTIF",
+				"BAT_VILLAGE_DETRUIT"
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-anchor": "center",
+				"text-size": 11,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro"]
+			},
+			"paint": {
+				"text-color": "#532A2A"
+			}
+		},
+		{
+			"id": "toponyme bati ponc aeroport 12",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_bati_ponc",
+			"minzoom": 11,
+			"maxzoom": 12,
+			"filter": ["==", "txt_typo", "AEROPORT_PONC"],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-anchor": "bottom",
+				"text-offset": [0, -1.3],
+				"text-size": 10.5,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro"]
+			},
+			"paint": {
+				"text-color": "#120049",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme bati ponc aeroport 13",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_bati_ponc",
+			"minzoom": 12,
+			"maxzoom": 13,
+			"filter": ["==", "txt_typo", "AEROPORT_PONC"],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-anchor": "bottom",
+				"text-offset": [0, -2],
+				"text-size": 11,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro"]
+			},
+			"paint": {
+				"text-color": "#120049",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme bati ponc aeroport",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_bati_ponc",
+			"minzoom": 13,
+			"maxzoom": 17,
+			"filter": [
+				"all",
+				["==", "txt_typo", "TYPO_A_5"],
+				["==", "symbo", "AEROPORT"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-anchor": "center",
+				"text-size": {
+					"stops": [
+						[12, 11],
+						[16, 13]
+					]
+				},
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro"]
+			},
+			"paint": {
+				"text-color": "#120049",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme bati ponc aerodrome 12",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_bati_ponc",
+			"minzoom": 11,
+			"maxzoom": 12,
+			"filter": ["==", "txt_typo", "AERODROME_PONC"],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-anchor": "bottom",
+				"text-offset": [0, -1.3],
+				"text-size": 9.5,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro"]
+			},
+			"paint": {
+				"text-color": "#120049",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme bati ponc aerodrome 13",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_bati_ponc",
+			"minzoom": 12,
+			"maxzoom": 13,
+			"filter": ["in", "txt_typo", "AERODROME_PONC", "AERODROME_IMPORT_PONC"],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-anchor": "bottom",
+				"text-offset": [0, -2],
+				"text-size": 10,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro"]
+			},
+			"paint": {
+				"text-color": "#120049",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme bati ponc aerodrome",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_bati_ponc",
+			"minzoom": 13,
+			"maxzoom": 17,
+			"filter": [
+				"all",
+				["==", "txt_typo", "TYPO_A_7"],
+				["==", "symbo", "AERODROME"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-anchor": "center",
+				"text-size": {
+					"stops": [
+						[12, 10],
+						[16, 12]
+					]
+				},
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro"]
+			},
+			"paint": {
+				"text-color": "#120049",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme - limite parc ponc 3 et 4",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_limite_ponc",
+			"filter": [
+				"in",
+				"txt_typo",
+				"LIM_PARC_3",
+				"LIM_PARC_4",
+				"RESERVE_NATURELLE_PONC"
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 13,
+				"text-allow-overlap": false,
+				"text-padding": 2,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#287B00",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme numéro de route - départementale",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_routier_numero_lin",
+			"minzoom": 11,
+			"maxzoom": 16,
+			"filter": ["==", "txt_typo", "Départementale"],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "line",
+				"text-field": "{texte}",
+				"text-size": 10.5,
+				"text-allow-overlap": false,
+				"text-padding": 2,
+				"text-anchor": "center",
+				"text-font": ["Source Sans Pro Semibold"],
+				"text-rotation-alignment": "viewport"
+			},
+			"paint": {
+				"text-color": "#4D4D4D",
+				"text-halo-color": "rgba(255, 255, 255, 1)",
+				"text-halo-width": 4
+			}
+		},
+		{
+			"id": "toponyme numéro de route - nationale",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_routier_numero_lin",
+			"minzoom": 8,
+			"maxzoom": 16,
+			"filter": ["==", "txt_typo", "Nationale"],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "line",
+				"text-field": "{texte}",
+				"text-size": 12,
+				"text-allow-overlap": false,
+				"text-padding": 0,
+				"text-anchor": "center",
+				"text-font": ["Source Sans Pro Regular"],
+				"icon-image": "Ecluse",
+				"icon-rotation-alignment": "viewport",
+				"text-rotation-alignment": "viewport",
+				"icon-text-fit": "both",
+				"icon-size": 0
+			},
+			"paint": {
+				"text-color": "rgba(255, 255, 255, 1)",
+				"text-halo-color": "rgba(150, 150, 150, 1)",
+				"text-halo-width": 4
+			}
+		},
+		{
+			"id": "toponyme numéro de route - autoroute",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_routier_numero_lin",
+			"minzoom": 7,
+			"maxzoom": 16,
+			"filter": ["==", "txt_typo", "Autoroute"],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "line",
+				"text-field": "{texte}",
+				"text-size": 12,
+				"text-allow-overlap": false,
+				"text-padding": 0,
+				"text-anchor": "center",
+				"text-font": ["Source Sans Pro Regular"],
+				"icon-image": "Ecluse",
+				"icon-rotation-alignment": "viewport",
+				"text-rotation-alignment": "viewport",
+				"icon-text-fit": "both",
+				"icon-size": 0
+			},
+			"paint": {
+				"text-color": "#F0F0F0",
+				"icon-color": "#646464",
+				"text-halo-color": "rgba(133, 133, 133, 1)",
+				"text-halo-width": 4
+			}
+		},
+		{
+			"id": "toponyme - odonyme abrégé",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_routier_odonyme_lin",
+			"minzoom": 15,
+			"maxzoom": 17,
+			"layout": {
+				"symbol-placement": "line",
+				"text-field": "{nom_gauche}",
+				"text-size": 10,
+				"text-anchor": "center",
+				"text-max-angle": 30,
+				"text-font": ["Source Sans Pro Regular"],
+				"visibility": "none"
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-width": 1,
+				"text-halo-color": "rgba(255, 255, 255, 1)"
+			}
+		},
+		{
+			"id": "toponyme - odonyme desabrégé",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_routier_odonyme_lin",
+			"minzoom": 15,
+			"layout": {
+				"symbol-placement": "line",
+				"text-field": "{nom_desabrege}",
+				"text-size": 11,
+				"text-anchor": "center",
+				"text-max-angle": 30,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-width": 1,
+				"text-halo-color": "rgba(255, 255, 255, 1)"
+			}
+		},
+		{
+			"id": "toponyme - lieu dit non habité 3",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_ocs_ponc",
+			"minzoom": 14,
+			"filter": [
+				"all",
+				["==", "symbo", "LIEU-DIT_NON_HABITE"],
+				["in", "txt_typo", "TYPO_B_10", "TYPO_B_11"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 11,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Italic"]
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme - bois",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_ocs_ponc",
+			"minzoom": 13,
+			"filter": [
+				"all",
+				["==", "symbo", "BOIS"],
+				["in", "txt_typo", "TYPO_F_9", "TYPO_F_10"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 12,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Italic"]
+			},
+			"paint": {
+				"text-color": "#287B00",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme quartier ",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_localite_ponc",
+			"filter": ["in", "txt_typo", "BAT_QUARTIER", "BAT_QUARTIER_T"],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 11,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Italic"]
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme localite n0 typo_E_GE Quartier",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_localite_ponc",
+			"minzoom": 17,
+			"maxzoom": 18,
+			"filter": [
+				"all",
+				["==", "symbo", "QUARTIER"],
+				["==", "txt_typo", "TYPO_E_GE"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": {
+					"stops": [
+						[15, 11],
+						[17, 13.5]
+					]
+				},
+				"text-allow-overlap": true,
+				"text-anchor": "center",
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme localite n0 typo_E_GE Lieu-dit",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_localite_ponc",
+			"minzoom": 16,
+			"maxzoom": 18,
+			"filter": [
+				"all",
+				["==", "symbo", "LIEU-DIT-HABITE"],
+				["==", "txt_typo", "TYPO_E_GE"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": {
+					"stops": [
+						[15, 11],
+						[17, 13.5]
+					]
+				},
+				"text-allow-overlap": true,
+				"text-anchor": "center",
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme localite n0 typoA10",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_localite_ponc",
+			"minzoom": 15,
+			"maxzoom": 18,
+			"filter": ["==", "txt_typo", "TYPO_A_10"],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": {
+					"stops": [
+						[15, 11],
+						[17, 13.5]
+					]
+				},
+				"text-allow-overlap": true,
+				"text-anchor": "center",
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Regular"],
+				"icon-allow-overlap": false
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme - lieu dit non habité",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_ocs_ponc",
+			"minzoom": 14,
+			"filter": [
+				"all",
+				["==", "symbo", "LIEU-DIT_NON_HABITE"],
+				["in", "txt_typo", "TYPO_B_7", "TYPO_B_8", "TYPO_B_9"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 12,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Italic"]
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme - bois 2",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_ocs_ponc",
+			"minzoom": 12,
+			"filter": [
+				"all",
+				["==", "symbo", "BOIS"],
+				["in", "txt_typo", "TYPO_F_6", "TYPO_F_7", "TYPO_F_8"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 14,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Italic"]
+			},
+			"paint": {
+				"text-color": "#287B00",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme localite hameau ",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_localite_ponc",
+			"minzoom": 12,
+			"maxzoom": 13,
+			"filter": ["in", "txt_typo", "BAT_HAMEAU", "BAT_HAMEAU_T"],
+			"layout": {
+				"visibility": "none",
+				"symbol-placement": "point",
+				"icon-image": "Localite",
+				"icon-size": 0.17,
+				"text-field": "{texte}",
+				"text-size": 11,
+				"text-allow-overlap": false,
+				"text-anchor": "bottom-left",
+				"text-offset": [0.3, 0.1],
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme - lieu dit non habité 1",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_ocs_ponc",
+			"minzoom": 14,
+			"filter": [
+				"all",
+				["==", "symbo", "LIEU-DIT_NON_HABITE"],
+				["in", "txt_typo", "TYPO_B_5", "TYPO_B_4"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 15,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Italic"]
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme - bois 1",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_ocs_ponc",
+			"filter": [
+				"all",
+				["==", "symbo", "BOIS"],
+				["in", "txt_typo", "TYPO_F_5", "TYPO_F_4"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 16,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Italic"]
+			},
+			"paint": {
+				"text-color": "#287B00",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme - bois 0",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_ocs_ponc",
+			"filter": [
+				"all",
+				["==", "symbo", "BOIS"],
+				["in", "txt_typo", "TYPO_F_3", "TYPO_F_2"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 18,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Italic"]
+			},
+			"paint": {
+				"text-color": "#287B00",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme bati ponc zai zoom 17 a 19",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_bati_ponc",
+			"minzoom": 16,
+			"filter": ["==", "txt_typo", "zai"],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 11,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Italic"]
+			},
+			"paint": {
+				"text-color": "#000000"
+			}
+		},
+		{
+			"id": "toponyme bati ponc zai_15",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_bati_ponc",
+			"minzoom": 15,
+			"filter": ["==", "txt_typo", "zai_15"],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 11,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Italic"]
+			},
+			"paint": {
+				"text-color": "#000000"
+			}
+		},
+		{
+			"id": "toponyme bati ponc zai vert",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_bati_ponc",
+			"minzoom": 16,
+			"filter": ["==", "txt_typo", "zai_vert"],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 11,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Italic"]
+			},
+			"paint": {
+				"text-color": "#287B00",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme bati ponc zai beige",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_bati_ponc",
+			"minzoom": 16,
+			"filter": ["==", "txt_typo", "zai_beige"],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 11,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Italic"]
+			},
+			"paint": {
+				"text-color": "#686042",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme bati ponc monuments zoom 15 à 19",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_bati_ponc",
+			"minzoom": 14,
+			"filter": [
+				"all",
+				["==", "txt_typo", "divers_bati"],
+				["==", "symbo", "MONUMENT"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 11,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Italic"]
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme bati ponc monuments ge zoom 18 à 19",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_bati_ponc",
+			"minzoom": 17,
+			"filter": [
+				"all",
+				["==", "txt_typo", "divers_bati_ge"],
+				["==", "symbo", "MONUMENT"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 11,
+				"text-allow-overlap": false,
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Italic"]
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme - limite parc marin",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_limite_ponc",
+			"minzoom": 8,
+			"filter": ["in", "txt_typo", "PARC_MARIN_1", "PARC_MARIN_2"],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 14,
+				"text-allow-overlap": false,
+				"text-padding": 10,
+				"text-transform": "uppercase",
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#2A81A2",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme - limite parc ponc 1 et 2",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_limite_ponc",
+			"minzoom": 8,
+			"filter": [
+				"in",
+				"txt_typo",
+				"LIM_PARC_1",
+				"LIM_PARC_2",
+				"PARC_1",
+				"PARC_2"
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 14,
+				"text-allow-overlap": false,
+				"text-padding": 10,
+				"text-transform": "uppercase",
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#287B00",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme localite n0 typoA9",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_localite_ponc",
+			"minzoom": 14,
+			"maxzoom": 18,
+			"filter": ["==", "txt_typo", "TYPO_A_9"],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 12,
+				"text-allow-overlap": true,
+				"text-anchor": "center",
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme localite n0 typoA8 non commune",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_localite_ponc",
+			"minzoom": 13,
+			"maxzoom": 18,
+			"filter": [
+				"all",
+				["!=", "symbo", "COMMUNE_FUSIONNEE"],
+				["!=", "symbo", "COMMUNE_CHEF_LIEU"],
+				["==", "txt_typo", "TYPO_A_8"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 12,
+				"text-allow-overlap": true,
+				"text-anchor": "center",
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme localite n0 typoA7 non commune",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_localite_ponc",
+			"minzoom": 13,
+			"maxzoom": 18,
+			"filter": [
+				"all",
+				["!=", "symbo", "COMMUNE_FUSIONNEE"],
+				["!=", "symbo", "COMMUNE_CHEF_LIEU"],
+				["==", "txt_typo", "TYPO_A_7"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 12,
+				"text-allow-overlap": true,
+				"text-anchor": "center",
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Regular"],
+				"icon-allow-overlap": false
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme localite n0 typoA5etA6 non commune",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_localite_ponc",
+			"minzoom": 13,
+			"maxzoom": 18,
+			"filter": [
+				"all",
+				["!=", "symbo", "COMMUNE_FUSIONNEE"],
+				["!=", "symbo", "COMMUNE_CHEF_LIEU"],
+				["in", "txt_typo", "TYPO_A_5", "TYPO_A_6"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 12,
+				"text-allow-overlap": true,
+				"text-anchor": "center",
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme localite n0 typoA4 non commune",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_localite_ponc",
+			"minzoom": 13,
+			"maxzoom": 16,
+			"filter": [
+				"all",
+				["!=", "symbo", "COMMUNE_FUSIONNEE"],
+				["!=", "symbo", "COMMUNE_CHEF_LIEU"],
+				["==", "txt_typo", "TYPO_A_4"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 13,
+				"text-allow-overlap": true,
+				"text-anchor": "center",
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme localite n0 typoA3 non commune",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_localite_ponc",
+			"minzoom": 13,
+			"maxzoom": 16,
+			"filter": [
+				"all",
+				["!=", "symbo", "COMMUNE_FUSIONNEE"],
+				["!=", "symbo", "COMMUNE_CHEF_LIEU"],
+				["==", "txt_typo", "TYPO_A_3"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 14,
+				"text-allow-overlap": true,
+				"text-anchor": "center",
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme localite n0 typoA2 non commune",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_localite_ponc",
+			"minzoom": 13,
+			"maxzoom": 16,
+			"filter": [
+				"all",
+				["!=", "symbo", "COMMUNE_FUSIONNEE"],
+				["!=", "symbo", "COMMUNE_CHEF_LIEU"],
+				["==", "txt_typo", "TYPO_A_2"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 15,
+				"text-allow-overlap": true,
+				"text-anchor": "center",
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme localite n0 typoA1 non commune",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_localite_ponc",
+			"minzoom": 13,
+			"maxzoom": 16,
+			"filter": [
+				"all",
+				["!=", "symbo", "COMMUNE_FUSIONNEE"],
+				["!=", "symbo", "COMMUNE_CHEF_LIEU"],
+				["==", "txt_typo", "TYPO_A_1"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 16,
+				"text-allow-overlap": true,
+				"text-anchor": "center",
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme localite n0 typoA8 commune",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_localite_ponc",
+			"minzoom": 13,
+			"maxzoom": 18,
+			"filter": [
+				"all",
+				["in", "symbo", "COMMUNE_FUSIONNEE", "COMMUNE_CHEF_LIEU"],
+				["==", "txt_typo", "TYPO_A_8"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 12,
+				"text-allow-overlap": true,
+				"text-anchor": "center",
+				"text-padding": 1,
+				"text-transform": "none",
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme localite n0 typoA7 commune",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_localite_ponc",
+			"minzoom": 13,
+			"maxzoom": 18,
+			"filter": [
+				"all",
+				["in", "symbo", "COMMUNE_FUSIONNEE", "COMMUNE_CHEF_LIEU"],
+				["==", "txt_typo", "TYPO_A_7"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 12,
+				"text-allow-overlap": true,
+				"text-anchor": "center",
+				"text-padding": 1,
+				"text-transform": "none",
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme localite n0 typoA5etA6 commune",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_localite_ponc",
+			"minzoom": 13,
+			"maxzoom": 18,
+			"filter": [
+				"all",
+				["in", "symbo", "COMMUNE_FUSIONNEE", "COMMUNE_CHEF_LIEU"],
+				["in", "txt_typo", "TYPO_A_5", "TYPO_A_6"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 12,
+				"text-allow-overlap": true,
+				"text-anchor": "center",
+				"text-padding": 1,
+				"text-transform": "none",
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme localite n0 typoA4 commune",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_localite_ponc",
+			"minzoom": 13,
+			"maxzoom": 16,
+			"filter": [
+				"all",
+				["in", "symbo", "COMMUNE_FUSIONNEE", "COMMUNE_CHEF_LIEU"],
+				["==", "txt_typo", "TYPO_A_4"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 13,
+				"text-allow-overlap": true,
+				"text-anchor": "center",
+				"text-padding": 1,
+				"text-transform": "none",
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme localite n0 typoA3 commune",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_localite_ponc",
+			"minzoom": 13,
+			"maxzoom": 16,
+			"filter": [
+				"all",
+				["in", "symbo", "COMMUNE_FUSIONNEE", "COMMUNE_CHEF_LIEU"],
+				["==", "txt_typo", "TYPO_A_3"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 14,
+				"text-allow-overlap": true,
+				"text-anchor": "center",
+				"text-padding": 1,
+				"text-transform": "none",
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme localite n0 typoA2 commune",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_localite_ponc",
+			"minzoom": 13,
+			"maxzoom": 16,
+			"filter": [
+				"all",
+				["in", "symbo", "COMMUNE_FUSIONNEE", "COMMUNE_CHEF_LIEU"],
+				["==", "txt_typo", "TYPO_A_2"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 15,
+				"text-allow-overlap": true,
+				"text-anchor": "center",
+				"text-padding": 1,
+				"text-transform": "none",
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme localite n0 typoA1 commune",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_localite_ponc",
+			"minzoom": 13,
+			"maxzoom": 16,
+			"filter": [
+				"all",
+				["in", "symbo", "COMMUNE_FUSIONNEE", "COMMUNE_CHEF_LIEU"],
+				["==", "txt_typo", "TYPO_A_1"]
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 16,
+				"text-allow-overlap": true,
+				"text-anchor": "center",
+				"text-padding": 1,
+				"text-transform": "none",
+				"text-font": ["Source Sans Pro Bold"]
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme localite importance 6et7 - Special DOM",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_localite_ponc",
+			"minzoom": 12,
+			"maxzoom": 13,
+			"filter": ["in", "txt_typo", "TYPO_A_6", "TYPO_A_7"],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 12.5,
+				"text-allow-overlap": false,
+				"text-anchor": "center",
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme localite importance 5",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_localite_ponc",
+			"minzoom": 12,
+			"maxzoom": 13,
+			"filter": [
+				"in",
+				"txt_typo",
+				"TYPO_A_5",
+				"BAT_COMMUNE_5",
+				"BAT_COMMUNE_5_T",
+				"BAT_CHEF_LIEU_COM",
+				"BAT_CHEF_LIEU_COM_T",
+				"BAT_CHEF_LIEU_COM-T",
+				"BAT_ANCIENNE_COM",
+				"BAT_ANCIENNE_COM_T",
+				"BAT_COMMUNE_ASSOCIEE",
+				"BAT_COMMUNE_ASSOCIEE_T",
+				"Commune très petite"
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": 11.5,
+				"text-allow-overlap": false,
+				"text-anchor": "center",
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme localite importance 4",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_localite_ponc",
+			"minzoom": 11,
+			"maxzoom": 13,
+			"filter": [
+				"in",
+				"txt_typo",
+				"TYPO_A_4",
+				"BAT_COMMUNE_4",
+				"BAT_COMMUNE_4_T"
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"icon-size": 0.4,
+				"text-field": "{texte}",
+				"text-size": 13,
+				"text-allow-overlap": false,
+				"text-anchor": "center",
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme localite importance 3",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_localite_ponc",
+			"minzoom": 7.5,
+			"maxzoom": 13,
+			"filter": [
+				"in",
+				"txt_typo",
+				"commune 3",
+				"TYPO_A_3",
+				"BAT_COMMUNE_3",
+				"BAT_COMMUNE_3_T"
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": {
+					"stops": [
+						[7.5, 12],
+						[12, 13]
+					]
+				},
+				"text-allow-overlap": false,
+				"text-anchor": "center",
+				"text-padding": 1,
+				"text-font": ["Source Sans Pro Regular"],
+				"text-transform": "none"
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme localite importance 2",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_localite_ponc",
+			"minzoom": 7,
+			"maxzoom": 13,
+			"filter": [
+				"in",
+				"txt_typo",
+				"commune 2",
+				"TYPO_A_2",
+				"BAT_COMMUNE_2",
+				"BAT_COMMUNE-2",
+				"BAT_COMMUNE_2_T"
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": {
+					"stops": [
+						[5, 12],
+						[7, 14]
+					]
+				},
+				"text-allow-overlap": false,
+				"text-anchor": "center",
+				"text-padding": 1,
+				"text-transform": "none",
+				"text-font": ["Source Sans Pro Bold"]
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1,
+				"icon-halo-width": 4
+			}
+		},
+		{
+			"id": "toponyme localite importance 1",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_localite_ponc",
+			"minzoom": 7,
+			"maxzoom": 13,
+			"filter": [
+				"in",
+				"txt_typo",
+				"commune 1",
+				"TYPO_A_1",
+				"BAT_COMMUNE_1",
+				"BAT_COMMUNE_1_T"
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"text-field": "{texte}",
+				"text-size": {
+					"stops": [
+						[3, 12],
+						[6, 15]
+					]
+				},
+				"text-allow-overlap": false,
+				"text-anchor": "center",
+				"text-padding": 1,
+				"text-transform": "none",
+				"text-font": ["Source Sans Pro Bold"]
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1
+			}
+		},
+		{
+			"id": "toponyme localite importance 2 avec point",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_localite_ponc",
+			"minzoom": 5,
+			"maxzoom": 7,
+			"filter": [
+				"in",
+				"txt_typo",
+				"commune 2",
+				"TYPO_A_2",
+				"BAT_COMMUNE_2",
+				"BAT_COMMUNE-2",
+				"BAT_COMMUNE_2_T"
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"icon-image": "circle_11",
+				"icon-size": 0.5,
+				"text-field": "{texte}",
+				"text-size": {
+					"stops": [
+						[5, 12],
+						[7, 14]
+					]
+				},
+				"text-allow-overlap": false,
+				"text-anchor": "left",
+				"text-padding": 1,
+				"text-transform": "none",
+				"text-font": ["Source Sans Pro Bold"],
+				"text-justify": "left",
+				"text-offset": [0.5, -0.05]
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1,
+				"icon-halo-width": 4
+			}
+		},
+		{
+			"id": "toponyme localite importance 1  avec point",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_localite_ponc",
+			"minzoom": 3,
+			"maxzoom": 7,
+			"filter": [
+				"in",
+				"txt_typo",
+				"commune 1",
+				"TYPO_A_1",
+				"BAT_COMMUNE_1",
+				"BAT_COMMUNE_1_T"
+			],
+			"layout": {
+				"visibility": "visible",
+				"symbol-placement": "point",
+				"icon-image": "circle_11",
+				"icon-size": 0.5,
+				"text-field": "{texte}",
+				"text-size": {
+					"stops": [
+						[3, 12],
+						[6, 15]
+					]
+				},
+				"text-allow-overlap": false,
+				"text-anchor": "left",
+				"text-padding": 1,
+				"text-transform": "none",
+				"text-font": ["Source Sans Pro Bold"],
+				"text-justify": "left",
+				"text-offset": [0.5, -0.05]
+			},
+			"paint": {
+				"text-color": "#000000",
+				"text-halo-color": "rgba(255, 255, 255, 0.5)",
+				"text-halo-width": 1,
+				"icon-opacity": 1
+			}
+		},
+		{
+			"id": "toponyme pays 3",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_localite_ponc",
+			"minzoom": 4,
+			"maxzoom": 5,
+			"filter": ["==", "txt_typo", "pays 3"],
+			"layout": {
+				"visibility": "visible",
+				"text-field": "{texte}",
+				"text-size": 9,
+				"text-allow-overlap": true,
+				"text-anchor": "center",
+				"text-padding": 1,
+				"text-transform": "uppercase",
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#787878",
+				"text-halo-color": "rgba(255, 255, 255, 1)",
+				"text-halo-width": 1,
+				"text-halo-blur": 1
+			}
+		},
+		{
+			"id": "toponyme pays 2",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_localite_ponc",
+			"minzoom": 2,
+			"maxzoom": 5,
+			"filter": ["==", "txt_typo", "pays 2"],
+			"layout": {
+				"visibility": "visible",
+				"text-field": "{texte}",
+				"text-size": 13,
+				"text-allow-overlap": true,
+				"text-anchor": "center",
+				"text-padding": 2,
+				"text-transform": "uppercase",
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#787878",
+				"text-halo-color": "rgba(255, 255, 255, 1)",
+				"text-halo-width": 1,
+				"text-halo-blur": 1
+			}
+		},
+		{
+			"id": "toponyme pays 1",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_localite_ponc",
+			"minzoom": 2,
+			"maxzoom": 5,
+			"filter": ["==", "txt_typo", "pays 1"],
+			"layout": {
+				"visibility": "visible",
+				"text-field": "{texte}",
+				"text-size": 13,
+				"text-allow-overlap": true,
+				"text-anchor": "center",
+				"text-padding": 2,
+				"text-transform": "uppercase",
+				"text-font": ["Source Sans Pro Regular"]
+			},
+			"paint": {
+				"text-color": "#787878",
+				"text-halo-color": "rgba(255, 255, 255, 1)",
+				"text-halo-width": 1,
+				"text-halo-blur": 1
+			}
+		},
+		{
+			"id": "toponyme continent",
+			"type": "symbol",
+			"source": "plan_ign",
+			"source-layer": "toponyme_localite_ponc",
+			"maxzoom": 3,
+			"filter": ["==", "txt_typo", "continent"],
+			"layout": {
+				"visibility": "visible",
+				"text-field": "{texte}",
+				"text-size": 15,
+				"text-allow-overlap": true,
+				"text-anchor": "center",
+				"text-padding": 1,
+				"text-transform": "uppercase",
+				"text-font": ["Source Sans Pro Bold"]
+			},
+			"paint": {
+				"text-color": "#787878",
+				"text-halo-color": "rgba(255, 255, 255, 1)",
+				"text-halo-width": 2,
+				"text-halo-blur": 1
+			}
+		}
+	],
+	"id": "simple",
+	"owner": "Carte Facile (IGN)"
+}

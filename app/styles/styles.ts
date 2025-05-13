@@ -1,4 +1,5 @@
-import { getFetchUrlBase } from '../serverUrls'
+import ignClair from '@/app/styles/ign-clair.json'
+import ignSimple from '@/app/styles/ign-simple.json'
 import cassini from './cassiniIgnStyle'
 import cyclOsm from './cyclOsmStyle'
 import elections from './elections'
@@ -68,14 +69,14 @@ export const styles = {
 		group: 'ign',
 	},
 	'ign-simple': {
-		url: getFetchUrlBase() + '/api/carte-facile-ign?style=' + 'simple',
+		url: ignSimple,
 		name: 'IGN simple',
 		attribution: '© IGN',
 		imageAlt: "Logo de l'IGN",
 		group: 'ign',
 	},
 	'ign-clair': {
-		url: getFetchUrlBase() + '/api/carte-facile-ign?style=' + 'desaturated',
+		url: ignClair,
 		name: 'IGN clair',
 		attribution: '© IGN',
 		imageAlt: "Logo de l'IGN",

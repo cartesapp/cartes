@@ -79,8 +79,6 @@
 		"@watergis/maplibre-gl-terradraw": "^1.3.11",
 		"babel-plugin-react-compiler": "^19.0.0-beta-37ed2a7-20241206",
 		"babel-plugin-webpack-alias": "^2.1.2",
-		"canvas": "^3.1.0",
-		"carte-facile": "0.5",
 		"contentlayer2": "v0.5.8",
 		"copy-webpack-plugin": "^12.0.2",
 		"date-fns": "^4.1.0",
