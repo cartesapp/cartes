@@ -176,8 +176,6 @@ export const buildStepFromOverpassWayOrRelation = (
 		  // for some tasks
 		  centerOfMass(geojson)
 
-	console.log('indigo enquête', element, elements, geojson)
-
 	const { tags } = element
 
 	return {
