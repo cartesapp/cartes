@@ -142,7 +142,11 @@ export default function QuickFeatureSearch({
 										<SpinningDiscBorder />
 									)}
 									<Link
-										href={getNewSearchParamsLink(category)}
+										href={
+											annuaireMode
+												? setSearchParams({ cat: category.name }, true, true)
+												: getNewSearchParamsLink(category)
+										}
 										replace={false}
 										prefetch={false}
 									>
