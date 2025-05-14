@@ -33,7 +33,8 @@ export default function CategoryResults({
 				}
 			}),
 		results = sortBy((result) => result.distance)(resultsWithoutOrder)
-	if (!results.length) return null
+
+	console.log('purple rain', resultsEntries, results)
 	return (
 		<Section>
 			<ResultsSummary>
@@ -46,6 +47,7 @@ export default function CategoryResults({
 							{i < resultsEntries.length - 1 && ', '}
 						</div>
 					))}
+					{results.length === 0 && 'dans cette zone'}
 				</div>
 				{resultsEntries.length > 0 && (
 					<Link href={setSearchParams({ cat: undefined }, true)}>

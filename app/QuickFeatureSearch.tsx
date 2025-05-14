@@ -87,6 +87,10 @@ export default function QuickFeatureSearch({
 		searchParams,
 		setSearchParams
 	)
+
+	const resultsEntries = Object.entries(quickSearchFeaturesMap).filter(
+		([k, v]) => categoriesSet.includes(k)
+	)
 	return (
 		<div
 			css={css`
@@ -186,13 +190,14 @@ export default function QuickFeatureSearch({
 					doFilter={doFilter}
 				/>
 			)}
-			<CategoryResults
-				center={center}
-				annuaireMode={annuaireMode}
-				resultsEntries={Object.entries(quickSearchFeaturesMap).filter(
-					([k, v]) => categoriesSet.includes(k)
-				)}
-			/>
+
+			{categoriesSet.length > 0 && (
+				<CategoryResults
+					center={center}
+					annuaireMode={annuaireMode}
+					resultsEntries={resultsEntries}
+				/>
+			)}
 		</div>
 	)
 }

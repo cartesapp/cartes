@@ -8,6 +8,7 @@ import { filteredMoreCategories as moreCategories } from '@/components/categorie
 import computeBboxArea from '@/components/utils/computeBboxArea'
 
 export async function fetchOverpassRequest(bbox, category) {
+	console.log('purple fetchOverpassRequest')
 	const surface = computeBboxArea(bbox)
 
 	if (surface / 1000000 > 1000) {
