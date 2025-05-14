@@ -5,7 +5,7 @@ export function middleware(request: NextRequest) {
 	const UA = userAgent(request)
 
 	console.log('url ', url.href, url.searchParams.toString())
-	console.log('UA ', UA)
+	console.log('IsBot ', UA.isBot, ' UA ', UA.ua)
 
 	const response = NextResponse.next()
 	return response
