@@ -9,7 +9,6 @@ export const stepOsmRequest = async (point, state = [], geocode = false) => {
 	// those constitute the encoding of a place in the "allez" url query param
 	const [name, osmCode, longitude, latitude] = point.split('|')
 
-	console.log('lightgreen will enrichState', { isServer }, state)
 	const found = state
 		.filter(Boolean)
 		.find(

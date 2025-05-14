@@ -44,6 +44,7 @@ export const osmRequest = async (featureType, id) => {
 			"This OSM feature is neither a node, a relation or a way, we don't know how to handle it"
 		)
 
+	/*
 	console.log(
 		'lightgreen will make OSM request',
 		featureType,
@@ -51,6 +52,7 @@ export const osmRequest = async (featureType, id) => {
 		'full : ',
 		full
 	)
+	*/
 
 	// We tried setting up a local OSM api based on osm2psql
 	// that enables bypassing overpass, which is quite a slow
