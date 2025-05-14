@@ -28,7 +28,9 @@ export default async function Page({ params, searchParams }) {
 
 	const results = categories?.length
 		? await Promise.all(
-				categories.map((category) => fetchOverpassRequest(bbox, category))
+				categories.map((category) =>
+					fetchOverpassRequest(bbox, category, false)
+				)
 		  )
 		: []
 

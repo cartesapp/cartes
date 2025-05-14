@@ -7,12 +7,20 @@ import { resilientOverpassFetch } from '@/app/overpassFetcher'
 import { filteredMoreCategories as moreCategories } from '@/components/categories'
 import computeBboxArea from '@/components/utils/computeBboxArea'
 
-export async function fetchOverpassRequest(bbox, category) {
-	console.log('purple fetchOverpassRequest')
+const surfaceDivider = 1000000
+export async function fetchOverpassRequest(
+	bbox,
+	category,
+	limitQuerySurface = true
+) {
 	const surface = computeBboxArea(bbox)
 
-	if (surface / 1000000 > 1000) {
-		return console.log('Surface considered too big for overpass API')
+	if (limitQuerySurface && surface / surfaceDivider > 1000) {
+		return console.log(
+			`Surface ${
+				surface / surfaceDivider
+			} is considered too big (> 1000) for overpass API`
+		)
 	}
 
 	const queries =
