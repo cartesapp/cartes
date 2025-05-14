@@ -188,6 +188,7 @@ export default function QuickFeatureSearch({
 					categoriesSet={categoriesSet}
 					filteredMoreCategories={filteredMoreCategories}
 					doFilter={doFilter}
+					annuaireMode={annuaireMode}
 				/>
 			)}
 

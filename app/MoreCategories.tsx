@@ -13,6 +13,7 @@ export default function MoreCategories({
 	categoriesSet,
 	filteredMoreCategories,
 	doFilter,
+	annuaireMode = false,
 }) {
 	const groups = filteredMoreCategories.reduce((memo, next) => {
 		return {
@@ -32,12 +33,13 @@ export default function MoreCategories({
 	return (
 		<Wrapper>
 			<ol>
-				{!doFilter && ( //si pas de recherche en cours, on affiche ce message
-					<p style={{ marginBottom: '.4rem' }}>
-						Astuce : encore plus de catégories disponibles via la barre de
-						recherche
-					</p>
-				)}
+				{!annuaireMode &&
+					!doFilter && ( //si pas de recherche en cours, on affiche ce message
+						<p style={{ marginBottom: '.4rem' }}>
+							Astuce : encore plus de catégories disponibles via la barre de
+							recherche
+						</p>
+					)}
 				{Object.entries(groups).map(([group, categories]) => {
 					const groupColor = categoryGroupColors[group]
 					const expandGroup = group == largeGroup
