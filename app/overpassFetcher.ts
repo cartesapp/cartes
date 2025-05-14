@@ -34,7 +34,7 @@ export async function resilientOverpassFetch(
 			const data = await response.json()
 
 			// Si on arrive ici, la requête a réussi, on retourne les données
-			console.log(`Requête Overpass réussie via ${suffix}`)
+			//console.log(`Requête Overpass réussie via ${suffix}`)
 			return data
 		} catch (error) {
 			// Stocke l'erreur et continue avec le prochain suffixe

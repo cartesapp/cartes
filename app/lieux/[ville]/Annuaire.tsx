@@ -15,12 +15,13 @@ export default async function Page({ params, searchParams }) {
 	const { ville: villeName } = params
 
 	const ville = await fetchVille(villeName)
-	console.log('VILLE', ville)
 
 	const [lon, lat] = ville.mairie.coordinates
 	const lonLatObject = { lat, lon }
 
 	const [categoryNames, categories] = getCategories(searchParams)
+
+	console.log(`/lieux/${ville.nom}`, 'with categories ', categoryNames)
 	//const bbox2 = computeBbox(lonLatObject)
 	const geoJsonBbox = ville.bbox.coordinates[0]
 	const b = geoJsonBbox

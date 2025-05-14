@@ -35,7 +35,7 @@ export async function fetchOverpassRequest(
 	const overpassRequest = buildOverpassRequest(queryCore)
 
 	const query = encodeURIComponent(overpassRequest)
-	console.log('OVERPASS2 query:', query)
+	//	console.log('OVERPASS2 query:', overpassRequest)
 	const json = await resilientOverpassFetch(query)
 
 	const nodeElements = convertOverpassCategoryResultsToSteps(
