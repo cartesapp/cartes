@@ -52,7 +52,7 @@ export default async function Page({ params, searchParams }) {
 				<small>({ville.codesPostaux.join(', ')})</small>
 				<p>{description}</p>
 				<Link
-					href={`/?${query}#13/${lat}/${lon}`}
+					href={`/?${query}&bbox=${bbox.join(',')}`}
 					title="Ouvrir la carte en plein écran"
 				>
 					<PlaceImage

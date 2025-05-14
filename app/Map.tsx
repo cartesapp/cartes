@@ -176,8 +176,21 @@ export default function Map(props) {
 			[bbox[0], bbox[1]],
 			[bbox[2], bbox[3]],
 		]
-		map.fitBounds(mapLibreBBox, { padding })
+		map.fitBounds(mapLibreBBox, { padding, duration: 1 })
 	}, [map, agency])
+
+	const givenBbox = searchParams.bbox
+	useEffect(() => {
+		if (!map || !givenBbox) return
+
+		const bounds = givenBbox.split(',')
+
+		const mapLibreBBox = [
+			[bounds[1], bounds[0]],
+			[bounds[3], bounds[2]],
+		]
+		map.fitBounds(mapLibreBBox, { padding })
+	}, [map, givenBbox])
 
 	useDrawElectionClusterResults(map, styleKey, searchParams.filtre)
 
