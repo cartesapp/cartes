@@ -34,20 +34,19 @@ export default function CategoryResults({
 			}),
 		results = sortBy((result) => result.distance)(resultsWithoutOrder)
 
-	console.log('purple rain', resultsEntries, results)
 	return (
 		<Section>
 			<ResultsSummary>
 				<div>
 					{resultsEntries.map(([k, v], i) => (
-						<div key={k}>
+						<span key={k}>
 							<span>
 								<span>{v.length}</span> <span>{k.toLowerCase()}</span>
 							</span>
 							{i < resultsEntries.length - 1 && ', '}
-						</div>
+						</span>
 					))}
-					{results.length === 0 && 'dans cette zone'}
+					<span> trouvés dans cette zone.</span>
 				</div>
 				{resultsEntries.length > 0 && (
 					<Link href={setSearchParams({ cat: undefined }, true)}>
@@ -78,6 +77,7 @@ const ResultsSummary = styled.div`
 	display: flex;
 	justify-content: space-between;
 	margin-left: 0.2rem;
+	margin-top: 0.4rem;
 	> div > span {
 		color: #666;
 		font-size: 90%;
@@ -85,5 +85,6 @@ const ResultsSummary = styled.div`
 	img {
 		width: 0.9rem;
 		height: auto;
+		vertical-align: middle;
 	}
 `
