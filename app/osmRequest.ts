@@ -101,7 +101,29 @@ export const osmElementRequest = async (featureType, id) => {
 		}
 
 		// 2. handle the case of several way elements for the same street
-		// TODO
+		if (
+			element.type === 'way' &&
+			['residential', 'tertiary', 'secondary'].includes(tags['highway'])
+			// TODO do we need to add other highway values ?
+		) {
+			// fetch the associatedStreet relation which include this way
+			const relation = await fetchAssociatedStreet(element)
+			// if street relation found
+			if (relation) {
+				// use relation instead of way
+				// but merge both tags (with priority to way tags)
+				const newTags = omit(['type'], {
+					...relation.tags,
+					...element.tags,
+				})
+				element = {
+					...relation,
+					tags: newTags,
+				}
+			} else {
+				//TODO : if no relation, fetch other ways by name
+			}
+		}
 
 		//return the extended Overpass element (with osmCode, geojson, center, ...)
 		return extendOverpassElement(element)
