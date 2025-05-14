@@ -26,8 +26,6 @@ export async function geocodeGetAddress(latitude, longitude) {
 	try {
 		const candidates = await geocodeLatLon(latitude, longitude)
 
-		console.log(candidates)
-
 		const features = candidates?.data?.features
 		if (!features) return null
 
