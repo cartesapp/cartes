@@ -67,7 +67,41 @@ export const osmElementRequest = async (featureType, id) => {
 			console.error('OVERPASS OSM element not found', `${featureType}/${id}`)
 			return null
 		}
-		const [element] = json.elements
+		var [element] = json.elements
+		const tags = element.tags || {}
+
+		// In this function used to fetch only 1 element, we authorize a few more queries to add
+		// intel coming from related elements (mostly relation of which the element is a member)
+
+		// 1. handle the case of a house in an associatedStreet relation, to get street name
+		// https://wiki.openstreetmap.org/wiki/Relation:associatedStreet
+		// example : https://www.openstreetmap.org/node/3663795073
+		if (
+			element.type === 'node' &&
+			tags['addr:housenumber'] &&
+			!tags['addr:street']
+		) {
+			// fetch the associatedStreet relation which include this node
+			const relation = await fetchAssociatedStreet(element)
+			//if associatedStreet relation found
+			if (relation) {
+				//merge tags of street and house
+				const newTags = omit(['type'], {
+					...relation.tags,
+					'addr:street': relation.tags.name,
+					name: `${tags['addr:housenumber']} ${relation.tags.name}`,
+					...element.tags, //fill overwrite previous one if same key
+				})
+				//update the element with the additional tags
+				element = {
+					...element,
+					tags: newTags,
+				}
+			}
+		}
+
+		// 2. handle the case of several way elements for the same street
+		// TODO
 
 		//return the extended Overpass element (with osmCode, geojson, center, ...)
 		return extendOverpassElement(element)
@@ -143,62 +177,11 @@ export const extendOverpassElement = (element) => {
 
 	const tags = element.tags || {}
 
-	// handle the case of a house in an associatedStreet relation
-	// https://wiki.openstreetmap.org/wiki/Relation:associatedStreet
-	// example : https://www.openstreetmap.org/node/3663795073
-	// is this old comment still true? : TODO this is broken, test and repair it,
-	// taking into account the new format of the state feature
-	if (
-		element.type === 'node' &&
-		tags['addr:housenumber'] &&
-		!tags['addr:street'] &&
-		!tags['name']
-	) {
-		try {
-			// fetch all the relations which include this node
-			const relationQuery = buildOverpassElementQuery(
-				element.type,
-				element.id,
-				false,
-				true
-			)
-			const json = resilientOverpassFetch(relationQuery)
-
-			// find the relation of type associatedStreet
-			const relation = json.elements.find((element) => {
-				const {
-					tags: { type: osmType },
-				} = element
-
-				return osmType === 'associatedStreet'
-			})
-
-			//if street relation found
-			if (relation) {
-				//build new tags for name and addr:street using name from the associatedStreet relation
-				const newTags = omit(['type'], {
-					...relation.tags,
-					'addr:street': relation.tags.name,
-					name: `${tags['addr:housenumber']} ${relation.tags.name}`,
-				})
-				//extend the element with the additional tags
-				element = {
-					...element,
-					tags: { ...element.tags, ...newTags },
-				}
-			}
-		} catch (e) {
-			console.error('Overpass error while fetching associatedStreet relation')
-		}
-	}
-
 	// Handle the case of the role admin_centre in a type=boundary relation
 	const adminCentre = null
 	if (element.type == 'relation' && tags['type'] == 'boundary') {
 		adminCentre = element.members?.find((el) => el.role === 'admin_centre')
 	}
-
-	// TODO handle the case of several way elements for the same street
 
 	// calculate geojson and center
 	const geojson = buildGeojsonFromOverpassElement(element)
@@ -219,5 +202,37 @@ export const extendOverpassElement = (element) => {
 		center,
 		elements: [], //should not be used anymore ?
 		requestState: 'success', // TODO why this ?
+	}
+}
+
+/**
+ * Build and fetch an Overpass query to get the associatedStreet relation which include this element
+ * @param element the requested OSM element
+ * @returns the associatedStreet relation (or undefined if not found or if error)
+ */
+const fetchAssociatedStreet = async (element) => {
+	try {
+		// fetch all the relations which include this element
+		const relationQuery = buildOverpassElementQuery(
+			element.type,
+			element.id,
+			false,
+			true
+		)
+		const json = await resilientOverpassFetch(relationQuery)
+		console.log('Etienne fetchAssociatedStreet', json)
+		// find the relation of type associatedStreet and return it
+		const relation = json.elements.find((element) => {
+			const {
+				tags: { type: osmType },
+			} = element
+
+			return osmType === 'associatedStreet'
+		})
+		return relation
+	} catch (e) {
+		// if error, log and return null
+		console.log('Overpass error while fetching associatedStreet relation', e)
+		return undefined
 	}
 }
