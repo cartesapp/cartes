@@ -3,7 +3,11 @@ import { motisServerUrl } from '@/app/serverUrls'
 export const buildRequestBody = (trips) => {
 	const tripIdObjects = trips.map((trip) => trip.id)
 	const body = {
-		trips: tripIdObjects,
+		destination: { type: 'Module', target: '/railviz/get_trips' },
+		content_type: 'RailVizTripsRequest',
+		content: {
+			trips: tripIdObjects,
+		},
 	}
 	return body
 }
@@ -12,7 +16,7 @@ export const computeMotisTrips = async (trips) => {
 	const body = buildRequestBody(trips)
 
 	try {
-		const request = await fetch(`${motisServerUrl}/railviz/get_trips`, {
+		const request = await fetch(motisServerUrl, {
 			method: 'POST',
 			body: JSON.stringify(body),
 			headers: {
