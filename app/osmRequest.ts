@@ -90,7 +90,7 @@ export const osmElementRequest = async (featureType, id) => {
 					...relation.tags,
 					'addr:street': relation.tags.name,
 					name: `${tags['addr:housenumber']} ${relation.tags.name}`,
-					...element.tags, //fill overwrite previous one if same key
+					...element.tags, //will overwrite previous one if same key
 				})
 				//update the element with the additional tags
 				element = {
@@ -106,23 +106,8 @@ export const osmElementRequest = async (featureType, id) => {
 			['residential', 'tertiary', 'secondary'].includes(tags['highway'])
 			// TODO do we need to add other highway values ?
 		) {
-			// fetch the associatedStreet relation which include this way
-			const relation = await fetchAssociatedStreet(element)
-			// if street relation found
-			if (relation) {
-				// use relation instead of way
-				// but merge both tags (with priority to way tags)
-				const newTags = omit(['type'], {
-					...relation.tags,
-					...element.tags,
-				})
-				element = {
-					...relation,
-					tags: newTags,
-				}
-			} else {
-				//TODO : if no relation, fetch other ways by name
-			}
+			// fetch all the ways of the street as an associatedStreet-like relation
+			element = await fetchStreet(element)
 		}
 
 		//return the extended Overpass element (with osmCode, geojson, center, ...)
@@ -145,11 +130,14 @@ export const osmElementRequest = async (featureType, id) => {
 const buildGeojsonFromOverpassElement = (element) => {
 	// test if type is correct
 	if (!element) return console.error('OVERPASS Element is undefined')
-	if (!element.type || !['node', 'way', 'relation'].includes(element.type))
+	if (
+		!element.type ||
+		!['node', 'way', 'multiway', 'relation'].includes(element.type)
+	)
 		return console.error('OVERPASS Wrong OSM type while reading an element')
 
 	// if relation, recursive call on members
-	if (element.type == 'relation')
+	if (['multiway', 'relation'].includes(element.type))
 		// TODO maybe need to handle specific cases based on role ?
 		// for example inner and outer in a multipolygon
 		return {
@@ -214,6 +202,7 @@ export const extendOverpassElement = (element) => {
 	// we should move the center of mass to the closest node of the way.
 
 	// return extended element
+	if (element.type == 'multiway') element.type = 'way' //set type back to multiway
 	return {
 		type: element.type,
 		id: element.id,
@@ -239,7 +228,7 @@ const fetchAssociatedStreet = async (element) => {
 			element.type,
 			element.id,
 			false,
-			true
+			true // to get relations
 		)
 		const json = await resilientOverpassFetch(relationQuery)
 		console.log('Etienne fetchAssociatedStreet', json)
@@ -255,6 +244,76 @@ const fetchAssociatedStreet = async (element) => {
 	} catch (e) {
 		// if error, log and return null
 		console.log('Overpass error while fetching associatedStreet relation', e)
+		return undefined
+	}
+}
+
+/**
+ * Get all ways by associatedStreet relation AND by way name from a starting way
+ * @param element
+ * @returns an associatedStreet-like relation
+ */
+const fetchStreet = async (element) => {
+	if (!element.type) return
+	if (element.type != 'way') return
+	try {
+		/*
+		Build the Overpass query to get all the ways in the same street than the
+		requested element, using its name as filter (case insensitive)
+		and the `complete` statement to make recursive searchs
+		in a 30m radius around the previous output set, until it stabilizes
+		(to get all ways even if there is a gap, for example a roundabout )
+		 */
+		const query =
+			`[out:json]; ${element.type}(id:${element.id});` + //get starting element
+			'<; relation._[type=associatedStreet]; out tags;' + // get and output the street relation
+			'>; way._ -> .w;' + //get and store the ways members of the relation
+			`${element.type}(id:${element.id});` + //get starting element again (input set seems broken on complete ?)
+			`complete { way[highway]["name"~"${element.tags.name}",i](around:30); };` + // get all highways by name
+			'(._; .w;);' + //merge all found ways
+			'out body geom qt;' //output all ways
+
+		// fetch all the ways of the street
+		const json = await resilientOverpassFetch(query)
+
+		// if available (as 1st element), read relation tags and update way tags
+		if (json.elements[0].type == 'relation') {
+			const relationTags = json.elements[0].tags
+			element.tags = omit(['type'], {
+				...relationTags,
+				...element.tags, //will overwrite previous ones if same key
+			})
+			json.elements.shift() //remove relation from the array
+		}
+		// TODO merge all tags from all ways ??
+
+		//if only 1 element, it is the way itself, return it
+		if (json.elements.length == 1) return element
+
+		// Build and return an asssociatedStreet-like relation
+		// warning : set type=multiway is the only way I found here to :
+		//  - tell buildGeojsonFromOverpassElement that it is a FeatureCollection
+		//  - without setting type=relation, to be able to put it back to type=way (after geojson calculation)
+		//  - so that URL works
+		// the other solution could be to test whether geometry is an array or coordinates (when 1 way)
+		// or an array of arrays of coordinates (when multiple ways)
+		return {
+			type: 'multiway', //warning, need to be set back to 'way' after geojson calculation
+			id: element.id,
+			tags: element.tags,
+			//bounds: ??; //unable to recalculate it
+			members: json.elements.map((e) => {
+				return {
+					type: 'way',
+					ref: e.id,
+					role: 'street',
+					geometry: e.geometry,
+				}
+			}),
+		}
+	} catch (e) {
+		// if error, log and return null
+		console.log('Overpass error while fetching all street ways', e)
 		return undefined
 	}
 }
