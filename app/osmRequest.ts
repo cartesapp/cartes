@@ -103,7 +103,14 @@ export const osmElementRequest = async (featureType, id) => {
 		// 2. handle the case of several way elements for the same street
 		if (
 			element.type === 'way' &&
-			['residential', 'tertiary', 'secondary'].includes(tags['highway'])
+			[
+				'pedestrian',
+				'living_street',
+				'residential',
+				'tertiary',
+				'secondary',
+				'primary',
+			].includes(tags['highway'])
 			// TODO do we need to add other highway values ?
 		) {
 			// fetch all the ways of the street as an associatedStreet-like relation
