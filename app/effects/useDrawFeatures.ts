@@ -148,7 +148,7 @@ export default function useDrawFeatures(
 		// we need to flat its features with the other Feature from nodes and ways
 		const shownFeaturesFlat = shownFeatures
 			.map((f) => {
-				if (f.geojson.type == 'FeatureCollection') {
+				if (f.geojson && f.geojson.type == 'FeatureCollection') {
 					return f.geojson.features.map((g) => {
 						return { ...f, geojson: g }
 					})
