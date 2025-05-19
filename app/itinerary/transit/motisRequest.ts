@@ -42,6 +42,7 @@ const buildRequestBody = (start, destination, date, searchParams) => {
 
 	const { start: startModeParam, end: endModeParam } =
 		decodeStepModeParams(searchParams)
+
 	const start_modes = stepModeParamsToMotis(startModeParam, requestDistance)
 	const destination_modes = stepModeParamsToMotis(endModeParam, requestDistance)
 
