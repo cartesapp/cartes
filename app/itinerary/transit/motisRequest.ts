@@ -125,22 +125,21 @@ export const computeMotisTrip = async (
 		}
 		const json = await request.json()
 		console.log('indigo motis', json)
-		console.log('motis statistics', JSON.stringify(json.content.statistics))
+		console.log('motis statistics', JSON.stringify(json.debugOutput))
 
 		const augmentedConnections = await Promise.all(
-			json.content.connections.map(async (connection) => {
-				const { trips, stops, transports } = connection
-				const augmentedTransports = await Promise.all(
-					transports.map(async (transport) => {
-						const trip = trips.find(
-							(trip) => trip.id.line_id === transport.move.line_id
+			json.itineraries.map(async (itinerary) => {
+				const { legs } = itinerary
+				const augmentedLegs = await Promise.all(
+					legs.map(async (leg) => {
+						const { tripId: rawTripId } = leg
+						if (!rawTripId) return
+
+						const tripId = rawTripId.replace(
+							/(\d\d\d\d\d\d\d\d_\d\d:\d\d)_(.+)\|([^_]+)\_(.+)/,
+							(correspondance, p0, p1, p2, p3, decalage, chaine) => p1 + p3
 						)
 
-						console.log('red debug', trip?.id)
-						const tripId = trip?.id.id.replace(
-							/(.+)\|([^_]+)\_(.+)/,
-							(correspondance, p1, p2, p3, decalage, chaine) => p1 + p3
-						)
 						const doFetch = async () => {
 							try {
 								if (!tripId) return {}
@@ -156,6 +155,12 @@ export const computeMotisTrip = async (
 							}
 						}
 						const gtfsAttributes = await doFetch()
+						console.log(
+							'indigo motis augmented',
+							gtfsAttributes,
+							rawTripId,
+							tripId
+						)
 						const { route_color, route_text_color, route_type } =
 								gtfsAttributes,
 							isTrain = route_type === 2
