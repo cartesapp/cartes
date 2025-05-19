@@ -27,15 +27,6 @@ const buildRequestBody = (start, destination, date, searchParams) => {
 		//!debut && // not sure why debut
 		difference >= threshold // I'm afraid the onTrip mode, though way quicker, could result in only one result in some cases. We should switch to preTrip in thoses cases, to search again more thoroughly
 
-	const begin = Math.round(new Date(date).getTime() / 1000),
-		end = datePlusHours(date, 1) // TODO This parameter should probably be modulated depending on the transit offer in the simulation setup. Or, query for the whole day at once, and filter them in the UI
-
-	console.log(
-		'lightgreen motis time range',
-		new Date(begin * 1000),
-		new Date(end * 1000)
-	)
-
 	const requestDistance = distance(
 		point([start.lng, start.lat]),
 		point([destination.lng, destination.lat])
@@ -57,7 +48,8 @@ const buildRequestBody = (start, destination, date, searchParams) => {
 		],
 		toPlace: [destination.lat, destination.lng],
 		//searchWindow: 2 hours by default but 8 hours if telescope ?
-		//time: begin, //TODO this looks always undefined so default, to me ? Use Motis's arriveBy option
+		//previously in v1 : end = datePlusHours(date, 1) // TODO This parameter should probably be modulated depending on the transit offer in the simulation setup. Or, query for the whole day at once, and filter them in the UI
+		time: date, //TODO this looks always undefined so default, to me ? Use Motis's arriveBy option
 		...startModes,
 		...destinationModes,
 		// for pretrip mode :
