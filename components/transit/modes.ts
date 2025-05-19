@@ -27,7 +27,11 @@ export const decodeStepModeParams = (searchParams) => {
 	}
 }
 
-export const stepModeParamsToMotis = (stepModeParams, distance) => {
+export const stepModeParamsToMotis = (
+	stepModeParams,
+	distance,
+	whichPart: 'start' | 'end'
+) => {
 	const { mode, time } = stepModeParams
 
 	// This is the state of the art of our comprehension of how to use Motis to
@@ -93,5 +97,9 @@ export const stepModeParamsToMotis = (stepModeParams, distance) => {
 					},
 			  ]
 
-	return modes
+	return modes.map((mode) => ({
+		...mode,
+		[`max${whichPart === 'start' ? 'Pre' : 'Post'}TransitTime`]:
+			mode.max_duration,
+	}))
 }
