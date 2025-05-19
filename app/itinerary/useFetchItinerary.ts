@@ -168,8 +168,6 @@ export default function useFetchItinerary(searchParams, state, allez) {
 				searchParams
 			)
 
-			console.log('lightgreen motis', json)
-
 			if (json.state === 'error') return json
 
 			const { itineraries } = json
@@ -203,6 +201,7 @@ export default function useFetchItinerary(searchParams, state, allez) {
 					reason: 'Pas de transport en commun trouvé :/',
 				}
 			}
+			console.log('indigo motis filtered', transitItineraries)
 			return { ...json, itineraries: transitItineraries }
 		}
 		//TODO fails is 3rd point is closer to 1st than 2nd, use reduce that sums

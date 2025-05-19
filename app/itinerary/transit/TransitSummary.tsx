@@ -9,7 +9,7 @@ import {
 } from './NoTransitMessages'
 import TransitLoader from './TransitLoader'
 import findBestConnection from './findBestConnection'
-import { connectionStart, filterNextConnections } from './utils'
+import { filterNextConnections } from './utils'
 
 export default function TransitSummary({ itinerary }) {
 	const data = itinerary.routes.transit
@@ -29,17 +29,18 @@ export default function TransitSummary({ itinerary }) {
 				</button>
 			</section>
 		)
-	if (!data?.connections || !data.connections.length)
+	if (!data?.itineraries || !data.itineraries.length)
 		return <TransitScopeLimit />
 
+	// from now on, itineraries are called connections, Motis v1's term. Not to be
+	// mixed up with our "itinerary" prop
 	const nextConnections = filterNextConnections(
-		data.connections,
+		data.itineraries,
 		itinerary.date
 	)
 	if (nextConnections.length < 1)
 		return <NoMoreTransitToday date={itinerary.date} />
 
-	const firstDate = connectionStart(nextConnections[0]) // We assume Motis orders them by start date, when you start to walk. Could also be intersting to query the first end date
 	const bestConnection = findBestConnection(nextConnections)
 	if (bestConnection) return <BestConnection bestConnection={bestConnection} />
 	return (
