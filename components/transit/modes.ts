@@ -49,62 +49,49 @@ export const stepModeParamsToMotis = (stepModeParams, distance) => {
 		distance,
 		bikeTrainSearchDistance: bikeTrainSearchDistance / 60 + ' min',
 	})
-	// symmetric because used for start and destination for now
-	const symmetricModes =
+
+	const modes =
 		!mode || !time
 			? [
 					{
-						mode_type: 'FootPPR',
-						mode: {
-							search_options: {
-								profile: 'distance_only',
-								duration_limit: minutes(15),
-							},
-						},
+						mode_type: 'WALK',
+						PedestrianProfile: 'FOOT',
+						duration_limit: minutes(15),
 					},
 					bikeTrainSearchDistance > 0 && {
-						mode_type: 'Bike',
-						mode: {
-							max_duration: bikeTrainSearchDistance,
-						},
+						mode_type: 'BIKE',
+						max_duration: bikeTrainSearchDistance,
 					},
 			  ].filter(Boolean)
 			: mode.startsWith('marche')
 			? [
 					{
-						mode_type: 'FootPPR',
-						mode: {
-							search_options: {
-								profile: mode.startsWith('marchereduite')
-									? 'wheelchair' // It looks like the default profile is already tuned for handicaped people, but I could be wrong. We miss a documentation of the profiles here https://github.com/motis-project/ppr/tree/master/profiles
-									: // TODO add the accessibility / wheelchair and other options.
-									  // Does it incur a processing cost and file weight ? Yes,
-									  // profiles need to be set before compilation https://github.com/motis-project/motis/issues/364
-									  // MAJ : It looks like PPR profiles are in the config file but
-									  // do not occur a new rebuilding of the PPR cache data :)
-									  'distance_only',
-								duration_limit: minutes(time),
-							},
-						},
+						mode_type: 'WALK',
+						PedestrianProfile: mode.startsWith('marchereduite')
+							? 'WHEELCHAIR' // It looks like the default profile is already tuned for handicaped people, but I could be wrong. We miss a documentation of the profiles here https://github.com/motis-project/ppr/tree/master/profiles
+							: // TODO add the accessibility / wheelchair and other options.
+							  // Does it incur a processing cost and file weight ? Yes,
+							  // profiles need to be set before compilation https://github.com/motis-project/motis/issues/364
+							  // MAJ : It looks like PPR profiles are in the config file but
+							  // do not occur a new rebuilding of the PPR cache data :)
+							  'FOOT',
+
+						duration_limit: minutes(time),
 					},
 			  ]
 			: mode === 'vélo'
 			? [
 					{
 						mode_type: 'Bike',
-						mode: {
-							max_duration: minutes(time),
-						},
+						max_duration: minutes(time),
 					},
 			  ]
 			: [
 					{
 						mode_type: 'Car',
-						mode: {
-							max_duration: minutes(time),
-						},
+						max_duration: minutes(time),
 					},
 			  ]
 
-	return symmetricModes
+	return modes
 }
