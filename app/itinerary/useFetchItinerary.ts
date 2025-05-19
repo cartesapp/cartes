@@ -1,6 +1,6 @@
 import {
 	computeMotisTrip,
-	isNotTransitConnection,
+	isNotTransitItinerary,
 } from '@/app/itinerary/transit/motisRequest'
 import distance from '@turf/distance'
 import { useCallback, useEffect, useState } from 'react'
@@ -172,32 +172,19 @@ export default function useFetchItinerary(searchParams, state, allez) {
 
 			if (json.state === 'error') return json
 
-			if (!json?.content) return null
-			const { connections } = json.content
+			const { itineraries } = json
 
-			const transitConnections = connections.filter(
-				(connection) => !isNotTransitConnection(connection)
+			const transitItineraries = itineraries.filter(
+				(itinerary) => !isNotTransitItinerary(itinerary)
 			)
 
-			// TODO this is coded dirtily because Motis' v2 will require a rewrite,
-			// with a cleaner API. But the UI principles will stay the same
-			const mumo_types = {
-				car: 'conduirez',
-				foot: 'marcherez',
-				bike: 'roulerez',
+			const modeVerbs = {
+				CAR: 'conduirez',
+				WALK: 'marcherez',
+				BIKE: 'roulerez',
 			}
-			if (connections.length === 1 && isNotTransitConnection(connections[0])) {
-				const mumo_type = connections[0].transports.reduce((memo, t) => {
-					const mumo = t.move.mumo_type
-					return memo === undefined ? mumo : mumo === memo ? memo : null
-				}, undefined)
-				if (!mumo_type)
-					return {
-						state: 'error',
-						reason: 'Pas de transport en commun trouvé :/',
-					}
-
-				const word = mumo_types[mumo_type]
+			if (itineraries.length === 1 && isNotTransitItinerary(itineraries[0])) {
+				const word = modeVerbs[itineraries[0].legs[0].mode]
 
 				return {
 					state: 'error',
@@ -206,7 +193,7 @@ export default function useFetchItinerary(searchParams, state, allez) {
 				}
 			}
 
-			if (transitConnections.length === 0) {
+			if (transitItineraries.length === 0) {
 				if (searchParams.planification !== 'oui') {
 					return setSearchParams({ planification: 'oui' })
 				}
@@ -216,14 +203,7 @@ export default function useFetchItinerary(searchParams, state, allez) {
 					reason: 'Pas de transport en commun trouvé :/',
 				}
 			}
-			/*
-			return sections.map((el) => ({
-				type: 'Feature',
-				properties: el.geojson.properties[0],
-				geometry: { coordinates: el.geojson.coordinates, type: 'LineString' },
-			}))
-			*/
-			return { ...json.content, connections: transitConnections }
+			return { ...json, itineraries: transitItineraries }
 		}
 		//TODO fails is 3rd point is closer to 1st than 2nd, use reduce that sums
 		const itineraryDistance = distance(points[0], points.slice(-1)[0])

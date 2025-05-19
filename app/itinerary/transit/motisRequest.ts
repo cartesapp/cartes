@@ -49,7 +49,7 @@ const buildRequestBody = (start, destination, date, searchParams) => {
 		toPlace: [destination.lat, destination.lng],
 		//searchWindow: 2 hours by default but 8 hours if telescope ?
 		//previously in v1 : end = datePlusHours(date, 1) // TODO This parameter should probably be modulated depending on the transit offer in the simulation setup. Or, query for the whole day at once, and filter them in the UI
-		time: date, //TODO this looks always undefined so default, to me ? Use Motis's arriveBy option
+		time: date + '00.000Z',
 		...startModes,
 		...destinationModes,
 		// for pretrip mode :
@@ -252,8 +252,6 @@ export const computeMotisTrip = async (
 
 export { stamp }
 
-const notTransitType = ['Walk', 'Cycle', 'Car']
-export const isNotTransitConnection = (connection) =>
-	connection.transports.every((transport) =>
-		notTransitType.includes(transport.move_type)
-	)
+const notTransitType = ['WALK', 'BIKE', 'CAR']
+export const isNotTransitItinerary = (itinerary) =>
+	itinerary.legs.every((leg) => notTransitType.includes(leg.mode))
