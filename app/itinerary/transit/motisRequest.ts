@@ -5,9 +5,9 @@ import {
 } from '@/components/transit/modes'
 import { lightenColor } from '@/components/utils/colors'
 import { distance, point } from '@turf/turf'
-import transportIcon from './transportIcon'
-import { datePlusHours, defaultRouteColor, nowStamp, stamp } from './utils'
 import { handleColor, trainColors } from './colors'
+import transportIcon from './transportIcon'
+import { defaultRouteColor, nowStamp, stamp } from './utils'
 
 // For onTrip, see https://github.com/motis-project/motis/issues/471#issuecomment-2247099832
 const buildRequestBody = (start, destination, date, searchParams) => {

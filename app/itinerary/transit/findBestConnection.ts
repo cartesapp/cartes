@@ -1,6 +1,6 @@
 import { humanDepartureTime } from '../../transport/stop/Route'
 import { notTransitType } from './motisRequest'
-import { dateFromMotis, humanDuration } from './utils'
+import { humanDuration, stamp } from './utils'
 
 const isDirectTransitConnection = (connection) =>
 	connection.legs.filter((leg) => !notTransitType.includes(leg.mode)).length ===
@@ -49,7 +49,7 @@ export default function findBestConnection(connections) {
 		.map((connection) => {
 			try {
 				const date = new Date(connection.startTime)
-				if (date.getTime() < new Date().getTime()) return false
+				if (stamp(connection.startTime) < stamp()) return false
 				const humanTime = humanDepartureTime(date, true)
 				return humanTime
 			} catch (e) {
@@ -85,11 +85,7 @@ export const getBestIntervals = (connections, best) => {
 	if (departures.length === 1) return 'une fois par jour'
 
 	const intervals = departures
-		.map(
-			(date, i) =>
-				i > 0 &&
-				new Date(date).getTime() - new Date(departures[i - 1]).getTime()
-		)
+		.map((date, i) => i > 0 && stamp(date) - stamp(departures[i - 1]))
 		.filter(Boolean)
 	const max = Math.max(...intervals)
 

@@ -2,7 +2,7 @@ import { stamp } from '@/app/itinerary/transit/utils'
 import { styled } from 'next-yak'
 
 export const LateWarning = ({ date, firstDate }) => {
-	const diffHours = (firstDate - stamp(date)) / (60 * 60)
+	const diffHours = (stamp(firstDate) - stamp(date)) / (60 * 60)
 
 	const displayDiff = Math.round(diffHours)
 	if (diffHours > 12)

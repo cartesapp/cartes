@@ -1,6 +1,6 @@
 export const filterNextConnections = (connections, date) =>
 	connections.filter(
-		(connection) => new Date(connection.startTime).getTime() > stamp(date) - 60 // motis ontrip requests should not be filtered out
+		(connection) => stamp(connection.startTime) > stamp(date) - 60 // motis ontrip requests should not be filtered out
 	)
 
 export const humanDuration = (seconds) => {
@@ -57,7 +57,8 @@ export const datePlusHours = (date, hours) => {
 
 export const nowStamp = () => Math.round(Date.now() / 1000)
 
-export const stamp = (date) => Math.round(new Date(date).getTime() / 1000)
+export const stamp = (date = undefined) =>
+	Math.round(new Date(date).getTime() / 1000)
 
 export const defaultRouteColor = '#d3b2ee'
 
@@ -85,7 +86,6 @@ export const isDateNow = (date, diff = 5) => {
 	console.log('lightgreen diff in minutes', difference / 60)
 	return difference < 60 * diff // 5 minutes
 }
-export const newTimestamp = () => new Date().getTime() / 1000
 
 export const encodeDate = (date) => date?.replace(/:/, 'h')
 export const decodeDate = (date) => date?.replace(/h/, ':')

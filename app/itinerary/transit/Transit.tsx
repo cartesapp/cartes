@@ -58,15 +58,17 @@ const TransitContent = ({ itinerary, searchParams, date }) => {
 	if (data.state === 'error')
 		return <NoTransit reason={data.reason} solution={data.solution} />
 
-	if (!data?.connections || !data.connections.length)
-		return <TransitScopeLimit />
+	const connections = data?.itineraries
+	// from now on, itineraries are called connections, Motis v1's term. Not to be
+	// mixed up with our "itinerary" prop
+	if (!connections || !connections.length) return <TransitScopeLimit />
 
-	const nextConnections = filterNextConnections(data.connections, date)
+	const nextConnections = filterNextConnections(connections, date)
 
-	console.log('lightpurple transit', data.connections, nextConnections)
+	console.log('lightpurple transit', connections, nextConnections)
 	if (nextConnections.length < 1) return <NoMoreTransitToday date={date} />
 
-	const firstDate = connectionStart(nextConnections[0]) // We assume Motis orders them by start date, when you start to walk. Could also be intersting to query the first end date
+	const firstDate = nextConnections[0].startTime // We assume Motis orders them by start date, when you start to walk. Could also be intersting to query the first end date
 
 	const bestConnection = findBestConnection(nextConnections)
 

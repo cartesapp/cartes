@@ -19,6 +19,7 @@ import {
 	initialDate,
 	isDateNow,
 	newTimestamp,
+	stamp,
 } from './transit/utils'
 
 // Can be type date (day + hour) or type day
@@ -136,7 +137,7 @@ const UpdateDate = ({ date, updateDate }) => {
 		},
 		5 * 1000 // every 5 seconds
 	)
-	const isOutdated = now - new Date(date).getTime() / 1000 > 10
+	const isOutdated = now - stamp(date) > 10
 
 	if (!isOutdated) return null
 	return (
