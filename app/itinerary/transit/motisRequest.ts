@@ -47,7 +47,7 @@ const buildRequestBody = (start, destination, date, searchParams) => {
 			start.lng, //TODO start.z is supported by Motis
 		],
 		toPlace: [destination.lat, destination.lng],
-		//searchWindow: 2 hours by default but 8 hours if telescope ?
+		//searchWindow: 6 * 60 * 60, //hours by default but 8 hours if telescope ?
 		//previously in v1 : end = datePlusHours(date, 1) // TODO This parameter should probably be modulated depending on the transit offer in the simulation setup. Or, query for the whole day at once, and filter them in the UI
 		time: date + '00.000Z',
 		...startModes,
