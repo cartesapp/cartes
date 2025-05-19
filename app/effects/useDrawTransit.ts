@@ -1,55 +1,63 @@
 import { useEffect } from 'react'
-import { handleColor } from '@/app/itinerary/transit/motisRequest'
+import { handleColor } from '@/app/itinerary/transit/colors'
 import { findContrastedTextColor } from '@/components/utils/colors'
 import { safeRemove } from './utils'
 import { filterNextConnections } from '../itinerary/transit/utils'
 import bezierSpline from '@turf/bezier-spline'
 import { lineString } from '@turf/turf'
+import mapboxPolyline from '@mapbox/polyline'
+import { notTransitType } from '../itinerary/transit/motisRequest'
 
 export default function useDrawTransit(map, transit, selectedConnection, date) {
+	console.log('useDrawTransit', transit)
 	const connections =
 		transit &&
-		transit.connections &&
-		filterNextConnections(transit.connections, date)
+		transit.itineraries &&
+		filterNextConnections(transit.itineraries, date)
 
 	const connection = connections && connections[selectedConnection || 0]
 
 	useEffect(() => {
 		if (!map || !connection) return
 
-		const { transports, stops } = connection
+		const { legs } = connection
 
 		const featureCollection = {
 			type: 'FeatureCollection',
-			features: transports
+			features: legs
 				.reduce((memo, next) => {
 					const routeTextColor = handleColor(next.routeTextColor, '#000000')
 					console.log('next', next)
 
+					const geometry = mapboxPolyline.toGeoJSON(next.legGeometry.points, 6)
+					window.mapboxPolyline = mapboxPolyline
+
 					return [
 						...memo,
 						{
+							geometry,
 							type: 'Feature',
 							properties: {
 								name: next.routeShortName || '',
 								mode: next.mode,
-								route_color: next.routeColor || '#d3b2ee',
+								isTransit: !notTransitType.includes(next.mode) ? 'Yes' : 'No',
+								route_color: handleColor(next.routeColor) || '#d3b2ee',
 								route_color_darker: next.routeColorDarker || '',
-								route_text_color,
+								route_text_color: routeTextColor,
 								inverse_color: findContrastedTextColor(routeTextColor, true),
-							},
-							geometry: {
-								type: 'LineString',
-								coordinates: stops
-									.slice(next.move.range.from, next.move.range.to + 1)
-									.map((stop) => [stop.station.pos.lng, stop.station.pos.lat]),
+								stopsCount:
+									next.intermediateStops && next.intermediateStops.length + 2,
 							},
 						},
 					]
 				}, [])
 				.map((feature) => {
 					const coordinates = feature.geometry.coordinates
-					if (coordinates.length <= 2) return feature
+					if (
+						coordinates.length <= 2 ||
+						coordinates.length > feature.properties.stopsCount * 1.5 // testing here if the polyline is a GTFS real route or not
+					)
+						return feature
 
 					var curved = bezierSpline(lineString(coordinates), {
 						sharpness: 0.6,
@@ -87,7 +95,7 @@ export default function useDrawTransit(map, transit, selectedConnection, date) {
 			source: id,
 			type: 'line',
 			id: id + '-lines-contour',
-			filter: ['==', ['get', 'mode'], 'Transport'],
+			filter: ['==', ['get', 'isTransit'], 'Yes'],
 			layout: {
 				'line-join': 'round',
 				'line-cap': 'round',
@@ -111,7 +119,7 @@ export default function useDrawTransit(map, transit, selectedConnection, date) {
 			source: id,
 			type: 'line',
 			id: id + '-lines',
-			filter: ['==', ['get', 'mode'], 'Transport'],
+			filter: ['==', ['get', 'isTransit'], 'Yes'],
 
 			layout: {
 				'line-join': 'round',
