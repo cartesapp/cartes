@@ -128,10 +128,10 @@ const TransitTimeline = ({
 	)
 
 	const quickestConnection = connections.reduce(
-			(memo, next) => (next.seconds < memo.seconds ? next : memo),
-			{ seconds: Infinity }
+			(memo, next) => (next.duration < memo.duration ? next : memo),
+			{ duration: Infinity }
 		),
-		quickest = quickestConnection.seconds
+		quickest = quickestConnection.duration
 
 	const range = connectionsTimeRange.to - connectionsTimeRange.from
 
@@ -199,7 +199,11 @@ const Connection = ({
 				transports={connection.legs}
 				connection={connection}
 				connectionRange={[
-					stamp(connection.startTime),
+					console.log(
+						'stamp',
+						connection.startTime,
+						stamp(connection.startTime)
+					) || stamp(connection.startTime),
 					stamp(connection.endTime),
 				]}
 				choix={choix}
@@ -245,7 +249,9 @@ const TimelineTransportBlockWrapper = styled.span`
 export const TimelineTransportBlock = ({ transport }) => {
 	console.log('lightgreen TimelineTransportBlock', transport)
 	const [constraint, setConstraint] = useState('none')
-	const background = handleColor(transport.routeColor)
+	const background = transport.routeColor
+		? handleColor(transport.routeColor)
+		: '#d3b2ee'
 
 	const ref = useRef<HTMLDivElement>(null)
 	const { width = 0, height = 0 } = useResizeObserver({
@@ -268,7 +274,7 @@ export const TimelineTransportBlock = ({ transport }) => {
 			$displayImage={displayImage}
 			$mode={transport.mode}
 			ref={ref}
-			title={`${humanDuration(transport.seconds).single} de ${
+			title={`${humanDuration(transport.duration).single} de ${
 				transport.frenchTrainType ||
 				transport.shortName ||
 				(transport.mode === 'CAR'

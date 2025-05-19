@@ -6,7 +6,6 @@ import { styled } from 'next-yak'
 import { handleColor } from './colors'
 
 export default function TransportMoveBlock({ transport }) {
-	console.log('indigo block', transport)
 	const name = transport.shortName?.toUpperCase().replace(/TRAM\s?/g, 'T')
 	const background = handleColor(transport.routeColor),
 		color = handleColor(transport.routeTextColor)

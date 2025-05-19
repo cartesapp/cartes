@@ -42,7 +42,9 @@ export default function TransitInstructions({ connection }) {
 					}
 				/>{' '}
 				{start.present}{' '}
-				<span>{humanDuration(transports[0].seconds).single.toLowerCase()}</span>{' '}
+				<span>
+					{humanDuration(transports[0].duration).single.toLowerCase()}
+				</span>{' '}
 				jusqu'à l'arrêt {firstTransitStop.station.name}
 			</Approach>
 			<Transports>
@@ -124,7 +126,7 @@ export default function TransitInstructions({ connection }) {
 				{end.present}{' '}
 				<span>
 					{humanDuration(
-						transports[transports.length - 1].seconds
+						transports[transports.length - 1].duration
 					).single.toLowerCase()}
 				</span>{' '}
 				jusqu'à votre destination.

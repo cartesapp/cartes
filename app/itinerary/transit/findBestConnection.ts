@@ -6,6 +6,9 @@ const isDirectTransitConnection = (connection) =>
 	connection.legs.filter((leg) => !notTransitType.includes(leg.mode)).length ===
 	1
 
+export const findConnectionTransit = (connection) =>
+	connection.legs.find((transport) => !notTransitType.includes(transport.mode))
+
 export default function findBestConnection(connections) {
 	console.log('bestConnection connections', connections)
 
@@ -23,16 +26,13 @@ export default function findBestConnection(connections) {
 			const walking = connection.legs.filter(
 					(transport) => transport.mode === 'WALK'
 				),
-				walkingTime = walking.reduce((memo, next) => memo + next.seconds, 0)
+				walkingTime = walking.reduce((memo, next) => memo + next.duration, 0)
 
 			return (
 				walkingTime <
 				// experimental, not optimal at all. See note above
 				// TODO compute according to transit/modes/decodeStepModeParams !
-				2 *
-					connection.legs.find(
-						(transport) => !notTransitType.includes(transport.mode)
-					).seconds
+				2 * findConnectionTransit(connection).duration
 			)
 		})
 	console.log('bestConnection selected', selected)

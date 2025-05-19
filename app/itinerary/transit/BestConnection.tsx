@@ -1,15 +1,18 @@
 import { styled } from 'next-yak'
 import Image from 'next/image'
 import { TimelineTransportBlock } from './Transit'
-import { nextDeparturesSentence } from './findBestConnection'
+import {
+	findConnectionTransit,
+	nextDeparturesSentence,
+} from './findBestConnection'
 import { routeTypeName } from './transportIcon'
 
 export default function BestConnection({ bestConnection }) {
 	console.log('prune best', bestConnection)
-	const transport = bestConnection.best.transports.find((t) => t.trip)
-	const stop = bestConnection.best.stops[transport.move.range.from].station.name
+	const leg = findConnectionTransit(bestConnection.best)
+	const stop = leg.from.name
 
-	const transportType = routeTypeName(transport.route_type)
+	const transportType = routeTypeName(leg.route_type)
 	return (
 		<Wrapper>
 			<Image
@@ -23,7 +26,7 @@ export default function BestConnection({ bestConnection }) {
 				<p>
 					Le direct
 					<span>
-						<TimelineTransportBlock transport={transport} />
+						<TimelineTransportBlock transport={leg} />
 					</span>
 					passe {bestConnection.interval} à l'arrêt{' '}
 					<em

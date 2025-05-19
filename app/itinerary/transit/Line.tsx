@@ -17,7 +17,7 @@ export const Line = ({
 }) => {
 	const setSearchParams = useSetSearchParams()
 
-	console.log('lightgreen line', transports, setSearchParams)
+	console.log('lightgreen line', transports, setSearchParams, from, to)
 
 	const { from: absoluteFrom, to: absoluteTo } = connectionsTimeRange
 	const length = absoluteTo - absoluteFrom
@@ -40,9 +40,9 @@ export const Line = ({
 				<ul>
 					{transports.map((transport) => (
 						<li
-							key={transport.shortName || transport.mode + transport.seconds}
+							key={transport.shortName || transport.mode + transport.duration}
 							style={{
-								width: (transport.seconds / connection.seconds) * 100 + '%',
+								width: (transport.duration / connection.duration) * 100 + '%',
 								height: '1.8rem',
 								borderRight: '2px solid white',
 							}}
@@ -64,17 +64,17 @@ export const Line = ({
 						</DetailsButtonWrapper>
 					)}
 				<Duration>
-					<small>{formatMotis(from)}</small>
+					<small title={from}>{formatMotis(from)}</small>
 					<small
 						style={{
 							color: '#555',
 						}}
 					>
 						{relativeWidth > 0.5
-							? humanDuration(connection.seconds).single
+							? humanDuration(connection.duration).single
 							: ' - '}
 					</small>
-					<small>{formatMotis(to)}</small>
+					<small title={to}>{formatMotis(to)}</small>
 				</Duration>
 			</SizedLine>
 		</Wrapper>

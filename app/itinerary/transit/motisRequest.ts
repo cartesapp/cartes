@@ -209,7 +209,6 @@ export const computeMotisTrip = async (
 
 						/* Temporal aspect */
 
-						const seconds = leg.duration
 						const shortName = frenchTrainType || leg.routeShortName
 						return {
 							...leg,
@@ -219,7 +218,6 @@ export const computeMotisTrip = async (
 								: '#5b099f',
 							tripId,
 							frenchTrainType,
-							seconds,
 							shortName,
 						}
 					})
@@ -234,7 +232,6 @@ export const computeMotisTrip = async (
 				return {
 					...itinerary,
 					legs: augmentedLegs,
-					seconds: itinerary.duration,
 				}
 			})
 		)
