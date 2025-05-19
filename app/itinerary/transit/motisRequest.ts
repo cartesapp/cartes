@@ -56,7 +56,7 @@ const buildRequestBody = (start, destination, date, searchParams) => {
 		],
 		toPlace: [destination.lat, destination.lng],
 		//searchWindow: 2 hours by default but 8 hours if telescope ?
-		time: begin, //TODO this looks always undefined so default, to me ? Use Motis's arriveBy option
+		//time: begin, //TODO this looks always undefined so default, to me ? Use Motis's arriveBy option
 		...startModes,
 		...destinationModes,
 		// for pretrip mode :
@@ -100,17 +100,18 @@ export const computeMotisTrip = async (
 	searchParams = {}
 ) => {
 	const body = buildRequestBody(start, destination, date, searchParams)
-	console.log('indigo motis', body)
+	console.log('indigo motis body', body)
 
 	try {
-		const request = await fetch(motisServerUrl, {
-			method: 'POST',
-			body: JSON.stringify(body),
-			headers: {
-				'Content-Type': 'application/json',
-				Accept: 'application/json',
-			},
-		})
+		const request = await fetch(
+			motisServerUrl + '/api/v2/plan?' + new URLSearchParams(body).toString(),
+			{
+				method: 'GET',
+				headers: {
+					Accept: 'application/json',
+				},
+			}
+		)
 		if (!request.ok) {
 			console.error('Error fetching motis server')
 			const json = await request.json()
@@ -122,7 +123,7 @@ export const computeMotisTrip = async (
 			return { state: 'error', reason }
 		}
 		const json = await request.json()
-		console.log('motis', json)
+		console.log('indigo motis', json)
 		console.log('motis statistics', JSON.stringify(json.content.statistics))
 
 		const augmentedConnections = await Promise.all(

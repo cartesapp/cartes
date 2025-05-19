@@ -38,7 +38,7 @@ export const stepModeParamsToMotis = (
 
 	const durationKey = `max${whichPart === 'start' ? 'Pre' : 'Post'}TransitTime`
 
-	if (mode.startsWith('marche') && time)
+	if (mode?.startsWith('marche') && time)
 		return {
 			[modeKey]: ['WALK'],
 
