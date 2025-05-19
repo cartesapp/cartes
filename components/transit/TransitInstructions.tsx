@@ -11,6 +11,7 @@ import {
 	Transports,
 	Wrapper,
 } from './TransitInstructionsUI'
+import { notTransitType } from '@/app/itinerary/transit/motisRequest'
 
 export default function TransitInstructions({ connection }) {
 	const setSearchParams = useSetSearchParams()
@@ -21,8 +22,8 @@ export default function TransitInstructions({ connection }) {
 	const firstTransitStopIndex = transports[1].trip.range.from,
 		firstTransitStop = stops[firstTransitStopIndex]
 
-	const start = moveTypeToFrench[transports[0].move_type]
-	const end = moveTypeToFrench[transports[transports.length - 1].move_type]
+	const start = modeToFrench[transports[0].mode]
+	const end = modeToFrench[transports[transports.length - 1].mode]
 	return (
 		<Wrapper>
 			<ModalCloseButton
@@ -40,14 +41,14 @@ export default function TransitInstructions({ connection }) {
 						"Icône de l'approche vers le premier arrêt de transport en commun"
 					}
 				/>{' '}
-				{start.verb}{' '}
+				{start.present}{' '}
 				<span>{humanDuration(transports[0].seconds).single.toLowerCase()}</span>{' '}
 				jusqu'à l'arrêt {firstTransitStop.station.name}
 			</Approach>
 			<Transports>
 				<ol>
 					{connection.transports
-						.filter(({ move_type }) => move_type === 'Transport')
+						.filter((transport) => !notTransitType.includes(transport.mode))
 						.map((transport) => {
 							const {
 								trip: {
@@ -120,7 +121,7 @@ export default function TransitInstructions({ connection }) {
 					height="10"
 					alt={'Icône de la fin du trajet'}
 				/>{' '}
-				{end.verb}{' '}
+				{end.present}{' '}
 				<span>
 					{humanDuration(
 						transports[transports.length - 1].seconds
@@ -169,8 +170,8 @@ const StationDisc = ({ color, last }) => (
 	</svg>
 )
 
-const moveTypeToFrench = {
-	Walk: { verb: 'Marchez', icon: 'walking' },
-	Bike: { verb: 'Roulez', icon: 'cycling.svg' },
-	Car: { verb: 'Roulez', icon: 'car.svg' },
+const modeToFrench = {
+	WALK: { present: 'Marchez', future: 'marcherez', icon: 'walking' },
+	BIKE: { present: 'Roulez', future: 'roulerez', icon: 'cycling.svg' },
+	CAR: { present: 'Roulez', future: 'roulerez', icon: 'car.svg' },
 }

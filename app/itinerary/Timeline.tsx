@@ -34,10 +34,10 @@ export default function Timeline({ itinerary }) {
 							transports: [
 								{
 									seconds: cyclingSeconds,
-									route_color: '#8f53c1',
-									route_text_color: 'white',
+									routeColor: '#8f53c1',
+									routeTextColor: 'white',
 									shortName: 'Vélo',
-									move_type: 'Cycle',
+									mode: 'BIKE',
 								},
 							],
 						}}
@@ -56,10 +56,10 @@ export default function Timeline({ itinerary }) {
 							transports: [
 								{
 									seconds: walkingSeconds,
-									route_color: '#ddb4ff',
-									route_text_color: 'white',
+									routeColor: '#ddb4ff',
+									routeTextColor: 'white',
 									shortName: 'Marche',
-									move_type: 'Walk',
+									mode: 'WALK',
 								},
 							],
 						}}

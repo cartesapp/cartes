@@ -3,11 +3,13 @@ import { transportTypeIcon } from './transportIcon'
 import { isWhiteColor } from '@/components/css/utils'
 import { findContrastedTextColor } from '@/components/utils/colors'
 import { styled } from 'next-yak'
+import { handleColor } from './colors'
 
 export default function TransportMoveBlock({ transport }) {
+	console.log('indigo block', transport)
 	const name = transport.shortName?.toUpperCase().replace(/TRAM\s?/g, 'T')
-	const background = transport.route_color,
-		color = transport.route_text_color
+	const background = handleColor(transport.routeColor),
+		color = handleColor(transport.routeTextColor)
 	const textColor =
 		(color && (color !== background ? color : null)) ||
 		findContrastedTextColor(background, true)

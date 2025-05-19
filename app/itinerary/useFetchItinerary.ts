@@ -176,13 +176,8 @@ export default function useFetchItinerary(searchParams, state, allez) {
 				(itinerary) => !isNotTransitItinerary(itinerary)
 			)
 
-			const modeVerbs = {
-				CAR: 'conduirez',
-				WALK: 'marcherez',
-				BIKE: 'roulerez',
-			}
 			if (itineraries.length === 1 && isNotTransitItinerary(itineraries[0])) {
-				const word = modeVerbs[itineraries[0].legs[0].mode]
+				const word = modeToFrench[itineraries[0].legs[0].mode].future
 
 				return {
 					state: 'error',

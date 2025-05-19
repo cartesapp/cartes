@@ -18,7 +18,6 @@ import {
 	encodeDate,
 	initialDate,
 	isDateNow,
-	newTimestamp,
 	stamp,
 } from './transit/utils'
 
@@ -129,11 +128,11 @@ const PreTripModeImage = styled(Image)`
 `
 
 const UpdateDate = ({ date, updateDate }) => {
-	const [now, setNow] = useState(newTimestamp())
+	const [now, setNow] = useState(stamp())
 
 	useInterval(
 		() => {
-			setNow(newTimestamp())
+			setNow(stamp())
 		},
 		5 * 1000 // every 5 seconds
 	)

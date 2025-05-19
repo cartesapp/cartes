@@ -16,7 +16,9 @@ export const Line = ({
 	relativeWidth = 0,
 }) => {
 	const setSearchParams = useSetSearchParams()
+
 	console.log('lightgreen line', transports, setSearchParams)
+
 	const { from: absoluteFrom, to: absoluteTo } = connectionsTimeRange
 	const length = absoluteTo - absoluteFrom
 
@@ -38,9 +40,7 @@ export const Line = ({
 				<ul>
 					{transports.map((transport) => (
 						<li
-							key={
-								transport.shortName || transport.move_type + transport.seconds
-							}
+							key={transport.shortName || transport.mode + transport.seconds}
 							style={{
 								width: (transport.seconds / connection.seconds) * 100 + '%',
 								height: '1.8rem',

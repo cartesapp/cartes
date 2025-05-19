@@ -214,8 +214,7 @@ export const computeMotisTrip = async (
 						return {
 							...leg,
 							...attributes,
-
-							route_color_darker: attributes.route_color
+							routeColorDarker: attributes.route_color
 								? lightenColor(attributes.route_color, -20)
 								: '#5b099f',
 							tripId,
@@ -232,7 +231,11 @@ export const computeMotisTrip = async (
 				)
 				*/
 
-				return { ...itinerary, augmentedLegs, seconds: itinerary.duration }
+				return {
+					...itinerary,
+					legs: augmentedLegs,
+					seconds: itinerary.duration,
+				}
 			})
 		)
 		const augmentedResponse = {

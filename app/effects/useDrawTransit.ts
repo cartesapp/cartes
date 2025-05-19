@@ -23,7 +23,7 @@ export default function useDrawTransit(map, transit, selectedConnection, date) {
 			type: 'FeatureCollection',
 			features: transports
 				.reduce((memo, next) => {
-					const route_text_color = handleColor(next.route_text_color, '#000000')
+					const routeTextColor = handleColor(next.routeTextColor, '#000000')
 					console.log('next', next)
 
 					return [
@@ -31,12 +31,12 @@ export default function useDrawTransit(map, transit, selectedConnection, date) {
 						{
 							type: 'Feature',
 							properties: {
-								name: next.route_short_name || '',
-								move_type: next.move_type,
-								route_color: next.route_color || '#d3b2ee',
-								route_color_darker: next.route_color_darker || '',
+								name: next.routeShortName || '',
+								mode: next.mode,
+								route_color: next.routeColor || '#d3b2ee',
+								route_color_darker: next.routeColorDarker || '',
 								route_text_color,
-								inverse_color: findContrastedTextColor(route_text_color, true),
+								inverse_color: findContrastedTextColor(routeTextColor, true),
 							},
 							geometry: {
 								type: 'LineString',
@@ -87,7 +87,7 @@ export default function useDrawTransit(map, transit, selectedConnection, date) {
 			source: id,
 			type: 'line',
 			id: id + '-lines-contour',
-			filter: ['==', ['get', 'move_type'], 'Transport'],
+			filter: ['==', ['get', 'mode'], 'Transport'],
 			layout: {
 				'line-join': 'round',
 				'line-cap': 'round',
@@ -111,7 +111,7 @@ export default function useDrawTransit(map, transit, selectedConnection, date) {
 			source: id,
 			type: 'line',
 			id: id + '-lines',
-			filter: ['==', ['get', 'move_type'], 'Transport'],
+			filter: ['==', ['get', 'mode'], 'Transport'],
 
 			layout: {
 				'line-join': 'round',
@@ -156,7 +156,7 @@ export default function useDrawTransit(map, transit, selectedConnection, date) {
 				source: id,
 				type: 'line',
 				id: id + '-lines-walking-background',
-				filter: ['==', ['get', 'move_type'], 'Walk'],
+				filter: ['==', ['get', 'mode'], 'Walk'],
 				layout: {
 					'line-join': 'round',
 					'line-cap': 'round',
@@ -173,7 +173,7 @@ export default function useDrawTransit(map, transit, selectedConnection, date) {
 				source: id,
 				type: 'line',
 				id: id + '-lines-walking',
-				filter: ['==', ['get', 'move_type'], 'Walk'],
+				filter: ['==', ['get', 'mode'], 'WALK'],
 				layout: {
 					'line-join': 'round',
 					'line-cap': 'round',
