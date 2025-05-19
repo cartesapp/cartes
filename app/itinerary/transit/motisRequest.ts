@@ -43,57 +43,49 @@ const buildRequestBody = (start, destination, date, searchParams) => {
 	const { start: startModeParam, end: endModeParam } =
 		decodeStepModeParams(searchParams)
 
-	const start_modes = stepModeParamsToMotis(startModeParam, requestDistance)
-	const destination_modes = stepModeParamsToMotis(endModeParam, requestDistance)
+	const startModes = stepModeParamsToMotis(startModeParam, requestDistance)
+	const destinationModes = stepModeParamsToMotis(endModeParam, requestDistance)
 
 	console.log('itinerary distance', requestDistance)
 
 	const body = {
-		destination: { type: 'Module', target: '/intermodal' },
-		content_type: 'IntermodalRoutingRequest',
-		content: {
-			start_type: !preTrip ? 'IntermodalOntripStart' : 'IntermodalPretripStart',
-			start: !preTrip
-				? {
-						position: start,
-						departure_time: begin,
-				  }
-				: {
-						position: start,
-						interval: {
-							begin,
-							end,
-						},
-						min_connection_count: 5,
-						/* Update nov 2024 : the doc is not online anymore, Motis v2 is the
-						 * way to go. Setting it to 5 in pretrip now that we have a default
-						 * onTrip. We'll see this matter again for the migration */
-						/* I do not understand these options. E.g. in Rennes, from 16h30 to
-						 * 18h30, setting this and min_connection_count to 5 leads to results
-						 * at 23h30 ! Way too much.
-						 * https://motis-project.de/docs/features/routing.html#intermodal-and-timetable-routing-from-door-to-door
-						 * Also this issue : https://github.com/motis-project/motis/issues/443#issuecomment-1951297984
-						 * Is 5 "pareto optimal" connections asking much ? I don't understand
-						 * what it is. Hence we set it to 1.
-						 */
-						extend_interval_earlier: true,
-						extend_interval_later: true,
-				  },
-			start_modes,
-			destination_type: 'InputPosition',
-			destination,
-			destination_modes,
-			search_type: 'Default',
-			search_dir: 'Forward',
-			router: '',
-			max_transfers: correspondances == null ? -1 : +correspondances,
-			...(tortue
-				? {
-						transfer_time_factor: tortue,
-				  }
-				: {}),
-		},
+		timetableView: preTrip,
+		fromPlace: [
+			start.lat,
+			start.lng, //TODO start.z is supported by Motis
+		],
+		toPlace: [destination.lat, destination.lng],
+		//searchWindow: 2 hours by default but 8 hours if telescope ?
+		time: begin, //TODO this looks always undefined so default, to me ? Use Motis's arriveBy option
+		...startModes,
+		...destinationModes,
+		// for pretrip mode :
+		//min_connection_count: 5,
+		/* Update nov 2024 : the doc is not online anymore, Motis v2 is the
+		 * way to go. Setting it to 5 in pretrip now that we have a default
+		 * onTrip. We'll see this matter again for the migration */
+		/* I do not understand these options. E.g. in Rennes, from 16h30 to
+		 * 18h30, setting this and min_connection_count to 5 leads to results
+		 * at 23h30 ! Way too much.
+		 * https://motis-project.de/docs/features/routing.html#intermodal-and-timetable-routing-from-door-to-door
+		 * Also this issue : https://github.com/motis-project/motis/issues/443#issuecomment-1951297984
+		 * Is 5 "pareto optimal" connections asking much ? I don't understand
+		 * what it is. Hence we set it to 1.
+		 */
+		//extend_interval_earlier: true,
+		//extend_interval_later: true,
+		...(correspondances == null
+			? {}
+			: {
+					maxTransfers: +correspondances,
+			  }),
+		...(tortue
+			? {
+					transferTimeFactor: tortue,
+			  }
+			: {}),
 	}
+
 	return body
 }
 

@@ -34,11 +34,13 @@ export const stepModeParamsToMotis = (
 ) => {
 	const { mode, time } = stepModeParams
 
+	const modeKey = `${whichPart === 'start' ? 'pre' : 'post'}TransitMode`
+
 	const durationKey = `max${whichPart === 'start' ? 'Pre' : 'Post'}TransitTime`
 
 	if (mode.startsWith('marche') && time)
 		return {
-			directModes: ['WALK'],
+			[modeKey]: ['WALK'],
 
 			PedestrianProfile: mode.startsWith('marchereduite')
 				? 'WHEELCHAIR' // It looks like the default profile is already tuned for handicaped people, but I could be wrong. We miss a documentation of the profiles here https://github.com/motis-project/ppr/tree/master/profiles
@@ -54,13 +56,13 @@ export const stepModeParamsToMotis = (
 
 	if (mode === 'vélo' && time)
 		return {
-			directModes: ['BIKE'],
+			[modeKey]: ['BIKE'],
 			[durationKey]: minutes(time),
 		}
 
 	if (mode === 'voiture' && time)
 		return {
-			directModes: ['Car'],
+			[modeKey]: ['Car'],
 			[durationKey]: minutes(time),
 		}
 
@@ -97,13 +99,13 @@ export const stepModeParamsToMotis = (
 
 	const modes = [
 		{
-			directModes: ['WALK'],
+			[modeKey]: ['WALK'],
 
 			PedestrianProfile: 'FOOT',
 			[durationKey]: minutes(15),
 		},
 		bikeTrainSearchDistance > 0 && {
-			mode_type: 'BIKE',
+			[modeKey]: 'BIKE',
 			max_duration: bikeTrainSearchDistance,
 		},
 	].filter(Boolean)
@@ -113,5 +115,5 @@ export const stepModeParamsToMotis = (
 		bikeTrainSearchDistance: bikeTrainSearchDistance / 60 + ' min',
 	})
 
-	return modes
+	return modes[0] //TODO code the possibility to make multiple requests
 }
