@@ -66,15 +66,13 @@ export const hours = (num) => num * 60 * 60,
 	minutes = (num) => num * 60
 
 export const initialDate = (type = 'date', givenDate) => {
-	const stringDate = (
-		givenDate ? new Date(givenDate) : new Date()
-	).toLocaleString('fr')
-	const [date, hour] = stringDate.split(' ')
+	const baseDate = givenDate ? new Date(givenDate) : new Date()
+	const stringDate = baseDate.toISOString()
 
-	const day = date.split('/').reverse().join('-')
+	const day = stringDate.split('T')[0]
 	if (type === 'day') return day
 
-	return day + 'T' + hour.slice(0, -3)
+	return stringDate.slice(0, 16) + 'Z' // we don't want second precision in the URL. Minute is enough for transit user input
 }
 
 export const isDateNow = (date, diff = 5) => {

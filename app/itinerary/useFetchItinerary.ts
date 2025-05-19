@@ -203,6 +203,7 @@ export default function useFetchItinerary(searchParams, state, allez) {
 		const itineraryDistance = distance(points[0], points.slice(-1)[0])
 
 		updateRoute('transit', { state: 'loading' })
+
 		fetchTransitRoute(points, itineraryDistance, date).then((transit) =>
 			setRoutes((routes) => ({ ...routes, transit }))
 		)
