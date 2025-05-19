@@ -127,13 +127,13 @@ export const computeMotisTrip = async (
 		console.log('indigo motis', json)
 		console.log('motis statistics', JSON.stringify(json.debugOutput))
 
-		const augmentedConnections = await Promise.all(
+		const augmentedItineraries = await Promise.all(
 			json.itineraries.map(async (itinerary) => {
 				const { legs } = itinerary
 				const augmentedLegs = await Promise.all(
 					legs.map(async (leg) => {
 						const { tripId: rawTripId } = leg
-						if (!rawTripId) return
+						if (!rawTripId) return leg
 
 						const tripId = rawTripId.replace(
 							/(\d\d\d\d\d\d\d\d_\d\d:\d\d)_(.+)\|([^_]+)\_(.+)/,
@@ -165,19 +165,19 @@ export const computeMotisTrip = async (
 								gtfsAttributes,
 							isTrain = route_type === 2
 
-						const isBretagneTGV = trip?.id.id.startsWith('bretagne_SNCF2')
+						const isBretagneTGV = tripId.startsWith('bretagne_SNCF2')
 
 						const isOUIGO =
-							trip?.id.station_id.includes('OUIGO') ||
-							trip?.id.target_station_id.includes('OUIGO') // well, on fait avec ce qu'on a
+							leg.from.stopId.includes('OUIGO') ||
+							leg.to.stopId.includes('OUIGO') // well, on fait avec ce qu'on a
 						const isTGVStop =
-							trip?.id.station_id.includes('TGV INOUI') ||
-							trip?.id.target_station_id.includes('TGV INOUI') // well, on fait avec ce qu'on a
+							leg.from.stopId.includes('TGV INOUI') ||
+							leg.to.stopId.includes('TGV INOUI') // well, on fait avec ce qu'on a
 						const isTGV = isTGVStop || isBretagneTGV
 
 						//TODO this should be a configuration file that sets not only main
 						//colors, but gradients, icons (ouigo, inoui, tgv, ter, etc.)
-						const sourceGtfs = trip?.id.id.split('_')[0],
+						const sourceGtfs = tripId.split('_')[0],
 							prefix = sourceGtfs && sourceGtfs.split('|')[0],
 							frenchTrainType = isOUIGO
 								? 'OUIGO'
@@ -216,22 +216,16 @@ export const computeMotisTrip = async (
 						}
 
 						/* Temporal aspect */
-						const fromStop = stops[transport.move.range.from]
-						const toStop = stops[transport.move.range.to]
 
-						const seconds = toStop.arrival.time - fromStop.departure.time
-						const name = transport.move.name
-						const shortName =
-							frenchTrainType ||
-							(name?.startsWith('Bus ') ? name.replace('Bus ', '') : name)
+						const seconds = leg.duration
+						const shortName = frenchTrainType || leg.routeShortName
 						return {
-							...transport,
+							...leg,
 							...attributes,
 
 							route_color_darker: attributes.route_color
 								? lightenColor(attributes.route_color, -20)
 								: '#5b099f',
-							trip,
 							tripId,
 							frenchTrainType,
 							seconds,
@@ -239,20 +233,19 @@ export const computeMotisTrip = async (
 						}
 					})
 				)
-				const seconds = augmentedTransports.reduce(
+				/* TODO, useless now, v1 had no duration agregaed value ?
+				const seconds = augmentedLegs.reduce(
 					(memo, next) => memo + next.seconds,
 					0
 				)
+				*/
 
-				return { ...connection, transports: augmentedTransports, seconds }
+				return { ...itinerary, augmentedLegs, seconds: itinerary.duration }
 			})
 		)
 		const augmentedResponse = {
 			...json,
-			content: {
-				...json.content,
-				connections: augmentedConnections,
-			},
+			itineraries: augmentedItineraries,
 		}
 		return augmentedResponse
 	} catch (e) {
