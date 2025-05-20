@@ -55,6 +55,7 @@ export default function useDrawTransit(map, transit, selectedConnection, date) {
 					const coordinates = feature.geometry.coordinates
 					if (
 						coordinates.length <= 2 ||
+						!feature.properties.stopsCount ||
 						coordinates.length > feature.properties.stopsCount * 1.5 // testing here if the polyline is a GTFS real route or not
 					)
 						return feature
