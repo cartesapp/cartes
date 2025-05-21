@@ -5,10 +5,16 @@ import { findContrastedTextColor } from '@/components/utils/colors'
 import { styled } from 'next-yak'
 import { handleColor } from './colors'
 
+const defaultTransitColor = 'gray'
+
+//TODO check Lyon's buses : I believe they don't have a specific color. Could be
+//ugly and unhelpful
+
 export default function TransportMoveBlock({ transport }) {
+	console.log('indigo inspect', transport)
 	const name = transport.shortName?.toUpperCase().replace(/TRAM\s?/g, 'T')
-	const background = handleColor(transport.routeColor),
-		color = handleColor(transport.routeTextColor)
+	const background = handleColor(transport.routeColor, defaultTransitColor),
+		color = handleColor(transport.routeTextColor, defaultTransitColor)
 	const textColor =
 		(color && (color !== background ? color : null)) ||
 		findContrastedTextColor(background, true)
