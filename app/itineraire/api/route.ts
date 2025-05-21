@@ -1,7 +1,7 @@
 import splitAllez from '@/components/itinerary/splitAllez'
 import {
 	computeMotisTrip,
-	isNotTransitConnection,
+	isNotTransitItinerary,
 } from '@/app/itinerary/transit/motisRequest'
 import { initialDate } from '@/app/itinerary/transit/utils'
 import { stepOsmRequest } from '@/app/stepOsmRequest'
@@ -28,16 +28,16 @@ export async function GET(request: { url: string | URL }) {
 			{ lng: lngB, lat: latB },
 			date
 		)
-		if (json.state === 'error' || !json.content) {
+		if (json.state === 'error' || !json.itineraries) {
 			console.log(json)
 			return new Response(`Motis error`, { status: 500 })
 		}
-		const { connections } = json.content
-		const transitConnections = connections.filter(
-			(connection) => !isNotTransitConnection(connection)
+		const { itineraries } = json
+		const transitItineraries = itineraries.filter(
+			(connection) => !isNotTransitItinerary(connection)
 		)
 
-		if (!transitConnections.length) {
+		if (!transitItineraries.length) {
 			return new Response(
 				`Itinerary API call error : no transit itinerary available at this date`,
 				{
