@@ -29,11 +29,11 @@ export default function Timeline({ itinerary }) {
 							relativeWidth:
 								cyclingSeconds / Math.max(cyclingSeconds, walkingSeconds),
 							connectionsTimeRange,
-							connection: { seconds: cyclingSeconds },
+							connection: { duration: cyclingSeconds },
 							connectionRange: [now, now + cyclingSeconds],
 							transports: [
 								{
-									seconds: cyclingSeconds,
+									duration: cyclingSeconds,
 									routeColor: '#8f53c1',
 									routeTextColor: 'white',
 									mode: 'BIKE',
@@ -50,11 +50,11 @@ export default function Timeline({ itinerary }) {
 							relativeWidth:
 								walkingSeconds / Math.max(cyclingSeconds, walkingSeconds),
 							connectionsTimeRange,
-							connection: { seconds: walkingSeconds },
+							connection: { duration: walkingSeconds },
 							connectionRange: [now, now + walkingSeconds],
 							transports: [
 								{
-									seconds: walkingSeconds,
+									duration: walkingSeconds,
 									routeColor: '#ddb4ff',
 									routeTextColor: 'white',
 									mode: 'WALK',
