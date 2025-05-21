@@ -1,12 +1,5 @@
 import { styled } from 'next-yak'
 
-export const Approach = styled.section`
-	> img {
-		width: 1.4rem;
-		height: auto;
-		vertical-align: sub;
-	}
-`
 export const Wrapper = styled.div`
 	position: relative;
 	h2 {
@@ -30,11 +23,12 @@ export const Transports = styled.div`
 	}
 `
 
-export const Arrival = styled.div`
+export const NoTransitLeg = styled.section`
+	margin: 0.6rem 0;
 	> img {
 		width: 1.4rem;
 		height: auto;
-		vertical-align: sub;
+		vertical-align: bottom;
 	}
 `
 export const StationWrapper = styled.section`
@@ -68,7 +62,7 @@ export const Transport = styled.li`
 			height: 1rem;
 		}
 	}
-	margin-bottom: 1.6rem;
+	margin-bottom: 0.2rem;
 	padding-bottom: 1.2rem;
 	position: relative;
 `

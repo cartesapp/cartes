@@ -10,6 +10,7 @@ import useSetSearchParams from '../useSetSearchParams'
 import {
 	Approach,
 	Arrival,
+	NoTransitLeg,
 	StationWrapper,
 	Transport,
 	Transports,
@@ -26,10 +27,6 @@ export default function TransitInstructions({ connection }) {
 	//is no pre-transit + transit + post-transit legs
 	//In some cases, there won't be any walk necessary for instance.
 
-	const firstTransitStop = legs[0].to
-
-	const start = modeToFrench[legs[0].mode]
-	const end = modeToFrench[legs[legs.length - 1].mode]
 	return (
 		<Wrapper>
 			<ModalCloseButton
@@ -38,89 +35,97 @@ export default function TransitInstructions({ connection }) {
 				}}
 			/>
 			<h2>Feuille de route</h2>
-			<Approach>
-				<Image
-					src={'/' + start.icon + '.svg'}
-					width="10"
-					height="10"
-					alt={
-						"Icône de l'approche vers le premier arrêt de transport en commun"
-					}
-				/>{' '}
-				{start.present}{' '}
-				<span>{humanDuration(legs[0].duration).single.toLowerCase()}</span>{' '}
-				jusqu'à l'arrêt {firstTransitStop.name}
-			</Approach>
 			<Transports>
 				<ol>
-					{connection.legs
-						.filter((leg) => !notTransitType.includes(leg.mode))
-						.map((leg) => {
-							const {
-								intermediateTrops: halts,
-								trip: {
-									range: { from, to },
-								},
-							} = leg
-
+					{connection.legs.map((leg, index) => {
+						if (notTransitType.includes(leg.mode)) {
+							const { icon, present } = modeToFrench[leg.mode]
 							return (
-								<Transport key={leg.tripId} $transport={leg}>
-									<TransportMoveBlock transport={leg} />
-									<Station
-										{...{
-											leg,
-											stop: leg.from,
-										}}
-									/>
-									{halts?.length > 0 && (
-										<details>
-											<summary>
-												{halts.length} arrêts,{' '}
-												<span>{humanDuration(leg.duration).single}</span>
-											</summary>
-											<ol
-												style={{
-													marginBottom: '1.6rem',
-												}}
-											>
-												{halts.map((stop, index) => (
-													<li key={stop.station.id}>
-														<Station
-															{...{
-																leg,
-																stop,
-															}}
-														/>
-													</li>
-												))}
-											</ol>
-										</details>
+								<NoTransitLeg>
+									<Image
+										src={'/' + icon + '.svg'}
+										width="10"
+										height="10"
+										alt={`Icône du transfert ${
+											index === 0
+												? 'vers le premier arrêt de transport en commun'
+												: index === legs.length - 1
+												? 'de la fin du trajet'
+												: `d'un arrêt de transport à l'autre`
+										}.`}
+									/>{' '}
+									{present}{' '}
+									{index === 0 ? (
+										<>
+											<span>
+												{humanDuration(leg.duration).single.toLowerCase()}
+											</span>{' '}
+											jusqu'à l'arrêt {leg.to.name}
+										</>
+									) : index === legs.length - 1 ? (
+										<>
+											<span>
+												{humanDuration(leg.duration).single.toLowerCase()}
+											</span>{' '}
+											jusqu'à votre destination.
+										</>
+									) : (
+										<>
+											<span>
+												{humanDuration(leg.duration).single.toLowerCase()}
+											</span>{' '}
+										</>
 									)}
-									<Station
-										{...{
-											leg,
-											stop: leg.to,
-											last: true,
-										}}
-									/>
-								</Transport>
+								</NoTransitLeg>
 							)
-						})}
+						}
+
+						const { intermediateTrops: halts } = leg
+						return (
+							<Transport key={leg.tripId} $transport={leg}>
+								<TransportMoveBlock transport={leg} />
+								<Station
+									{...{
+										leg,
+										stop: leg.from,
+									}}
+								/>
+								{halts?.length > 0 && (
+									<details>
+										<summary>
+											{halts.length} arrêts,{' '}
+											<span>{humanDuration(leg.duration).single}</span>
+										</summary>
+										<ol
+											style={{
+												marginBottom: '1.6rem',
+											}}
+										>
+											{halts.map((stop, index) => (
+												<li key={stop.station.id}>
+													<Station
+														{...{
+															leg,
+															stop,
+														}}
+													/>
+												</li>
+											))}
+										</ol>
+									</details>
+								)}
+								<Station
+									{...{
+										leg,
+										stop: leg.to,
+										last: true,
+									}}
+								/>
+							</Transport>
+						)
+					})}
 				</ol>
 			</Transports>
-			<Arrival>
-				<Image
-					src={'/' + end.icon + '.svg'}
-					width="10"
-					height="10"
-					alt={'Icône de la fin du trajet'}
-				/>{' '}
-				{end.present}{' '}
-				<span>
-					{humanDuration(legs[legs.length - 1].duration).single.toLowerCase()}
-				</span>{' '}
-				jusqu'à votre destination.
-			</Arrival>
 		</Wrapper>
 	)
 }
