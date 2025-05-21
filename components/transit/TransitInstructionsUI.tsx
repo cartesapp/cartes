@@ -24,6 +24,8 @@ export const Transports = styled.div`
 `
 
 export const NoTransitLeg = styled.section`
+	font-size: 90%;
+	color: #333;
 	margin: 0.6rem 0;
 	> img {
 		width: 1.4rem;

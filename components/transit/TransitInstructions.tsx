@@ -125,7 +125,9 @@ export default function TransitInstructions({ connection }) {
 	)
 }
 const formatDuration = (duration) =>
-	duration < 15 ? 'en un éclair' : humanDuration(duration).single.toLowerCase()
+	duration < 15
+		? '⚡️ en un éclair'
+		: humanDuration(duration).single.toLowerCase()
 const Station = ({ leg, stop, last = false }) => {
 	return (
 		<StationWrapper $last={last}>
