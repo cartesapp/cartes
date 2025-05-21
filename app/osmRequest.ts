@@ -1,4 +1,4 @@
-import { centerOfMass } from '@turf/turf'
+import { pointOnFeature } from '@turf/turf'
 //import osmApiRequest from '@/components/osm/osmApiRequest'
 import { omit } from '@/components/utils/utils'
 import { resilientOverpassFetch } from './overpassFetcher'
@@ -204,7 +204,7 @@ export const extendOverpassElement = (element) => {
 	const geojson = buildGeojsonFromOverpassElement(element)
 	const center = adminCentre
 		? buildGeojsonFromOverpassElement(adminCentre)
-		: centerOfMass(geojson)
+		: pointOnFeature(geojson)
 	// TODO : for rounded ways, centerOfMass is not on the line, this is unexpected for the user,
 	// we should move the center of mass to the closest node of the way.
 
