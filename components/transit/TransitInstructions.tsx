@@ -55,21 +55,19 @@ export default function TransitInstructions({ connection }) {
 									{index === 0 ? (
 										<>
 											<span>
-												{humanDuration(leg.duration).single.toLowerCase()}
+												<span>{formatDuration(leg.duration)}</span>
 											</span>{' '}
 											jusqu'à l'arrêt {leg.to.name}
 										</>
 									) : index === legs.length - 1 ? (
 										<>
-											<span>
-												{humanDuration(leg.duration).single.toLowerCase()}
-											</span>{' '}
-											jusqu'à votre destination.
+											<span>{formatDuration(leg.duration)}</span> jusqu'à votre
+											destination.
 										</>
 									) : (
 										<>
 											<span>
-												{humanDuration(leg.duration).single.toLowerCase()}
+												<span>{formatDuration(leg.duration)}</span>
 											</span>{' '}
 										</>
 									)}
@@ -126,6 +124,8 @@ export default function TransitInstructions({ connection }) {
 		</Wrapper>
 	)
 }
+const formatDuration = (duration) =>
+	duration < 15 ? 'en un éclair' : humanDuration(duration).single.toLowerCase()
 const Station = ({ leg, stop, last = false }) => {
 	return (
 		<StationWrapper $last={last}>
