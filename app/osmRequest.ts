@@ -238,7 +238,6 @@ const fetchAssociatedStreet = async (element) => {
 			true // to get relations
 		)
 		const json = await resilientOverpassFetch(relationQuery)
-		console.log('Etienne fetchAssociatedStreet', json)
 		// find the relation of type associatedStreet and return it
 		const relation = json.elements.find((element) => {
 			const {
@@ -273,9 +272,9 @@ const fetchStreet = async (element) => {
 		 */
 		const query =
 			`[out:json]; ${element.type}(id:${element.id});` + //get starting element
-			'<; relation._[type=associatedStreet]; out tags;' + // get and output the street relation
-			'>; way._ -> .w;' + //get and store the ways members of the relation
-			`${element.type}(id:${element.id});` + //get starting element again (input set seems broken on complete ?)
+			'<; relation._[type=associatedStreet]; out tags;' + // get and output the street relation(s)
+			'>; way._[highway] -> .w;' + //get and store the street ways members of the relation(s)
+			`${element.type}(id:${element.id});` + //get starting element again (input set seems broken with complete statement ?)
 			`complete { way[highway]["name"~"${element.tags.name}",i](around:30); };` + // get all highways by name
 			'(._; .w;);' + //merge all found ways
 			'out body geom qt;' //output all ways
@@ -283,8 +282,9 @@ const fetchStreet = async (element) => {
 		// fetch all the ways of the street
 		const json = await resilientOverpassFetch(query)
 
-		// if available (as 1st element), read relation tags and update way tags
-		if (json.elements[0].type == 'relation') {
+		// if relation(s) available, read tags and update way tags
+		// (several relations may happen for boundary streets)
+		while (json.elements[0].type == 'relation') {
 			const relationTags = json.elements[0].tags
 			element.tags = omit(['type'], {
 				...relationTags,
@@ -292,9 +292,10 @@ const fetchStreet = async (element) => {
 			})
 			json.elements.shift() //remove relation from the array
 		}
-		// TODO merge all tags from all ways ??
+		// TODO handle "smart" merge when several relations ? (like several cities or Fantoir codes)
+		// TODO when no relation, merge tags from the ways ?
 
-		//if only 1 element, it is the way itself, return it
+		//if only 1 element left, it is the way itself, return it
 		if (json.elements.length == 1) return element
 
 		// Build and return an asssociatedStreet-like relation
