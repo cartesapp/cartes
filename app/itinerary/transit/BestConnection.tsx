@@ -16,7 +16,7 @@ export default function BestConnection({ bestConnection }) {
 	const leg = findConnectionTransit(bestConnection.best)
 	const stop = leg.from.name
 
-	const transportType = motisModeCorrespondance(leg.mode)
+	const transportType = motisModeCorrespondance[leg.mode]
 	return (
 		<Wrapper>
 			<Image
