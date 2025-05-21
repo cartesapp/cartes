@@ -22,10 +22,7 @@ export default function TransitInstructions({ connection }) {
 	const setSearchParams = useSetSearchParams()
 	console.log('lightpurple', connection)
 	const { legs } = connection
-	if (legs.length < 3) return
-	//TODO this condition was probably put here because we don't handle when there
-	//is no pre-transit + transit + post-transit legs
-	//In some cases, there won't be any walk necessary for instance.
+	if (!legs.length) return
 
 	return (
 		<Wrapper>
