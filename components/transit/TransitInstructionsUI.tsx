@@ -58,7 +58,7 @@ export const StationWrapper = styled.section`
 	${(p) => p.$last && `position: absolute; bottom: -.8rem; left: 0`}
 `
 export const Transport = styled.li`
-	border-left: 4px solid ${(p) => p.$transport.route_color};
+	border-left: 4px solid ${(p) => p.$transport.routeColor};
 	> span {
 		border-top-right-radius: 0.3rem;
 		border-bottom-right-radius: 0.3rem;

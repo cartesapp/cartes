@@ -1,6 +1,10 @@
 import { ModalCloseButton } from '@/app/UI'
 import TransportMoveBlock from '@/app/itinerary/transit/TransportMoveBlock'
-import { formatMotis, humanDuration } from '@/app/itinerary/transit/utils'
+import {
+	formatIsoDate,
+	formatMotis,
+	humanDuration,
+} from '@/app/itinerary/transit/utils'
 import Image from 'next/image'
 import useSetSearchParams from '../useSetSearchParams'
 import {
@@ -16,14 +20,16 @@ import { notTransitType } from '@/app/itinerary/transit/motisRequest'
 export default function TransitInstructions({ connection }) {
 	const setSearchParams = useSetSearchParams()
 	console.log('lightpurple', connection)
-	if (connection.transports.length < 3) return
-	const { transports, stops } = connection
+	const { legs } = connection
+	if (legs.length < 3) return
+	//TODO this condition was probably put here because we don't handle when there
+	//is no pre-transit + transit + post-transit legs
+	//In some cases, there won't be any walk necessary for instance.
 
-	const firstTransitStopIndex = transports[1].trip.range.from,
-		firstTransitStop = stops[firstTransitStopIndex]
+	const firstTransitStop = legs[0].to
 
-	const start = modeToFrench[transports[0].mode]
-	const end = modeToFrench[transports[transports.length - 1].mode]
+	const start = modeToFrench[legs[0].mode]
+	const end = modeToFrench[legs[legs.length - 1].mode]
 	return (
 		<Wrapper>
 			<ModalCloseButton
@@ -42,48 +48,35 @@ export default function TransitInstructions({ connection }) {
 					}
 				/>{' '}
 				{start.present}{' '}
-				<span>
-					{humanDuration(transports[0].duration).single.toLowerCase()}
-				</span>{' '}
-				jusqu'à l'arrêt {firstTransitStop.station.name}
+				<span>{humanDuration(legs[0].duration).single.toLowerCase()}</span>{' '}
+				jusqu'à l'arrêt {firstTransitStop.name}
 			</Approach>
 			<Transports>
 				<ol>
-					{connection.transports
-						.filter((transport) => !notTransitType.includes(transport.mode))
-						.map((transport) => {
+					{connection.legs
+						.filter((leg) => !notTransitType.includes(leg.mode))
+						.map((leg) => {
 							const {
+								intermediateTrops: halts,
 								trip: {
 									range: { from, to },
 								},
-							} = transport
-							const transportStops = stops.slice(from, to + 1)
+							} = leg
 
-							console.log('lightpurple halts', from, to, transportStops, stops)
-
-							const halts =
-								transportStops.length > 2 && transportStops.slice(1, -1)
 							return (
-								<Transport key={transport.route_id} $transport={transport}>
-									<TransportMoveBlock transport={transport} />
+								<Transport key={leg.tripId} $transport={leg}>
+									<TransportMoveBlock transport={leg} />
 									<Station
 										{...{
-											transport,
-											stop: transportStops[0],
+											leg,
+											stop: leg.from,
 										}}
 									/>
-									{halts && (
+									{halts?.length > 0 && (
 										<details>
 											<summary>
 												{halts.length} arrêts,{' '}
-												<span>
-													{
-														humanDuration(
-															transportStops.slice(-1)[0].arrival.time -
-																transportStops[0].departure.time
-														).single
-													}
-												</span>
+												<span>{humanDuration(leg.duration).single}</span>
 											</summary>
 											<ol
 												style={{
@@ -94,9 +87,8 @@ export default function TransitInstructions({ connection }) {
 													<li key={stop.station.id}>
 														<Station
 															{...{
-																transport,
+																leg,
 																stop,
-																firstStop: transportStops[0].departure.time,
 															}}
 														/>
 													</li>
@@ -106,8 +98,8 @@ export default function TransitInstructions({ connection }) {
 									)}
 									<Station
 										{...{
-											transport,
-											stop: transportStops[transportStops.length - 1],
+											leg,
+											stop: leg.to,
 											last: true,
 										}}
 									/>
@@ -125,35 +117,29 @@ export default function TransitInstructions({ connection }) {
 				/>{' '}
 				{end.present}{' '}
 				<span>
-					{humanDuration(
-						transports[transports.length - 1].duration
-					).single.toLowerCase()}
+					{humanDuration(legs[legs.length - 1].duration).single.toLowerCase()}
 				</span>{' '}
 				jusqu'à votre destination.
 			</Arrival>
 		</Wrapper>
 	)
 }
-const Station = ({ transport, stop, baseTime = null, last = false }) => {
+const Station = ({ leg, stop, last = false }) => {
 	return (
 		<StationWrapper $last={last}>
 			<span>
-				<StationDisc color={transport.route_color} last={last} />{' '}
-				<small>{stop.station.name}</small>
+				<StationDisc color={leg.routeColor} last={last} />{' '}
+				<small>{stop.name}</small>
 			</span>
 			<small>
-				{baseTime ? (
-					humanDuration(stop.arrival.time - baseTime).single
-				) : (
-					<span
-						style={{
-							color: 'gray',
-							marginLeft: '0.4rem',
-						}}
-					>
-						{formatMotis(stop.departure?.time || stop.arrival?.time)}
-					</span>
-				)}
+				<span
+					style={{
+						color: 'gray',
+						marginLeft: '0.4rem',
+					}}
+				>
+					{formatIsoDate(stop.scheduledDeparture || stop.scheduledArrival)}
+				</span>
 			</small>
 		</StationWrapper>
 	)

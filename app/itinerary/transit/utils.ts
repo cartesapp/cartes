@@ -44,6 +44,9 @@ export const dateFromMotis = (timestamp) => new Date(timestamp * 1000)
 export const formatMotis = (timestamp) =>
 	startDateFormatter.format(dateFromMotis(timestamp))
 
+export const formatIsoDate = (isoDate) =>
+	startDateFormatter.format(new Date(isoDate))
+
 export const startDateFormatter = Intl.DateTimeFormat('fr-FR', {
 	hour: 'numeric',
 	minute: 'numeric',
