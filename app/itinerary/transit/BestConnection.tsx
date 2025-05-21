@@ -6,14 +6,17 @@ import {
 	nextDeparturesSentence,
 } from './findBestConnection'
 
-import { routeTypeName } from '@/components/transit/modeCorrespondance'
+import {
+	motisModeCorrespondance,
+	routeTypeName,
+} from '@/components/transit/modeCorrespondance'
 
 export default function BestConnection({ bestConnection }) {
 	console.log('prune best', bestConnection)
 	const leg = findConnectionTransit(bestConnection.best)
 	const stop = leg.from.name
 
-	const transportType = routeTypeName(leg.route_type)
+	const transportType = motisModeCorrespondance(leg.mode)
 	return (
 		<Wrapper>
 			<Image

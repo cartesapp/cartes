@@ -6,7 +6,9 @@ import {
 import { lightenColor } from '@/components/utils/colors'
 import { distance, point } from '@turf/turf'
 import { handleColor, trainColors } from './colors'
-import transportIcon, { isMotisTrainMode } from '@/components/transit/modeCorrespondance'
+import transportIcon, {
+	isMotisTrainMode,
+} from '@/components/transit/modeCorrespondance'
 import { defaultRouteColor, nowStamp, stamp } from './utils'
 
 // For onTrip, see https://github.com/motis-project/motis/issues/471#issuecomment-2247099832

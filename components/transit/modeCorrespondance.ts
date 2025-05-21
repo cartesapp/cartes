@@ -43,7 +43,7 @@ export const routeTypeName = (routeType) => {
 	return routeTypeCorrespondance[routeType]
 }
 
-const motisModeCorrespondance = {
+export const motisModeCorrespondance = {
 	TRAM: 'tramway',
 	SUBWAY: 'métro',
 	FERRY: 'ferry',
@@ -79,3 +79,8 @@ const motisModeIconCorrespondance = {
 
 export const isMotisTrainMode = (mode) =>
 	mode.includes('RAIL') || mode === 'LONG_DISTANCE'
+
+export function motisModeIcon(mode) {
+	const found = motisModeIconCorrespondance[mode]
+	return found || '/icons/bus.svg'
+}

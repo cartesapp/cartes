@@ -1,5 +1,8 @@
 import Image from 'next/image'
-import { transportTypeIcon } from '@/components/transit/modeCorrespondance'
+import {
+	motisModeIcon,
+	transportTypeIcon,
+} from '@/components/transit/modeCorrespondance'
 import { isWhiteColor } from '@/components/css/utils'
 import { findContrastedTextColor } from '@/components/utils/colors'
 import { styled } from 'next-yak'
@@ -21,7 +24,7 @@ export default function TransportMoveBlock({ transport }) {
 	return (
 		<Wrapper $background={background} $textColor={textColor}>
 			<Image
-				src={transportTypeIcon(transport.route_type)}
+				src={motisModeIcon(transport.mode)}
 				alt="Icône du type de transport : train, tram, bus, etc"
 				width="100"
 				height="100"
