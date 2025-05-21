@@ -13,7 +13,7 @@ const typeIconCorrespondance = {
 	2: '/icons/train.svg',
 	3: '/icons/bus.svg',
 	4: '/icons/ferry.svg',
-	5: '/icons/tram.svg', // so rare
+	5: '/icons/tram.svg',
 	6: '/icons/téléphérique.svg',
 	7: '/icons/funiculaire.svg',
 	11: '/icons/trolleybus.svg',
@@ -38,6 +38,41 @@ const routeTypeCorrespondance = {
 	11: 'trolleybus',
 	12: 'monorail', // how to represent this ?
 }
+
 export const routeTypeName = (routeType) => {
 	return routeTypeCorrespondance[routeType]
+}
+
+const motisModeCorrespondance = {
+	TRAM: 'tramway',
+	SUBWAY: 'métro',
+	FERRY: 'ferry',
+	AIRPLANE: 'avion',
+	BUS: 'bus',
+	COACH: 'car',
+	RAIL: 'rail',
+	HIGHSPEED_RAIL: 'TGV',
+	LONG_DISTANCE: 'intercité',
+	NIGHT_RAIL: 'train de nuit',
+	REGIONAL_FAST_RAIL: 'TER',
+	REGIONAL_RAIL: 'TER',
+	METRO: 'métro',
+}
+
+const motisModeIconCorrespondance = {
+	TRAM: '/icons/tram.svg',
+	METRO: '/icons/metro.svg',
+	SUBWAY: '/icons/metro.svg',
+	RAIL: '/icons/train.svg',
+	HIGHSPEED_RAIL: '/icons/train.svg',
+	LONG_DISTANCE: '/icons/train.svg',
+	NIGHT_RAIL: '/icons/train.svg',
+	REGIONAL_FAST_RAIL: '/icons/train.svg',
+	REGIONAL_RAIL: '/icons/train.svg',
+	BUS: '/icons/bus.svg',
+	COACH: '/icons/bus.svg',
+	FERRY: '/icons/ferry.svg',
+	//	: '/icons/téléphérique.svg',
+	//	: '/icons/funiculaire.svg',
+	//: '/icons/trolleybus.svg',
 }

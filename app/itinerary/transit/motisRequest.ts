@@ -149,9 +149,8 @@ export const computeMotisTrip = async (
 						const gtfsAttributes = await doFetch()
 						console.log(
 							'indigo motis augmented',
-							gtfsAttributes,
-							rawTripId,
-							tripId
+							Object.entries(gtfsAttributes).filter(([k, v]) => v != null),
+							Object.entries(leg).filter(([k, v]) => v != null)
 						)
 						const { route_color, route_text_color, route_type } =
 								gtfsAttributes,
