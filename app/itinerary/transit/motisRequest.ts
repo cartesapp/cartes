@@ -1,4 +1,7 @@
-import { gtfsServerUrl, motisServerUrl } from '@/app/serverUrls'
+import { motisServerUrl } from '@/app/serverUrls'
+import transportIcon, {
+	isMotisTrainMode,
+} from '@/components/transit/modeCorrespondance'
 import {
 	decodeStepModeParams,
 	stepModeParamsToMotis,
@@ -6,9 +9,6 @@ import {
 import { lightenColor } from '@/components/utils/colors'
 import { distance, point } from '@turf/turf'
 import { handleColor, trainColors } from './colors'
-import transportIcon, {
-	isMotisTrainMode,
-} from '@/components/transit/modeCorrespondance'
 import { defaultRouteColor, nowStamp, stamp } from './utils'
 
 // For onTrip, see https://github.com/motis-project/motis/issues/471#issuecomment-2247099832
@@ -134,29 +134,7 @@ export const computeMotisTrip = async (
 							(correspondance, p0, p1, p2, p3, decalage, chaine) => p1 + p3
 						)
 
-						const doFetch = async () => {
-							try {
-								if (!tripId) return {}
-								const request = await fetch(
-									`${gtfsServerUrl}/routes/trip/${encodeURIComponent(tripId)}`
-								)
-								const json = await request.json()
-								const safeAttributes = json.routes[0] || {}
-								return safeAttributes
-							} catch (e) {
-								console.error('Unable to fetch route color from GTFS server')
-								return {}
-							}
-						}
-						const gtfsAttributes = await doFetch()
-						console.log(
-							'indigo motis augmented',
-							Object.entries(gtfsAttributes).filter(([k, v]) => v != null),
-							Object.entries(leg).filter(([k, v]) => v != null)
-						)
-						const { route_color, route_text_color, route_type } =
-								gtfsAttributes,
-							isTrain = isMotisTrainMode(leg.mode)
+						const isTrain = isMotisTrainMode(leg.mode)
 
 						const isBretagneTGV = tripId.startsWith('bretagne_SNCF2')
 
@@ -189,23 +167,19 @@ export const computeMotisTrip = async (
 								: null
 
 						const customAttributes = {
-							route_color: isTGV
+							routeColor: isTGV
 								? trainColors.TGV['color']
 								: isOUIGO
 								? trainColors.OUIGO['color']
 								: frenchTrainType === 'TER'
 								? trainColors.TER['color']
-								: handleColor(route_color, defaultRouteColor),
-							route_text_color: isTGV
+								: handleColor(leg.routeColor, defaultRouteColor),
+							routeTextColor: isTGV
 								? '#fff'
 								: isOUIGO
 								? '#fff'
-								: handleColor(route_text_color, '#000000'),
+								: handleColor(leg.routeTextColor, '#000000'),
 							icon: transportIcon(frenchTrainType, prefix),
-						}
-						const attributes = {
-							...gtfsAttributes,
-							...customAttributes,
 						}
 
 						/* Temporal aspect */
@@ -213,9 +187,9 @@ export const computeMotisTrip = async (
 						const shortName = frenchTrainType || leg.routeShortName
 						return {
 							...leg,
-							...attributes,
-							routeColorDarker: attributes.route_color
-								? lightenColor(attributes.route_color, -20)
+							...customAttributes,
+							routeColorDarker: customAttributes.routeColor
+								? lightenColor(customAttributes.routeColor, -20)
 								: '#5b099f',
 							tripId,
 							frenchTrainType,
