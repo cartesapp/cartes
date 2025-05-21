@@ -293,8 +293,9 @@ const draw = (
 			'text-offset': [0, 1.25],
 			'text-font': ['RobotoBold-NotoSansBold'],
 			'text-size': 15,
-			'text-anchor': category.iconAnchor === 'bottom' ? 'center' : 'top',
-			'icon-anchor': category.iconAnchor || 'center',
+			// text and icon offset : different for pin icon than for other circle icons
+			'text-anchor': category.icon === 'pins' ? 'center' : 'top',
+			'icon-offset': category.icon === 'pins' ? [0, -18] : [0, 0], //center on pin bottom point
 		},
 		paint: {
 			'text-color': '#503f38',
@@ -317,7 +318,8 @@ const draw = (
 			'circle-color': ['get', 'isOpenColor'],
 			'circle-stroke-color': colors['color'],
 			'circle-stroke-width': 1.5,
-			'circle-translate': [12, -12],
+			// translate : different for pin icon than for other circle icons
+			'circle-translate': category.icon === 'pins' ? [12, -36] : [12, -12],
 		},
 		filter: ['!=', 'isOpenColor', false],
 	})
