@@ -5,7 +5,8 @@ import {
 	findConnectionTransit,
 	nextDeparturesSentence,
 } from './findBestConnection'
-import { routeTypeName } from './transportIcon'
+
+import { routeTypeName } from '@/components/transit/modeCorrespondance'
 
 export default function BestConnection({ bestConnection }) {
 	console.log('prune best', bestConnection)

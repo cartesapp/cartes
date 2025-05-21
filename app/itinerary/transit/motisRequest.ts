@@ -6,7 +6,7 @@ import {
 import { lightenColor } from '@/components/utils/colors'
 import { distance, point } from '@turf/turf'
 import { handleColor, trainColors } from './colors'
-import transportIcon from './transportIcon'
+import transportIcon, { isMotisTrainMode } from '@/components/transit/modeCorrespondance'
 import { defaultRouteColor, nowStamp, stamp } from './utils'
 
 // For onTrip, see https://github.com/motis-project/motis/issues/471#issuecomment-2247099832
@@ -154,7 +154,7 @@ export const computeMotisTrip = async (
 						)
 						const { route_color, route_text_color, route_type } =
 								gtfsAttributes,
-							isTrain = route_type === 2
+							isTrain = isMotisTrainMode(leg.mode)
 
 						const isBretagneTGV = tripId.startsWith('bretagne_SNCF2')
 

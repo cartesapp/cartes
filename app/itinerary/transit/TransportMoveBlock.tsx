@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { transportTypeIcon } from './transportIcon'
+import { transportTypeIcon } from '@/components/transit/modeCorrespondance'
 import { isWhiteColor } from '@/components/css/utils'
 import { findContrastedTextColor } from '@/components/utils/colors'
 import { styled } from 'next-yak'

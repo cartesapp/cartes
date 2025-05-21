@@ -76,3 +76,6 @@ const motisModeIconCorrespondance = {
 	//	: '/icons/funiculaire.svg',
 	//: '/icons/trolleybus.svg',
 }
+
+export const isMotisTrainMode = (mode) =>
+	mode.includes('RAIL') || mode === 'LONG_DISTANCE'
