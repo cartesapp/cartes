@@ -344,8 +344,8 @@ const MoveBlockImage = styled(Image)`
 			  `
 			: p.$transport === 'pause'
 			? css`
-					height: 1.15rem !important;
-					margin: 0.2rem 0 0 0 !important;
+					height: 1rem !important;
+					margin: 0.12rem 0 0 0 !important;
 					opacity: 0.7;
 			  `
 			: css`

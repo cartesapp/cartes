@@ -70,7 +70,7 @@ export const Line = ({
 							}
 							style={{
 								width: (transport.duration / connection.duration) * 100 + '%',
-								height: '1.8rem',
+								height: transport.mode === 'PAUSE' ? '1.5rem' : '1.8rem',
 								borderRight: '2px solid white',
 							}}
 						>
