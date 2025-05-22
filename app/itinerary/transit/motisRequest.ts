@@ -72,7 +72,7 @@ const buildRequestBody = (start, destination, date, searchParams) => {
 		...(correspondances == null
 			? {}
 			: {
-					maxTransfers: +correspondances,
+					maxTransfers: +correspondances + 1,
 			  }),
 		...(tortue
 			? {
