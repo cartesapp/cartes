@@ -15,9 +15,9 @@ export default function TransportMoveBlock({ transport }) {
 	const name = transport.shortName?.toUpperCase().replace(/TRAM\s?/g, 'T')
 	const background = handleColor(transport.routeColor, defaultTransitColor),
 		color = handleColor(transport.routeTextColor, defaultTransitColor)
+	const contrastedColor = findContrastedTextColor(background, true)
 	const textColor =
-		(color && (color !== background ? color : null)) ||
-		findContrastedTextColor(background, true)
+		(color && (color !== background ? color : null)) || contrastedColor
 	return (
 		<Wrapper $background={background} $textColor={textColor}>
 			<Image
@@ -25,6 +25,7 @@ export default function TransportMoveBlock({ transport }) {
 				alt="Icône du type de transport : train, tram, bus, etc"
 				width="100"
 				height="100"
+				style={contrastedColor === '#ffffff' ? { filter: 'invert(1)' } : {}}
 			/>
 			{transport.icon ? (
 				<Image
