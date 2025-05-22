@@ -77,9 +77,15 @@ export default function useDrawFeatures(
 					baseId + 'points',
 					baseId + 'points-is-open',
 					baseId + 'lines',
+					baseId + 'outlines',
 					baseId + 'polygons',
 				],
-				[baseId + 'points', baseId + 'lines', baseId + 'polygons']
+				[
+					baseId + 'points',
+					baseId + 'lines',
+					baseId + 'outlines',
+					baseId + 'polygons',
+				]
 			)
 		}
 
@@ -167,7 +173,28 @@ export default function useDrawFeatures(
 				.map((f) => {
 					const shape = f.polygon || f.geojson // why f.polygon ?
 					if (!shape) return null
-					if (shape.geometry.type == 'Point') return null
+					if (shape.geometry.type != 'LineString') return null
+					const tags = f.tags || {}
+					const feature = {
+						type: 'Feature',
+						geometry: shape.geometry,
+						properties: {
+							id: f.id,
+							tags,
+							name: tags.name,
+						},
+					}
+					return feature
+				})
+				.filter(Boolean),
+		}
+		const outlinesData = {
+			type: 'FeatureCollection',
+			features: shownFeaturesFlat
+				.map((f) => {
+					const shape = f.polygon || f.geojson // why f.polygon ?
+					if (!shape) return null
+					if (shape.geometry.type != 'Polygon') return null
 					const tags = f.tags || {}
 					const feature = {
 						type: 'Feature',
@@ -222,6 +249,7 @@ export default function useDrawFeatures(
 		}
 		sources.polygons.setData(polygonsData)
 		sources.lines.setData(linesData)
+		sources.outlines.setData(outlinesData)
 		sources.points.setData(pointsData)
 	}, [category, features, showOpenOnly, sources])
 }
@@ -248,12 +276,17 @@ const draw = (
 		type: 'geojson',
 		data: geojsonPlaceholder,
 	})
+	map.addSource(baseId + 'outlines', {
+		type: 'geojson',
+		data: geojsonPlaceholder,
+	})
 	map.addSource(baseId + 'polygons', {
 		type: 'geojson',
 		data: geojsonPlaceholder,
 	})
 	setSources({
 		points: map.getSource(baseId + 'points'),
+		outlines: map.getSource(baseId + 'outlines'),
 		lines: map.getSource(baseId + 'lines'),
 		polygons: map.getSource(baseId + 'polygons'),
 	})
@@ -270,15 +303,40 @@ const draw = (
 			'fill-opacity': 0.3,
 		},
 	})
-	// - lines
+	// - outlines for Polygons
+	map.addLayer({
+		id: baseId + 'outlines',
+		type: 'line',
+		source: baseId + 'outlines',
+		layout: {},
+		paint: {
+			'line-color': colors['color'],
+			'line-width': 3,
+			'line-blur': 0.5,
+		},
+	})
+	// - lines for LineStrings
 	map.addLayer({
 		id: baseId + 'lines',
 		type: 'line',
 		source: baseId + 'lines',
-		layout: {},
+		layout: {
+			'line-join': 'round',
+			'line-cap': 'round',
+		},
 		paint: {
 			'line-color': colors['color'],
-			'line-width': 2,
+			'line-opacity': [
+				'interpolate',
+				['linear', 2],
+				['zoom'],
+				16,
+				0.7,
+				20,
+				0.3,
+			],
+			'line-width': ['interpolate', ['linear', 2], ['zoom'], 16, 6, 20, 24],
+			'line-blur': ['interpolate', ['linear', 2], ['zoom'], 16, 2, 20, 8],
 		},
 	})
 	// - points, for markers
