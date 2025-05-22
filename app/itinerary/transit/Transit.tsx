@@ -281,7 +281,11 @@ export const TimelineTransportBlock = ({ transport }) => {
 					? 'voiture'
 					: transport.mode === 'BIKE'
 					? 'vélo'
-					: 'marche')
+					: transport.mode === 'WALK'
+					? 'marche'
+					: transport.mode === 'PAUSE'
+					? 'correspondance'
+					: transport.mode)
 			} ${transport.routeLongName || ''}`}
 		>
 			{transport.shortName ? (
@@ -310,6 +314,14 @@ export const TimelineTransportBlock = ({ transport }) => {
 					height="100"
 					$transport="walking"
 				/>
+			) : transport.mode === 'PAUSE' ? (
+				<MoveBlockImage
+					src={'/sablier.svg'}
+					alt="Icône d'un sablier pour symboliser l'attente d'un transport en commun"
+					width="100"
+					height="100"
+					$transport="pause"
+				/>
 			) : (
 				'UNDEFINED LEG MODE'
 			)}
@@ -329,6 +341,12 @@ const MoveBlockImage = styled(Image)`
 			? css`
 					height: 1.4rem !important;
 					margin: -0.1rem 0 0 0 !important;
+			  `
+			: p.$transport === 'pause'
+			? css`
+					height: 1.15rem !important;
+					margin: 0.2rem 0 0 0 !important;
+					opacity: 0.7;
 			  `
 			: css`
 					height: 1.4rem !important;

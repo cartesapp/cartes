@@ -3,7 +3,7 @@ import useSetSearchParams from '@/components/useSetSearchParams'
 import { styled } from 'next-yak'
 import { useRef } from 'react'
 import { TimelineTransportBlock } from './Transit'
-import { formatMotis, humanDuration } from './utils'
+import { formatMotis, humanDuration, stamp } from './utils'
 
 export const Line = ({
 	connectionsTimeRange,
@@ -17,8 +17,6 @@ export const Line = ({
 }) => {
 	const setSearchParams = useSetSearchParams()
 
-	console.log('lightgreen line', transports, setSearchParams, from, to)
-
 	const { from: absoluteFrom, to: absoluteTo } = connectionsTimeRange
 	const length = absoluteTo - absoluteFrom
 
@@ -26,6 +24,31 @@ export const Line = ({
 		left = ((from - absoluteFrom) / length) * 100
 
 	const animatedScrollRef = useRef()
+
+	const transportsWithPauses = transports
+		.map((transport, index) => {
+			if (!index) return transport
+			const pause =
+					stamp(transport.scheduledStartTime) -
+					stamp(transports[index - 1].scheduledEndTime),
+				hasSignificantPause = pause > 5 * 60
+
+			if (hasSignificantPause)
+				return [
+					{
+						duration: pause,
+						mode: 'PAUSE',
+						routeColor: '#c6c9f5', // not convinced by this color, but coding quick this new feature
+						endTime: transport.endTime,
+					},
+					transport,
+				]
+			return transport
+		})
+		.flat()
+
+	console.log('lightgreen line', transports, from, to, transportsWithPauses)
+
 	return (
 		<Wrapper
 			onClick={() =>
@@ -38,7 +61,7 @@ export const Line = ({
 		>
 			<SizedLine ref={animatedScrollRef} $barWidth={barWidth} $left={left}>
 				<ul>
-					{transports.map((transport) => (
+					{transportsWithPauses.map((transport, index) => (
 						<li
 							key={
 								transport.tripId ||
