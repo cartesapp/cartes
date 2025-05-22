@@ -16,19 +16,27 @@ import {
 import {
 	addMinutes,
 	encodeDate,
+	formatIsoDate,
+	htmlDatetimeLocalValueFormatter,
 	initialDate,
 	isDateNow,
 	stamp,
 } from './transit/utils'
 
 // Can be type date (day + hour) or type day
-export default function DateSelector({ date, type = 'date', planification }) {
+export default function DateSelector({
+	date,
+	type = 'date',
+	planification = 'non',
+}) {
 	const [forceShowDateInput, setForceShowDateInput] = useState(false)
 	const defaultDate = initialDate(type)
 	const [localDate, setLocalDate] = useState(date || defaultDate)
 	const setSearchParams = useSetSearchParams()
 
-	console.log('indigo ddate', date, isDateNow(date))
+	const localeDateString = htmlDatetimeLocalValueFormatter(localDate)
+	console.log('indigo ddate', localDate, localeDateString)
+
 	const shouldShowDateInput = forceShowDateInput || !isDateNow(date)
 	const updateDate = (newDate, noPush = true) => {
 		if (!noPush) setLocalDate(newDate)
@@ -62,7 +70,7 @@ export default function DateSelector({ date, type = 'date', planification }) {
 						type={type === 'date' ? 'datetime-local' : 'date'}
 						id="date"
 						name="date"
-						value={localDate}
+						value={localeDateString}
 						min={defaultDate}
 						onChange={(e) => {
 							const value = e.target.value

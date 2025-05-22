@@ -17,6 +17,7 @@ export default function useFetchItinerary(searchParams, state, allez) {
 	const setSearchParams = useSetSearchParams()
 	const [routes, setRoutes] = useState(null)
 	const date = decodeDate(searchParams.date) || initialDate()
+
 	const bikeRouteProfile = searchParams['profil-velo'] || 'safety'
 	const setBikeRouteProfile = useCallback(
 		(profile) => setSearchParams({ 'profil-velo': profile }),

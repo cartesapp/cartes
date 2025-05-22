@@ -47,10 +47,21 @@ export const formatMotis = (timestamp) =>
 export const formatIsoDate = (isoDate) =>
 	startDateFormatter.format(new Date(isoDate))
 
-export const startDateFormatter = Intl.DateTimeFormat('fr-FR', {
+const startDateFormatter = Intl.DateTimeFormat('fr-FR', {
 	hour: 'numeric',
 	minute: 'numeric',
 })
+
+// thanks https://stackoverflow.com/questions/28760254/assign-javascript-date-to-html5-datetime-local-input
+export const htmlDatetimeLocalValueFormatter = (dateString) => {
+	const d = new Date(dateString)
+	const dateTimeLocalValue = new Date(
+		d.getTime() - d.getTimezoneOffset() * 60000
+	)
+		.toISOString()
+		.slice(0, -1)
+	return dateTimeLocalValue
+}
 
 export const datePlusHours = (date, hours) => {
 	const today = new Date(date)
@@ -68,7 +79,7 @@ export const defaultRouteColor = '#d3b2ee'
 export const hours = (num) => num * 60 * 60,
 	minutes = (num) => num * 60
 
-export const initialDate = (type = 'date', givenDate) => {
+export const initialDate = (type = 'date', givenDate = null) => {
 	const baseDate = givenDate ? new Date(givenDate) : new Date()
 	const stringDate = baseDate.toISOString()
 
