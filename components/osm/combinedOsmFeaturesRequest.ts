@@ -1,53 +1,31 @@
 import {
-	buildStepFromOverpassNode,
-	buildStepFromOverpassWayOrRelation,
+	extendOverpassElement,
 } from '@/app/osmRequest'
 import { resilientOverpassFetch } from '@/app/overpassFetcher'
 
+/**
+ * Fetch an Overpass request to get the data about a list of OSM elements (resulting from a photon search for example)
+ * @param queries the list of type+id for the wanted OSM elements
+ * @returns an array of augmented elements : osmCode, tags, geojson, center, ...
+ */
 export default async function combinedOsmFeaturesRequest(queries) {
+	// build the request body by joining type and id of the requested elements
 	const requestBody = queries
 		.map((result) => {
 			const { osmId, featureType, latitude, longitude } = result
-
-			return `${featureType}(id:${osmId});(._;>;); out body; `
+			return `${featureType}(id:${osmId});`
 		})
 		.join('')
 
-	const requestString = `[out:json];${requestBody}`
-	const query = encodeURIComponent(requestString)
+	// build the complete query by adding output paramaters
+	const query = `[out:json];(${requestBody});out body geom qt;`
 
+	// fetch the Overpass request
 	const options = {
 		next: { revalidate: 5 * 60 },
 	}
 	const json = await resilientOverpassFetch(query, options)
 
-	const { elements } = json
-
-	const results = queries
-		.map((query) => {
-			const found = elements.find(
-				(element) =>
-					query.osmId === element.id && query.featureType === element.type
-			)
-
-			if (!found) return false
-			const feature =
-				query.featureType === 'node'
-					? buildStepFromOverpassNode(found, query.featureType, query.osmId)
-					: buildStepFromOverpassWayOrRelation(
-							found,
-							elements,
-							query.osmId,
-							query.featureType
-					  )
-
-			return feature
-		})
-		.filter(Boolean)
-	console.log('requestString', requestString, results)
-
-	//TODO we don't handle housenumbers like in osmRequest, not sure we need this
-	//in this combinedOsmRequest function that is used to enrich photon search
-	//results with OSM tags
-	return results
+	// return list of extended Overpass elements (osmCode, tags, geojson, center, ...)
+	return json.elements.map((element) => extendOverpassElement(element) )
 }

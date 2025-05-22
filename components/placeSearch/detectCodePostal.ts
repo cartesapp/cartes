@@ -9,7 +9,7 @@ async function overpassRequest(input, then) {
 	// e.g. Nancy 54000
 	// ~ because Nancy has postal_code: "54000;54100"
 	// ref:INSEE because there is postal_code: "154000" in China
-	const overpassRequest = `
+	const query = `
 	[out:json];
 		relation["ref:INSEE"]["postal_code"~"${input}"];
 		out body;
@@ -17,10 +17,7 @@ async function overpassRequest(input, then) {
 out skel qt;
 	`
 
-	console.log('indigo overpass', overpassRequest)
-	const query = encodeURIComponent(overpassRequest)
-
-	console.log('Query:', query)
+	console.log('overpass query:', query)
 
 	const json = await resilientOverpassFetch(query)
 

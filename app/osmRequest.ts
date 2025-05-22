@@ -1,58 +1,34 @@
-import { centerOfMass } from '@turf/turf'
-import { isServer } from './serverUrls'
+import { pointOnFeature } from '@turf/turf'
 //import osmApiRequest from '@/components/osm/osmApiRequest'
-import { lonLatToPoint } from '@/components/geoUtils'
-import buildOsmFeatureGeojson from '@/components/osm/buildOsmFeatureGeojson'
 import { omit } from '@/components/utils/utils'
 import { resilientOverpassFetch } from './overpassFetcher'
 import { encodePlace } from './utils'
 
-export const overpassFetchOptions = isServer
-	? {
-			headers: {
-				'User-Agent': 'Cartes.app',
-			},
-			next: { revalidate: 5 * 60 },
-	  }
-	: { cache: 'force-cache' }
-
-export const overpassRequestSuffixs = [
-	'https://overpass.cartes.app/api/interpreter?data=',
-	'https://overpass-api.de/api/interpreter?data=',
-]
-
-const buildOverpassQuery = (
+/**
+ * Build the Overpass query to get 1 element with its geometry using parameter `out geom`
+ * Since there is no recursion, no other element is returned than the requested one
+ * (except when relations=true, which returns all the relations that include the
+ * requested element, and not the element itself)
+ */
+const buildOverpassElementQuery = (
 	featureType: 'node' | 'way' | 'relation',
 	id: string,
-	full = false,
-	relations = false,
-	meta = false
+	meta = false,
+	relations = false
 ) =>
-	encodeURIComponent(
-		`[out:json];${featureType}(id:${id});${
-			full ? '(._;>;);' : relations ? '<;' : ''
-		}out body${meta ? ` meta` : ''};`
-	)
+	`[out:json];${featureType}(id:${id});
+	${relations ? '<;' : ''}
+	out ${meta ? 'meta' : 'body'} geom qt;`
 
-export const osmRequest = async (featureType, id) => {
-	// Overpass requests for ways and relations necessitate "full" request mode
-	// to be able to rebuild its shape based on its node and ways elements
-	const full = ['way', 'relation'].includes(featureType)
-	const isNode = featureType === 'node'
-	if (!isNode && !full)
+/**
+ * Build, fetch and process the result of an Overpass query for 1 OSM element by type+ID
+ */
+export const osmElementRequest = async (featureType, id) => {
+	// stop if type is not correct
+	if (!['node', 'way', 'relation'].includes(featureType))
 		return console.error(
 			"This OSM feature is neither a node, a relation or a way, we don't know how to handle it"
 		)
-
-	/*
-	console.log(
-		'lightgreen will make OSM request',
-		featureType,
-		id,
-		'full : ',
-		full
-	)
-	*/
 
 	// We tried setting up a local OSM api based on osm2psql
 	// that enables bypassing overpass, which is quite a slow
@@ -80,71 +56,71 @@ export const osmRequest = async (featureType, id) => {
 	}
 	*/
 
-	const query = buildOverpassQuery(featureType, id, full)
+	// build the query
+	const query = buildOverpassElementQuery(featureType, id, false)
 
 	try {
+		// fetch the query
 		const json = await resilientOverpassFetch(query)
+		// check if element is found
+		if (json.elements.length != 1) {
+			console.error('OVERPASS OSM element not found', `${featureType}/${id}`)
+			return null
+		}
+		var [element] = json.elements
+		const tags = element.tags || {}
 
-		const elements = json.elements
+		// In this function used to fetch only 1 element, we authorize a few more queries to add
+		// intel coming from related elements (mostly relation of which the element is a member)
 
-		if (!elements.length) return // TODO return what ?
-
-		if (featureType === 'node' && elements.length === 1) {
-			try {
-				const [element] = elements
-				const tags = element.tags || {}
-				// handle this use case https://wiki.openstreetmap.org/wiki/Relation:associatedStreet
-				// example : https://www.openstreetmap.org/node/3663795073
-				// TODO this is broken, test and repair it, taking into account the new
-				// format of the state feature
-				const center = lonLatToPoint(element.lon, element.lat)
-				if (tags['addr:housenumber'] && !tags['addr:street']) {
-					const relationQuery = buildOverpassQuery(featureType, id, false, true)
-					const json = await resilientOverpassFetch(relationQuery)
-
-					const relation = json.elements.find((element) => {
-						const {
-							tags: { type: osmType },
-						} = element
-
-						return osmType === 'associatedStreet'
-					})
-
-					if (relation) {
-						const newTags = omit(['type'], {
-							...relation.tags,
-							'addr:street': relation.tags.name,
-							name: `${tags['addr:housenumber']} ${relation.tags.name}`,
-						})
-
-						const newElement = {
-							...element,
-							tags: { ...element.tags, ...newTags },
-						}
-						console.log('cyan addr', relationQuery, json)
-						console.log('cyan addr2', newElement)
-						return buildStepFromOverpassNode(newElement, featureType, id)
-					}
-				} else {
-					const [element] = elements
-					return buildStepFromOverpassNode(element, featureType, id)
+		// 1. handle the case of a house in an associatedStreet relation, to get street name
+		// https://wiki.openstreetmap.org/wiki/Relation:associatedStreet
+		// example : https://www.openstreetmap.org/node/3663795073
+		if (
+			element.type === 'node' &&
+			tags['addr:housenumber'] &&
+			!tags['addr:street']
+		) {
+			// fetch the associatedStreet relation which include this node
+			const relation = await fetchAssociatedStreet(element)
+			//if associatedStreet relation found
+			if (relation) {
+				//merge tags of street and house
+				const newTags = omit(['type'], {
+					...relation.tags,
+					'addr:street': relation.tags.name,
+					name: `${tags['addr:housenumber']} ${relation.tags.name}`,
+					...element.tags, //will overwrite previous one if same key
+				})
+				//update the element with the additional tags
+				element = {
+					...element,
+					tags: newTags,
 				}
-			} catch (e) {
-				//TODO this is a copy of above, shouldn't happen when TODO above will be
-				//rewritten to handle housenumbers
-				const [element] = elements
-				return buildStepFromOverpassNode(element, featureType, id)
 			}
 		}
-		const element = elements.find((el) => el.id == id)
 
-		return buildStepFromOverpassWayOrRelation(
-			element,
-			elements,
-			id,
-			featureType
-		)
+		// 2. handle the case of several way elements for the same street
+		if (
+			element.type === 'way' &&
+			[
+				'pedestrian',
+				'living_street',
+				'residential',
+				'tertiary',
+				'secondary',
+				'primary',
+			].includes(tags['highway'])
+			// TODO do we need to add other highway values ?
+		) {
+			// fetch all the ways of the street as an associatedStreet-like relation
+			element = await fetchStreet(element)
+		}
+
+		//return the extended Overpass element (with osmCode, geojson, center, ...)
+		return extendOverpassElement(element)
 	} catch (e) {
+		// if overpass request failed, return element with 'fail' state
 		console.error(
 			'Probably a network error fetching OSM feature via Overpass',
 			e
@@ -152,56 +128,200 @@ export const osmRequest = async (featureType, id) => {
 		return [{ id, requestState: 'fail', featureType }]
 	}
 }
-export const buildStepFromOverpassWayOrRelation = (
-	element,
-	elements,
-	id = null,
-	featureType = null
-) => {
-	const adminCenter =
-			element && element.members?.find((el) => el.role === 'admin_centre'),
-		adminCenterNode =
-			adminCenter && elements.find((el) => el.id == adminCenter.ref)
 
-	const geojson = buildOsmFeatureGeojson(element, elements)
+/**
+ * Build a geoJSON from the type and geometry of an OSM element returned by Overpass
+ * @param element an element from the Overpass result property 'elements' including its geometry
+ * @returns a geoJSON of type Point, LineString, Polygon or FeatureCollection
+ */
+const buildGeojsonFromOverpassElement = (element) => {
+	// test if type is correct
+	if (!element) return console.error('OVERPASS Element is undefined')
+	if (
+		!element.type ||
+		!['node', 'way', 'multiway', 'relation'].includes(element.type)
+	)
+		return console.error('OVERPASS Wrong OSM type while reading an element')
 
-	const center = adminCenterNode
-		? lonLatToPoint(adminCenterNode.lon, adminCenterNode.lat)
-		: // TODO wait, did we recode client-side the "out center" overpass directive ?
-		  // Or is our centerOfMass a voluntary addition because out center's center is
-		  // different ?
-		  // Also see this comment : https://github.com/cartesapp/cartes/issues/926#issuecomment-2852458073
-		  // No hurry to investigate changing this logic to use better overpass
-		  // options, as long as this works.
-		  // It's an optimisation though, in particular getting rid of osmtogeojson
-		  // But we need to be sure that we do not have the need for this client side
-		  // for some tasks
-		  centerOfMass(geojson)
+	// if relation, recursive call on members
+	if (['multiway', 'relation'].includes(element.type))
+		// TODO maybe need to handle specific cases based on role ?
+		// for example inner and outer in a multipolygon
+		return {
+			type: 'FeatureCollection',
+			features: element.members.map((element) =>
+				buildGeojsonFromOverpassElement(element)
+			),
+		}
 
-	const { tags } = element
-
+	// if point or way, determine geometry and type
+	var coordinates = []
+	var type = null
+	if (element.type == 'node') {
+		// for nodes : use lat + lon
+		type = 'Point'
+		coordinates = [element.lon, element.lat]
+	} else if (element.type == 'way') {
+		// for ways: transform overpass geometry in an array or coordinates
+		type = 'LineString'
+		coordinates = element.geometry.map((c) => [c.lon, c.lat])
+		// if first and last points are identical, it is most probably a polygon
+		if (coordinates[0].toString() === coordinates.at(-1).toString()) {
+			type = 'Polygon'
+			coordinates = [coordinates]
+		}
+	}
+	// then build and return feature geojson
 	return {
-		osmCode: encodePlace(featureType || element.type, id || element.id),
-		center,
-		tags,
-		geojson,
-		elements,
-		requestState: 'success',
+		type: 'Feature',
+		geometry: {
+			type: type,
+			coordinates: coordinates,
+		},
+		properties: {},
 	}
 }
 
-export const buildStepFromOverpassNode = (
-	element,
-	featureType = null,
-	id = null
-) => {
+/**
+ * Build an extended Overpass Element by joining : osmCode, tags, geojson, center, ...
+ * @param element an element from the Overpass result property 'elements' including its geometry
+ * @returns a hash with all the properties which are interesting for us
+ */
+export const extendOverpassElement = (element) => {
+	// stop if not element
+	if (!element) return {}
+	// TODO add other tests ?
+
 	const tags = element.tags || {}
-	const center = lonLatToPoint(element.lon, element.lat)
+
+	// Handle the case of the role admin_centre in a type=boundary relation
+	const adminCentre = null
+	if (element.type == 'relation' && tags['type'] == 'boundary') {
+		adminCentre = element.members?.find((el) => el.role === 'admin_centre')
+	}
+
+	// calculate geojson and center
+	const geojson = buildGeojsonFromOverpassElement(element)
+	const center = adminCentre
+		? buildGeojsonFromOverpassElement(adminCentre)
+		: pointOnFeature(geojson)
+	// TODO : for rounded ways, centerOfMass is not on the line, this is unexpected for the user,
+	// we should move the center of mass to the closest node of the way.
+
+	// return extended element
+	if (element.type == 'multiway') element.type = 'way' //set type back to multiway
 	return {
-		osmCode: encodePlace(featureType || element.type, id || element.id),
+		type: element.type,
+		id: element.id,
+		osmCode: encodePlace(element.type, element.id), //useless here, should be calculated when needed
+		tags: element.tags || {},
+		//bounds: element.bounds,
+		geojson,
 		center,
-		tags,
-		geojson: center,
-		requestState: 'success',
+		elements: [], //should not be used anymore ?
+		requestState: 'success', // TODO why this ?
+	}
+}
+
+/**
+ * Build and fetch an Overpass query to get the associatedStreet relation which include this element
+ * @param element the requested OSM element
+ * @returns the associatedStreet relation (or undefined if not found or if error)
+ */
+const fetchAssociatedStreet = async (element) => {
+	try {
+		// fetch all the relations which include this element
+		const relationQuery = buildOverpassElementQuery(
+			element.type,
+			element.id,
+			false,
+			true // to get relations
+		)
+		const json = await resilientOverpassFetch(relationQuery)
+		// find the relation of type associatedStreet and return it
+		const relation = json.elements.find((element) => {
+			const {
+				tags: { type: osmType },
+			} = element
+
+			return osmType === 'associatedStreet'
+		})
+		return relation
+	} catch (e) {
+		// if error, log and return null
+		console.log('Overpass error while fetching associatedStreet relation', e)
+		return undefined
+	}
+}
+
+/**
+ * Get all ways by associatedStreet relation AND by way name from a starting way
+ * @param element
+ * @returns an associatedStreet-like relation
+ */
+const fetchStreet = async (element) => {
+	if (!element.type) return
+	if (element.type != 'way') return
+	try {
+		/*
+		Build the Overpass query to get all the ways in the same street than the
+		requested element, using its name as filter (case insensitive)
+		and the `complete` statement to make recursive searchs
+		in a 30m radius around the previous output set, until it stabilizes
+		(to get all ways even if there is a gap, for example a roundabout )
+		 */
+		const query =
+			`[out:json]; ${element.type}(id:${element.id});` + //get starting element
+			'<; relation._[type=associatedStreet]; out tags;' + // get and output the street relation(s)
+			'>; way._[highway] -> .w;' + //get and store the street ways members of the relation(s)
+			`${element.type}(id:${element.id});` + //get starting element again (input set seems broken with complete statement ?)
+			`complete { way[highway]["name"~"${element.tags.name}",i](around:30); };` + // get all highways by name
+			'(._; .w;);' + //merge all found ways
+			'out body geom qt;' //output all ways
+
+		// fetch all the ways of the street
+		const json = await resilientOverpassFetch(query)
+
+		// if relation(s) available, read tags and update way tags
+		// (several relations may happen for boundary streets)
+		while (json.elements[0].type == 'relation') {
+			const relationTags = json.elements[0].tags
+			element.tags = omit(['type'], {
+				...relationTags,
+				...element.tags, //will overwrite previous ones if same key
+			})
+			json.elements.shift() //remove relation from the array
+		}
+		// TODO handle "smart" merge when several relations ? (like several cities or Fantoir codes)
+		// TODO when no relation, merge tags from the ways ?
+
+		//if only 1 element left, it is the way itself, return it
+		if (json.elements.length == 1) return element
+
+		// Build and return an asssociatedStreet-like relation
+		// warning : set type=multiway is the only way I found here to :
+		//  - tell buildGeojsonFromOverpassElement that it is a FeatureCollection
+		//  - without setting type=relation, to be able to put it back to type=way (after geojson calculation)
+		//  - so that URL works
+		// the other solution could be to test whether geometry is an array or coordinates (when 1 way)
+		// or an array of arrays of coordinates (when multiple ways)
+		return {
+			type: 'multiway', //warning, need to be set back to 'way' after geojson calculation
+			id: element.id,
+			tags: element.tags,
+			//bounds: ??; //unable to recalculate it
+			members: json.elements.map((e) => {
+				return {
+					type: 'way',
+					ref: e.id,
+					role: 'street',
+					geometry: e.geometry,
+				}
+			}),
+		}
+	} catch (e) {
+		// if error, log and return null
+		console.log('Overpass error while fetching all street ways', e)
+		return undefined
 	}
 }
