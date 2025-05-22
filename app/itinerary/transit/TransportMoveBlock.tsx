@@ -1,11 +1,8 @@
-import Image from 'next/image'
-import {
-	motisModeIcon,
-	transportTypeIcon,
-} from '@/components/transit/modeCorrespondance'
 import { isWhiteColor } from '@/components/css/utils'
+import { motisModeIcon } from '@/components/transit/modeCorrespondance'
 import { findContrastedTextColor } from '@/components/utils/colors'
 import { styled } from 'next-yak'
+import Image from 'next/image'
 import { handleColor } from './colors'
 
 const defaultTransitColor = 'gray'

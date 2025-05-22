@@ -40,7 +40,11 @@ export const Line = ({
 				<ul>
 					{transports.map((transport) => (
 						<li
-							key={transport.shortName || transport.mode + transport.duration}
+							key={
+								transport.tripId ||
+								transport.shortName ||
+								transport.mode + transport.endTime
+							}
 							style={{
 								width: (transport.duration / connection.duration) * 100 + '%',
 								height: '1.8rem',
