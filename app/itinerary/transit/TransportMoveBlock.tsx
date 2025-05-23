@@ -11,11 +11,13 @@ const defaultTransitColor = 'gray'
 //ugly and unhelpful
 
 export default function TransportMoveBlock({ transport }) {
-	console.log('indigo inspect', transport)
 	const name = transport.shortName?.toUpperCase().replace(/TRAM\s?/g, 'T')
 	const background = handleColor(transport.routeColor, defaultTransitColor),
 		color = handleColor(transport.routeTextColor, defaultTransitColor)
 	const contrastedColor = findContrastedTextColor(background, true)
+
+	console.log('indigo inspect', transport, background, contrastedColor)
+
 	const textColor =
 		(color && (color !== background ? color : null)) || contrastedColor
 	return (
