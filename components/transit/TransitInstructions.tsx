@@ -164,6 +164,6 @@ const StationDisc = ({ color, last }) => (
 
 const modeToFrench = {
 	WALK: { present: 'Marchez', future: 'marcherez', icon: 'walking' },
-	BIKE: { present: 'Roulez', future: 'roulerez', icon: 'cycling.svg' },
-	CAR: { present: 'Roulez', future: 'roulerez', icon: 'car.svg' },
+	BIKE: { present: 'Roulez', future: 'roulerez', icon: 'cycling' },
+	CAR: { present: 'Roulez', future: 'roulerez', icon: 'car' },
 }
