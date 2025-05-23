@@ -13,6 +13,7 @@ import brouterResultToSegments from '@/components/cycling/brouterResultToSegment
 import useSetItineraryModeFromUrl from './useSetItineraryModeFromUrl'
 import { decodeDate, initialDate } from './transit/utils'
 import { unsatisfyingItineraries } from '@/components/transit/unsatisfyingItineraries'
+import { modeToFrench } from '@/components/transit/TransitInstructions'
 
 export default function useFetchItinerary(searchParams, state, allez) {
 	const setSearchParams = useSetSearchParams()
@@ -178,8 +179,8 @@ export default function useFetchItinerary(searchParams, state, allez) {
 				(itinerary) => !isNotTransitItinerary(itinerary)
 			)
 
-			if (itineraries.length === 1 && isNotTransitItinerary(itineraries[0])) {
-				const word = modeToFrench[itineraries[0].legs[0].mode].future
+			if (itineraries.length === 0 && json.direct.length) {
+				const word = modeToFrench[json.direct[0].legs[0].mode].future
 
 				return {
 					state: 'error',

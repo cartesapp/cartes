@@ -162,7 +162,7 @@ const StationDisc = ({ color, last }) => (
 	</svg>
 )
 
-const modeToFrench = {
+export const modeToFrench = {
 	WALK: { present: 'Marchez', future: 'marcherez', icon: 'walking' },
 	BIKE: { present: 'Roulez', future: 'roulerez', icon: 'cycling' },
 	CAR: { present: 'Roulez', future: 'roulerez', icon: 'car' },
