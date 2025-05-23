@@ -37,10 +37,23 @@ const buildRequestBody = (start, destination, date, searchParams) => {
 	const { start: startModeParam, end: endModeParam } =
 		decodeStepModeParams(searchParams)
 
-	const startModes = stepModeParamsToMotis(startModeParam, requestDistance)
-	const destinationModes = stepModeParamsToMotis(endModeParam, requestDistance)
+	const startModes = stepModeParamsToMotis(
+		startModeParam,
+		requestDistance,
+		'start'
+	)
+	const destinationModes = stepModeParamsToMotis(
+		endModeParam,
+		requestDistance,
+		'end'
+	)
 
-	console.log('itinerary distance', requestDistance)
+	console.log(
+		'itinerary distance',
+		requestDistance,
+		startModes,
+		destinationModes
+	)
 
 	const body = {
 		timetableView: preTrip,

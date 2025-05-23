@@ -34,7 +34,7 @@ export const stepModeParamsToMotis = (
 ) => {
 	const { mode, time } = stepModeParams
 
-	const modeKey = `${whichPart === 'start' ? 'pre' : 'post'}TransitMode`
+	const modeKey = `${whichPart === 'start' ? 'pre' : 'post'}TransitModes`
 
 	const durationKey = `max${whichPart === 'start' ? 'Pre' : 'Post'}TransitTime`
 
