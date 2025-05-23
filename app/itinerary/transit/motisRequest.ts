@@ -10,6 +10,7 @@ import { lightenColor } from '@/components/utils/colors'
 import { distance, point } from '@turf/turf'
 import { handleColor, trainColors } from './colors'
 import { defaultRouteColor, nowStamp, stamp } from './utils'
+import { unsatisfyingItineraries } from '@/components/transit/unsatisfyingItineraries'
 
 // For onTrip, see https://github.com/motis-project/motis/issues/471#issuecomment-2247099832
 const buildRequestBody = (start, destination, date, searchParams) => {
@@ -133,6 +134,13 @@ export const computeMotisTrip = async (
 		const json = await request.json()
 		console.log('indigo motis', json)
 		console.log('motis statistics', JSON.stringify(json.debugOutput))
+
+		if (unsatisfyingItineraries(json)) {
+			// async launch the "deeper" search with 30 minutes of bike (10 km) to widen the
+			// chance of finding a suitable transit
+			// then inform the user that we haven't found "simple" transit means with
+			// less than 15 minutes walk
+		}
 
 		const augmentedItineraries = await Promise.all(
 			json.itineraries.map(async (itinerary) => {
