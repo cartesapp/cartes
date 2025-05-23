@@ -12,6 +12,7 @@ import computeSafeRatio from '@/components/cycling/computeSafeRatio'
 import brouterResultToSegments from '@/components/cycling/brouterResultToSegments'
 import useSetItineraryModeFromUrl from './useSetItineraryModeFromUrl'
 import { decodeDate, initialDate } from './transit/utils'
+import { unsatisfyingItineraries } from '@/components/transit/unsatisfyingItineraries'
 
 export default function useFetchItinerary(searchParams, state, allez) {
 	const setSearchParams = useSetSearchParams()
@@ -185,6 +186,13 @@ export default function useFetchItinerary(searchParams, state, allez) {
 					reason: `Vous ${word} davantage pour aller prendre le bus que d'y aller directement 😅`,
 					solution: `Changez les options d'approche et d'arrivée`,
 				}
+			}
+
+			if (unsatisfyingItineraries(json)) {
+				// async launch the "deeper" search with 30 minutes of bike (10 km) to widen the
+				// chance of finding a suitable transit
+				// then inform the user that we haven't found "simple" transit means with
+				// less than 15 minutes walk
 			}
 
 			if (transitItineraries.length === 0) {
