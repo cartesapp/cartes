@@ -62,7 +62,7 @@ export const stepModeParamsToMotis = (
 
 	if (mode === 'voiture' && time)
 		return {
-			[modeKey]: ['Car'],
+			[modeKey]: ['CAR'],
 			[durationKey]: minutes(time),
 		}
 
