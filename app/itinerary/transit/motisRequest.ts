@@ -108,7 +108,7 @@ export const computeMotisTrip = async (
 	searchParams = {}
 ) => {
 	const body = buildRequestBody(start, destination, date, searchParams)
-	console.log('indigo motis body', body)
+	console.log('indigo motis body', searchParams)
 
 	try {
 		const request = await fetch(
@@ -137,79 +137,76 @@ export const computeMotisTrip = async (
 		const augmentedItineraries = await Promise.all(
 			json.itineraries.map(async (itinerary) => {
 				const { legs } = itinerary
-				const augmentedLegs = await Promise.all(
-					legs.map(async (leg) => {
-						const { tripId: rawTripId } = leg
-						if (!rawTripId) return leg
+				const augmentedLegs = legs.map((leg) => {
+					const { tripId: rawTripId } = leg
+					if (!rawTripId) return leg
 
-						const tripId = rawTripId.replace(
-							/(\d\d\d\d\d\d\d\d_\d\d:\d\d)_(.+)\|([^_]+)\_(.+)/,
-							(correspondance, p0, p1, p2, p3, decalage, chaine) => p1 + p3
-						)
+					const tripId = rawTripId.replace(
+						/(\d\d\d\d\d\d\d\d_\d\d:\d\d)_(.+)\|([^_]+)\_(.+)/,
+						(correspondance, p0, p1, p2, p3, decalage, chaine) => p1 + p3
+					)
 
-						const isTrain = isMotisTrainMode(leg.mode)
+					const isTrain = isMotisTrainMode(leg.mode)
 
-						const isBretagneTGV = tripId.startsWith('bretagne_SNCF2')
+					const isBretagneTGV = tripId.startsWith('bretagne_SNCF2')
 
-						const isOUIGO =
-							leg.from.stopId.includes('OUIGO') ||
-							leg.to.stopId.includes('OUIGO') // well, on fait avec ce qu'on a
-						const isTGVStop =
-							leg.from.stopId.includes('TGV INOUI') ||
-							leg.to.stopId.includes('TGV INOUI') // well, on fait avec ce qu'on a
-						const isTGV = isTGVStop || isBretagneTGV
+					const isOUIGO =
+						leg.from.stopId.includes('OUIGO') || leg.to.stopId.includes('OUIGO') // well, on fait avec ce qu'on a
+					const isTGVStop =
+						leg.from.stopId.includes('TGV INOUI') ||
+						leg.to.stopId.includes('TGV INOUI') // well, on fait avec ce qu'on a
+					const isTGV = isTGVStop || isBretagneTGV
 
-						//TODO this should be a configuration file that sets not only main
-						//colors, but gradients, icons (ouigo, inoui, tgv, ter, etc.)
-						const sourceGtfs = tripId.split('_')[0],
-							prefix = sourceGtfs && sourceGtfs.split('|')[0],
-							frenchTrainType = isOUIGO
-								? 'OUIGO'
-								: isTGV
+					//TODO this should be a configuration file that sets not only main
+					//colors, but gradients, icons (ouigo, inoui, tgv, ter, etc.)
+					const sourceGtfs = tripId.split('_')[0],
+						prefix = sourceGtfs && sourceGtfs.split('|')[0],
+						frenchTrainType = isOUIGO
+							? 'OUIGO'
+							: isTGV
+							? 'TGV'
+							: prefix
+							? prefix === 'fr-x-sncf-ter'
+								? 'TER'
+								: prefix === 'fr-x-sncf-tgv'
 								? 'TGV'
-								: prefix
-								? prefix === 'fr-x-sncf-ter'
-									? 'TER'
-									: prefix === 'fr-x-sncf-tgv'
-									? 'TGV'
-									: prefix === 'fr-x-sncf-intercites'
-									? 'INTERCITES'
-									: isTrain && !prefix.startsWith('fr-x-sncf')
-									? 'TER'
-									: null
+								: prefix === 'fr-x-sncf-intercites'
+								? 'INTERCITES'
+								: isTrain && !prefix.startsWith('fr-x-sncf')
+								? 'TER'
 								: null
+							: null
 
-						const customAttributes = {
-							routeColor: isTGV
-								? trainColors.TGV['color']
-								: isOUIGO
-								? trainColors.OUIGO['color']
-								: frenchTrainType === 'TER'
-								? trainColors.TER['color']
-								: handleColor(leg.routeColor, defaultRouteColor),
-							routeTextColor: isTGV
-								? '#fff'
-								: isOUIGO
-								? '#fff'
-								: handleColor(leg.routeTextColor, '#000000'),
-							icon: transportIcon(frenchTrainType, prefix),
-						}
+					const customAttributes = {
+						routeColor: isTGV
+							? trainColors.TGV['color']
+							: isOUIGO
+							? trainColors.OUIGO['color']
+							: frenchTrainType === 'TER'
+							? trainColors.TER['color']
+							: handleColor(leg.routeColor, defaultRouteColor),
+						routeTextColor: isTGV
+							? '#fff'
+							: isOUIGO
+							? '#fff'
+							: handleColor(leg.routeTextColor, '#000000'),
+						icon: transportIcon(frenchTrainType, prefix),
+					}
 
-						/* Temporal aspect */
+					/* Temporal aspect */
 
-						const shortName = frenchTrainType || leg.routeShortName
-						return {
-							...leg,
-							...customAttributes,
-							routeColorDarker: customAttributes.routeColor
-								? lightenColor(customAttributes.routeColor, -20)
-								: '#5b099f',
-							tripId,
-							frenchTrainType,
-							shortName,
-						}
-					})
-				)
+					const shortName = frenchTrainType || leg.routeShortName
+					return {
+						...leg,
+						...customAttributes,
+						routeColorDarker: customAttributes.routeColor
+							? lightenColor(customAttributes.routeColor, -20)
+							: '#5b099f',
+						tripId,
+						frenchTrainType,
+						shortName,
+					}
+				})
 				/* TODO, useless now, v1 had no duration agregaed value ?
 				const seconds = augmentedLegs.reduce(
 					(memo, next) => memo + next.seconds,
