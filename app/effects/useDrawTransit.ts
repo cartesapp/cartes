@@ -160,12 +160,14 @@ export default function useDrawTransit(map, transit, selectedConnection, date) {
 				'text-halo-width': 1,
 			},
 		})
+		// TODO shared line style for non-transit (walk, bike, car)
+		// could be better, reusing the same styles as the other itineraries
 		map.addLayer(
 			{
 				source: id,
 				type: 'line',
 				id: id + '-lines-walking-background',
-				filter: ['==', ['get', 'mode'], 'Walk'],
+				filter: ['==', ['get', 'isTransit'], 'No'],
 				layout: {
 					'line-join': 'round',
 					'line-cap': 'round',
@@ -182,7 +184,7 @@ export default function useDrawTransit(map, transit, selectedConnection, date) {
 				source: id,
 				type: 'line',
 				id: id + '-lines-walking',
-				filter: ['==', ['get', 'mode'], 'WALK'],
+				filter: ['==', ['get', 'isTransit'], 'No'],
 				layout: {
 					'line-join': 'round',
 					'line-cap': 'round',
