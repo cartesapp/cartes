@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
-import { computeMotisTrips } from './motisTripsRequest'
 import polyline from '@mapbox/polyline'
+
+// UNUSED FILE : SHOULD PROBABLY BE DROPPED
 
 export default function useMotisTrip(
 	transit,

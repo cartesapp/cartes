@@ -1,6 +1,6 @@
 import {
 	computeMotisTrip,
-	isNotTransitConnection,
+	isNotTransitItinerary,
 } from '@/app/itinerary/transit/motisRequest'
 import distance from '@turf/distance'
 import { useCallback, useEffect, useState } from 'react'
@@ -12,11 +12,14 @@ import computeSafeRatio from '@/components/cycling/computeSafeRatio'
 import brouterResultToSegments from '@/components/cycling/brouterResultToSegments'
 import useSetItineraryModeFromUrl from './useSetItineraryModeFromUrl'
 import { decodeDate, initialDate } from './transit/utils'
+import { unsatisfyingItineraries } from '@/components/transit/unsatisfyingItineraries'
+import { modeToFrench } from '@/components/transit/TransitInstructions'
 
 export default function useFetchItinerary(searchParams, state, allez) {
 	const setSearchParams = useSetSearchParams()
 	const [routes, setRoutes] = useState(null)
 	const date = decodeDate(searchParams.date) || initialDate()
+
 	const bikeRouteProfile = searchParams['profil-velo'] || 'safety'
 	const setBikeRouteProfile = useCallback(
 		(profile) => setSearchParams({ 'profil-velo': profile }),
@@ -168,36 +171,16 @@ export default function useFetchItinerary(searchParams, state, allez) {
 				searchParams
 			)
 
-			console.log('lightgreen motis', json)
-
 			if (json.state === 'error') return json
 
-			if (!json?.content) return null
-			const { connections } = json.content
+			const { itineraries } = json
 
-			const transitConnections = connections.filter(
-				(connection) => !isNotTransitConnection(connection)
+			const transitItineraries = itineraries.filter(
+				(itinerary) => !isNotTransitItinerary(itinerary)
 			)
 
-			// TODO this is coded dirtily because Motis' v2 will require a rewrite,
-			// with a cleaner API. But the UI principles will stay the same
-			const mumo_types = {
-				car: 'conduirez',
-				foot: 'marcherez',
-				bike: 'roulerez',
-			}
-			if (connections.length === 1 && isNotTransitConnection(connections[0])) {
-				const mumo_type = connections[0].transports.reduce((memo, t) => {
-					const mumo = t.move.mumo_type
-					return memo === undefined ? mumo : mumo === memo ? memo : null
-				}, undefined)
-				if (!mumo_type)
-					return {
-						state: 'error',
-						reason: 'Pas de transport en commun trouvé :/',
-					}
-
-				const word = mumo_types[mumo_type]
+			if (itineraries.length === 0 && json.direct.length) {
+				const word = modeToFrench[json.direct[0].legs[0].mode].future
 
 				return {
 					state: 'error',
@@ -206,7 +189,14 @@ export default function useFetchItinerary(searchParams, state, allez) {
 				}
 			}
 
-			if (transitConnections.length === 0) {
+			if (unsatisfyingItineraries(json)) {
+				// async launch the "deeper" search with 30 minutes of bike (10 km) to widen the
+				// chance of finding a suitable transit
+				// then inform the user that we haven't found "simple" transit means with
+				// less than 15 minutes walk
+			}
+
+			if (transitItineraries.length === 0) {
 				if (searchParams.planification !== 'oui') {
 					return setSearchParams({ planification: 'oui' })
 				}
@@ -216,19 +206,14 @@ export default function useFetchItinerary(searchParams, state, allez) {
 					reason: 'Pas de transport en commun trouvé :/',
 				}
 			}
-			/*
-			return sections.map((el) => ({
-				type: 'Feature',
-				properties: el.geojson.properties[0],
-				geometry: { coordinates: el.geojson.coordinates, type: 'LineString' },
-			}))
-			*/
-			return { ...json.content, connections: transitConnections }
+			console.log('indigo motis filtered', transitItineraries)
+			return { ...json, itineraries: transitItineraries }
 		}
 		//TODO fails is 3rd point is closer to 1st than 2nd, use reduce that sums
 		const itineraryDistance = distance(points[0], points.slice(-1)[0])
 
 		updateRoute('transit', { state: 'loading' })
+
 		fetchTransitRoute(points, itineraryDistance, date).then((transit) =>
 			setRoutes((routes) => ({ ...routes, transit }))
 		)

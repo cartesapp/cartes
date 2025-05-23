@@ -1,5 +1,5 @@
 import { capitalise0 } from '@/components/utils/utils'
-import { trainColors } from '@/app/itinerary/transit/motisRequest'
+import { trainColors } from '@/app/itinerary/transit/colors'
 import { styled } from 'next-yak'
 
 export const trainTypeSncfMapping = {

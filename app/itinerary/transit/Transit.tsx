@@ -18,12 +18,8 @@ import {
 import TransitLoader from './TransitLoader'
 import TransportMoveBlock from './TransportMoveBlock'
 import findBestConnection from './findBestConnection'
-import {
-	connectionEnd,
-	connectionStart,
-	filterNextConnections,
-	humanDuration,
-} from './utils'
+import { filterNextConnections, humanDuration, stamp } from './utils'
+import { handleColor } from './colors'
 
 /* This is a megacomponent. Don't worry, it'll stay like this until the UX
  * decisions are stabilized. We don't have many users yet */
@@ -58,27 +54,25 @@ const TransitContent = ({ itinerary, searchParams, date }) => {
 	if (data.state === 'error')
 		return <NoTransit reason={data.reason} solution={data.solution} />
 
-	if (!data?.connections || !data.connections.length)
-		return <TransitScopeLimit />
+	const connections = data?.itineraries
+	// from now on, itineraries are called connections, Motis v1's term. Not to be
+	// mixed up with our "itinerary" prop
+	if (!connections || !connections.length) return <TransitScopeLimit />
 
-	const nextConnections = filterNextConnections(data.connections, date)
+	const nextConnections = filterNextConnections(connections, date)
 
-	console.log('lightpurple transit', data.connections, nextConnections)
+	console.log('lightpurple transit', connections, nextConnections)
 	if (nextConnections.length < 1) return <NoMoreTransitToday date={date} />
 
-	const firstDate = connectionStart(nextConnections[0]) // We assume Motis orders them by start date, when you start to walk. Could also be intersting to query the first end date
+	const firstDate = nextConnections[0].startTime // We assume Motis orders them by start date, when you start to walk. Could also be intersting to query the first end date
 
 	const bestConnection = findBestConnection(nextConnections)
 
 	const firstStop = Math.min(
-			...nextConnections.map(
-				(connection) => connection.stops[0].departure.schedule_time
-			)
+			...nextConnections.map((connection) => stamp(connection.startTime))
 		),
 		lastStop = Math.max(
-			...nextConnections.map(
-				(connection) => connection.stops.slice(-1)[0].arrival.schedule_time
-			)
+			...nextConnections.map((connection) => stamp(connection.endTime))
 		)
 
 	const chosen = searchParams.details === 'oui' && searchParams.choix
@@ -130,14 +124,14 @@ const TransitTimeline = ({
 	 * small
 	 */
 	const endTime = Math.max(
-		...connections.map(({ stops }) => stops.slice(-1)[0].arrival.time)
+		...connections.map((connection) => stamp(connection.endTime))
 	)
 
 	const quickestConnection = connections.reduce(
-			(memo, next) => (next.seconds < memo.seconds ? next : memo),
-			{ seconds: Infinity }
+			(memo, next) => (next.duration < memo.duration ? next : memo),
+			{ duration: Infinity }
 		),
-		quickest = quickestConnection.seconds
+		quickest = quickestConnection.duration
 
 	const range = connectionsTimeRange.to - connectionsTimeRange.from
 
@@ -169,7 +163,7 @@ const TransitTimeline = ({
 	)
 }
 
-const correspondance = { Walk: 'Marche', Transport: 'Transport' }
+const correspondance = { WALK: 'Marche', Transport: 'Transport' }
 
 const ConnectionLi = styled.li`
 	margin-bottom: 0.1rem;
@@ -202,11 +196,15 @@ const Connection = ({
 			<Line
 				relativeWidth={relativeWidth}
 				connectionsTimeRange={connectionsTimeRange}
-				transports={connection.transports}
+				transports={connection.legs}
 				connection={connection}
 				connectionRange={[
-					connectionStart(connection),
-					connectionEnd(connection),
+					console.log(
+						'stamp',
+						connection.startTime,
+						stamp(connection.startTime)
+					) || stamp(connection.startTime),
+					stamp(connection.endTime),
 				]}
 				choix={choix}
 				index={index}
@@ -240,7 +238,7 @@ const TimelineTransportBlockWrapper = styled.span`
 		margin-right: 0.2rem;
 	}
 	${(p) =>
-		p.$moveType === 'Walk' &&
+		p.$mode === 'WALK' &&
 		css`
 			border-bottom: 4px dotted #5c0ba0;
 		`}
@@ -251,7 +249,9 @@ const TimelineTransportBlockWrapper = styled.span`
 export const TimelineTransportBlock = ({ transport }) => {
 	console.log('lightgreen TimelineTransportBlock', transport)
 	const [constraint, setConstraint] = useState('none')
-	const background = transport.route_color
+	const background = transport.routeColor
+		? handleColor(transport.routeColor)
+		: '#d3b2ee'
 
 	const ref = useRef<HTMLDivElement>(null)
 	const { width = 0, height = 0 } = useResizeObserver({
@@ -272,23 +272,25 @@ export const TimelineTransportBlock = ({ transport }) => {
 			$background={background || 'transparent'}
 			$constraint={constraint}
 			$displayImage={displayImage}
-			$moveType={transport.move_type}
+			$mode={transport.mode}
 			ref={ref}
-			title={`${humanDuration(transport.seconds).single} de ${
+			title={`${humanDuration(transport.duration).single} de ${
 				transport.frenchTrainType ||
-				transport.move?.name ||
-				(transport.move?.mumo_type === 'car'
+				transport.shortName ||
+				(transport.mode === 'CAR'
 					? 'voiture'
-					: transport.move_type === 'Cycle' ||
-					  transport.move?.mumo_type === 'bike'
+					: transport.mode === 'BIKE'
 					? 'vélo'
-					: 'marche')
-			} ${transport.route_long_name || ''}`}
+					: transport.mode === 'WALK'
+					? 'marche'
+					: transport.mode === 'PAUSE'
+					? 'correspondance'
+					: transport.mode)
+			} ${transport.routeLongName || ''}`}
 		>
-			{transport.move?.name ? (
+			{transport.shortName ? (
 				<TransportMoveBlock transport={transport} />
-			) : transport.move_type === 'Walk' &&
-			  transport.move?.mumo_type === 'car' ? (
+			) : transport.mode === 'CAR' ? (
 				<MoveBlockImage
 					src={'/car.svg'}
 					alt="Icône d'une voiture"
@@ -296,9 +298,7 @@ export const TimelineTransportBlock = ({ transport }) => {
 					height="100"
 					$transport="driving"
 				/>
-			) : transport.move_type === 'Cycle' ||
-			  (transport.move_type === 'Walk' &&
-					transport.move?.mumo_type === 'bike') ? (
+			) : transport.mode === 'BIKE' ? (
 				<MoveBlockImage
 					src={'/cycling.svg'}
 					alt="Icône d'un vélo"
@@ -306,8 +306,7 @@ export const TimelineTransportBlock = ({ transport }) => {
 					height="100"
 					$transport="cycling"
 				/>
-			) : transport.move_type === 'Walk' ||
-			  transport.move?.mumo_type === 'foot' ? (
+			) : transport.mode === 'WALK' ? (
 				<MoveBlockImage
 					src={'/walking.svg'}
 					alt="Icône d'une personne qui marche"
@@ -315,8 +314,16 @@ export const TimelineTransportBlock = ({ transport }) => {
 					height="100"
 					$transport="walking"
 				/>
+			) : transport.mode === 'PAUSE' ? (
+				<MoveBlockImage
+					src={'/sablier.svg'}
+					alt="Icône d'un sablier pour symboliser l'attente d'un transport en commun"
+					width="100"
+					height="100"
+					$transport="pause"
+				/>
 			) : (
-				correspondance[transport.move_type]
+				'UNDEFINED LEG MODE'
 			)}
 		</TimelineTransportBlockWrapper>
 	)
@@ -334,6 +341,12 @@ const MoveBlockImage = styled(Image)`
 			? css`
 					height: 1.4rem !important;
 					margin: -0.1rem 0 0 0 !important;
+			  `
+			: p.$transport === 'pause'
+			? css`
+					height: 1rem !important;
+					margin: 0.12rem 0 0 0 !important;
+					opacity: 0.7;
 			  `
 			: css`
 					height: 1.4rem !important;
