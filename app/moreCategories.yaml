@@ -1740,50 +1740,6 @@
   hidden: true
 
 #######################
-# GROUP : Administration
-#######################
-## https://wiki.openstreetmap.org/wiki/France/Services_Publics
-
-- name: Mairie
-  group: Administration
-  dictionary:
-    - hôtel de ville
-  query: '[amenity=townhall]'
-  icon: classical-building
-
-- name: Préfecture
-  group: Administration
-  dictionary:
-    - sous-préfecture
-    - préfet
-  query: '[office=government][government=prefecture]'
-  icon: classical-building
-  hidden: true
-
-- title: Justice
-  group: Administration
-  name: justice
-  dictionary:
-    - tribunal
-    - cour
-    - cour d'appel
-    - judiciaire
-  query:
-    - '[amenity=courthouse]'
-  icon: classical-building
-
-- name: France Travail
-  group: Administration
-  dictionary:
-    - pole emploi
-    - pôle emploi
-    - ANPE
-    - chomage
-    - chômage
-  query: '[office=government][government=employment_agency]'
-  icon: building
-
-#######################
 # GROUP : Enseignement
 #######################
 
@@ -1896,6 +1852,7 @@
 #######################
 # GROUP : Services publics
 #######################
+## https://wiki.openstreetmap.org/wiki/France/Services_Publics
 
 - name: Police
   group: Services publics
@@ -1915,6 +1872,45 @@
   query:
     - '[amenity=fire_station]'
   icon: fire
+
+- name: Mairie
+  group: Services publics
+  dictionary:
+    - hôtel de ville
+  query: '[amenity=townhall]'
+  icon: classical-building
+
+- name: Préfecture
+  group: Services publics
+  dictionary:
+    - sous-préfecture
+    - préfet
+  query: '[office=government][government=prefecture]'
+  icon: classical-building
+  hidden: true
+
+- title: Tribunal
+  group: Services publics
+  name: tribunal
+  dictionary:
+    - justice
+    - cour
+    - cour d'appel
+    - judiciaire
+  query:
+    - '[amenity=courthouse]'
+  icon: classical-building
+
+- name: France Travail
+  group: Services publics
+  dictionary:
+    - pole emploi
+    - pôle emploi
+    - ANPE
+    - chomage
+    - chômage
+  query: '[office=government][government=employment_agency]'
+  icon: building
 
 #######################
 # GROUP : DIVERS
