@@ -1784,10 +1784,11 @@
   icon: building
 
 #######################
-# SOUS-GROUPE : Les écoles
+# GROUP : Enseignement
+#######################
 
 - name: École maternelle
-  group: Administration
+  group: Enseignement
   dictionary:
     - enfant
     - primaire
@@ -1798,7 +1799,7 @@
   icon: maternelle
 
 - name: École élémentaire
-  group: Administration
+  group: Enseignement
   dictionary:
     - enfant
     - primaire
@@ -1809,7 +1810,7 @@
   icon: school
 
 - name: Collège
-  group: Administration
+  group: Enseignement
   dictionary:
     - segpa
     - collège
@@ -1820,7 +1821,7 @@
   icon: college
 
 - name: Lycée
-  group: Administration
+  group: Enseignement
   dictionary:
     - ado
     - technique
@@ -1832,7 +1833,7 @@
   icon: college
 
 - name: Enseignement supérieur
-  group: Administration
+  group: Enseignement
   dictionary:
     - faculté
     - supérieur
@@ -1843,7 +1844,7 @@
   icon: college
 
 - name: Établissement scolaire
-  group: Administration
+  group: Enseignement
   dictionary:
     - université
     - collège
