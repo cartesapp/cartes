@@ -970,18 +970,8 @@
 - name: Zoo
   group: Loisirs
   dictionary:
-    - lion
-    - tigre
-    - crocodile
-    - girafe
-    - singe
-    - zèbre
-    - panda
-    - tortue
-    - animalier
-    - animaux
-    - savane
-    - safari
+    - parc animalier
+    - zoologique
   query: '[tourism=zoo]'
   icon: zoo
 
