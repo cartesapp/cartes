@@ -914,7 +914,7 @@
 
 - name: cinema
   title: Cinéma
-  group: Loisirs
+  group: Loisirs et Nature
   dictionary:
     - film
     - projection
@@ -923,14 +923,14 @@
   icon: cinema
 
 - name: Bowling
-  group: Loisirs
+  group: Loisirs et Nature
   dictionary:
     - quille
   query: '[leisure=bowling_alley]'
   icon: bowling-alley
 
 - name: Laser game
-  group: Loisirs
+  group: Loisirs et Nature
   dictionary:
     - lazer
   query: '[sport=laser_tag]'
@@ -938,13 +938,13 @@
   hidden: true
 
 - name: Escape game
-  group: Loisirs
+  group: Loisirs et Nature
   query: '[leisure=escape_game]'
   icon: locksmith
   icon alias: escape_game
 
 - name: salle d'arcade
-  group: Loisirs
+  group: Loisirs et Nature
   dictionary:
     - jeux vidéos
     - flipper
@@ -952,7 +952,7 @@
   icon: gaming
 
 - name: bar à jeux
-  group: Loisirs
+  group: Loisirs et Nature
   dictionary:
     - cartes
   query:
@@ -961,14 +961,14 @@
   icon: casino
 
 - name: Aquarium
-  group: Loisirs
+  group: Loisirs et Nature
   query: '[tourism=aquarium]'
   icon: fish
   icon alias: tourism-fish
   hidden: true
 
 - name: Zoo
-  group: Loisirs
+  group: Loisirs et Nature
   dictionary:
     - parc animalier
     - zoologique
@@ -976,7 +976,7 @@
   icon: zoo
 
 - name: Pique-nique
-  group: Loisirs
+  group: Loisirs et Nature
   dictionary:
     - picnic
     - pique-nique
@@ -987,7 +987,7 @@
   icon: picnic
 
 - name: Camping
-  group: Loisirs
+  group: Loisirs et Nature
   dictionary:
     - camping
     - camping-car
@@ -997,12 +997,12 @@
   icon: camping
 
 - name: plage
-  group: Loisirs
+  group: Loisirs et Nature
   query: '[natural=beach]'
   icon: beach
 
 - name: Musique
-  group: Loisirs
+  group: Loisirs et Nature
   dictionary:
     - concert
     - festival
@@ -1017,7 +1017,7 @@
   icon: music
 
 - name: Jeux pour enfants
-  group: Loisirs
+  group: Loisirs et Nature
   dictionary:
     - terrain de jeu
     - manège
