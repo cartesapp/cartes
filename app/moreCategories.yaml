@@ -1862,18 +1862,26 @@
   group: Enseignement
   dictionary:
     - conservatoire
-  query:
-    - '[amenity=music_school]'
+  query: '[amenity=music_school]'
   icon: music
   icon alias: music_school
   hidden: false
 
 - name: Ecole de danse
   group: Enseignement
-  query:
-    - '[amenity=dancing_school]'
+  query: '[amenity=dancing_school]'
   icon: dance_floor
   icon alias: dancing_school
+  hidden: false
+
+- name: Auto-école
+  group: Enseignement
+  dictionary:
+    - permis de conduire
+    - code de la route
+  query: '[amenity=driving_school]'
+  icon: car
+  icon alias: driving_school
   hidden: false
 
 #######################
