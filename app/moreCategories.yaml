@@ -1216,14 +1216,14 @@
   query: '[public_transport=station][train=yes]'
   icon: train
 
-- name: métro
+- name: arret-de-metro
   title: Arrêt de métro
   query: '[station=subway]'
   icon: metro
   open by default: true
   group: Déplacements
 
-- name: tram
+- name: arret-de-tram
   title: Arrêt de tram
   query: '[railway=tram_stop]'
   icon: tram
