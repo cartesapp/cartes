@@ -496,7 +496,7 @@
   query: '[shop=mall]'
   icon: grocery
 
-- name: Magasin de bricolage
+- name: Bricolage
   group: Commerces
   dictionary:
     - jardinage
@@ -535,7 +535,7 @@
   icon: locksmith
   hidden: true
 
-- name: Magasin de meubles
+- name: Meubles
   group: Commerces
   dictionary:
     - mobilier
@@ -543,7 +543,7 @@
   query: '[shop~"furniture"][shop!~"garden_furniture"]'
   icon: furniture
 
-- name: Magasin de décoration
+- name: Décoration
   group: Commerces
   dictionary:
     - mobilier
@@ -573,7 +573,7 @@
   icon: kitchen
   hidden: true
 
-- name: Magasin de puériculture
+- name: Puériculture
   group: Commerces
   dictionary:
     - bébé
