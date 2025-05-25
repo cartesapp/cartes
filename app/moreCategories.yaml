@@ -1868,6 +1868,14 @@
   icon alias: music_school
   hidden: false
 
+- name: Ecole de danse
+  group: Enseignement
+  query:
+    - '[amenity=dancing_school]'
+  icon: dance_floor
+  icon alias: dancing_school
+  hidden: false
+
 #######################
 # GROUP : Services publics
 #######################
