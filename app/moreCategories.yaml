@@ -1884,6 +1884,15 @@
   icon alias: driving_school
   hidden: false
 
+- name: Ecole de langues
+  group: Enseignement
+  dictionary:
+    - anglais
+    - langues étrangères
+  query: '[amenity=language_school]'
+  icon: college
+  hidden: false
+
 #######################
 # GROUP : Services publics
 #######################
