@@ -2,7 +2,7 @@
 # with expected properties :
 # - name : name of the category
 # - group : name of the group of categories, which gives its color to the icon, and based on which the categories are grouped in the menu
-# - dictionnary : terms for text search bar
+# - dictionary : terms for text search bar
 # - query : for overpass
 # - icon : name of the svg file to be loaded
 # - icon alias (facultative) : new name for the icon in case the same svg is used in different category groups
@@ -915,7 +915,7 @@
 - name: cinema
   title: Cinéma
   group: Loisirs
-  dictionnary:
+  dictionary:
     - film
     - projection
     - scéance
@@ -945,7 +945,7 @@
 
 - name: salle d'arcade
   group: Loisirs
-  dictionnary:
+  dictionary:
     - jeux vidéos
     - flipper
   query: '[leisure=amusement_arcade]'
@@ -953,7 +953,7 @@
 
 - name: bar à jeux
   group: Loisirs
-  dictionnary:
+  dictionary:
     - cartes
   query:
     - '[cafe~"board_game(s)?"]'
