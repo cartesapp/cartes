@@ -1858,6 +1858,16 @@
   icon: college
   hidden: true
 
+- name: Ecole de musique
+  group: Enseignement
+  dictionary:
+    - conservatoire
+  query:
+    - '[amenity=music_school]'
+  icon: music
+  icon alias: music_school
+  hidden: false
+
 #######################
 # GROUP : Services publics
 #######################
