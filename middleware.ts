@@ -7,6 +7,12 @@ export function middleware(request: NextRequest) {
 	console.log('url ', url.href, url.searchParams.toString())
 	console.log('IsBot ', UA.isBot, ' UA ', UA.ua)
 
+	if (UA.ua?.startsWith('meta-externalagent'))
+		return Response.json(
+			{ success: false, message: 'Too many requests' },
+			{ status: 429 }
+		)
+
 	const { searchParams } = new URL(request.url)
 
 	// Get the 'cat' parameter
