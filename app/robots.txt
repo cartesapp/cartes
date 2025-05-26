@@ -1,3 +1,4 @@
+# https://github.com/ai-robots-txt/ai.robots.txt/blob/main/robots.txt
 User-agent: AI2Bot
 User-agent: Ai2Bot-Dolma
 User-agent: aiHitBot
