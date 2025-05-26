@@ -42,6 +42,12 @@ export default function useFetchItinerary(searchParams, state, allez) {
 
 	const [serializedPoints, points] = useMemoPointsFromState(state)
 
+	const itineraryDistance = points.reduce((memo, next, i) => {
+		if (i === points.length - 1) return memo
+		const segment = distance(next, points[i + 1])
+		return memo + segment
+	}, 0)
+
 	/* Routing requests are made here */
 	useEffect(() => {
 		console.log('lightgreen useeffect', serializedPoints, points)
@@ -87,9 +93,6 @@ export default function useFetchItinerary(searchParams, state, allez) {
 				return { state: 'error', reason: text }
 			}
 		}
-
-		//TODO fails is 3rd point is closer to 1st than 2nd, use reduce that sums
-		const itineraryDistance = distance(points[0], points.slice(-1)[0])
 
 		const fetchRoutes = async () => {
 			updateRoute('cycling', 'loading')
@@ -146,6 +149,7 @@ export default function useFetchItinerary(searchParams, state, allez) {
 						itineraryDistance * 1000
 					)} m.`,
 				}
+			// Motis v2 does not handle multiple points
 			const points =
 				multiplePoints.length > 2
 					? [multiplePoints[0], multiplePoints.slice(-1)[0]]
