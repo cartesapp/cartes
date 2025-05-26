@@ -80,7 +80,7 @@
     - '[boundary=national_park]'
   icon: tree
   open by default: true
-  group: Nature
+  group: Loisirs et Nature
 - name: bus
   title: Arrêt de bus ou tram
   query: '[public_transport=platform]'
@@ -120,11 +120,11 @@
   query: '[tourism=viewpoint]'
   open by default: true
   icon: viewpoint
-  group: Tourisme
+  group: Loisirs et Nature
 - name: Cinéma
   dictionary:
     - ciné
     - film
   query: '[amenity=cinema]'
   icon: cinema
-  group: Loisirs
+  group: Loisirs et Nature
