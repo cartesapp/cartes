@@ -62,7 +62,6 @@ const buildRequestBody = (start, destination, date, searchParams) => {
 		]),
 	]
 
-	console.log('cyan unsatisfyingItineraries', allModes)
 	const body = {
 		timetableView: preTrip,
 		fromPlace: [
@@ -70,6 +69,10 @@ const buildRequestBody = (start, destination, date, searchParams) => {
 			start.lng, //TODO start.z is supported by Motis
 		],
 		directModes: 'BIKE', // for now, we only use bike as direct mode, but we could use the other modes too
+		maxDirectTime: 10 * 60 * 60, //TODO setting this quite high, 10 hours of bike ~ 200 km
+		// but the API's result is going to be heavy in ko, even more for
+		// trans-France trips. In these cases, rely on the direct point to point
+		// distance
 		toPlace: [destination.lat, destination.lng],
 		//searchWindow: 6 * 60 * 60, //hours by default but 8 hours if telescope ?
 		//previously in v1 : end = datePlusHours(date, 1) // TODO This parameter should probably be modulated depending on the transit offer in the simulation setup. Or, query for the whole day at once, and filter them in the UI
