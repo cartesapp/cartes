@@ -14,6 +14,7 @@ import useSetItineraryModeFromUrl from './useSetItineraryModeFromUrl'
 import { decodeDate, initialDate } from './transit/utils'
 import { unsatisfyingItineraries } from '@/components/transit/unsatisfyingItineraries'
 import { modeToFrench } from '@/components/transit/TransitInstructions'
+import { delay } from '@/components/utils/utils'
 
 export default function useFetchItinerary(searchParams, state, allez) {
 	const setSearchParams = useSetSearchParams()
@@ -189,11 +190,38 @@ export default function useFetchItinerary(searchParams, state, allez) {
 				}
 			}
 
+			// Widen the query to 30 minutes cycling if no interesting results
 			if (unsatisfyingItineraries(json)) {
-				// async launch the "deeper" search with 30 minutes of bike (10 km) to widen the
-				// chance of finding a suitable transit
-				// then inform the user that we haven't found "simple" transit means with
+				// inform the user that we haven't found "simple" transit means with
 				// less than 15 minutes walk
+				updateRoute('transit', {
+					state: 'loading',
+					message:
+						'Aucun itinéraire à pied porte à porte trouvé : élargissement en cours...',
+				})
+
+				await delay(2000)
+				console.log('cyan params', searchParams)
+
+				// launch the "deeper" search with 30 minutes of bike (10 km) to widen the
+				// chance of finding a suitable transit
+				const newSearchParams = {
+					...searchParams,
+					debut: 'vélo-30min',
+					fin: 'vélo-30min',
+				}
+				const widened = await computeMotisTrip(
+					lonLats[0],
+					lonLats[1],
+					date,
+					newSearchParams
+				)
+				console.log('cyan params new', newSearchParams)
+				// TODO do the necessary filtering, analysis and error reporting
+				return widened
+
+				//
+				// Merge the results
 			}
 
 			if (transitItineraries.length === 0) {
@@ -214,8 +242,10 @@ export default function useFetchItinerary(searchParams, state, allez) {
 
 		updateRoute('transit', { state: 'loading' })
 
-		fetchTransitRoute(points, itineraryDistance, date).then((transit) =>
-			setRoutes((routes) => ({ ...routes, transit }))
+		// could be inefficient or insecure to give setRoutes to this function.
+		// Rather give "setRoute(key)", like updateRoute above
+		fetchTransitRoute(points, itineraryDistance, date, setRoutes).then(
+			(transit) => setRoutes((routes) => ({ ...routes, transit }))
 		)
 	}, [
 		points,

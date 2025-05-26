@@ -10,7 +10,6 @@ import { lightenColor } from '@/components/utils/colors'
 import { distance, point } from '@turf/turf'
 import { handleColor, trainColors } from './colors'
 import { defaultRouteColor, nowStamp, stamp } from './utils'
-import { unsatisfyingItineraries } from '@/components/transit/unsatisfyingItineraries'
 
 // For onTrip, see https://github.com/motis-project/motis/issues/471#issuecomment-2247099832
 const buildRequestBody = (start, destination, date, searchParams) => {

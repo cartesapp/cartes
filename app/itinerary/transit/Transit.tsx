@@ -49,8 +49,10 @@ const TransitWrapper = styled.div`
 
 const TransitContent = ({ itinerary, searchParams, date }) => {
 	const data = itinerary.routes.transit
+	console.log('cyan transit data', data)
 	if (!data) return
-	if (data.state === 'loading') return <TransitLoader />
+	if (data.state === 'loading') return <TransitLoader text={data.message} />
+
 	if (data.state === 'error')
 		return <NoTransit reason={data.reason} solution={data.solution} />
 
