@@ -12,5 +12,11 @@ export function unsatisfyingItineraries(json, itineraryDistance) {
 
 	if (speed < 20) return true
 	console.log('cyan unsatisfyingItineraries', json, speed)
+
+	//TODO we could use here more sophisticated algorithms to solve the frequent
+	//problem of buses that make detours just to take a train. It's easy if the
+	//detour is replacable by the bike max time set in useFetchItinerary, but it
+	//would fail by just one minute ! We'd have to analyse the shape of the
+	//transit.
 	if (!json.itineraries.length) return true
 }
