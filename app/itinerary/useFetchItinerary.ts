@@ -195,7 +195,7 @@ export default function useFetchItinerary(searchParams, state, allez) {
 			}
 
 			// Widen the query to 30 minutes cycling if no interesting results
-			if (unsatisfyingItineraries(json)) {
+			if (unsatisfyingItineraries(json, itineraryDistance)) {
 				// inform the user that we haven't found "simple" transit means with
 				// less than 15 minutes walk
 				updateRoute('transit', {
