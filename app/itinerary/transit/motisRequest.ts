@@ -68,7 +68,7 @@ const buildRequestBody = (start, destination, date, searchParams) => {
 			start.lat,
 			start.lng, //TODO start.z is supported by Motis
 		],
-		directModes: 'BIKE', // for now, we only use bike as direct mode, but we could use the other modes too
+		directModes: allModes, // setting BIKE here for the general case would make some transit trips that are slower than bike direct route not appear in the results... even if they can be very useful for people without a bike
 		maxDirectTime: 10 * 60 * 60, //TODO setting this quite high, 10 hours of bike ~ 200 km
 		// but the API's result is going to be heavy in ko, even more for
 		// trans-France trips. In these cases, rely on the direct point to point

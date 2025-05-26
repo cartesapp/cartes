@@ -12,7 +12,10 @@ import computeSafeRatio from '@/components/cycling/computeSafeRatio'
 import brouterResultToSegments from '@/components/cycling/brouterResultToSegments'
 import useSetItineraryModeFromUrl from './useSetItineraryModeFromUrl'
 import { decodeDate, initialDate } from './transit/utils'
-import { unsatisfyingItineraries } from '@/components/transit/unsatisfyingItineraries'
+import {
+	smartMotisRequest,
+	unsatisfyingItineraries,
+} from '@/components/transit/smartItinerary'
 import { modeToFrench } from '@/components/transit/TransitInstructions'
 import { delay } from '@/components/utils/utils'
 
@@ -142,7 +145,7 @@ export default function useFetchItinerary(searchParams, state, allez) {
 			if (itineraryDistance < minTransitDistance)
 				return {
 					state: 'error',
-					reason: `Le mode transport en commun est désactivé quand la distance à vol d'oiseau du trajet est inférieure à ${
+					reason: `Nous ne calculons pas les transports en commun quand la distance à vol d'oiseau du trajet est inférieure à ${
 						minTransitDistance * 1000
 					} m.`,
 					solution: `Votre trajet actuel fait ${Math.round(
@@ -169,14 +172,15 @@ export default function useFetchItinerary(searchParams, state, allez) {
 				multiplePoints
 			)
 
-			const json = await computeMotisTrip(
-				lonLats[0],
-				lonLats[1],
-				date,
-				searchParams
+			const params = [lonLats[0], lonLats[1], date]
+			const result = await smartMotisRequest(
+				searchParams,
+				null,
+				itineraryDistance,
+				params,
+				setSearchParams
 			)
-
-			if (json.state === 'error') return json
+			return result
 
 			const { itineraries } = json
 
@@ -184,6 +188,9 @@ export default function useFetchItinerary(searchParams, state, allez) {
 				(itinerary) => !isNotTransitItinerary(itinerary)
 			)
 
+			// TODO this should be *after* the smart widening, else it prevails when
+			// the drect exists, which means all the time, and when no itineraries are
+			// found
 			if (itineraries.length === 0 && json.direct.length) {
 				const word = modeToFrench[json.direct[0].legs[0].mode].future
 
@@ -228,17 +235,6 @@ export default function useFetchItinerary(searchParams, state, allez) {
 				// Merge the results
 			}
 
-			if (transitItineraries.length === 0) {
-				if (searchParams.planification !== 'oui') {
-					return setSearchParams({ planification: 'oui' })
-				}
-
-				return {
-					state: 'error',
-					reason: 'Pas de transport en commun trouvé :/',
-				}
-			}
-			console.log('indigo motis filtered', transitItineraries)
 			return { ...json, itineraries: transitItineraries }
 		}
 		//TODO fails is 3rd point is closer to 1st than 2nd, use reduce that sums
