@@ -112,7 +112,7 @@
   query: '["tourism"~"hotel|chalet|guest_house|apartment"]'
   open by default: true
   icon: lodging
-  group: Tourisme
+  group: Services
 - name: vue
   title: Point de vue
   dictionary:

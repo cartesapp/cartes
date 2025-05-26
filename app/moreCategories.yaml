@@ -1029,11 +1029,11 @@
   icon: playground
 
 #######################
-# GROUP : CULTURE
+# GROUP : CULTURE ET TOURISME
 #######################
 
 - name: Bibliothèque
-  group: Culture
+  group: Culture et Tourisme
   dictionary:
     - livres
     - médiathèque
@@ -1042,14 +1042,14 @@
   icon alias: library
 
 - name: Boite à livres
-  group: Culture
+  group: Culture et Tourisme
   dictionary:
     - libre-service
   query: '[amenity=public_bookcase]'
   icon: public_bookcase
 
 - name: Théâtre
-  group: Culture
+  group: Culture et Tourisme
   dictionary:
     - théâtre
     - scène
@@ -1060,7 +1060,7 @@
   icon: theatre
 
 - name: Centre artistique
-  group: Culture
+  group: Culture et Tourisme
   dictionary:
     - centre culturel
     - spectacle
@@ -1073,7 +1073,7 @@
   icon alias: arts_centre
 
 - name: Attraction touristique
-  group: Culture
+  group: Culture et Tourisme
   dictionary:
     - bâtiment
     - site
@@ -1086,7 +1086,7 @@
   icon: attraction
 
 - name: Musée
-  group: Culture
+  group: Culture et Tourisme
   dictionary:
     - musée
     - exposition
@@ -1095,7 +1095,7 @@
   icon: museum
 
 - name: Musée d'art
-  group: Culture
+  group: Culture et Tourisme
   dictionary:
     - peinture
     - sculpture
@@ -1107,7 +1107,7 @@
   icon alias: gallery
 
 - name: Œuvre d'art
-  group: Culture
+  group: Culture et Tourisme
   dictionary:
     - oeuvre
     - statue
@@ -1119,7 +1119,7 @@
   hidden: true
 
 - name: Information
-  group: Culture
+  group: Culture et Tourisme
   dictionary:
     - panneau
     - information
@@ -1131,7 +1131,7 @@
   icon: information
 
 - name: Site archéologique
-  group: Culture
+  group: Culture et Tourisme
   dictionary:
     - fouille
     - antique
@@ -1142,7 +1142,7 @@
   icon alias: archaeological_site
 
 - name: Chateau
-  group: Culture
+  group: Culture et Tourisme
   dictionary:
     - palais
     - manoir
@@ -1152,7 +1152,7 @@
   icon: castle
 
 - name: Fortification
-  group: Culture
+  group: Culture et Tourisme
   dictionary:
     - muraille
   query: '[historic~"wall"]' # matchs castle_wall and citywalls
@@ -1160,7 +1160,7 @@
   hidden: true
 
 - name: Memorial
-  group: Culture
+  group: Culture et Tourisme
   dictionary:
     - monument
     - souvenir
@@ -1174,7 +1174,7 @@
   icon: monument
 
 - name: Objet historique
-  group: Culture
+  group: Culture et Tourisme
   dictionary:
     - aqueduc
     - champ de bataille
