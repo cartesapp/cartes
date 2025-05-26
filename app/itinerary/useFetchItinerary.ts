@@ -172,12 +172,14 @@ export default function useFetchItinerary(searchParams, state, allez) {
 				multiplePoints
 			)
 
-			const params = [lonLats[0], lonLats[1], date]
+			const start = lonLats[0],
+				destination = lonLats[1]
 			const result = await smartMotisRequest(
 				searchParams,
-				null,
 				itineraryDistance,
-				params,
+				start,
+				destination,
+				date,
 				setSearchParams
 			)
 			return result
