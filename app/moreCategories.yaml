@@ -1028,12 +1028,8 @@
     - '[attraction=carousel]'
   icon: playground
 
-#######################
-# GROUP : CULTURE ET TOURISME
-#######################
-
 - name: Bibliothèque
-  group: Culture et Tourisme
+  group: Loisirs et Nature
   dictionary:
     - livres
     - médiathèque
@@ -1042,11 +1038,15 @@
   icon alias: library
 
 - name: Boite à livres
-  group: Culture et Tourisme
+  group: Loisirs et Nature
   dictionary:
     - libre-service
   query: '[amenity=public_bookcase]'
   icon: public_bookcase
+
+#######################
+# GROUP : CULTURE ET TOURISME
+#######################
 
 - name: Théâtre
   group: Culture et Tourisme
