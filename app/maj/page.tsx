@@ -7,7 +7,7 @@ console.log(url)
 export default async function () {
 	const req = await fetch(url, { cache: 'no-store' })
 	const data = await req.json()
-	console.log(data)
+	console.log('maj', url, data)
 
 	return (
 		<Main>
@@ -18,17 +18,21 @@ export default async function () {
 					utilisées pour cartes.app.
 				</p>
 				<StyledList>
-					{data.map((item) => (
-						<ListItem key={item.service}>
-							<Header>
-								<h2>{item.service}</h2>
-							</Header>
-							<SmallText>{item.technology}</SmallText>
-							<div>
-								<Time dateTime={item.last}>{dateCool(item.last)}</Time>
-							</div>
-						</ListItem>
-					))}
+					{data.map((item) => {
+						if (!item) return <p>Un service semble être en panne</p>
+
+						return (
+							<ListItem key={item.service}>
+								<Header>
+									<h2>{item.service}</h2>
+								</Header>
+								<SmallText>{item.technology}</SmallText>
+								<div>
+									<Time dateTime={item.last}>{dateCool(item.last)}</Time>
+								</div>
+							</ListItem>
+						)
+					})}
 				</StyledList>
 			</Section>
 		</Main>
