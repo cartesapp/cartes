@@ -1,13 +1,22 @@
 import baseCategories from '@/app/categories.yaml'
 import moreCategories from '@/app/moreCategories.yaml'
+import { parameterize } from '@/components/utils/utils'
 
+// Augment category model with a key, built by encoding the name for use in the url
+baseCategories.forEach((cat) => {
+	cat.key = parameterize(cat.name)
+})
+moreCategories.forEach((cat) => {
+	cat.key = parameterize(cat.name)
+})
+
+// remove inactive categories (only "Miellerie" right now)
 export const filteredMoreCategories = moreCategories.filter(
 	(cat) => !cat.inactive
 )
 
+//merge base and more categories
 export const categories = [...baseCategories, ...filteredMoreCategories]
-
-//console.log(categories.map((category) => category.query))
 
 /**
  * Vérifie si un tag OSM (clé, valeur) correspond à une catégorie selon sa requête Overpass
