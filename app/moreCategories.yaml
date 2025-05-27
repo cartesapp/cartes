@@ -2,7 +2,7 @@
 # with expected properties :
 # - name : name of the category
 # - group : name of the group of categories, which gives its color to the icon, and based on which the categories are grouped in the menu
-# - dictionnary : terms for text search bar
+# - dictionary : terms for text search bar
 # - query : for overpass
 # - icon : name of the svg file to be loaded
 # - icon alias (facultative) : new name for the icon in case the same svg is used in different category groups
@@ -496,7 +496,7 @@
   query: '[shop=mall]'
   icon: grocery
 
-- name: Magasin de bricolage
+- name: Bricolage
   group: Commerces
   dictionary:
     - jardinage
@@ -535,7 +535,7 @@
   icon: locksmith
   hidden: true
 
-- name: Magasin de meubles
+- name: Meubles
   group: Commerces
   dictionary:
     - mobilier
@@ -543,7 +543,7 @@
   query: '[shop~"furniture"][shop!~"garden_furniture"]'
   icon: furniture
 
-- name: Magasin de décoration
+- name: Décoration
   group: Commerces
   dictionary:
     - mobilier
@@ -573,7 +573,7 @@
   icon: kitchen
   hidden: true
 
-- name: Magasin de puériculture
+- name: Puériculture
   group: Commerces
   dictionary:
     - bébé
@@ -914,8 +914,8 @@
 
 - name: cinema
   title: Cinéma
-  group: Loisirs
-  dictionnary:
+  group: Loisirs et Nature
+  dictionary:
     - film
     - projection
     - scéance
@@ -923,14 +923,14 @@
   icon: cinema
 
 - name: Bowling
-  group: Loisirs
+  group: Loisirs et Nature
   dictionary:
     - quille
   query: '[leisure=bowling_alley]'
   icon: bowling-alley
 
 - name: Laser game
-  group: Loisirs
+  group: Loisirs et Nature
   dictionary:
     - lazer
   query: '[sport=laser_tag]'
@@ -938,22 +938,22 @@
   hidden: true
 
 - name: Escape game
-  group: Loisirs
+  group: Loisirs et Nature
   query: '[leisure=escape_game]'
   icon: locksmith
   icon alias: escape_game
 
 - name: salle d'arcade
-  group: Loisirs
-  dictionnary:
+  group: Loisirs et Nature
+  dictionary:
     - jeux vidéos
     - flipper
   query: '[leisure=amusement_arcade]'
   icon: gaming
 
 - name: bar à jeux
-  group: Loisirs
-  dictionnary:
+  group: Loisirs et Nature
+  dictionary:
     - cartes
   query:
     - '[cafe~"board_game(s)?"]'
@@ -961,32 +961,22 @@
   icon: casino
 
 - name: Aquarium
-  group: Loisirs
+  group: Loisirs et Nature
   query: '[tourism=aquarium]'
   icon: fish
   icon alias: tourism-fish
   hidden: true
 
 - name: Zoo
-  group: Loisirs
+  group: Loisirs et Nature
   dictionary:
-    - lion
-    - tigre
-    - crocodile
-    - girafe
-    - singe
-    - zèbre
-    - panda
-    - tortue
-    - animalier
-    - animaux
-    - savane
-    - safari
+    - parc animalier
+    - zoologique
   query: '[tourism=zoo]'
   icon: zoo
 
 - name: Pique-nique
-  group: Loisirs
+  group: Loisirs et Nature
   dictionary:
     - picnic
     - pique-nique
@@ -997,7 +987,7 @@
   icon: picnic
 
 - name: Camping
-  group: Loisirs
+  group: Loisirs et Nature
   dictionary:
     - camping
     - camping-car
@@ -1007,12 +997,12 @@
   icon: camping
 
 - name: plage
-  group: Loisirs
+  group: Loisirs et Nature
   query: '[natural=beach]'
   icon: beach
 
 - name: Musique
-  group: Loisirs
+  group: Loisirs et Nature
   dictionary:
     - concert
     - festival
@@ -1027,7 +1017,7 @@
   icon: music
 
 - name: Jeux pour enfants
-  group: Loisirs
+  group: Loisirs et Nature
   dictionary:
     - terrain de jeu
     - manège
@@ -1038,12 +1028,8 @@
     - '[attraction=carousel]'
   icon: playground
 
-#######################
-# GROUP : CULTURE
-#######################
-
 - name: Bibliothèque
-  group: Culture
+  group: Loisirs et Nature
   dictionary:
     - livres
     - médiathèque
@@ -1052,14 +1038,18 @@
   icon alias: library
 
 - name: Boite à livres
-  group: Culture
+  group: Loisirs et Nature
   dictionary:
     - libre-service
   query: '[amenity=public_bookcase]'
   icon: public_bookcase
 
+#######################
+# GROUP : CULTURE ET TOURISME
+#######################
+
 - name: Théâtre
-  group: Culture
+  group: Culture et Tourisme
   dictionary:
     - théâtre
     - scène
@@ -1070,7 +1060,7 @@
   icon: theatre
 
 - name: Centre artistique
-  group: Culture
+  group: Culture et Tourisme
   dictionary:
     - centre culturel
     - spectacle
@@ -1083,7 +1073,7 @@
   icon alias: arts_centre
 
 - name: Attraction touristique
-  group: Culture
+  group: Culture et Tourisme
   dictionary:
     - bâtiment
     - site
@@ -1096,7 +1086,7 @@
   icon: attraction
 
 - name: Musée
-  group: Culture
+  group: Culture et Tourisme
   dictionary:
     - musée
     - exposition
@@ -1105,7 +1095,7 @@
   icon: museum
 
 - name: Musée d'art
-  group: Culture
+  group: Culture et Tourisme
   dictionary:
     - peinture
     - sculpture
@@ -1117,7 +1107,7 @@
   icon alias: gallery
 
 - name: Œuvre d'art
-  group: Culture
+  group: Culture et Tourisme
   dictionary:
     - oeuvre
     - statue
@@ -1129,7 +1119,7 @@
   hidden: true
 
 - name: Information
-  group: Culture
+  group: Culture et Tourisme
   dictionary:
     - panneau
     - information
@@ -1141,7 +1131,7 @@
   icon: information
 
 - name: Site archéologique
-  group: Culture
+  group: Culture et Tourisme
   dictionary:
     - fouille
     - antique
@@ -1152,7 +1142,7 @@
   icon alias: archaeological_site
 
 - name: Chateau
-  group: Culture
+  group: Culture et Tourisme
   dictionary:
     - palais
     - manoir
@@ -1162,7 +1152,7 @@
   icon: castle
 
 - name: Fortification
-  group: Culture
+  group: Culture et Tourisme
   dictionary:
     - muraille
   query: '[historic~"wall"]' # matchs castle_wall and citywalls
@@ -1170,7 +1160,7 @@
   hidden: true
 
 - name: Memorial
-  group: Culture
+  group: Culture et Tourisme
   dictionary:
     - monument
     - souvenir
@@ -1184,7 +1174,7 @@
   icon: monument
 
 - name: Objet historique
-  group: Culture
+  group: Culture et Tourisme
   dictionary:
     - aqueduc
     - champ de bataille
@@ -1226,14 +1216,14 @@
   query: '[public_transport=station][train=yes]'
   icon: train
 
-- name: métro
+- name: arret-de-metro
   title: Arrêt de métro
   query: '[station=subway]'
   icon: metro
   open by default: true
   group: Déplacements
 
-- name: tram
+- name: arret-de-tram
   title: Arrêt de tram
   query: '[railway=tram_stop]'
   icon: tram
@@ -1740,54 +1730,11 @@
   hidden: true
 
 #######################
-# GROUP : Administration
+# GROUP : Enseignement
 #######################
-## https://wiki.openstreetmap.org/wiki/France/Services_Publics
-
-- name: Mairie
-  group: Administration
-  dictionary:
-    - hôtel de ville
-  query: '[amenity=townhall]'
-  icon: classical-building
-
-- name: Préfecture
-  group: Administration
-  dictionary:
-    - sous-préfecture
-    - préfet
-  query: '[office=government][government=prefecture]'
-  icon: classical-building
-  hidden: true
-
-- title: Justice
-  group: Administration
-  name: justice
-  dictionary:
-    - tribunal
-    - cour
-    - cour d'appel
-    - judiciaire
-  query:
-    - '[amenity=courthouse]'
-  icon: classical-building
-
-- name: France Travail
-  group: Administration
-  dictionary:
-    - pole emploi
-    - pôle emploi
-    - ANPE
-    - chomage
-    - chômage
-  query: '[office=government][government=employment_agency]'
-  icon: building
-
-#######################
-# SOUS-GROUPE : Les écoles
 
 - name: École maternelle
-  group: Administration
+  group: Enseignement
   dictionary:
     - enfant
     - primaire
@@ -1798,7 +1745,7 @@
   icon: maternelle
 
 - name: École élémentaire
-  group: Administration
+  group: Enseignement
   dictionary:
     - enfant
     - primaire
@@ -1809,7 +1756,7 @@
   icon: school
 
 - name: Collège
-  group: Administration
+  group: Enseignement
   dictionary:
     - segpa
     - collège
@@ -1820,7 +1767,7 @@
   icon: college
 
 - name: Lycée
-  group: Administration
+  group: Enseignement
   dictionary:
     - ado
     - technique
@@ -1832,7 +1779,7 @@
   icon: college
 
 - name: Enseignement supérieur
-  group: Administration
+  group: Enseignement
   dictionary:
     - faculté
     - supérieur
@@ -1843,7 +1790,7 @@
   icon: college
 
 - name: Établissement scolaire
-  group: Administration
+  group: Enseignement
   dictionary:
     - université
     - collège
@@ -1857,9 +1804,45 @@
   icon: college
   hidden: true
 
+- name: Ecole de musique
+  group: Enseignement
+  dictionary:
+    - conservatoire
+  query: '[amenity=music_school]'
+  icon: music
+  icon alias: music_school
+  hidden: false
+
+- name: Ecole de danse
+  group: Enseignement
+  query: '[amenity=dancing_school]'
+  icon: dance_floor
+  icon alias: dancing_school
+  hidden: false
+
+- name: Auto-école
+  group: Enseignement
+  dictionary:
+    - permis de conduire
+    - code de la route
+  query: '[amenity=driving_school]'
+  icon: car
+  icon alias: driving_school
+  hidden: false
+
+- name: Ecole de langues
+  group: Enseignement
+  dictionary:
+    - anglais
+    - langues étrangères
+  query: '[amenity=language_school]'
+  icon: college
+  hidden: false
+
 #######################
 # GROUP : Services publics
 #######################
+## https://wiki.openstreetmap.org/wiki/France/Services_Publics
 
 - name: Police
   group: Services publics
@@ -1879,6 +1862,45 @@
   query:
     - '[amenity=fire_station]'
   icon: fire
+
+- name: Mairie
+  group: Services publics
+  dictionary:
+    - hôtel de ville
+  query: '[amenity=townhall]'
+  icon: classical-building
+
+- name: Préfecture
+  group: Services publics
+  dictionary:
+    - sous-préfecture
+    - préfet
+  query: '[office=government][government=prefecture]'
+  icon: classical-building
+  hidden: true
+
+- title: Tribunal
+  group: Services publics
+  name: tribunal
+  dictionary:
+    - justice
+    - cour
+    - cour d'appel
+    - judiciaire
+  query:
+    - '[amenity=courthouse]'
+  icon: classical-building
+
+- name: France Travail
+  group: Services publics
+  dictionary:
+    - pole emploi
+    - pôle emploi
+    - ANPE
+    - chomage
+    - chômage
+  query: '[office=government][government=employment_agency]'
+  icon: building
 
 #######################
 # GROUP : DIVERS

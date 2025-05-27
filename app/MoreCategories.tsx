@@ -1,5 +1,5 @@
 import categoryGroupColors from '@/app/categoryGroupColors.yaml'
-import { uncapitalise0 } from '@/components/utils/utils'
+import { capitalise0 } from '@/components/utils/utils'
 import { css, styled } from 'next-yak'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -77,7 +77,7 @@ export default function MoreCategories({
 														category={category}
 														bulkImages={bulkImages}
 													/>{' '}
-													{uncapitalise0(category.title || category.name)}
+													{capitalise0(category.title || category.name)}
 												</Link>
 											</Category>
 										)
