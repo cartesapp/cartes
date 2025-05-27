@@ -17,7 +17,7 @@ export default function useDrawFeatures(
 	invert = false
 ) {
 	const setSearchParams = useSetSearchParams()
-	const baseId = `features-${category.name}-`
+	const baseId = `features-${category.key}-`
 
 	const [sources, setSources] = useState(null)
 

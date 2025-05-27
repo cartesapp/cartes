@@ -59,14 +59,14 @@ export default function MoreCategories({
 							<div>
 								<ul>
 									{categories.map((category) => {
-										const isActive = categoriesSet.includes(category.name)
+										const isActive = categoriesSet.includes(category.key)
 										const desktopDisplay =
 											doFilter || isActive || (expandGroup && !category.hidden)
 										const mobileDisplay =
 											doFilter || isActive || !category.hidden
 										return (
 											<Category
-												key={category.name}
+												key={category.key}
 												$active={isActive}
 												$isExact={category.score < exactThreshold}
 												$desktopDisplay={desktopDisplay}

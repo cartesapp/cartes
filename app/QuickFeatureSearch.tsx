@@ -128,10 +128,10 @@ export default function QuickFeatureSearch({
 							</>
 						)}
 						{filteredCategories.map((category) => {
-							const active = categoriesSet.includes(category.name)
+							const active = categoriesSet.includes(category.key)
 							return (
 								<QuickSearchElement
-									key={category.name}
+									key={category.key}
 									name={category.name}
 									{...{
 										$clicked: active,
@@ -210,9 +210,9 @@ export default function QuickFeatureSearch({
 const buildGetNewSearchParams =
 	(searchParams, setSearchParams) => (category) => {
 		const [categories] = getCategories(searchParams)
-		const nextCategories = categories.includes(category.name)
-			? categories.filter((c) => c !== category.name)
-			: [...categories, category.name]
+		const nextCategories = categories.includes(category.key)
+			? categories.filter((c) => c !== category.key)
+			: [...categories, category.key]
 
 		const newSearchParams = {
 			'cat-plus': searchParams['cat-plus'],

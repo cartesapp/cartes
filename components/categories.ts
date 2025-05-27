@@ -74,12 +74,12 @@ export function findCategoryForTag(key: string, value: string) {
 
 export const getCategories = (searchParams) => {
 	const { cat } = searchParams
-	const categoryNames = cat ? cat.split(categorySeparator) : [],
-		categoriesObjects = categoryNames.map((c) =>
-			categories.find((c2) => c2.name === c)
+	const categoryKeys = cat ? cat.split(categorySeparator) : [],
+		categoriesObjects = categoryKeys.map((c) =>
+			categories.find((c2) => c2.key === c)
 		)
 
-	return [categoryNames, categoriesObjects]
+	return [categoryKeys, categoriesObjects]
 }
 
 export const categorySeparator = '|'

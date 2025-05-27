@@ -13,6 +13,8 @@ export default function CategoryResult({
 	setSearchParams,
 	annuaireMode,
 }) {
+	if (!category) return
+
 	const { tags, category, distance, bearing } = result
 
 	const { name: rawName, description, opening_hours: oh } = tags || {}
