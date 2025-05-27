@@ -86,9 +86,9 @@ export async function smartMotisRequest(
 					'Aucun itinéraire "départ immédiat" trouvé. Passage en mode planification.',
 			}
 		} else {
-			const bikePrePostDistance = 0.5 * 20 // 20 km/h * 1/2 h
+			const bikePortionDistance = 0.5 * 20 // 20 km/h * 1/2 h
 
-			if (distance < bikePrePostDistance)
+			if (distance < bikePortionDistance)
 				return {
 					state: 'error',
 					reason: `Pas de transport en commun trouvé qui soit plus rapide que 30 min directement à vélo.`,
@@ -110,9 +110,9 @@ export async function smartMotisRequest(
 	}
 	if (searchParams.auto) {
 		if (searchParams.debut === 'vélo-15min') {
-			const bikePrePostDistance = 1 * 20 // 20 km/h * 1 h
+			const bikePortionDistance = 1 * 20 // 20 km/h * 1 h
 
-			if (distance < bikePrePostDistance)
+			if (distance < bikePortionDistance)
 				return {
 					state: 'error',
 					reason: `Pas de transport en commun trouvé qui soit plus rapide qu'1h directement à vélo.`,
@@ -132,9 +132,9 @@ export async function smartMotisRequest(
 			}
 		}
 
-		const bikePrePostDistance = 2 * 20 // 20 km/h * 2 h
+		const bikePortionDistance = 2 * 20 // 20 km/h * 2 h
 
-		if (distance < bikePrePostDistance)
+		if (distance < bikePortionDistance)
 			return {
 				state: 'error',
 				reason: `Pas de transport en commun trouvé qui soit plus rapide que 2h directement à vélo.`,
