@@ -11,7 +11,7 @@ export default function getName(tags) {
 
 	const category = findCategory(tags)
 
-	if (category) return category['title'] || category.name
+	if (category) return category.name
 }
 
 export const getNameKeys = (tags) => {

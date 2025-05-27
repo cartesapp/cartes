@@ -77,7 +77,7 @@ export default function MoreCategories({
 														category={category}
 														bulkImages={bulkImages}
 													/>{' '}
-													{capitalise0(category.title || category.name)}
+													{capitalise0(category.name)}
 												</Link>
 											</Category>
 										)
@@ -277,7 +277,7 @@ export const MapIcon = ({ category, bulkImages, marginRight = 0 }) => {
 	if (!bulkImages) return
 	const src = bulkImages[category['icon alias'] || category['icon']]
 
-	const alt = 'Icône de la catégorie ' + (category.title || category.name)
+	const alt = 'Icône de la catégorie ' + category.name
 
 	if (src)
 		return (

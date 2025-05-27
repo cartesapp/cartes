@@ -26,7 +26,7 @@ const moreCategories = filteredMoreCategories
 
 export function initializeFuse(categories) {
 	return new Fuse(categories, {
-		keys: ['name', 'title', 'query', 'dictionary'],
+		keys: ['name', 'query', 'dictionary'],
 		includeScore: true,
 		ignoreLocation: true,
 		ignoreDiacritics: true,
@@ -132,7 +132,7 @@ export default function QuickFeatureSearch({
 							return (
 								<QuickSearchElement
 									key={category.name}
-									title={category.title || category.name}
+									name={category.name}
 									{...{
 										$clicked: active,
 										$setGoldCladding: category.score < exactThreshold,
