@@ -55,6 +55,8 @@ const computeDistanceAndSpeed = (json, itineraryDistance) => {
 	return [distance, speed]
 }
 
+const bikeSpeed = 20 // km/h
+
 export async function smartMotisRequest(
 	searchParams,
 	itineraryDistance,
@@ -74,6 +76,8 @@ export async function smartMotisRequest(
 	if (hasQuickEnough) return json
 
 	// the initial WALK request to find door-to-door no-bike no-car transit trips
+	// has no "debut" param, this is how we detect it. It failed, look further
+	// with bike segments added, progressively extending
 	if (!searchParams.debut) {
 		if (searchParams.planification !== 'oui') {
 			setTimeout(() => {
@@ -83,15 +87,15 @@ export async function smartMotisRequest(
 			return {
 				state: 'loading',
 				message:
-					'Aucun itinéraire "départ immédiat" trouvé. Passage en mode planification.',
+					'Aucun itinéraire "départ immédiat" trouvé. Passage en mode 🔭 planification.',
 			}
 		} else {
-			const bikePortionDistance = 0.5 * 20 // 20 km/h * 1/2 h
+			const bikePortionDistance = 2 * (15 / 60) * bikeSpeed // 20 km/h * 1/2 h
 
 			if (distance < bikePortionDistance)
 				return {
 					state: 'error',
-					reason: `Pas de transport en commun trouvé qui soit plus rapide que 30 min directement à vélo.`,
+					reason: `Pas de transport trouvé qui soit plus rapide que 30 min directement à vélo.`,
 				}
 
 			setTimeout(() => {
@@ -104,18 +108,18 @@ export async function smartMotisRequest(
 			return {
 				state: 'loading',
 				message:
-					'Aucun itinéraire porte à porte trouvé. Élargissement avec 15 minutes de vélo.',
+					"Aucun itinéraire porte à porte trouvé. Élargissement avec 15 min d'appoint à vélo.",
 			}
 		}
 	}
 	if (searchParams.auto) {
 		if (searchParams.debut === 'vélo-15min') {
-			const bikePortionDistance = 1 * 20 // 20 km/h * 1 h
+			const bikePortionDistance = 2 * (30 / 60) * bikeSpeed // 20 km/h * 1 h
 
 			if (distance < bikePortionDistance)
 				return {
 					state: 'error',
-					reason: `Pas de transport en commun trouvé qui soit plus rapide qu'1h directement à vélo.`,
+					reason: `Pas de transport trouvé qui soit plus rapide qu'1h directement à vélo.`,
 				}
 
 			setTimeout(() => {
@@ -128,29 +132,53 @@ export async function smartMotisRequest(
 			return {
 				state: 'loading',
 				message:
-					'Aucun itinéraire à 15 minutes de vélo trouvé. Élargissement avec 30 minutes de vélo.',
+					'Aucun itinéraire trouvé avec un appoint de 15 min de vélo. Élargissement avec 30 minutes de vélo.',
 			}
 		}
+		if (searchParams.debut === 'vélo-30min') {
+			const bikePortionDistance = 2 * bikeSpeed // 20 km/h * 2 h
 
-		const bikePortionDistance = 2 * 20 // 20 km/h * 2 h
+			if (distance < bikePortionDistance)
+				return {
+					state: 'error',
+					reason: `Pas de transport trouvé qui soit plus rapide que 2h directement à vélo.`,
+				}
+
+			setTimeout(() => {
+				setSearchParams({
+					debut: 'vélo-60min',
+					fin: 'vélo-60min',
+				})
+			}, 3000)
+
+			return {
+				state: 'loading',
+				message:
+					'Aucun itinéraire trouvé avec un appoint de 30 min de vélo trouvé. Élargissement à 1h de vélo.',
+			}
+		}
+		// 2h of bike to reach the train station is a lot. But using the bike here
+		// is just a way to compute a possible route that could be done with 1h of a
+		// friend's car
+		const bikePortionDistance = 2 * 2 * bikeSpeed // 20 km/h * 2 h
 
 		if (distance < bikePortionDistance)
 			return {
 				state: 'error',
-				reason: `Pas de transport en commun trouvé qui soit plus rapide que 2h directement à vélo.`,
+				reason: `Pas de transport trouvé qui soit plus rapide que 4h directement à vélo.`,
 			}
 
 		setTimeout(() => {
 			setSearchParams({
-				debut: 'vélo-60min',
-				fin: 'vélo-60min',
+				debut: 'vélo-120min',
+				fin: 'vélo-120min',
 			})
 		}, 3000)
 
 		return {
 			state: 'loading',
 			message:
-				'Aucun itinéraire à 30 minutes de vélo trouvé. Élargissement final à 1h de vélo.',
+				"Aucun itinéraire trouvé avec un appoint d'1h de vélo trouvé. Élargissement final à 2h de vélo.",
 		}
 	}
 
@@ -158,7 +186,7 @@ export async function smartMotisRequest(
 	 *
 				return {
 					state: 'error',
-					reason: 'Pas de transport en commun trouvé :/',
+					reason: 'Pas de transport commun trouvé :/',
 				}
 				*/
 }
