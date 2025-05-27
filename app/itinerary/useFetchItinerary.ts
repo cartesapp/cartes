@@ -263,6 +263,7 @@ export default function useFetchItinerary(searchParams, state, allez) {
 	const resetItinerary = useCallback(
 		() =>
 			setSearchParams({
+				auto: undefined,
 				allez: undefined,
 				mode: undefined,
 				choix: undefined,

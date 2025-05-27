@@ -51,7 +51,7 @@ const computeDistanceAndSpeed = (json, itineraryDistance) => {
 	//would fail by just one minute ! We'd have to analyse the shape of the
 	//transit.
 
-	console.log('cyan unsatisfyingItineraries', json, speed)
+	console.log('cyan unsatisfyingItineraries', json, speed, distance)
 	return [distance, speed]
 }
 
