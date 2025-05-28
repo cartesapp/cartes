@@ -250,7 +250,9 @@ export const computeMotisTrip = async (
 export { stamp }
 
 export const notTransitType = ['WALK', 'BIKE', 'CAR']
-export const getTransitLegs = (connection) =>
-	connection.legs.filter((leg) => !notTransitType.includes(leg.mode))
+export const filterTransitLegs = (connection) => ({
+	...connection,
+	legs: connection.legs.filter((leg) => !notTransitType.includes(leg.mode)),
+})
 export const isNotTransitItinerary = (itinerary) =>
 	itinerary.legs.every((leg) => notTransitType.includes(leg.mode))

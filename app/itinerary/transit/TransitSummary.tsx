@@ -1,13 +1,7 @@
-import { getTransitLegs } from '@/app/itinerary/transit/motisRequest'
-import transitIcon from '@/public/transit.svg'
+import { filterTransitLegs } from '@/app/itinerary/transit/motisRequest'
 import { styled } from 'next-yak'
-import Image from 'next/image'
 import BestConnection from './BestConnection'
-import {
-	NoMoreTransitToday,
-	NoTransit,
-	TransitScopeLimit,
-} from './NoTransitMessages'
+import { NoMoreTransitToday, NoTransit } from './NoTransitMessages'
 import { TimelineTransportBlock } from './Transit'
 import TransitLoader from './TransitLoader'
 import findBestConnection from './findBestConnection'
@@ -23,8 +17,13 @@ export default function TransitSummary({ itinerary }) {
 				<NoTransit reason={data.reason} solution={data.solution} />
 			</section>
 		)
+	/* TODO this does not seem to be possible with Motis v2 anymore. The
+	 * itineraries attribute is always there with potentially length === 0
+	 * It doesn't tell us if there's an agency here. But we could use our agency
+	 * plans to check that, quite easily
 	if (!data?.itineraries || !data.itineraries.length)
 		return <TransitScopeLimit />
+		*/
 
 	// from now on, itineraries are called connections, Motis v1's term. Not to be
 	// mixed up with our "itinerary" prop
@@ -32,6 +31,7 @@ export default function TransitSummary({ itinerary }) {
 		data.itineraries,
 		itinerary.date
 	)
+	/* Not sure this is relevant now in Motis v2 */
 	if (nextConnections.length < 1)
 		return <NoMoreTransitToday date={itinerary.date} />
 
@@ -40,52 +40,58 @@ export default function TransitSummary({ itinerary }) {
 
 	console.log('indigo summary', nextConnections)
 	const transitConnections = nextConnections
-			.map((connection) => getTransitLegs(connection))
-			.filter((item) => item.length > 0),
+			.map((connection) => filterTransitLegs(connection))
+			.filter((item) => item.length > 0)
+			.map((connection) => ({
+				...connection,
+				signature: connectionSignature(connection),
+			})),
+		unique = transitConnections.filter((connection) => {
+			return !transitConnections.find(
+				(connection2) => connection2.signature === connection.signature
+			)
+		}),
 		found = transitConnections.length > 0
+
+	if (!found)
+		return (
+			<Wrapper>
+				Pas de transport trouvé, et nous ne savons pas pourquoi.
+			</Wrapper>
+		)
 
 	return (
 		<Wrapper>
 			<div>
-				<Image src={transitIcon} alt="Icône transport en commun" />
+				<small>
+					{nextConnections.length} option{nextConnections.length > 1 ? 's' : ''}{' '}
+					de transport en commun
+				</small>
 			</div>
-			<p>Voir les {nextConnections.length} options de transport en commun</p>
 			<div>
-				{nextConnections.map((connection) => (
-					<li key={connection.startTime + connection.duration}>
-						<TimelineTransportBlock transport={getTransitLegs(connection)[0]} />
-					</li>
-				))}
+				<ol>
+					{unique.map((connection) => (
+						<li key={connection.startTime + connection.duration}>
+							<TimelineTransportBlock
+								transport={filterTransitLegs(connection)[0].legs}
+							/>
+						</li>
+					))}
+				</ol>
 			</div>
 		</Wrapper>
 	)
 }
+const connectionSignature = (connection) =>
+	connection.legs.map((leg) => leg.name).join('<|>')
 
 const Wrapper = styled.div`
-	display: flex;
-	align-items: center;
-	flex-wrap: wrap;
-	img {
-		width: 1.6rem;
-		height: auto;
-	}
-	p {
-		margin: 0;
-	}
-	margin: 0.6rem;
-	> div {
-		background: var(--lighterColor);
-		border-radius: 1rem;
-		width: 2rem;
-		height: 2rem;
+	ol {
+		list-style-type: none;
 		display: flex;
 		align-items: center;
-		justify-content: center;
-		margin-right: 0.4rem;
-		img {
-			filter: invert(1);
-			width: 1.8rem;
-			height: auto;
-		}
+		flex-wrap: wrap;
 	}
+
+	margin: 0.6rem;
 `

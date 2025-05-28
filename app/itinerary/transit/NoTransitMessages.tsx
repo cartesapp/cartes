@@ -34,6 +34,7 @@ export const NoTransit = ({ reason, solution }) => {
 	if (!reason)
 		return <MessageBlock message={'Pas de transport en commun trouvé :('} />
 }
+
 export const TransitScopeLimit = () => (
 	<MessageBlock
 		message={`
