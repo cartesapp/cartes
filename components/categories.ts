@@ -72,14 +72,24 @@ export function findCategoryForTag(key: string, value: string) {
 	)
 	*/
 
+/**
+ * Get the list of categories matching URL parameters
+ * @param searchParams list of parameters from the URL
+ * @returns array of keys, and array of matching categories
+ */
 export const getCategories = (searchParams) => {
+	// get property "cat" from the parameters
 	const { cat } = searchParams
+	// split cat string by separator to get the list of (potential) keys
 	const categoryKeys = cat ? cat.split(categorySeparator) : [],
-		categoriesObjects = categoryKeys.map((c) =>
-			categories.find((c2) => c2.key === c)
-		)
-
-	return [categoryKeys, categoriesObjects]
+		// then search for categories matching the keys
+		matchingCategories = categoryKeys
+			.map((k) => categories.find((c) => c.key === k))
+			.filter(Boolean)
+	// get keys which are actually matching a category
+	const matchingKeys = matchingCategories.map((c) => c.key)
+	// return the list of true keys and the list of matching categories
+	return [matchingKeys, matchingCategories]
 }
 
 export const categorySeparator = '|'
