@@ -10,11 +10,12 @@ import useIcons from './effects/useIcons'
 
 export default function MoreCategories({
 	getNewSearchParamsLink,
-	categoriesSet,
+	activeCategoryKeys,
 	filteredMoreCategories,
 	doFilter,
 	annuaireMode = false,
 }) {
+	// build the liste of (visible) groups with their categories
 	const groups = filteredMoreCategories.reduce((memo, next) => {
 		return {
 			...memo,
@@ -59,7 +60,7 @@ export default function MoreCategories({
 							<div>
 								<ul>
 									{categories.map((category) => {
-										const isActive = categoriesSet.includes(category.key)
+										const isActive = activeCategoryKeys.includes(category.key)
 										const desktopDisplay =
 											doFilter || isActive || (expandGroup && !category.hidden)
 										const mobileDisplay =

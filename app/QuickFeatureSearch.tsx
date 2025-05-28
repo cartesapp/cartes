@@ -48,7 +48,8 @@ export default function QuickFeatureSearch({
 	noPhotos = false,
 	annuaireMode = false,
 }) {
-	const [categoriesSet] = getCategories(searchParams)
+	// get the list of category keys matching the parameters in the URL = active categories
+	const [activeCategoryKeys, activeCategories] = getCategories(searchParams)
 
 	const showMore = searchParams['cat-plus']
 	const hasLieu = searchParams.allez
@@ -88,9 +89,12 @@ export default function QuickFeatureSearch({
 		setSearchParams
 	)
 
+	// merge the results
+	// returns an array with for each category : [String category key, Array category elements]
 	const resultsEntries = Object.entries(quickSearchFeaturesMap).filter(
-		([k, v]) => categoriesSet.includes(k)
+		([k, v]) => activeCategoryKeys.includes(k)
 	)
+
 	return (
 		<div
 			css={css`
@@ -128,7 +132,7 @@ export default function QuickFeatureSearch({
 							</>
 						)}
 						{filteredCategories.map((category) => {
-							const active = categoriesSet.includes(category.key)
+							const active = activeCategoryKeys.includes(category.key)
 							return (
 								<QuickSearchElement
 									key={category.key}
@@ -189,14 +193,14 @@ export default function QuickFeatureSearch({
 				(annuaireMode && !Object.keys(quickSearchFeaturesMap).length)) && (
 				<MoreCategories
 					getNewSearchParamsLink={getNewSearchParamsLink}
-					categoriesSet={categoriesSet}
+					activeCategoryKeys={activeCategoryKeys}
 					filteredMoreCategories={filteredMoreCategories}
 					doFilter={doFilter}
 					annuaireMode={annuaireMode}
 				/>
 			)}
 
-			{categoriesSet.length > 0 && (
+			{activeCategoryKeys.length > 0 && (
 				<CategoryResults
 					center={center}
 					annuaireMode={annuaireMode}
@@ -207,18 +211,24 @@ export default function QuickFeatureSearch({
 	)
 }
 
+/**
+ * Add or remove a category from the URL parameters list
+ */
 const buildGetNewSearchParams =
 	(searchParams, setSearchParams) => (category) => {
-		const [categories] = getCategories(searchParams)
-		const nextCategories = categories.includes(category.key)
-			? categories.filter((c) => c !== category.key)
-			: [...categories, category.key]
-
+		// get the category keys matching the parameters in URL
+		const [oldKeys] = getCategories(searchParams)
+		// if new category already present, remove its key from the list, else add it to the list
+		const newKeys = oldKeys.includes(category.key)
+			? oldKeys.filter((c) => c !== category.key)
+			: [...oldKeys, category.key]
+		// build new list of search parameters
 		const newSearchParams = {
 			'cat-plus': searchParams['cat-plus'],
-			cat: nextCategories.length
-				? nextCategories.join(categorySeparator)
+			cat: newKeys.length
+				? newKeys.join(categorySeparator)
 				: undefined,
 		}
+		// set the parameters in the URL
 		return setSearchParams(newSearchParams, true, true)
 	}
