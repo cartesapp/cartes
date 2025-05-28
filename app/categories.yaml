@@ -8,6 +8,7 @@
   query: '[shop=bakery]'
   icon: bakery
   group: Alimentation
+
 - name: restaurant
   dictionary:
     - resto
@@ -21,8 +22,8 @@
     - '[vending=pizza]'
   icon: restaurant
   group: Restaurants
-- name: cafe
-  title: Café, bar et pub
+
+- name: Café, bar, pub
   dictionary:
     - bar
     - café
@@ -37,6 +38,7 @@
     - '["amenity"="pub"]'
   icon: cafe
   group: Bars et boisson
+
 - name: épicerie
   dictionary:
     - supermarché
@@ -49,7 +51,8 @@
     - '[amenity=marketplace]'
   icon: convenience
   group: Commerces
-- name: eau
+
+- name: point d'eau
   dictionary:
     - boire
     - fontaine
@@ -61,6 +64,7 @@
   icon: water
   open by default: true
   group: Divers
+
 - name: toilettes
   dictionary:
     - WC
@@ -70,6 +74,7 @@
   icon: toilets
   open by default: true
   group: Divers
+
 - name: parc
   dictionary:
     - verdure
@@ -81,20 +86,20 @@
   icon: tree
   open by default: true
   group: Loisirs et Nature
-- name: bus
-  title: Arrêt de bus ou tram
+
+- name: Arrêt bus tram métro
   query: '[public_transport=platform]'
   icon: bus
   open by default: true
   group: Déplacements
-- name: billets
+
+- name: Distributeur de billets
   dictionary:
     - banque
     - DAB
     - cash
     - argent
     - distributeur
-  title: Distributeur de billets
   query:
     - '[amenity=atm]'
     - '[atm=yes]'
@@ -102,6 +107,7 @@
   icon: bank
   icon alias: atm
   group: Services
+
 - name: Hôtel
   dictionary:
     - chambre d'hôte
@@ -113,14 +119,15 @@
   open by default: true
   icon: lodging
   group: Services
-- name: vue
-  title: Point de vue
+
+- name: Point de vue
   dictionary:
     - panorama
   query: '[tourism=viewpoint]'
   open by default: true
   icon: viewpoint
   group: Loisirs et Nature
+
 - name: Cinéma
   dictionary:
     - ciné

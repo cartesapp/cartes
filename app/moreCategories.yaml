@@ -912,8 +912,7 @@
 # GROUP : LOISIRS
 #######################
 
-- name: cinema
-  title: Cinéma
+- name: Cinéma
   group: Loisirs et Nature
   dictionary:
     - film
@@ -1141,7 +1140,7 @@
   icon: archaeological
   icon alias: archaeological_site
 
-- name: Chateau
+- name: Château
   group: Culture et Tourisme
   dictionary:
     - palais
@@ -1159,7 +1158,7 @@
   icon: city_wall
   hidden: true
 
-- name: Memorial
+- name: Mémorial
   group: Culture et Tourisme
   dictionary:
     - monument
@@ -1207,7 +1206,6 @@
 
 - name: gare
   group: Déplacements
-  title: Gare
   dictionary:
     - train
     - ferroviaire
@@ -1216,22 +1214,19 @@
   query: '[public_transport=station][train=yes]'
   icon: train
 
-- name: arret-de-metro
-  title: Arrêt de métro
+- name: Arrêt de métro
   query: '[station=subway]'
   icon: metro
   open by default: true
   group: Déplacements
 
-- name: arret-de-tram
-  title: Arrêt de tram
+- name: Arrêt de tram
   query: '[railway=tram_stop]'
   icon: tram
   open by default: true
   group: Déplacements
 
-- name: magasin-velo
-  title: Magasin vélo
+- name: Magasin vélo
   group: Déplacements
   dictionary:
     - réparation
@@ -1241,8 +1236,7 @@
   query: '[shop=bicycle]'
   icon: bicycle
 
-- name: parking-velo
-  title: Parking vélo
+- name: Parking vélo
   group: Déplacements
   dictionary:
     - pince-roue
@@ -1254,8 +1248,7 @@
   query: '[amenity=bicycle_parking]'
   icon: bicycle_parking
 
-- name: parking-velo-securise # pas d'accent pour que les url soient propres : toujours en 2024 les navigateurs (états-uniens) refusent une vision non états-unienne du Web sous prétexte de lutte contre le phishing
-  title: Parking vélo sécurisé
+- name: Parking vélo sécurisé
   group: Déplacements
   dictionary:
     - rack sécurisé
@@ -1267,8 +1260,7 @@
     - '[bicycle_parking=lockers]'
   icon: bicycle-parking-secured
 
-- name: reparation-velo
-  title: Réparation de vélo
+- name: Réparation vélo
   group: Déplacements
   dictionary:
     - réparation
@@ -1281,9 +1273,8 @@
     - '["service:bicycle:repair"=yes]'
   icon: bicycle_repair_station
 
-- name: gare-maritime
+- name: Gare maritime
   group: Déplacements
-  title: Gare maritime
   dictionary:
     - ferry
     - traversée
@@ -1304,8 +1295,7 @@
   query: '[amenity=fuel]'
   icon: fuel
 
-- name: borne-elec
-  title: Borne électrique
+- name: Borne électrique
   group: Déplacements
   dictionary:
     - recharge
@@ -1326,8 +1316,7 @@
     - '[compressed_air=yes]'
   icon: compressed_air
 
-- name: parking-voiture
-  title: Parking voiture
+- name: Parking voiture
   group: Déplacements
   dictionary:
     - stationnement
@@ -1475,8 +1464,7 @@
   query: '["leisure"="fitness_centre"]'
   icon: fitness_centre
 
-- title: Équipements de fitness
-  name: equipements+de+fitness
+- name: Équipement de fitness
   group: Sports
   dictionary:
     - exercice
@@ -1503,8 +1491,7 @@
   query: '["leisure"="golf_course"]'
   icon: golf
 
-- title: Centre équestre
-  name: centre+equestre
+- name: Centre équestre
   group: Sports
   dictionary:
     - équitation
@@ -1625,8 +1612,7 @@
   icon: judo
   hidden: true
 
-- title: Pétanque
-  name: petanque
+- name: Pétanque
   group: Sports
   dictionary:
     - pétanque
@@ -1661,8 +1647,7 @@
   icon: handball
   hidden: true
 
-- title: Canoë-Kayak
-  name: canoe+kayak
+- name: Canoë-Kayak
   group: Sports
   dictionary:
     - canoë
@@ -1701,8 +1686,7 @@
   icon: hillclimbing
   hidden: true
 
-- title: Athlétisme
-  name: athletisme
+- name: Athlétisme
   group: Sports
   dictionary:
     - course
@@ -1804,7 +1788,7 @@
   icon: college
   hidden: true
 
-- name: Ecole de musique
+- name: École de musique
   group: Enseignement
   dictionary:
     - conservatoire
@@ -1813,7 +1797,7 @@
   icon alias: music_school
   hidden: false
 
-- name: Ecole de danse
+- name: École de danse
   group: Enseignement
   query: '[amenity=dancing_school]'
   icon: dance_floor
@@ -1830,7 +1814,7 @@
   icon alias: driving_school
   hidden: false
 
-- name: Ecole de langues
+- name: École de langues
   group: Enseignement
   dictionary:
     - anglais
@@ -1852,9 +1836,8 @@
   query: '[amenity=police]'
   icon: police
 
-- title: Pompiers
+- name: Pompiers
   group: Services publics
-  name: pompiers
   dictionary:
     - incendie
     - 18
@@ -1879,9 +1862,8 @@
   icon: classical-building
   hidden: true
 
-- title: Tribunal
+- name: Tribunal
   group: Services publics
-  name: tribunal
   dictionary:
     - justice
     - cour
@@ -1936,16 +1918,14 @@
     - '[drinking_water=yes]'
   icon: water
 
-- title: Espace de cotravail (coworking)
+- name: Espace coworking
   group: Divers
-  name: cotravail
   query:
     - '[amenity=coworking_space]'
     - '[office=coworking]'
   icon: coworking
 
-- name: lieu-culte
-  title: Lieu de culte
+- name: Lieu de culte
   group: Divers
   dictionary:
     - église
@@ -1957,9 +1937,8 @@
     - '[amenity=place_of_worship]'
   icon: place_of_worship
 
-- title: Cimetière
+- name: Cimetière
   group: Divers
-  name: cimetière
   dictionary:
     - tombes
   query:
