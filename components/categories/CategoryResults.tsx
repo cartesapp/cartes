@@ -33,9 +33,7 @@ export default function CategoryResults({
 				}
 			}),
 		results = sortBy((result) => result.distance)(resultsWithoutOrder)
-	console.log('Etienne resultsEntries', resultsEntries)
-	console.log('Etienne resultsWithoutOrder', resultsWithoutOrder)
-	console.log('Etienne results', results)
+
 	return (
 		<Section>
 			<ResultsSummary>
