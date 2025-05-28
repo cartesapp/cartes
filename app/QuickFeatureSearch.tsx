@@ -89,8 +89,9 @@ export default function QuickFeatureSearch({
 		setSearchParams
 	)
 
-	// merge the results
+	// delete results which are not matching the active keys (how can this happen?)
 	// returns an array with for each category : [String category key, Array category elements]
+	// TODO (?) : modify CategoryResults to directly use quickSearchFeaturesMap ? and/or add category in quickSearchFeaturesMap ?
 	const resultsEntries = Object.entries(quickSearchFeaturesMap).filter(
 		([k, v]) => activeCategoryKeys.includes(k)
 	)

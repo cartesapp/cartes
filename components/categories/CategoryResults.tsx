@@ -8,6 +8,7 @@ import { categories } from '../categories'
 import useSetSearchParams from '../useSetSearchParams'
 import { sortBy } from '../utils/utils'
 import CategoryResult from './CategoryResult'
+import { uncapitalise0 } from '../utils/utils'
 
 export default function CategoryResults({
 	resultsEntries,
@@ -15,15 +16,20 @@ export default function CategoryResults({
 	annuaireMode,
 }) {
 	const setSearchParams = useSetSearchParams()
+
+	//Build a merged list of all OSM elements (from all categories) ordered by distance
+	// TODO : remove duplicates (same place found in 2 different categories) since it fires an error "2 children wiht the same key"
 	const resultsWithoutOrder = resultsEntries
 			.map(([k, list]) =>
 				(list || []).map((v) => ({
 					...v,
+					// add the category to each OSM element
 					category: categories.find((cat) => cat.key === k),
 				}))
 			)
+			// merge all OSM elements in 1 array
 			.flat()
-			//			.filter((feature) => feature.tags.name)
+			// calculate distance and bearing
 			.map((feature) => {
 				const { coordinates } = feature.center.geometry
 				return {
@@ -32,8 +38,11 @@ export default function CategoryResults({
 					bearing: bearing(center, coordinates),
 				}
 			}),
+		// sort the OSM elements by distance
 		results = sortBy((result) => result.distance)(resultsWithoutOrder)
 
+	//Display the list of OSM elements (merged and ordered)
+	// TODO handle plurals in category names
 	return (
 		<Section>
 			<ResultsSummary>
@@ -41,7 +50,7 @@ export default function CategoryResults({
 					{resultsEntries.map(([k, v], i) => (
 						<span key={k}>
 							<span>
-								<span>{v.length}</span> <span>{k.toLowerCase()}</span>
+								<span>{v.length}</span> <span>{uncapitalise0(categories.find((c) => c.key == k).name)}</span>
 							</span>
 							{i < resultsEntries.length - 1 && ', '}
 						</span>
