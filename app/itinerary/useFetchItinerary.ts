@@ -183,61 +183,6 @@ export default function useFetchItinerary(searchParams, state, allez) {
 				setSearchParams
 			)
 			return result
-
-			const { itineraries } = json
-
-			const transitItineraries = itineraries.filter(
-				(itinerary) => !isNotTransitItinerary(itinerary)
-			)
-
-			// TODO this should be *after* the smart widening, else it prevails when
-			// the drect exists, which means all the time, and when no itineraries are
-			// found
-			if (itineraries.length === 0 && json.direct.length) {
-				const word = modeToFrench[json.direct[0].legs[0].mode].future
-
-				return {
-					state: 'error',
-					reason: `Vous ${word} davantage pour aller prendre le bus que d'y aller directement 😅`,
-					solution: `Changez les options d'approche et d'arrivée`,
-				}
-			}
-
-			// Widen the query to 30 minutes cycling if no interesting results
-			if (unsatisfyingItineraries(json, itineraryDistance)) {
-				// inform the user that we haven't found "simple" transit means with
-				// less than 15 minutes walk
-				updateRoute('transit', {
-					state: 'loading',
-					message:
-						'Aucun itinéraire à pied porte à porte trouvé : élargissement en cours...',
-				})
-
-				await delay(2000)
-				console.log('cyan params', searchParams)
-
-				// launch the "deeper" search with 30 minutes of bike (10 km) to widen the
-				// chance of finding a suitable transit
-				const newSearchParams = {
-					...searchParams,
-					debut: 'vélo-30min',
-					fin: 'vélo-30min',
-				}
-				const widened = await computeMotisTrip(
-					lonLats[0],
-					lonLats[1],
-					date,
-					newSearchParams
-				)
-				console.log('cyan params new', newSearchParams)
-				// TODO do the necessary filtering, analysis and error reporting
-				return widened
-
-				//
-				// Merge the results
-			}
-
-			return { ...json, itineraries: transitItineraries }
 		}
 		//TODO fails is 3rd point is closer to 1st than 2nd, use reduce that sums
 		const itineraryDistance = distance(points[0], points.slice(-1)[0])

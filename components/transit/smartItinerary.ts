@@ -1,4 +1,5 @@
 import { computeMotisTrip } from '@/app/itinerary/transit/motisRequest'
+import { modeToFrench } from './TransitInstructions'
 
 // If no mode is set by the user, we're trying to provide a multimodal view
 // that covers a large range of possibilities, giving the user perspectives
@@ -182,11 +183,15 @@ export async function smartMotisRequest(
 		}
 	}
 
-	/*
-	 *
-				return {
-					state: 'error',
-					reason: 'Pas de transport commun trouvé :/',
-				}
-				*/
+	const hasDirect = json.direct?.length > 0
+	const word = hasDirect && modeToFrench[json.direct[0].legs[0].mode]?.future
+
+	return {
+		state: 'error',
+		reason: `Pas de transport trouvé :/ ${
+			word &&
+			`Il se peut aussi que vous deviez ${word} davantage jusqu'à l'arrêt que d'y aller directement 😅`
+		}`,
+		solution: `Changez les options d'approche et d'arrivée`,
+	}
 }
