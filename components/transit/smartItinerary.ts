@@ -76,122 +76,129 @@ export async function smartMotisRequest(
 
 	if (hasQuickEnough) return json
 
-	// the initial WALK request to find door-to-door no-bike no-car transit trips
-	// has no "debut" param, this is how we detect it. It failed, look further
-	// with bike segments added, progressively extending
-	if (!searchParams.debut) {
-		if (searchParams.planification !== 'oui') {
-			setTimeout(() => {
-				setSearchParams({ planification: 'oui', auto: 'oui' })
-			}, 3000)
+	if (searchParams.mode === 'commun') {
+		// the initial WALK request to find door-to-door no-bike no-car transit trips
+		// has no "debut" param, this is how we detect it. It failed, look further
+		// with bike segments added, progressively extending
+		if (!searchParams.debut) {
+			if (searchParams.planification !== 'oui') {
+				setTimeout(() => {
+					setSearchParams({ planification: 'oui', auto: 'oui' })
+				}, 3000)
 
-			return {
-				state: 'loading',
-				message:
-					'Aucun itinéraire "départ immédiat" trouvé. Passage en mode 🔭 planification.',
+				return {
+					state: 'loading',
+					message:
+						'Aucun itinéraire "départ immédiat" trouvé. Passage en mode 🔭 planification.',
+				}
+			} else {
+				const bikePortionDistance = 2 * (15 / 60) * bikeSpeed // 20 km/h * 1/2 h
+
+				if (distance < bikePortionDistance)
+					return {
+						state: 'error',
+						reason: `Pas de transport trouvé qui soit plus rapide que 30 min directement à vélo.`,
+					}
+
+				setTimeout(() => {
+					setSearchParams({
+						debut: 'vélo-15min',
+						fin: 'vélo-15min',
+						auto: 'oui',
+					})
+				}, 3000)
+				return {
+					state: 'loading',
+					message:
+						"Aucun itinéraire porte à porte trouvé. Élargissement avec 15 min d'appoint à vélo.",
+				}
 			}
-		} else {
-			const bikePortionDistance = 2 * (15 / 60) * bikeSpeed // 20 km/h * 1/2 h
+		}
+		if (searchParams.auto) {
+			if (searchParams.debut === 'vélo-15min') {
+				const bikePortionDistance = 2 * (30 / 60) * bikeSpeed // 20 km/h * 1 h
+
+				if (distance < bikePortionDistance)
+					return {
+						state: 'error',
+						reason: `Pas de transport trouvé qui soit plus rapide qu'1h directement à vélo.`,
+					}
+
+				setTimeout(() => {
+					setSearchParams({
+						debut: 'vélo-30min',
+						fin: 'vélo-30min',
+					})
+				}, 3000)
+
+				return {
+					state: 'loading',
+					message:
+						'Aucun itinéraire trouvé avec un appoint de 15 min de vélo. Élargissement avec 30 minutes de vélo.',
+				}
+			}
+			if (searchParams.debut === 'vélo-30min') {
+				const bikePortionDistance = 2 * bikeSpeed // 20 km/h * 2 h
+
+				if (distance < bikePortionDistance)
+					return {
+						state: 'error',
+						reason: `Pas de transport trouvé qui soit plus rapide que 2h directement à vélo.`,
+					}
+
+				setTimeout(() => {
+					setSearchParams({
+						debut: 'vélo-60min',
+						fin: 'vélo-60min',
+					})
+				}, 3000)
+
+				return {
+					state: 'loading',
+					message:
+						'Aucun itinéraire trouvé avec un appoint de 30 min de vélo trouvé. Élargissement à 1h de vélo.',
+				}
+			}
+			// 2h of bike to reach the train station is a lot. But using the bike here
+			// is just a way to compute a possible route that could be done with 1h of a
+			// friend's car
+			const bikePortionDistance = 2 * 2 * bikeSpeed // 20 km/h * 2 h
 
 			if (distance < bikePortionDistance)
 				return {
 					state: 'error',
-					reason: `Pas de transport trouvé qui soit plus rapide que 30 min directement à vélo.`,
+					reason: `Pas de transport trouvé qui soit plus rapide que 4h directement à vélo.`,
 				}
 
 			setTimeout(() => {
 				setSearchParams({
-					debut: 'vélo-15min',
-					fin: 'vélo-15min',
-					auto: 'oui',
-				})
-			}, 3000)
-			return {
-				state: 'loading',
-				message:
-					"Aucun itinéraire porte à porte trouvé. Élargissement avec 15 min d'appoint à vélo.",
-			}
-		}
-	}
-	if (searchParams.auto) {
-		if (searchParams.debut === 'vélo-15min') {
-			const bikePortionDistance = 2 * (30 / 60) * bikeSpeed // 20 km/h * 1 h
-
-			if (distance < bikePortionDistance)
-				return {
-					state: 'error',
-					reason: `Pas de transport trouvé qui soit plus rapide qu'1h directement à vélo.`,
-				}
-
-			setTimeout(() => {
-				setSearchParams({
-					debut: 'vélo-30min',
-					fin: 'vélo-30min',
+					debut: 'vélo-120min',
+					fin: 'vélo-120min',
 				})
 			}, 3000)
 
 			return {
 				state: 'loading',
 				message:
-					'Aucun itinéraire trouvé avec un appoint de 15 min de vélo. Élargissement avec 30 minutes de vélo.',
+					"Aucun itinéraire trouvé avec un appoint d'1h de vélo trouvé. Élargissement final à 2h de vélo.",
 			}
 		}
-		if (searchParams.debut === 'vélo-30min') {
-			const bikePortionDistance = 2 * bikeSpeed // 20 km/h * 2 h
 
-			if (distance < bikePortionDistance)
-				return {
-					state: 'error',
-					reason: `Pas de transport trouvé qui soit plus rapide que 2h directement à vélo.`,
-				}
-
-			setTimeout(() => {
-				setSearchParams({
-					debut: 'vélo-60min',
-					fin: 'vélo-60min',
-				})
-			}, 3000)
-
-			return {
-				state: 'loading',
-				message:
-					'Aucun itinéraire trouvé avec un appoint de 30 min de vélo trouvé. Élargissement à 1h de vélo.',
-			}
-		}
-		// 2h of bike to reach the train station is a lot. But using the bike here
-		// is just a way to compute a possible route that could be done with 1h of a
-		// friend's car
-		const bikePortionDistance = 2 * 2 * bikeSpeed // 20 km/h * 2 h
-
-		if (distance < bikePortionDistance)
-			return {
-				state: 'error',
-				reason: `Pas de transport trouvé qui soit plus rapide que 4h directement à vélo.`,
-			}
-
-		setTimeout(() => {
-			setSearchParams({
-				debut: 'vélo-120min',
-				fin: 'vélo-120min',
-			})
-		}, 3000)
+		const hasDirect = json.direct?.length > 0
+		const word = hasDirect && modeToFrench[json.direct[0].legs[0].mode]?.future
 
 		return {
-			state: 'loading',
-			message:
-				"Aucun itinéraire trouvé avec un appoint d'1h de vélo trouvé. Élargissement final à 2h de vélo.",
+			state: 'error',
+			reason: `Pas de transport trouvé :/ ${
+				word &&
+				`Il se peut aussi que vous deviez ${word} davantage jusqu'à l'arrêt que d'y aller directement 😅`
+			}`,
+			solution: `Changez les options d'approche et d'arrivée`,
 		}
 	}
-
-	const hasDirect = json.direct?.length > 0
-	const word = hasDirect && modeToFrench[json.direct[0].legs[0].mode]?.future
-
 	return {
 		state: 'error',
-		reason: `Pas de transport trouvé :/ ${
-			word &&
-			`Il se peut aussi que vous deviez ${word} davantage jusqu'à l'arrêt que d'y aller directement 😅`
-		}`,
-		solution: `Changez les options d'approche et d'arrivée`,
+		reason: `Pas de transport porte à porte trouvé...`,
+		solution: '🔎 Aller plus loin / 🗓️ Changer la date',
 	}
 }
