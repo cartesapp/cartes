@@ -13,7 +13,7 @@ export default function CategoryResult({
 	setSearchParams,
 	annuaireMode,
 }) {
-	if (!category) return
+	//if (!category) return
 
 	const { tags, category, distance, bearing } = result
 

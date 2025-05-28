@@ -19,7 +19,7 @@ export default function CategoryResults({
 			.map(([k, list]) =>
 				(list || []).map((v) => ({
 					...v,
-					category: categories.find((cat) => cat.name === k),
+					category: categories.find((cat) => cat.key === k),
 				}))
 			)
 			.flat()
@@ -33,7 +33,9 @@ export default function CategoryResults({
 				}
 			}),
 		results = sortBy((result) => result.distance)(resultsWithoutOrder)
-
+	console.log('Etienne resultsEntries', resultsEntries)
+	console.log('Etienne resultsWithoutOrder', resultsWithoutOrder)
+	console.log('Etienne results', results)
 	return (
 		<Section>
 			<ResultsSummary>
