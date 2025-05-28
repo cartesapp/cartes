@@ -1,3 +1,4 @@
+import { getTransitLegs } from '@/app/itinerary/transit/motisRequest'
 import transitIcon from '@/public/transit.svg'
 import { styled } from 'next-yak'
 import Image from 'next/image'
@@ -7,6 +8,7 @@ import {
 	NoTransit,
 	TransitScopeLimit,
 } from './NoTransitMessages'
+import { TimelineTransportBlock } from './Transit'
 import TransitLoader from './TransitLoader'
 import findBestConnection from './findBestConnection'
 import { filterNextConnections } from './utils'
@@ -43,12 +45,26 @@ export default function TransitSummary({ itinerary }) {
 
 	const bestConnection = findBestConnection(nextConnections)
 	if (bestConnection) return <BestConnection bestConnection={bestConnection} />
+
+	console.log('indigo summary', nextConnections)
+	const transitConnections = nextConnections
+			.map((connection) => getTransitLegs(connection))
+			.filter((item) => item.length > 0),
+		found = transitConnections.length > 0
+
 	return (
 		<Wrapper>
 			<div>
 				<Image src={transitIcon} alt="Icône transport en commun" />
 			</div>
 			<p>Voir les {nextConnections.length} options de transport en commun</p>
+			<div>
+				{nextConnections.map((connection) => (
+					<li key={connection.startTime + connection.duration}>
+						<TimelineTransportBlock transport={getTransitLegs(connection)[0]} />
+					</li>
+				))}
+			</div>
 		</Wrapper>
 	)
 }

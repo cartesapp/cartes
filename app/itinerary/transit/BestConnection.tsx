@@ -6,10 +6,7 @@ import {
 	nextDeparturesSentence,
 } from './findBestConnection'
 
-import {
-	motisModeCorrespondance,
-	routeTypeName,
-} from '@/components/transit/modeCorrespondance'
+import { motisModeCorrespondance } from '@/components/transit/modeCorrespondance'
 
 export default function BestConnection({ bestConnection }) {
 	console.log('prune best', bestConnection)
