@@ -76,10 +76,16 @@ export default function useDrawFeatures(
 				[
 					baseId + 'points',
 					baseId + 'points-is-open',
-					baseId + 'ways-outlines',
-					baseId + 'ways',
+					baseId + 'lines',
+					baseId + 'outlines',
+					baseId + 'polygons',
 				],
-				[baseId + 'points', baseId + 'ways']
+				[
+					baseId + 'points',
+					baseId + 'lines',
+					baseId + 'outlines',
+					baseId + 'polygons',
+				]
 			)
 		}
 
@@ -113,6 +119,7 @@ export default function useDrawFeatures(
 			? featuresWithOpen.filter((f) => f.isOpen)
 			: featuresWithOpen
 
+		// merge feature centers (from nodes, ways, and relations) in a FeatureCollection
 		const pointsData = {
 			type: 'FeatureCollection',
 			features: shownFeatures
@@ -141,13 +148,76 @@ export default function useDrawFeatures(
 				})
 				.filter(Boolean),
 		}
-		const waysData = {
+
+		// shownFeatures is an array of OverpassElement
+		// but for relations, geojson in already a FeatureCollection
+		// we need to flat its features with the other Feature from nodes and ways
+		const shownFeaturesFlat = shownFeatures
+			.map((f) => {
+				if (f.geojson && f.geojson.type == 'FeatureCollection') {
+					return f.geojson.features.map((g) => {
+						return { ...f, geojson: g }
+					})
+				}
+				return f
+			})
+			.flat()
+		// TODO among relation membres, we only display ways, nut not individual nodes
+		// it would be great to handle this for housenumber nodes in an associatedStreet relation
+
+		// merge features of LineString and Polygon geometry (from both ways and relations)
+		// in a FeatureCollection to display lines
+		const linesData = {
 			type: 'FeatureCollection',
-			features: shownFeatures
+			features: shownFeaturesFlat
+				.map((f) => {
+					const shape = f.polygon || f.geojson // why f.polygon ?
+					if (!shape) return null
+					if (shape.geometry.type != 'LineString') return null
+					const tags = f.tags || {}
+					const feature = {
+						type: 'Feature',
+						geometry: shape.geometry,
+						properties: {
+							id: f.id,
+							tags,
+							name: tags.name,
+						},
+					}
+					return feature
+				})
+				.filter(Boolean),
+		}
+		const outlinesData = {
+			type: 'FeatureCollection',
+			features: shownFeaturesFlat
+				.map((f) => {
+					const shape = f.polygon || f.geojson // why f.polygon ?
+					if (!shape) return null
+					if (shape.geometry.type != 'Polygon') return null
+					const tags = f.tags || {}
+					const feature = {
+						type: 'Feature',
+						geometry: shape.geometry,
+						properties: {
+							id: f.id,
+							tags,
+							name: tags.name,
+						},
+					}
+					return feature
+				})
+				.filter(Boolean),
+		}
+		// merge features of Polygon geometry (from both ways and relations)
+		// in a FeatureCollection to display polygons
+		const polygonsData = {
+			type: 'FeatureCollection',
+			features: shownFeaturesFlat
 				.map((f) => {
 					const shape = f.polygon || f.geojson
 					if (!shape) return null
-					console.log('indigo debug geojson', shape)
+					if (shape.geometry.type != 'Polygon') return null
 					const tags = f.tags || {}
 					const feature = {
 						type: 'Feature',
@@ -177,7 +247,9 @@ export default function useDrawFeatures(
 				})
 				.filter(Boolean),
 		}
-		sources.ways.setData(waysData)
+		sources.polygons.setData(polygonsData)
+		sources.lines.setData(linesData)
+		sources.outlines.setData(outlinesData)
 		sources.points.setData(pointsData)
 	}, [category, features, showOpenOnly, sources])
 }
@@ -194,58 +266,116 @@ const draw = (
 	if (map.getSource(baseId + 'points')) return
 	console.log('chartreuse draw ', baseId + 'points')
 
-	// on prépare les sources qui vont contenir les ways et les points renvoyés par overpass
+	// prepare the sources that will contain the point/line/polygon geometries from Overpass
 	const geojsonPlaceholder = { type: 'FeatureCollection', features: [] }
 	map.addSource(baseId + 'points', {
 		type: 'geojson',
 		data: geojsonPlaceholder,
 	})
-	map.addSource(baseId + 'ways', {
+	map.addSource(baseId + 'lines', {
+		type: 'geojson',
+		data: geojsonPlaceholder,
+	})
+	map.addSource(baseId + 'outlines', {
+		type: 'geojson',
+		data: geojsonPlaceholder,
+	})
+	map.addSource(baseId + 'polygons', {
 		type: 'geojson',
 		data: geojsonPlaceholder,
 	})
 	setSources({
 		points: map.getSource(baseId + 'points'),
-		ways: map.getSource(baseId + 'ways'),
+		outlines: map.getSource(baseId + 'outlines'),
+		lines: map.getSource(baseId + 'lines'),
+		polygons: map.getSource(baseId + 'polygons'),
 	})
 
-	// on ajoute les layers qui vont permettre de dessiner les données
-	// l'intérieur des ways
+	// add the layers that will display the sources
+	// - polygons
 	map.addLayer({
-		id: baseId + 'ways',
+		id: baseId + 'polygons',
 		type: 'fill',
-		source: baseId + 'ways',
+		source: baseId + 'polygons',
 		layout: {},
 		paint: {
 			'fill-color': colors['lightestColor'],
 			'fill-opacity': 0.3,
 		},
 	})
-	// la bordure des ways
+	// - outlines for Polygons
 	map.addLayer({
-		id: baseId + 'ways-outlines',
+		id: baseId + 'outlines',
 		type: 'line',
-		source: baseId + 'ways',
+		source: baseId + 'outlines',
 		layout: {},
 		paint: {
 			'line-color': colors['color'],
-			'line-width': 2,
+			'line-width': 3,
+			'line-blur': 0.5,
 		},
 	})
-	// les points
+	// - lines for LineStrings
+	map.addLayer({
+		id: baseId + 'lines',
+		type: 'line',
+		source: baseId + 'lines',
+		layout: {
+			'line-join': 'round',
+			'line-cap': 'round',
+		},
+		paint: {
+			'line-color': colors['color'],
+			'line-opacity': [
+				'interpolate',
+				['linear', 2],
+				['zoom'],
+				12,
+				1,
+				16,
+				0.7,
+				20,
+				0.3,
+			],
+			'line-width': [
+				'interpolate',
+				['linear', 2],
+				['zoom'],
+				12,
+				4,
+				16,
+				6,
+				20,
+				24,
+			],
+			'line-blur': [
+				'interpolate',
+				['linear', 2],
+				['zoom'],
+				12,
+				0,
+				16,
+				2,
+				20,
+				8,
+			],
+		},
+	})
+	// - points, for markers
 	map.addLayer({
 		id: baseId + 'points',
 		type: 'symbol',
 		source: baseId + 'points',
 		layout: {
-			'icon-image': mapImageName, // en utilisant l'image déjà chargée pour le fond de carte
+			'icon-image': mapImageName, // use the image which has already been added for tiles
 			'icon-size': 1,
 			'text-field': ['get', 'name'],
 			'text-offset': [0, 1.25],
 			'text-font': ['RobotoBold-NotoSansBold'],
 			'text-size': 15,
-			'text-anchor': category.iconAnchor === 'bottom' ? 'center' : 'top',
-			'icon-anchor': category.iconAnchor || 'center',
+			// text and icon offset : different for pin icon than for other circle icons
+			'text-anchor': category.icon === 'pins' ? 'center' : 'top',
+			'icon-offset': category.icon === 'pins' ? [0, -18] : [0, 0], //center on pin bottom point
 		},
 		paint: {
 			'text-color': '#503f38',
@@ -258,7 +388,7 @@ const draw = (
 			'icon-halo-blur': 10,
 		},
 	})
-	// les petits cercles pour indiquer si le lieu est ouvert
+	// - small circles, to display if the place is open or not
 	map.addLayer({
 		id: baseId + 'points-is-open',
 		type: 'circle',
@@ -268,7 +398,8 @@ const draw = (
 			'circle-color': ['get', 'isOpenColor'],
 			'circle-stroke-color': colors['color'],
 			'circle-stroke-width': 1.5,
-			'circle-translate': [12, -12],
+			// translate : different for pin icon than for other circle icons
+			'circle-translate': category.icon === 'pins' ? [12, -36] : [12, -12],
 		},
 		filter: ['!=', 'isOpenColor', false],
 	})
