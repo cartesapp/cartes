@@ -136,7 +136,9 @@ export default function useFetchItinerary(searchParams, state, allez) {
 	const smartSignature =
 		mode === 'transit'
 			? 'auto'
-			: hasSatisfyingTransitItinerary(routes?.transit, date, itineraryDistance)
+			: !routes?.transit
+			? 'auto'
+			: hasSatisfyingTransitItinerary(routes.transit, date, itineraryDistance)
 			? 'auto'
 			: 'needingAuto'
 
