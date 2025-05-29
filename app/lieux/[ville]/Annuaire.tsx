@@ -51,7 +51,7 @@ export default async function Page({ params, searchParams }) {
 					ville.departement.nom
 				).toLowerCase()}`}
 			>
-				⭠ Villes du département {ville.departement.nom}
+				⬅️​ Villes du département {ville.departement.nom}
 			</Link>
 			<header>
 				<h1>Annuaire des lieux de {ville.nom} </h1>

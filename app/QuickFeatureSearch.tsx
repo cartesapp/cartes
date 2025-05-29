@@ -143,13 +143,13 @@ export default function QuickFeatureSearch({
 										$setGoldCladding: category.score < exactThreshold,
 									}}
 								>
-									{active && !quickSearchFeaturesMap[category.name] && (
+									{active && !quickSearchFeaturesMap[category.key] && (
 										<SpinningDiscBorder />
 									)}
 									<Link
 										href={
 											annuaireMode
-												? setSearchParams({ cat: category.name }, true, true)
+												? setSearchParams({ cat: category.key }, true, true)
 												: getNewSearchParamsLink(category)
 										}
 										replace={false}

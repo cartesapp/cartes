@@ -11,21 +11,21 @@ export async function generateMetadata(
 	const searchParams = await props.searchParams
 
 	const [categoryKeys, categories] = getCategories(searchParams)
-	const categoryNames = categories.map((c) => c.name)
+	const categoryPlurals = categories.map((c) => c.plural)
 
 	const city = decodeURIComponent(ville)
 
 	if (!categoryKeys?.length)
 		return {
 			title: `Annuaire des lieux et commerces de ${city} - Cartes`,
-			description: `Parcourez les lieux et commerces de la commune de ${city} et affichez-les sur une carte`,
+			description: `Parcourez les lieux et commerces de ${city} et affichez-les sur une carte`,
 		}
 
 	return {
-		title: `${capitalise0(categoryNames.join(', '))} ${city} - Cartes`,
-		description: `Parcourez les ${categoryNames.join(
+		title: `${capitalise0(categoryPlurals.join(', '))} à ${city} - Cartes`,
+		description: `Parcourez les ${categoryPlurals.join(
 			', '
-		)} de la commune de ${city} et affichez-les sur une carte`,
+		)} de ${city} et affichez-les sur une carte`,
 	}
 }
 
