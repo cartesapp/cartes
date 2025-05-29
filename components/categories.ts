@@ -2,11 +2,21 @@ import baseCategories from '@/app/categories.yaml'
 import moreCategories from '@/app/moreCategories.yaml'
 import { parameterize } from '@/components/utils/utils'
 
-// Augment category model with a key, built by encoding the name for use in the url
+// Augment category model with key, and handle plural VS singular
 baseCategories.forEach((cat) => {
+	// build plural by remove ( and )
+	cat.plural = cat.plural || cat.name.replace(/[()]/g, '')
+	// build (singular) name by removing all text into brackets
+	cat.name = cat.name.replace(/\([^)]*\)/g, '')
+	// build a key by removing special characters and replacing spaces with "-"
 	cat.key = parameterize(cat.name)
 })
 moreCategories.forEach((cat) => {
+	// build plural by remove ( and )
+	cat.plural = cat.plural || cat.name.replace(/[()]/g, '')
+	// build (singular) name by removing all text into brackets
+	cat.name = cat.name.replace(/\([^)]*\)/g, '')
+	// build a key by removing special characters and replacing spaces with "-"
 	cat.key = parameterize(cat.name)
 })
 

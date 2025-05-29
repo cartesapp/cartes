@@ -1,4 +1,4 @@
-- name: boulangerie
+- name: boulangerie(s)
   dictionary:
     - pain
     - viennoiserie
@@ -9,7 +9,7 @@
   icon: bakery
   group: Alimentation
 
-- name: restaurant
+- name: restaurant(s)
   dictionary:
     - resto
     - emporter
@@ -23,7 +23,7 @@
   icon: restaurant
   group: Restaurants
 
-- name: Café, bar, pub
+- name: Café(s), bar(s), pub(s)
   dictionary:
     - bar
     - café
@@ -39,7 +39,7 @@
   icon: cafe
   group: Bars et boisson
 
-- name: épicerie
+- name: épicerie(s)
   dictionary:
     - supermarché
     - magasin
@@ -52,7 +52,7 @@
   icon: convenience
   group: Commerces
 
-- name: point d'eau
+- name: point(s) d'eau
   dictionary:
     - boire
     - fontaine
@@ -75,7 +75,7 @@
   open by default: true
   group: Divers
 
-- name: parc
+- name: parc(s)
   dictionary:
     - verdure
     - jardin
@@ -87,13 +87,13 @@
   open by default: true
   group: Loisirs et Nature
 
-- name: Arrêt bus tram métro
+- name: Arrêt(s de) bus tram( ou) métro
   query: '[public_transport=platform]'
   icon: bus
   open by default: true
   group: Déplacements
 
-- name: Distributeur de billets
+- name: Distributeur(s) de billets
   dictionary:
     - banque
     - DAB
@@ -108,7 +108,7 @@
   icon alias: atm
   group: Services
 
-- name: Hôtel
+- name: Hôtel(s)
   dictionary:
     - chambre d'hôte
     - gîte
@@ -120,7 +120,7 @@
   icon: lodging
   group: Services
 
-- name: Point de vue
+- name: Point(s) de vue
   dictionary:
     - panorama
   query: '[tourism=viewpoint]'
@@ -128,7 +128,7 @@
   icon: viewpoint
   group: Loisirs et Nature
 
-- name: Cinéma
+- name: Cinéma(s)
   dictionary:
     - ciné
     - film
