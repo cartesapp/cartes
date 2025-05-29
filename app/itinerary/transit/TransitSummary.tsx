@@ -41,14 +41,15 @@ export default function TransitSummary({ itinerary }) {
 	console.log('indigo summary', nextConnections)
 	const transitConnections = nextConnections
 			.map((connection) => filterTransitLegs(connection))
-			.filter((item) => item.length > 0)
+			.filter((item) => item.legs.length > 0)
 			.map((connection) => ({
 				...connection,
 				signature: connectionSignature(connection),
 			})),
-		unique = transitConnections.filter((connection) => {
+		unique = transitConnections.filter((connection, i1) => {
 			return !transitConnections.find(
-				(connection2) => connection2.signature === connection.signature
+				(connection2, i2) =>
+					i1 !== i2 && connection2.signature === connection.signature
 			)
 		}),
 		found = transitConnections.length > 0
@@ -70,11 +71,16 @@ export default function TransitSummary({ itinerary }) {
 			</div>
 			<div>
 				<ol>
-					{unique.map((connection) => (
+					{unique.map((connection, i) => (
 						<li key={connection.startTime + connection.duration}>
-							<TimelineTransportBlock
-								transport={filterTransitLegs(connection)[0].legs}
-							/>
+							{i > 0 && <span style={{ margin: '0 .4rem' }}>ou</span>}
+							<ol>
+								{filterTransitLegs(connection).legs.map((leg) => (
+									<li key={leg.name + leg.mode}>
+										<TimelineTransportBlock transport={leg} />
+									</li>
+								))}
+							</ol>
 						</li>
 					))}
 				</ol>
@@ -91,6 +97,12 @@ const Wrapper = styled.div`
 		display: flex;
 		align-items: center;
 		flex-wrap: wrap;
+		ol li {
+			margin: 0 0.1rem;
+		}
+		> li {
+			display: flex;
+		}
 	}
 
 	margin: 0.6rem;
