@@ -1,22 +1,24 @@
+import brouterResultToSegments from '@/components/cycling/brouterResultToSegments'
+import computeSafeRatio from '@/components/cycling/computeSafeRatio'
 import {
-	computeMotisTrip,
-	isNotTransitConnection,
-} from '@/app/itinerary/transit/motisRequest'
+	hasSatisfyingTransitItinerary,
+	satisfyingTransitOptions,
+	smartMotisRequest,
+} from '@/components/transit/smartItinerary'
+import useSetSearchParams from '@/components/useSetSearchParams'
 import distance from '@turf/distance'
 import { useCallback, useEffect, useState } from 'react'
-import { useMemoPointsFromState } from './useDrawItinerary'
 import { modeKeyFromQuery } from './Itinerary'
-import useSetSearchParams from '@/components/useSetSearchParams'
 import fetchValhalla from './fetchValhalla'
-import computeSafeRatio from '@/components/cycling/computeSafeRatio'
-import brouterResultToSegments from '@/components/cycling/brouterResultToSegments'
-import useSetItineraryModeFromUrl from './useSetItineraryModeFromUrl'
 import { decodeDate, initialDate } from './transit/utils'
+import { useMemoPointsFromState } from './useDrawItinerary'
+import useSetItineraryModeFromUrl from './useSetItineraryModeFromUrl'
 
 export default function useFetchItinerary(searchParams, state, allez) {
 	const setSearchParams = useSetSearchParams()
 	const [routes, setRoutes] = useState(null)
 	const date = decodeDate(searchParams.date) || initialDate()
+
 	const bikeRouteProfile = searchParams['profil-velo'] || 'safety'
 	const setBikeRouteProfile = useCallback(
 		(profile) => setSearchParams({ 'profil-velo': profile }),
@@ -37,6 +39,12 @@ export default function useFetchItinerary(searchParams, state, allez) {
 	)
 
 	const [serializedPoints, points] = useMemoPointsFromState(state)
+
+	const itineraryDistance = points.reduce((memo, next, i) => {
+		if (i === points.length - 1) return memo
+		const segment = distance(next, points[i + 1])
+		return memo + segment
+	}, 0)
 
 	/* Routing requests are made here */
 	useEffect(() => {
@@ -84,20 +92,30 @@ export default function useFetchItinerary(searchParams, state, allez) {
 			}
 		}
 
-		//TODO fails is 3rd point is closer to 1st than 2nd, use reduce that sums
-		const itineraryDistance = distance(points[0], points.slice(-1)[0])
-
-		const fetchRoutes = async () => {
-			updateRoute('cycling', 'loading')
-			const cycling = await fetchBrouterRoute(
-				points,
-				itineraryDistance,
-				bikeRouteProfile,
-				mode === 'cycling' ? Infinity : 35 // ~ 25 km/h (ebike) x 1:30 hours
-			)
-			updateRoute('cycling', cycling)
+		const fetchNonTransitRoutes = async () => {
+			if (!mode || mode === 'cycling') {
+				updateRoute('cycling', 'loading')
+				const cycling = await fetchBrouterRoute(
+					points,
+					itineraryDistance,
+					bikeRouteProfile,
+					mode === 'cycling' ? Infinity : 35 // ~ 25 km/h (ebike) x 1:30 hours
+				)
+				updateRoute('cycling', cycling)
+			}
+			if (!mode || mode === 'walking') {
+				updateRoute('walking', 'loading')
+				const walking = await fetchBrouterRoute(
+					points,
+					itineraryDistance,
+					'hiking-mountain',
+					mode === 'walking' ? Infinity : 4 // ~ 3 km/h donc 4 km = 1h20 minutes, au-dessus ça me semble peu pertinent de proposer la marche par défaut
+				)
+				updateRoute('walking', walking)
+			}
 
 			if (mode === 'car') {
+				//no car in the transit summary. Avoid cars.
 				updateRoute('car', 'loading')
 				const car = await fetchValhalla(
 					points,
@@ -111,37 +129,41 @@ export default function useFetchItinerary(searchParams, state, allez) {
 			} else {
 				updateRoute('car', null)
 			}
-
-			updateRoute('walking', 'loading')
-			const walking = await fetchBrouterRoute(
-				points,
-				itineraryDistance,
-				'hiking-mountain',
-				mode === 'walking' ? Infinity : 4 // ~ 3 km/h donc 4 km = 1h20 minutes, au-dessus ça me semble peu pertinent de proposer la marche par défaut
-			)
-			updateRoute('walking', walking)
 		}
-		fetchRoutes()
+		fetchNonTransitRoutes()
 	}, [points, setRoutes, bikeRouteProfile, mode])
 
+	const smartSignature =
+		mode === 'transit'
+			? 'auto'
+			: !routes?.transit
+			? 'auto'
+			: hasSatisfyingTransitItinerary(routes.transit, date, itineraryDistance)
+			? 'auto'
+			: 'needingAuto'
+
+	const computeTransit = mode == null || mode === 'transit'
 	useEffect(() => {
 		if (points.length < 2) {
 			setRoutes(null)
 			return
 		}
 
+		if (!computeTransit) return
+
 		async function fetchTransitRoute(multiplePoints, itineraryDistance, date) {
 			const minTransitDistance = 0.5 // please walk or bike
 			if (itineraryDistance < minTransitDistance)
 				return {
 					state: 'error',
-					reason: `Le mode transport en commun est désactivé quand la distance à vol d'oiseau du trajet est inférieure à ${
+					reason: `Nous ne calculons pas les transports en commun quand la distance à vol d'oiseau du trajet est inférieure à ${
 						minTransitDistance * 1000
 					} m.`,
 					solution: `Votre trajet actuel fait ${Math.round(
 						itineraryDistance * 1000
 					)} m.`,
 				}
+			// Motis v2 does not handle multiple points
 			const points =
 				multiplePoints.length > 2
 					? [multiplePoints[0], multiplePoints.slice(-1)[0]]
@@ -161,91 +183,46 @@ export default function useFetchItinerary(searchParams, state, allez) {
 				multiplePoints
 			)
 
-			const json = await computeMotisTrip(
-				lonLats[0],
-				lonLats[1],
+			const start = lonLats[0],
+				destination = lonLats[1]
+			const result = await smartMotisRequest(
+				searchParams,
+				itineraryDistance,
+				start,
+				destination,
 				date,
-				searchParams
+				setSearchParams
 			)
-
-			console.log('lightgreen motis', json)
-
-			if (json.state === 'error') return json
-
-			if (!json?.content) return null
-			const { connections } = json.content
-
-			const transitConnections = connections.filter(
-				(connection) => !isNotTransitConnection(connection)
-			)
-
-			// TODO this is coded dirtily because Motis' v2 will require a rewrite,
-			// with a cleaner API. But the UI principles will stay the same
-			const mumo_types = {
-				car: 'conduirez',
-				foot: 'marcherez',
-				bike: 'roulerez',
-			}
-			if (connections.length === 1 && isNotTransitConnection(connections[0])) {
-				const mumo_type = connections[0].transports.reduce((memo, t) => {
-					const mumo = t.move.mumo_type
-					return memo === undefined ? mumo : mumo === memo ? memo : null
-				}, undefined)
-				if (!mumo_type)
-					return {
-						state: 'error',
-						reason: 'Pas de transport en commun trouvé :/',
-					}
-
-				const word = mumo_types[mumo_type]
-
-				return {
-					state: 'error',
-					reason: `Vous ${word} davantage pour aller prendre le bus que d'y aller directement 😅`,
-					solution: `Changez les options d'approche et d'arrivée`,
-				}
-			}
-
-			if (transitConnections.length === 0) {
-				if (searchParams.planification !== 'oui') {
-					return setSearchParams({ planification: 'oui' })
-				}
-
-				return {
-					state: 'error',
-					reason: 'Pas de transport en commun trouvé :/',
-				}
-			}
-			/*
-			return sections.map((el) => ({
-				type: 'Feature',
-				properties: el.geojson.properties[0],
-				geometry: { coordinates: el.geojson.coordinates, type: 'LineString' },
-			}))
-			*/
-			return { ...json.content, connections: transitConnections }
+			return result
 		}
 		//TODO fails is 3rd point is closer to 1st than 2nd, use reduce that sums
 		const itineraryDistance = distance(points[0], points.slice(-1)[0])
 
 		updateRoute('transit', { state: 'loading' })
-		fetchTransitRoute(points, itineraryDistance, date).then((transit) =>
-			setRoutes((routes) => ({ ...routes, transit }))
+
+		// could be inefficient or insecure to give setRoutes to this function.
+		// Rather give "setRoute(key)", like updateRoute above
+		fetchTransitRoute(points, itineraryDistance, date, setRoutes).then(
+			(transit) => setRoutes((routes) => ({ ...routes, transit }))
 		)
 	}, [
 		points,
 		setRoutes,
 		date,
+		computeTransit,
 		searchParams.correspondances,
 		searchParams.debut,
 		searchParams.fin,
 		searchParams.tortue,
 		searchParams.planification,
+		searchParams.auto,
+		smartSignature,
 	])
 
 	const resetItinerary = useCallback(
 		() =>
 			setSearchParams({
+				auto: undefined,
 				allez: undefined,
 				mode: undefined,
 				choix: undefined,

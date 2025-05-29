@@ -23,20 +23,21 @@ export default function StartEndOptions({
 			<button
 				onClick={() =>
 					setSearchParams({
-						[partKey]:
-							(which
-								? which.startsWith('marche-')
-									? 'vélo'
-									: which.startsWith('vélo')
-									? 'voiture'
-									: /* TODO activate this when we can draw precise walk trips, else we can't easily check that wheelchair routing works.
+						[partKey]: which?.startsWith('voiture')
+							? undefined
+							: (which
+									? which.startsWith('marche-')
+										? 'vélo'
+										: which.startsWith('vélo')
+										? 'voiture'
+										: /* TODO activate this when we can draw precise walk trips, else we can't easily check that wheelchair routing works.
 									: which.startsWith('voiture')
 									? 'marchereduite'
 									*/
-									  'marche'
-								: 'marche') +
-							'-' +
-							(!which ? '5min' : getTimePart(which) + 'min'),
+										  'marche'
+									: 'marche') +
+							  '-' +
+							  (!which ? '5min' : getTimePart(which) + 'min'),
 					})
 				}
 			>

@@ -37,6 +37,7 @@ import useDrawItinerary from './itinerary/useDrawItinerary'
 import { polylineObjectToLineString } from './transport/decodeTransportsData'
 import { addDefaultColor } from './transport/enrichTransportsData'
 import { computeCenterFromBbox } from './utils'
+import { stamp } from './itinerary/transit/utils'
 
 if (process.env.NEXT_PUBLIC_MAPTILER == null) {
 	throw new Error('You have to configure env NEXT_PUBLIC_MAPTILER, see README')
@@ -350,8 +351,7 @@ export default function Map(props) {
 				maxZoom: 17.5, // We don't want to zoom at door level for a place, just at street level
 			})
 		} else {
-			if (!autoPitchPreferenceIsNo)
-				setAutoPitchPreference(Math.round(new Date().getTime() / 1000))
+			if (!autoPitchPreferenceIsNo) setAutoPitchPreference(stamp())
 			const auto3d = !autoPitchPreferenceIsNo
 
 			const center = vers.center.geometry.coordinates

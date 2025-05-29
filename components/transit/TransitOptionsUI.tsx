@@ -5,7 +5,7 @@ export const TortoiseImage = styled(Image)`
 	margin-right: 0.3rem;
 	width: 1rem;
 	cursor: pointer;
-	opacity: ${({ $tortue }) => ($tortue ? 1 : 0.3)};
+	opacity: ${(p) => (p.$tortue ? 1 : 0.3)};
 `
 export const Section = styled.section`
 	margin: 0.8rem 0.4rem;

@@ -69,6 +69,7 @@ export default function TransitOptions({ searchParams }) {
 					</Correspondances>
 				</Button>
 				<TortoiseImage
+					$tortue={tortue}
 					src={tortoiseIcon}
 					alt="Icône d'une tortue symbolisant une correspondance moins rapide"
 					onClick={() => setSearchParams({ tortue: tortue ? undefined : 3 })}
