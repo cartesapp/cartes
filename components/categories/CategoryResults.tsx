@@ -50,7 +50,13 @@ export default function CategoryResults({
 					{resultsEntries.map(([k, v], i) => (
 						<span key={k}>
 							<span>
-								<span>{v.length}</span> <span>{uncapitalise0(categories.find((c) => c.key == k).name)}</span>
+								<span>{v.length}</span> <span>
+									{uncapitalise0(
+										v.length > 1 ?
+										categories.find((c) => c.key == k).plural :
+										categories.find((c) => c.key == k).name
+									)}
+								</span>
 							</span>
 							{i < resultsEntries.length - 1 && ', '}
 						</span>
