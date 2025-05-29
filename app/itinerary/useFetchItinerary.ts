@@ -1,23 +1,18 @@
+import brouterResultToSegments from '@/components/cycling/brouterResultToSegments'
+import computeSafeRatio from '@/components/cycling/computeSafeRatio'
 import {
-	computeMotisTrip,
-	isNotTransitItinerary,
-} from '@/app/itinerary/transit/motisRequest'
+	hasSatisfyingTransitItinerary,
+	satisfyingTransitOptions,
+	smartMotisRequest,
+} from '@/components/transit/smartItinerary'
+import useSetSearchParams from '@/components/useSetSearchParams'
 import distance from '@turf/distance'
 import { useCallback, useEffect, useState } from 'react'
-import { useMemoPointsFromState } from './useDrawItinerary'
 import { modeKeyFromQuery } from './Itinerary'
-import useSetSearchParams from '@/components/useSetSearchParams'
 import fetchValhalla from './fetchValhalla'
-import computeSafeRatio from '@/components/cycling/computeSafeRatio'
-import brouterResultToSegments from '@/components/cycling/brouterResultToSegments'
-import useSetItineraryModeFromUrl from './useSetItineraryModeFromUrl'
 import { decodeDate, initialDate } from './transit/utils'
-import {
-	smartMotisRequest,
-	unsatisfyingItineraries,
-} from '@/components/transit/smartItinerary'
-import { modeToFrench } from '@/components/transit/TransitInstructions'
-import { delay } from '@/components/utils/utils'
+import { useMemoPointsFromState } from './useDrawItinerary'
+import useSetItineraryModeFromUrl from './useSetItineraryModeFromUrl'
 
 export default function useFetchItinerary(searchParams, state, allez) {
 	const setSearchParams = useSetSearchParams()
@@ -97,17 +92,30 @@ export default function useFetchItinerary(searchParams, state, allez) {
 			}
 		}
 
-		const fetchRoutes = async () => {
-			updateRoute('cycling', 'loading')
-			const cycling = await fetchBrouterRoute(
-				points,
-				itineraryDistance,
-				bikeRouteProfile,
-				mode === 'cycling' ? Infinity : 35 // ~ 25 km/h (ebike) x 1:30 hours
-			)
-			updateRoute('cycling', cycling)
+		const fetchNonTransitRoutes = async () => {
+			if (!mode || mode === 'cycling') {
+				updateRoute('cycling', 'loading')
+				const cycling = await fetchBrouterRoute(
+					points,
+					itineraryDistance,
+					bikeRouteProfile,
+					mode === 'cycling' ? Infinity : 35 // ~ 25 km/h (ebike) x 1:30 hours
+				)
+				updateRoute('cycling', cycling)
+			}
+			if (!mode || mode === 'walking') {
+				updateRoute('walking', 'loading')
+				const walking = await fetchBrouterRoute(
+					points,
+					itineraryDistance,
+					'hiking-mountain',
+					mode === 'walking' ? Infinity : 4 // ~ 3 km/h donc 4 km = 1h20 minutes, au-dessus ça me semble peu pertinent de proposer la marche par défaut
+				)
+				updateRoute('walking', walking)
+			}
 
 			if (mode === 'car') {
+				//no car in the transit summary. Avoid cars.
 				updateRoute('car', 'loading')
 				const car = await fetchValhalla(
 					points,
@@ -121,24 +129,25 @@ export default function useFetchItinerary(searchParams, state, allez) {
 			} else {
 				updateRoute('car', null)
 			}
-
-			updateRoute('walking', 'loading')
-			const walking = await fetchBrouterRoute(
-				points,
-				itineraryDistance,
-				'hiking-mountain',
-				mode === 'walking' ? Infinity : 4 // ~ 3 km/h donc 4 km = 1h20 minutes, au-dessus ça me semble peu pertinent de proposer la marche par défaut
-			)
-			updateRoute('walking', walking)
 		}
-		fetchRoutes()
+		fetchNonTransitRoutes()
 	}, [points, setRoutes, bikeRouteProfile, mode])
 
+	const smartSignature =
+		mode === 'transit'
+			? 'auto'
+			: hasSatisfyingTransitItinerary(routes?.transit, date, itineraryDistance)
+			? 'auto'
+			: 'needingAuto'
+
+	const computeTransit = mode == null || mode === 'transit'
 	useEffect(() => {
 		if (points.length < 2) {
 			setRoutes(null)
 			return
 		}
+
+		if (!computeTransit) return
 
 		async function fetchTransitRoute(multiplePoints, itineraryDistance, date) {
 			const minTransitDistance = 0.5 // please walk or bike
@@ -198,11 +207,14 @@ export default function useFetchItinerary(searchParams, state, allez) {
 		points,
 		setRoutes,
 		date,
+		computeTransit,
 		searchParams.correspondances,
 		searchParams.debut,
 		searchParams.fin,
 		searchParams.tortue,
 		searchParams.planification,
+		searchParams.auto,
+		smartSignature,
 	])
 
 	const resetItinerary = useCallback(

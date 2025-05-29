@@ -1,5 +1,6 @@
 import { computeMotisTrip } from '@/app/itinerary/transit/motisRequest'
 import { modeToFrench } from './TransitInstructions'
+import { filterNextConnections } from '@/app/itinerary/transit/utils'
 
 // If no mode is set by the user, we're trying to provide a multimodal view
 // that covers a large range of possibilities, giving the user perspectives
@@ -58,6 +59,20 @@ const computeDistanceAndSpeed = (json, itineraryDistance) => {
 
 const bikeSpeed = 20 // km/h
 
+export const hasSatisfyingTransitItinerary = (
+	data,
+	date,
+	itineraryDistance
+) => {
+	if (!data || !data.itineraries) return false
+	const nextConnections = filterNextConnections(data.itineraries, date)
+
+	const has = nextConnections.length > 0,
+		[, speed] = computeDistanceAndSpeed(data, itineraryDistance),
+		hasQuickEnough = has && speed > 10 //TODO To adjust
+	return hasQuickEnough
+}
+
 export async function smartMotisRequest(
 	searchParams,
 	itineraryDistance,
@@ -70,9 +85,12 @@ export async function smartMotisRequest(
 	const json = await computeMotisTrip(start, destination, date, searchParams)
 	if (json.state === 'error') return json
 
-	const has = json?.itineraries.length > 0,
-		[distance, speed] = computeDistanceAndSpeed(json, itineraryDistance),
-		hasQuickEnough = has && speed > 10 //TODO To adjust
+	const [distance] = computeDistanceAndSpeed(json, itineraryDistance)
+	const hasQuickEnough = hasSatisfyingTransitItinerary(
+		json,
+		date,
+		itineraryDistance
+	)
 
 	if (hasQuickEnough) return json
 
