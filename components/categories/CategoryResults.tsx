@@ -41,8 +41,10 @@ export default function CategoryResults({
 		// sort the OSM elements by distance
 		results = sortBy((result) => result.distance)(resultsWithoutOrder)
 
+	// calculate the total number of Overpass results (for all the categories)
+	const totalResults = resultsEntries.reduce((sum, [k, v]) => sum + v.length, 0)
+
 	//Display the list of OSM elements (merged and ordered)
-	// TODO handle plurals in category names
 	return (
 		<Section>
 			<ResultsSummary>
@@ -61,7 +63,10 @@ export default function CategoryResults({
 							{i < resultsEntries.length - 1 && ', '}
 						</span>
 					))}
-					<span> trouvés dans cette zone.</span>
+					<span> trouvé{totalResults > 1 ? 's' : ''} dans cette zone.</span>
+
+
+
 				</div>
 				{resultsEntries.length > 0 && (
 					<Link href={setSearchParams({ cat: undefined }, true)}>
