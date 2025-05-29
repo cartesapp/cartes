@@ -1,4 +1,4 @@
-- name: boulangerie
+- name: boulangerie(s)
   dictionary:
     - pain
     - viennoiserie
@@ -8,7 +8,8 @@
   query: '[shop=bakery]'
   icon: bakery
   group: Alimentation
-- name: restaurant
+
+- name: restaurant(s)
   dictionary:
     - resto
     - emporter
@@ -21,8 +22,8 @@
     - '[vending=pizza]'
   icon: restaurant
   group: Restaurants
-- name: cafe
-  title: Café, bar et pub
+
+- name: Café(s), bar(s), pub(s)
   dictionary:
     - bar
     - café
@@ -37,7 +38,8 @@
     - '["amenity"="pub"]'
   icon: cafe
   group: Bars et boisson
-- name: épicerie
+
+- name: épicerie(s)
   dictionary:
     - supermarché
     - magasin
@@ -49,7 +51,8 @@
     - '[amenity=marketplace]'
   icon: convenience
   group: Commerces
-- name: eau
+
+- name: point(s) d'eau
   dictionary:
     - boire
     - fontaine
@@ -61,6 +64,7 @@
   icon: water
   open by default: true
   group: Divers
+
 - name: toilettes
   dictionary:
     - WC
@@ -70,7 +74,8 @@
   icon: toilets
   open by default: true
   group: Divers
-- name: parc
+
+- name: parc(s)
   dictionary:
     - verdure
     - jardin
@@ -81,20 +86,20 @@
   icon: tree
   open by default: true
   group: Loisirs et Nature
-- name: bus
-  title: Arrêt de bus ou tram
+
+- name: Arrêt(s de) bus tram( ou) métro
   query: '[public_transport=platform]'
   icon: bus
   open by default: true
   group: Déplacements
-- name: billets
+
+- name: Distributeur(s) de billets
   dictionary:
     - banque
     - DAB
     - cash
     - argent
     - distributeur
-  title: Distributeur de billets
   query:
     - '[amenity=atm]'
     - '[atm=yes]'
@@ -102,7 +107,8 @@
   icon: bank
   icon alias: atm
   group: Services
-- name: Hôtel
+
+- name: Hôtel(s)
   dictionary:
     - chambre d'hôte
     - gîte
@@ -113,15 +119,16 @@
   open by default: true
   icon: lodging
   group: Services
-- name: vue
-  title: Point de vue
+
+- name: Point(s) de vue
   dictionary:
     - panorama
   query: '[tourism=viewpoint]'
   open by default: true
   icon: viewpoint
   group: Loisirs et Nature
-- name: Cinéma
+
+- name: Cinéma(s)
   dictionary:
     - ciné
     - film

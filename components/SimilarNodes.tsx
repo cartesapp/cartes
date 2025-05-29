@@ -54,21 +54,21 @@ export default function SimilarNodes({ node, similarNodes: features }) {
 	 *
 	 * */
 
-	const title = category.title || capitalise0(category.name)
+	const name = capitalise0(category.name)
 	const isOpenByDefault = category['open by default']
 	const imageUrl = categoryIconUrl(category)
 	return (
 		<Wrapper>
 			{closestFeatures?.length ? (
 				<>
-					<h3>{title} proches</h3>
+					<h3>{name} proches</h3>
 					<NodeList
 						nodes={closestFeatures.slice(0, 10)}
 						isOpenByDefault={isOpenByDefault}
 					/>
 					{closestFeatures.length > 10 && (
 						<details>
-							<summary>Tous les {title} proches</summary>
+							<summary>Tous les {name} proches</summary>
 							<NodeList
 								nodes={closestFeatures.slice(10)}
 								isOpenByDefault={isOpenByDefault}
@@ -78,7 +78,7 @@ export default function SimilarNodes({ node, similarNodes: features }) {
 				</>
 			) : (
 				<section>
-					<h3>{title} proches</h3>
+					<h3>{name} proches</h3>
 					<p>
 						<small>
 							Rien trouvé. Essayez une <DynamicSearchLink category={category} />{' '}

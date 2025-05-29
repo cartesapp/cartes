@@ -12,11 +12,11 @@ export default function useOverpassRequest(bbox, categories) {
 
 			setFeatures((features) => ({
 				...features,
-				[category.name]: nodeElements,
+				[category.key]: nodeElements,
 			}))
 		})
 	}, [
-		categories && categories.join((category) => category.name),
+		categories && categories.join((category) => category.key),
 		bbox && bbox.join('|'),
 	])
 
