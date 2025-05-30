@@ -1,65 +1,44 @@
-import { osmRequest } from '@/app/osmRequest'
+import { osmElementRequest } from '@/app/osmRequest'
 import turfDistance from '@turf/distance'
-import buildOsmFeatureGeojson from './buildOsmFeatureGeojson'
-
+/**
+ * Check whether an OSM ID is a way or a relation
+ * (in case we don't have the intel,e.g. after a click on a tile element)
+ * @param presumedFeatureType presumed OSM type
+ * @param id OSM ID
+ * @param referenceLatLng LatLng of the clicked point
+ * @param noDisambiguation set to true to search by type+ID
+ * @returns the array [OverpassElement, OSM type]
+ */
 export default async function disambiguateWayRelation(
 	presumedFeatureType,
 	id,
 	referenceLatLng,
 	noDisambiguation
 ) {
-	console.log(
-		'lightgreen disambiguateWayRelation, noDisambiguation : ',
-		noDisambiguation
-	)
-	if (noDisambiguation) {
-		const result = await osmRequest(presumedFeatureType, id)
+	// if no disambigiation, or presumed node, get element by type+ID
+	if (noDisambiguation || presumedFeatureType === 'node') {
+		const result = await osmElementRequest(presumedFeatureType, id)
 		return [result, presumedFeatureType]
 	}
-	if (presumedFeatureType === 'node') {
-		const result = await osmRequest('node', id)
-		return [result, 'node']
-	}
 
-	const request1 = await osmRequest('way', id)
-	const request2 = await osmRequest('relation', id)
-	if (request1.elements.length && request2.elements.length) {
-		// This is naïve, we take the first node, considering that the chances that the first node of the relation and way with same reconstructed id are close to our current location is extremely low
-		const node1 = request1.find((el) => el.type === 'node')
-		const node2 = request2.find((el) => el.type === 'node')
-		if (!node1)
-			return [request2.find((el) => el.type === 'relation'), 'relation']
-		if (!node2) {
-			const way = request1.find((el) => el.type === 'way')
-			const geojson = buildOsmFeatureGeojson(way, request1)
+	// fetch both way and relation by ID
+	const wayResult = await osmElementRequest('way', id)
+	const relResult = await osmElementRequest('relation', id)
 
-			return [{ ...way, geojson }, 'way']
-		}
+	// if both exist
+	if (wayResult && relResult) {
+		// calculate both distances to the reference latlng
 		const reference = [referenceLatLng.lng, referenceLatLng.lat]
-		const distance1 = turfDistance([node1.lon, node1.lat], reference)
-		const distance2 = turfDistance([node2.lon, node2.lat], reference)
-		console.log(
-			'Ambiguous relation/node id, computing distances : ',
-			distance1,
-			distance2
-		)
-		if (distance1 < distance2) {
-			const way = request1.find((el) => el.type === 'way')
-			const geojson = buildOsmFeatureGeojson(way, request1)
-
-			return [{ ...way, geojson }, 'way']
-		}
-		return [request2.find((el) => el.type === 'relation'), 'relation']
+		const wayDistance = turfDistance(wayResult.center, reference)
+		const relDistance = turfDistance(wayResult.center, reference)
+		// return the closest
+		if (wayDistance < relDistance) return [wayResult, 'way']
+		else return [relResult, 'relation']
 	}
+	// if only one exists, return it
+	if (wayResult) return [wayResult, 'way']
+	if (relResult) return [relResult, 'relation']
 
-	if (!request1.elements.length && request2.elements.length)
-		return [request2.find((el) => el.type === 'relation'), 'relation']
-	if (!request2.elements.length && request1.elements.length) {
-		const way = request1.find((el) => el.type === 'way')
-		const geojson = buildOsmFeatureGeojson(way, request1)
-
-		return [{ ...way, geojson }, 'way']
-	}
-
+	//else return nothing
 	return [null, null]
 }
