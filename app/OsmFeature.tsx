@@ -28,7 +28,7 @@ import CityData from '@/components/osm/CityData'
 export default function OsmFeature(props) {
 	const { data, transportStopData, photonFeature, similarNodes } = props
 	if (!data.tags) return null
-	const { tags } = data
+	const { tags, meta } = data
 
 	const id = data.id
 	const featureType = data.type || data.featureType
@@ -99,6 +99,15 @@ export default function OsmFeature(props) {
 	const name = getName(tags)
 	const nameKeys = getNameKeys(tags)
 
+	// Formatage en français de la date du dernier changeset
+	const changesetDate = new Date(meta.timestamp)
+	const options = {
+	day: 'numeric',
+	month: 'long',
+	year: 'numeric'
+	};
+	meta.frenchDate = changesetDate.toLocaleDateString('fr-FR', options);
+
 	const filteredRest = omit([addressKeys, transportKeys, nameKeys].flat(), rest)
 
 	const [keyValueTags, soloTags] = processTags(filteredRest)
@@ -157,6 +166,12 @@ export default function OsmFeature(props) {
 				</div>
 			)}
 			<Address tags={tags} photonFeature={photonFeature} />
+			{ /* display intel about the last changeset of this element */ }
+			{meta && <small>mis à jour le {meta.frenchDate} par <a
+				href={`https://www.openstreetmap.org/user/${meta.user}`}
+				target="_blank"
+				title={`Lien vers la fiche OSM de l'utilisateur ${meta.user}`}
+			>{meta.user}</a></small>}
 			{tags.uic_ref && (
 				<GareInfo
 					{...{
