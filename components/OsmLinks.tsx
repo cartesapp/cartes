@@ -7,25 +7,24 @@ export default function OsmLinks({ data }) {
 	const [featureType, id] = decodePlace(data.osmCode)
 	return (
 		<Wrapper>
+			<Image
+				src={osmLogo}
+				width="30"
+				height="30"
+				alt="Logo d'OpenStreetMap"
+			/>
 			<a
 				href={`https://openstreetmap.org/${featureType}/${id}`}
 				target="_blank"
 				title="Voir la fiche OpenStreetMap de ce lieu"
-			>
-				<Image
-					src={osmLogo}
-					width="30"
-					height="30"
-					alt="Logo d'OpenStreetMap"
-				/>
-			</a>
+			>Voir</a>
+			&nbsp;ou&nbsp;
 			<a
 				href={`https://openstreetmap.org/edit?${featureType}=${id}`}
 				target="_blank"
 				title="Ajouter des informations à ce lieu sur OpenStreetMap"
-			>
-				Compléter ce lieu sur OpenStreetMap
-			</a>
+			>compléter</a>
+			&nbsp;ce lieu sur OpenStreetMap
 		</Wrapper>
 	)
 }
