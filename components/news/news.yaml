@@ -1,3 +1,11 @@
+- title: 📐 Affichage des rivières et des rues
+  date: 2025-06-05
+  description: |
+    Le monde est complexe, et OpenStreetMap en capte une partie : une rivière, une rue ou un monument comme un chateau sont souvent composées de plusieurs segments et surfaces. 
+
+    Grâce au travail d'Étienne, cartes.app gère bien mieux tous ces lieux ! 
+
+    Au passage, le petit méga-octet de code à télécharger pour utiliser cartes.app est réduit de 2 %. Que demander de plus ?
 - title: 🗺️ Deux nouveaux fonds de carte IGN
   date: 2025-05-01
   description: |
