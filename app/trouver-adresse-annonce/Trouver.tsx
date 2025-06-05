@@ -85,7 +85,7 @@ export default function Trouver({ searchParams }) {
 		}
 
 		doFetch()
-	}, [setError, letter, typeBatiment, lngLat, setDpes])
+	}, [setError, letter, typeBatiment, lngLat, setDpes, surface])
 
 	const onMapClick = useCallback(
 		(lngLat) => {
@@ -102,7 +102,8 @@ export default function Trouver({ searchParams }) {
 	return (
 		<Section>
 			<button>
-				<Image src={Logo} alt="Logo de cartes.app" /> Géolocaliser
+				<Image src={Logo} alt="Logo de cartes.app" /> Cliquez sur l'endroit le
+				plus probable
 			</button>
 			{lngLat && (
 				<div>
