@@ -471,7 +471,7 @@ export default function Map(props) {
 	)
 }
 
-const MapContainer = styled.div`
+export const MapContainer = styled.div`
 	:global(
 			.maplibregl-ctrl button.maplibregl-ctrl-compass .maplibregl-ctrl-icon
 		) {
