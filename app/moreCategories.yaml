@@ -877,7 +877,7 @@
   group: Poubelles
   dictionary:
     - bouteille
-  query: '[amenity=recycling]["recycling:glass_bottles"=yes]'
+  query: '["recycling:glass_bottles"=yes]'
   icon: recycling
 
 - name: (conteneurs à )vêtement(s) # no s to avoid key collision with the shop
@@ -885,7 +885,7 @@
   dictionary:
     - coton
     - tissus
-  query: '[amenity=recycling]["recycling:clothes"=yes]'
+  query: '["recycling:clothes"=yes]'
   icon: recycling
 
 - name: (conteneurs à )emballages
@@ -910,7 +910,7 @@
   dictionary:
     - piles
     - batterie
-  query: '[amenity=recycling]["recycling:batteries"=yes]'
+  query: '["recycling:batteries"=yes]'
   icon: recycling
 
 #######################
