@@ -6,18 +6,25 @@ export default function Trouver({ searchParams }) {
 	const setSearchParams = useSetSearchParams();
 	const [letter, setLetter] = useState(searchParams['letter'] || '');
 	const [surface, setSurface] = useState(searchParams['surface'] || '');
+	const [typeBatiment, setTypeBatiment] = useState(searchParams['typeBatiment'] || '');
 	const [error, setError] = useState(null)
 
 	const handleLetterChange = (e) => {
 		const newLetter = e.target.value;
 		setLetter(newLetter);
-		setSearchParams({ letter: newLetter, surface });
+		setSearchParams({ letter: newLetter, surface, typeBatiment });
 	};
 
 	const handleSurfaceChange = (e) => {
 		const newSurface = e.target.value;
 		setSurface(newSurface);
-		setSearchParams({ letter, surface: newSurface });
+		setSearchParams({ letter, surface: newSurface, typeBatiment });
+	};
+
+	const handleTypeBatimentChange = (e) => {
+		const newTypeBatiment = e.target.value;
+		setTypeBatiment(newTypeBatiment);
+		setSearchParams({ letter, surface, typeBatiment: newTypeBatiment });
 	};
 
 	useEffect(()=>{
@@ -29,7 +36,6 @@ export default function Trouver({ searchParams }) {
 			//nom_commune_ban
 			const url = `https://data.ademe.fr/data-fair/api/v1/datasets/dpe03existant/lines?q_mode=simple&qs=etiquette_dpe:+${letter}+AND+geo_distance:${lonLatDistance}+AND+type_batiment:${typeBatiment}`
 
-
 			try {
 			const request = await fetch(url)
 
@@ -37,8 +43,6 @@ export default function Trouver({ searchParams }) {
 			}catch(e){
 				setError(e)
 			}
-
-
 
 		}
 
@@ -69,6 +73,25 @@ export default function Trouver({ searchParams }) {
 						onChange={handleSurfaceChange}
 						min="0"
 					/>
+				</label>
+			</div>
+			<div>
+				<label>
+					Type de bâtiment :
+					<input
+						type="radio"
+						value="maison"
+						checked={typeBatiment === 'maison'}
+						onChange={handleTypeBatimentChange}
+					/>
+					maison
+					<input
+						type="radio"
+						value="appartement"
+						checked={typeBatiment === 'appartement'}
+						onChange={handleTypeBatimentChange}
+					/>
+					appartement
 				</label>
 			</div>
 			DPE label ; m2 -> query
