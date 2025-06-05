@@ -2,6 +2,10 @@ import computeDistance from '@turf/distance'
 import { css, styled } from 'next-yak'
 import DPELabel from './DPELabel'
 import enrich, { etageKey } from './enrich'
+import { useEffect, useState } from 'react'
+import { SERVER_RUNTIME } from 'next/dist/lib/constants'
+import { photonServerUrl } from '@/app/serverUrls'
+import Address from '@/components/Address'
 
 const spec = {
 	etiquette_dpe: { label: '' },
@@ -71,6 +75,9 @@ export default function DpeList({ dpes, startOpen = true, latLon }) {
 										])
 									)}
 								</li>
+								<li>
+									<AddressContainer latLon={dpe['geometry'].coordinates} />
+								</li>
 							</ol>
 							<button
 								css={css`
@@ -126,3 +133,29 @@ const Wrapper = styled.section`
 		border: 1px solid lightgray;
 	}
 `
+
+const AddressContainer = ({ latLon }) => {
+	const [address, setAddress] = useState(null)
+	useEffect(() => {
+		const doFetch = async () => {
+			const url =
+				photonServerUrl +
+				`/reverse/?lat=${latLon[1]}&lon=${latLon[0]}&radius=10`
+			const request = await fetch(url, { cache: 'force-cache' })
+			const json = await request.json()
+			const found = json?.features?.[0].properties
+			setAddress(found)
+
+			console.log('indigo add', json)
+		}
+		doFetch()
+	}, [latLon])
+
+	if (!address) return <span>⚙️ recherche de l'adresse...</span>
+	return (
+		<span>
+			📌
+			<Address tags={address} noPrefix={true} />
+		</span>
+	)
+}

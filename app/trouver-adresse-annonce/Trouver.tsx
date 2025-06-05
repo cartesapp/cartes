@@ -35,7 +35,9 @@ export default function Trouver({ searchParams }) {
 	)
 	const [error, setError] = useState(null)
 
-	const [dpes, setDpes] = useState(null)
+	const [rawDpes, setDpes] = useState(null)
+
+	const dpes = rawDpes && rawDpes.slice(6)
 
 	const handleLetterChange = (e) => {
 		const newLetter = e.target.value
