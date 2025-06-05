@@ -1,12 +1,28 @@
-import { overpassFetchOptions, overpassRequestSuffixs } from './osmRequest'
+import { isServer } from './serverUrls'
+
+// Available Overpass API servers
+const overpassRequestSuffixs = [
+	'https://overpass.cartes.app/api/interpreter?data=',
+	'https://overpass-api.de/api/interpreter?data=',
+]
+
+// and associated parameters
+const overpassFetchOptions = isServer
+	? {
+			headers: {
+				'User-Agent': 'Cartes.app',
+			},
+			next: { revalidate: 5 * 60 },
+	  }
+	: { cache: 'force-cache' }
 
 /**
- * Tente de récupérer des données depuis plusieurs URLs Overpass jusqu'à ce qu'une requête réussisse
- * @param urlPath La partie de l'URL après le préfixe Overpass
- * @returns Les données JSON de la première requête réussie ou une erreur si toutes échouent
+ * Fetch a request on each allowed server until success
+ * @param query The Overpass query to fetch
+ * @returns JSON data of the first successful request, or an error if they all fail
  */
 export async function resilientOverpassFetch(
-	urlPath: string,
+	query: string,
 	options: object = {}
 ) {
 	// Stocke la dernière erreur pour la renvoyer si toutes les tentatives échouent
@@ -14,7 +30,7 @@ export async function resilientOverpassFetch(
 
 	// Essaie chaque suffixe d'URL Overpass dans l'ordre
 	for (const suffix of overpassRequestSuffixs) {
-		const fullUrl = `${suffix}${urlPath}`
+		const fullUrl = `${suffix}${encodeURIComponent(query)}`
 
 		try {
 			const response = await fetch(fullUrl, {

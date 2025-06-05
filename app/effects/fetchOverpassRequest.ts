@@ -1,94 +1,62 @@
 import categories from '@/app/categories.yaml'
-import {
-	buildStepFromOverpassNode,
-	buildStepFromOverpassWayOrRelation,
-} from '@/app/osmRequest'
+import { extendOverpassElement } from '@/app/osmRequest'
 import { resilientOverpassFetch } from '@/app/overpassFetcher'
 import { filteredMoreCategories as moreCategories } from '@/components/categories'
 import computeBboxArea from '@/components/utils/computeBboxArea'
 
+/**
+ * Build and fetch an Overpass query for a category on a bbox
+ */
 const surfaceDivider = 1000000
-export async function fetchOverpassRequest(
+export async function fetchOverpassCategoryRequest(
 	bbox,
 	category,
 	limitQuerySurface = true
 ) {
+	// calculate the area of the bbox (in m²) and stop if it is above 1000 km²
 	const surface = computeBboxArea(bbox)
 
 	if (limitQuerySurface && surface / surfaceDivider > 1000) {
 		return console.log(
 			`Surface ${
 				surface / surfaceDivider
-			} is considered too big (> 1000) for overpass API`
+			} is considered too big (> 1000km²) for overpass API`
 		)
 	}
 
+	// build the array of queries (since a category may join several key:tag queries)
 	const queries =
 		typeof category.query === 'string' ? [category.query] : category.query
 
+	// add osm types and bbox to each query and join them in a core query
 	const queryCore = queries
 		.map((query) => {
 			return `nwr${query}(${bbox.join(',')});`
 		})
 		.join('')
-	// TODO we're missing the "r" in "nwr" for "relations"
-	const overpassRequest = buildOverpassRequest(queryCore)
 
-	const query = encodeURIComponent(overpassRequest)
-	//	console.log('OVERPASS2 query:', overpassRequest)
+	// build the complete query with output parameters
+	const query = `[out:json];
+		(${queryCore});
+		out body geom qt;`
+
+	// fetch the Overpass request
+	//console.log('OVERPASS query:', query)
 	const json = await resilientOverpassFetch(query)
 
-	const nodeElements = convertOverpassCategoryResultsToSteps(json, category.key)
-	return nodeElements
-}
-
-// I suspect this should be handled by a code we already have, with just a loop
-// more
-const convertOverpassCategoryResultsToSteps = (json, categoryKey) => {
-	const relations = json.elements.filter(
-		(element) => element.type === 'relation'
-	)
-	if (relations.length > 0) {
-		console.log(
-			'Relations in similar nodes are not handled yet :',
-			relations.length
-		)
-	}
-	const nodesOrWays = json.elements.filter((element) =>
-		['way', 'node'].includes(element.type)
-	) // see TODO above about relations
-
-	const waysNodes = nodesOrWays
-		.filter((el) => el.type === 'way')
-		.map((el) => el.nodes)
-		.flat()
-
-	// Reject elements (nodes I guess ?) that are constituents of ways
-	const interestingElements = nodesOrWays.filter(
-		(el) => !waysNodes.find((id) => id === el.id)
-	)
-
-	const nodeElements = interestingElements.map((element) => {
-		if (element.type === 'node') return buildStepFromOverpassNode(element)
-		return buildStepFromOverpassWayOrRelation(element, json.elements)
+	// build and return the result by joining :
+	//  - the extended Overpass element : osmCode, tags, geojson, center, ...
+	//  - with the category name
+	const result = json.elements.map((element) => {
+		const extendedElement = extendOverpassElement(element)
+		//console.log('OVERPASS RESULT element NEW:',extendedElement)
+		return {
+			...extendedElement,
+			categoryKey: category.key,
+		}
 	})
-	return nodeElements.map((element) => ({
-		...element,
-		categoryKey,
-	}))
+	return result
 }
-
-export const buildOverpassRequest = (queryCore) => `
-[out:json];
-(
-${queryCore}
-);
-
-out body;
->;
-out skel qt;
-
-`
 
 // This is very scientific haha
 const latDifferenceOfRennes = 0.07,
@@ -160,7 +128,7 @@ export const fetchSimilarNodes = async (osmFeature) => {
 
 	const [lon, lat] = osmFeature.center.geometry.coordinates
 	const bbox = computeBbox({ lat, lon })
-	const similarNodes = await fetchOverpassRequest(bbox, category)
+	const similarNodes = await fetchOverpassCategoryRequest(bbox, category)
 
 	return similarNodes
 }
