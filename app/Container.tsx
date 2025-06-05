@@ -62,7 +62,7 @@ const contentDebounceDelay = 500
 
 export default function Container(props) {
 	const {
-		state: givenState,
+		state: givenState = [],
 		agencyEntry,
 		similarNodes: givenSimilarNodes,
 	} = props

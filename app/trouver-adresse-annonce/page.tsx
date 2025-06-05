@@ -1,7 +1,5 @@
 import { Metadata } from 'next'
 import { description } from '../layout'
-import Image from 'next/image'
-import Logo from '@/public/logo.svg'
 import { PresentationWrapper } from '../presentation/UI'
 import Trouver from './Trouver'
 
@@ -14,19 +12,18 @@ export const metadata: Metadata = {
 	description,
 }
 
-export default function () {
+export default async function (props) {
+	const searchParams = await props.searchParams
 	return (
 		<PresentationWrapper>
 			<section>
 				<header>
-					<h1>
-						<Image src={Logo} alt="Logo de cartes.app" /> Cartes Immo
-					</h1>
+					<h1>{title}</h1>
 				</header>
 			</section>
-			<h2>{title}</h2>
+
 			<p>{description}</p>
-			<Trouver />
+			<Trouver searchParams={searchParams} />
 		</PresentationWrapper>
 	)
 }
