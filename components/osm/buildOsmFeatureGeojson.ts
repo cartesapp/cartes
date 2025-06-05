@@ -1,3 +1,9 @@
+/*
+ * Note : this function was probably made useless by https://github.com/cartesapp/cartes/pull/948
+ *
+ * Keeping it for a while, but it's not imported in the web app and saves 30 ko
+ */
+
 import { centerOfMass } from '@turf/turf'
 import osmToGeojson from 'osmtogeojson'
 
