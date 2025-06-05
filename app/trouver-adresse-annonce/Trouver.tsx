@@ -10,6 +10,7 @@ import useAddSobreMap from './useAddSobreMap'
 import DpeList from './dpe/DpeList'
 import DPEMarkers from './dpe/DPEMarkers'
 import dpeColors from './dpe/DPE.yaml'
+import enrich from './dpe/enrich'
 
 const lonLatDistance = ''
 
@@ -57,8 +58,8 @@ export default function Trouver({ searchParams }) {
 	useEffect(() => {
 		if (!lngLat) return
 		const lonLatDistance = lngLat.lng + ':' + lngLat.lat + ':' + distance
-		const surfaceDown = Math.round(surface),
-			surfaceUp = Math.round(surface) + 1
+		const surfaceDown = Math.round(surface) - 1,
+			surfaceUp = Math.round(surface) + 2
 		const doFetch = async () => {
 			//conso_5_usages_par_m2_ep
 			//emission_ges_5_usages_par_m2
@@ -69,13 +70,15 @@ export default function Trouver({ searchParams }) {
 				const request = await fetch(url)
 
 				const json = await request.json()
-				const results = json.results.map((dpe) => ({
-					...dpe,
-					geometry: { coordinates: dpe['_geopoint'].split(',').reverse() },
-				}))
+				const results = enrich(
+					json.results.map((dpe) => ({
+						...dpe,
+						geometry: { coordinates: dpe['_geopoint'].split(',').reverse() },
+					}))
+				)
 
 				setDpes(results)
-				console.log('indigo', json)
+				console.log('indigo results', results)
 			} catch (e) {
 				setError(e)
 			}
@@ -94,7 +97,7 @@ export default function Trouver({ searchParams }) {
 	)
 	const mapContainerRef = useRef(null)
 
-	const [map] = useAddSobreMap(mapContainerRef, onMapClick)
+	const [map] = useAddSobreMap(mapContainerRef, onMapClick, lngLat)
 
 	return (
 		<Section>
@@ -160,14 +163,14 @@ export default function Trouver({ searchParams }) {
 					featureCollection={{
 						type: 'FeatureCollection',
 						features: dpes.map((dpe) => {
-							const { n_etage_appartement: etage, etiquette_dpe: etiquette } =
-								dpe
+							const { etiquette_dpe: etiquette } = dpe
 							const [lon, lat] = dpe.geometry.coordinates
 
 							const color = dpeColors.find(
 								(dpe) => dpe.lettre === etiquette
 							).couleur
 
+							console.log('indigo ya', dpe['étageEstimé'])
 							const floor = dpe['étageEstimé'] ?? 20
 
 							return {
@@ -178,7 +181,6 @@ export default function Trouver({ searchParams }) {
 								},
 								properties: {
 									...dpe,
-									etage: +etage,
 									top: (floor + 1) * 3,
 									base: floor * 3,
 									height: 3,

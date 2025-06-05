@@ -62,7 +62,7 @@ const defaultHash = `#${defaultZoom}/${defaultCenter[1]}/${defaultCenter[0]}`
 
 const clickMarker = new maplibregl.Marker()
 
-export default function useAddSobreMap(mapContainerRef, onMapClick) {
+export default function useAddSobreMap(mapContainerRef, onMapClick, lngLat) {
 	const [map, setMap] = useState(null)
 	const isMobile = useMediaQuery('(max-width: 800px)')
 	const [geolocate, setGeolocate] = useState(null)
@@ -141,6 +141,12 @@ export default function useAddSobreMap(mapContainerRef, onMapClick) {
 		() => (geolocate ? () => geolocate.trigger() : () => 'Not ready'),
 		[geolocate]
 	)
+
+	useEffect(() => {
+		if (!map || !lngLat) return
+		console.log('indigo yo', lngLat)
+		map.flyTo({ center: lngLat })
+	}, [map, lngLat])
 
 	useEffect(() => {
 		if (!map) return

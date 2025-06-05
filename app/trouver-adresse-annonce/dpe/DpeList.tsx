@@ -11,11 +11,9 @@ const spec = {
 	complement_adresse_logement: { label: 'cmplt' },
 }
 
-export default function DpeList({ dpes: rawDpes, startOpen = true, latLon }) {
+export default function DpeList({ dpes, startOpen = true, latLon }) {
 	console.log('plop', startOpen)
-	if (!rawDpes) return
-
-	const dpes = enrich(rawDpes)
+	if (!dpes) return
 
 	console.log(
 		'cyan',
