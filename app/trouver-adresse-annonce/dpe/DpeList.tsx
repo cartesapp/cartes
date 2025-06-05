@@ -68,8 +68,8 @@ export default function DpeList({ dpes: rawDpes, startOpen = true, latLon }) {
 									À{' '}
 									{formatDistance(
 										computeDistance(dpe['geometry'].coordinates, [
-											latLon[1],
 											latLon[0],
+											latLon[1],
 										])
 									)}
 								</li>
