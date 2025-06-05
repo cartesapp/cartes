@@ -23,15 +23,15 @@ const deserialiseLngLat = (lngLat) => {
 }
 export default function Trouver({ searchParams }) {
 	const setSearchParams = useSetSearchParams()
-	const [letter, setLetter] = useState(searchParams['letter'] || '')
-	const [surface, setSurface] = useState(searchParams['surface'] || '')
+	const [letter, setLetter] = useState(searchParams['letter'] || 'D')
+	const [surface, setSurface] = useState(searchParams['surface'] || '90')
 	const [clicked, setClicked] = useState(false)
 
 	const [lngLat, setLngLat] = useState(
 		deserialiseLngLat(searchParams['lngLat'])
 	)
 	const [typeBatiment, setTypeBatiment] = useState(
-		searchParams['typeBatiment'] || ''
+		searchParams['typeBatiment'] || 'maison'
 	)
 	const [error, setError] = useState(null)
 
@@ -102,12 +102,13 @@ export default function Trouver({ searchParams }) {
 	return (
 		<Section>
 			<button>
-				<Image src={Logo} alt="Logo de cartes.app" /> Cliquez sur l'endroit le
-				plus probable
-				{lngLat && (
-					<div>
+				<Image src={Logo} alt="Logo de cartes.app" />{' '}
+				{!lngLat ? (
+					<span>Cliquez sur l'endroit le plus probable</span>
+				) : (
+					<span>
 						📍 {+lngLat.lng.toFixed(2)}, {+lngLat.lat.toFixed(2)}
-					</div>
+					</span>
 				)}
 			</button>
 			<MapContainerContainer>
