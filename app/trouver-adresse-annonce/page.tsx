@@ -5,7 +5,7 @@ import Trouver from './Trouver'
 
 const title = "Trouver l'adresse d'une annonce immo"
 const description =
-	"En 2 secondes, trouver l'adresse d'une annonce immobilière et obtenir des informations précises sur le logement, appartement en copropriété ou maison."
+	"En 30 secondes, trouvez l'adresse d'une annonce immobilière et obtenir des informations précises sur le logement, appartement en copropriété ou maison."
 
 export const metadata: Metadata = {
 	title,

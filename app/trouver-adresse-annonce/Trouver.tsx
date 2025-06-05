@@ -38,7 +38,7 @@ export default function Trouver({ searchParams }) {
 
 	const [rawDpes, setDpes] = useState(null)
 
-	const dpes = rawDpes && rawDpes.slice(6)
+	const dpes = rawDpes && rawDpes.slice(0, 6)
 
 	const handleLetterChange = (e) => {
 		const newLetter = e.target.value
@@ -88,7 +88,7 @@ export default function Trouver({ searchParams }) {
 								]),
 							}
 						})
-						.sort((a, b) => b.distance - a.distance)
+						.sort((a, b) => a.distance - b.distance)
 				)
 
 				setDpes(results)
