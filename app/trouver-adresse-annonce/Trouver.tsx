@@ -7,6 +7,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import useSetSearchParams from '../../components/useSetSearchParams'
 import { MapContainer } from '../Map'
 import useAddSobreMap from './useAddSobreMap'
+import DpeList from './dpe/DpeList'
 
 const lonLatDistance = ''
 
@@ -21,6 +22,8 @@ export default function Trouver({ searchParams }) {
 		searchParams['typeBatiment'] || ''
 	)
 	const [error, setError] = useState(null)
+
+	const [dpes, setDpes] = useState(null)
 
 	const handleLetterChange = (e) => {
 		const newLetter = e.target.value
@@ -53,6 +56,12 @@ export default function Trouver({ searchParams }) {
 				const request = await fetch(url)
 
 				const json = await request.json()
+				const results = json.results.map((dpe) => ({
+					...dpe,
+					geometry: { coordinates: dpe['_geopoint'].split(',').reverse() },
+				}))
+
+				setDpes(results)
 				console.log('indigo', json)
 			} catch (e) {
 				setError(e)
@@ -60,13 +69,13 @@ export default function Trouver({ searchParams }) {
 		}
 
 		doFetch()
-	}, [setError, letter, typeBatiment, lngLat])
+	}, [setError, letter, typeBatiment, lngLat, setDpes])
 
 	const onMapClick = useCallback(
 		(lngLat) => {
 			setLngLat(lngLat)
 		},
-		[setLngLon]
+		[setLngLat]
 	)
 	const mapContainerRef = useRef(null)
 
@@ -128,6 +137,7 @@ export default function Trouver({ searchParams }) {
 					appartement
 				</label>
 			</div>
+			{dpes && <DpeList dpes={dpes} latLon={[lngLat.lng, lngLat.lat]} />}
 		</Section>
 	)
 }
