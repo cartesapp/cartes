@@ -1,11 +1,9 @@
-import computeDistance from '@turf/distance'
-import { css, styled } from 'next-yak'
-import DPELabel from './DPELabel'
-import enrich, { etageKey } from './enrich'
-import { useEffect, useState } from 'react'
-import { SERVER_RUNTIME } from 'next/dist/lib/constants'
 import { photonServerUrl } from '@/app/serverUrls'
 import Address from '@/components/Address'
+import { css, styled } from 'next-yak'
+import { useEffect, useState } from 'react'
+import DPELabel from './DPELabel'
+import { etageKey } from './enrich'
 
 const spec = {
 	etiquette_dpe: { label: '' },
@@ -66,15 +64,7 @@ export default function DpeList({ dpes, startOpen = true, latLon }) {
 											)}
 										</li>
 									))}
-								<li key="distance">
-									À{' '}
-									{formatDistance(
-										computeDistance(dpe['geometry'].coordinates, [
-											latLon[0],
-											latLon[1],
-										])
-									)}
-								</li>
+								<li key="distance">À {formatDistance(dpe['distance'])}</li>
 								<li>
 									<AddressContainer latLon={dpe['geometry'].coordinates} />
 								</li>

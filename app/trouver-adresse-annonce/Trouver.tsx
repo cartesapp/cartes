@@ -1,4 +1,5 @@
 'use client'
+import computeDistance from '@turf/distance'
 import { mapButtonSize } from '@/components/MapButtons'
 import Logo from '@/public/logo.svg'
 import { styled } from 'next-yak'
@@ -73,10 +74,21 @@ export default function Trouver({ searchParams }) {
 
 				const json = await request.json()
 				const results = enrich(
-					json.results.map((dpe) => ({
-						...dpe,
-						geometry: { coordinates: dpe['_geopoint'].split(',').reverse() },
-					}))
+					json.results
+						.map((dpe) => {
+							const geometry = {
+								coordinates: dpe['_geopoint'].split(',').reverse(),
+							}
+							return {
+								...dpe,
+								geometry,
+								distance: computeDistance(geometry.coordinates, [
+									lngLat.lat,
+									lngLat.lng,
+								]),
+							}
+						})
+						.sort((a, b) => a.distance - b.distance)
 				)
 
 				setDpes(results)
