@@ -83,12 +83,12 @@ export default function Trouver({ searchParams }) {
 								...dpe,
 								geometry,
 								distance: computeDistance(geometry.coordinates, [
-									lngLat.lat,
 									lngLat.lng,
+									lngLat.lat,
 								]),
 							}
 						})
-						.sort((a, b) => a.distance - b.distance)
+						.sort((a, b) => b.distance - a.distance)
 				)
 
 				setDpes(results)
