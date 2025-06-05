@@ -8,6 +8,8 @@ import useSetSearchParams from '../../components/useSetSearchParams'
 import { MapContainer } from '../Map'
 import useAddSobreMap from './useAddSobreMap'
 import DpeList from './dpe/DpeList'
+import DPEMarkers from './dpe/DPEMarkers'
+import dpeColors from './dpe/DPE.yaml'
 
 const lonLatDistance = ''
 
@@ -22,6 +24,8 @@ export default function Trouver({ searchParams }) {
 	const setSearchParams = useSetSearchParams()
 	const [letter, setLetter] = useState(searchParams['letter'] || '')
 	const [surface, setSurface] = useState(searchParams['surface'] || '')
+	const [clicked, setClicked] = useState(false)
+
 	const [lngLat, setLngLat] = useState(
 		deserialiseLngLat(searchParams['lngLat'])
 	)
@@ -53,11 +57,13 @@ export default function Trouver({ searchParams }) {
 	useEffect(() => {
 		if (!lngLat) return
 		const lonLatDistance = lngLat.lng + ':' + lngLat.lat + ':' + distance
+		const surfaceDown = Math.round(surface),
+			surfaceUp = Math.round(surface) + 1
 		const doFetch = async () => {
 			//conso_5_usages_par_m2_ep
 			//emission_ges_5_usages_par_m2
 			//nom_commune_ban
-			const url = `https://data.ademe.fr/data-fair/api/v1/datasets/dpe03existant/lines?q_mode=simple&qs=etiquette_dpe:+${letter}+AND+type_batiment:${typeBatiment}&geo_distance=${lonLatDistance}`
+			const url = `https://data.ademe.fr/data-fair/api/v1/datasets/dpe03existant/lines?q_mode=simple&qs=etiquette_dpe:+${letter}+AND+type_batiment:${typeBatiment}+AND+surface_habitable_logement:[${surfaceDown} TO ${surfaceUp}]&geo_distance=${lonLatDistance}`
 
 			try {
 				const request = await fetch(url)
@@ -88,7 +94,7 @@ export default function Trouver({ searchParams }) {
 	)
 	const mapContainerRef = useRef(null)
 
-	useAddSobreMap(mapContainerRef, onMapClick)
+	const [map] = useAddSobreMap(mapContainerRef, onMapClick)
 
 	return (
 		<Section>
@@ -147,6 +153,44 @@ export default function Trouver({ searchParams }) {
 				</label>
 			</div>
 			{dpes && <DpeList dpes={dpes} latLon={[lngLat.lng, lngLat.lat]} />}
+			{map && dpes && (
+				<DPEMarkers
+					map={map}
+					selectMarker={setClicked}
+					featureCollection={{
+						type: 'FeatureCollection',
+						features: dpes.map((dpe) => {
+							const { n_etage_appartement: etage, etiquette_dpe: etiquette } =
+								dpe
+							const [lon, lat] = dpe.geometry.coordinates
+
+							const color = dpeColors.find(
+								(dpe) => dpe.lettre === etiquette
+							).couleur
+
+							const floor = dpe['étageEstimé'] ?? 20
+
+							return {
+								type: 'Feature',
+								geometry: {
+									coordinates: [+lon, +lat],
+									type: 'Point',
+								},
+								properties: {
+									...dpe,
+									etage: +etage,
+									top: (floor + 1) * 3,
+									base: floor * 3,
+									height: 3,
+									etiquette,
+									surface: +dpe['surface_habitable_logement'],
+									color,
+								},
+							}
+						}),
+					}}
+				/>
+			)}
 		</Section>
 	)
 }
