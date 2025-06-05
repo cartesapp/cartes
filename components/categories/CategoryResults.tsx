@@ -8,6 +8,7 @@ import { categories } from '../categories'
 import useSetSearchParams from '../useSetSearchParams'
 import { sortBy } from '../utils/utils'
 import CategoryResult from './CategoryResult'
+import { uncapitalise0 } from '../utils/utils'
 
 export default function CategoryResults({
 	resultsEntries,
@@ -15,15 +16,20 @@ export default function CategoryResults({
 	annuaireMode,
 }) {
 	const setSearchParams = useSetSearchParams()
+
+	//Build a merged list of all OSM elements (from all categories) ordered by distance
+	// TODO : remove duplicates (same place found in 2 different categories) since it fires an error "2 children wiht the same key"
 	const resultsWithoutOrder = resultsEntries
 			.map(([k, list]) =>
 				(list || []).map((v) => ({
 					...v,
-					category: categories.find((cat) => cat.name === k),
+					// add the category to each OSM element
+					category: categories.find((cat) => cat.key === k),
 				}))
 			)
+			// merge all OSM elements in 1 array
 			.flat()
-			//			.filter((feature) => feature.tags.name)
+			// calculate distance and bearing
 			.map((feature) => {
 				const { coordinates } = feature.center.geometry
 				return {
@@ -32,8 +38,13 @@ export default function CategoryResults({
 					bearing: bearing(center, coordinates),
 				}
 			}),
+		// sort the OSM elements by distance
 		results = sortBy((result) => result.distance)(resultsWithoutOrder)
 
+	// calculate the total number of Overpass results (for all the categories)
+	const totalResults = resultsEntries.reduce((sum, [k, v]) => sum + v.length, 0)
+
+	//Display the list of OSM elements (merged and ordered)
 	return (
 		<Section>
 			<ResultsSummary>
@@ -41,12 +52,21 @@ export default function CategoryResults({
 					{resultsEntries.map(([k, v], i) => (
 						<span key={k}>
 							<span>
-								<span>{v.length}</span> <span>{k.toLowerCase()}</span>
+								<span>{v.length}</span> <span>
+									{uncapitalise0(
+										v.length > 1 ?
+										categories.find((c) => c.key == k).plural :
+										categories.find((c) => c.key == k).name
+									)}
+								</span>
 							</span>
 							{i < resultsEntries.length - 1 && ', '}
 						</span>
 					))}
-					<span> trouvés dans cette zone.</span>
+					<span> trouvé{totalResults > 1 ? 's' : ''} dans cette zone.</span>
+
+
+
 				</div>
 				{resultsEntries.length > 0 && (
 					<Link href={setSearchParams({ cat: undefined }, true)}>

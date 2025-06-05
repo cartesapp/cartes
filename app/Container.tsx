@@ -62,7 +62,7 @@ const contentDebounceDelay = 500
 
 export default function Container(props) {
 	const {
-		state: givenState,
+		state: givenState = [],
 		agencyEntry,
 		similarNodes: givenSimilarNodes,
 	} = props
@@ -168,7 +168,7 @@ export default function Container(props) {
 
 	const itinerary = useFetchItinerary(searchParams, state, allez)
 
-	const [categoryNames, categoryObjects] = getCategories(searchParams)
+	const [categoryKeys, categoryObjects] = getCategories(searchParams)
 
 	const vers = useMemo(() => state?.slice(-1)[0], [state])
 	const choice = vers && vers.choice

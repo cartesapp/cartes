@@ -1,3 +1,5 @@
+//import { safeRemove } from '@/node_modules/i18next'
+
 export function isIterable<T>(obj: unknown): obj is Iterable<T> {
 	return Symbol.iterator in Object(obj)
 }
@@ -6,6 +8,20 @@ export function capitalise0(name?: string) {
 }
 export function uncapitalise0(name?: string) {
 	return name && name[0].toLowerCase() + name.slice(1)
+}
+
+export function parameterize(name?: string) {
+	return (
+		name &&
+		name
+			.normalize('NFD')
+			.replace(/[\u0300-\u036f]/g, '') //remove accents from letters
+			.toLowerCase()
+			.replace('œ', 'oe')
+			.replace(/[^a-z0-9 -]+/g, ' ') //remove other special characters
+			.replace(/[\s ]+/g, '-') //replace spaces with -
+			.trim()
+	)
 }
 
 export const debounce = <F extends (...args: any[]) => void>(

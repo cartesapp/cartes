@@ -52,7 +52,7 @@ export async function fetchOverpassCategoryRequest(
 		//console.log('OVERPASS RESULT element NEW:',extendedElement)
 		return {
 			...extendedElement,
-			categoryName: category.name,
+			categoryKey: category.key,
 		}
 	})
 	return result

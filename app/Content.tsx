@@ -259,7 +259,6 @@ export default function Content(props) {
 						)}
 				</section>
 			)}
-
 			{styleChooser ? (
 				<StyleChooser
 					{...{ setStyleChooser, style, setSnap, searchParams, zoom, setZoom }}
@@ -401,7 +400,6 @@ export default function Content(props) {
 						}}
 					/>
 				)}
-
 			<Itinerary
 				{...{
 					itinerary,

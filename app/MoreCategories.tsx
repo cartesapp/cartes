@@ -1,5 +1,5 @@
 import categoryGroupColors from '@/app/categoryGroupColors.yaml'
-import { uncapitalise0 } from '@/components/utils/utils'
+import { capitalise0 } from '@/components/utils/utils'
 import { css, styled } from 'next-yak'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -10,11 +10,12 @@ import useIcons from './effects/useIcons'
 
 export default function MoreCategories({
 	getNewSearchParamsLink,
-	categoriesSet,
+	activeCategoryKeys,
 	filteredMoreCategories,
 	doFilter,
 	annuaireMode = false,
 }) {
+	// build the liste of (visible) groups with their categories
 	const groups = filteredMoreCategories.reduce((memo, next) => {
 		return {
 			...memo,
@@ -59,14 +60,14 @@ export default function MoreCategories({
 							<div>
 								<ul>
 									{categories.map((category) => {
-										const isActive = categoriesSet.includes(category.name)
+										const isActive = activeCategoryKeys.includes(category.key)
 										const desktopDisplay =
 											doFilter || isActive || (expandGroup && !category.hidden)
 										const mobileDisplay =
 											doFilter || isActive || !category.hidden
 										return (
 											<Category
-												key={category.name}
+												key={category.key}
 												$active={isActive}
 												$isExact={category.score < exactThreshold}
 												$desktopDisplay={desktopDisplay}
@@ -77,7 +78,7 @@ export default function MoreCategories({
 														category={category}
 														bulkImages={bulkImages}
 													/>{' '}
-													{uncapitalise0(category.title || category.name)}
+													{capitalise0(category.name)}
 												</Link>
 											</Category>
 										)
@@ -277,7 +278,7 @@ export const MapIcon = ({ category, bulkImages, marginRight = 0 }) => {
 	if (!bulkImages) return
 	const src = bulkImages[category['icon alias'] || category['icon']]
 
-	const alt = 'Icône de la catégorie ' + (category.title || category.name)
+	const alt = 'Icône de la catégorie ' + category.name
 
 	if (src)
 		return (

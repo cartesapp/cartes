@@ -1,0 +1,36 @@
+- énergie: 0
+  climat: 0
+  couleur: '#009c6d'
+  lettre: A
+  couleur GES: '#a5dbfa'
+- énergie: 70
+  climat: 6
+  couleur: '#52b153'
+  couleur GES: '#8bb4d1'
+  lettre: B
+- énergie: 110
+  climat: 11
+  couleur: '#78bd76'
+  couleur GES: '#7992ae'
+  lettre: C
+- énergie: 180
+  climat: 30
+  couleur: '#f4e70f'
+  couleur GES: '#5f708f'
+  lettre: D
+- énergie: 250
+  climat: 50
+  couleur: '#f0b50f'
+  couleur GES: '#4f5073'
+  lettre: E
+- énergie: 330
+  climat: 70
+  couleur: '#eb8235'
+  couleur GES: '#393451'
+  lettre: F
+- énergie: 420
+  climat: 100
+  couleur: '#d7221f'
+  couleur GES: '#281b34'
+  lettre: G
+  couleur du texte: white

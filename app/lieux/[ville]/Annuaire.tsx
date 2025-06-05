@@ -19,22 +19,25 @@ export default async function Page({ params, searchParams }) {
 	const [lon, lat] = ville.mairie.coordinates
 	const lonLatObject = { lat, lon }
 
-	const [categoryNames, categories] = getCategories(searchParams)
+	// get keys and categories matching the search parameters
+	const [categoryKeys, categories] = getCategories(searchParams)
 
-	console.log(`/lieux/${ville.nom}`, 'with categories ', categoryNames)
+	console.log(`/lieux/${ville.nom}`, 'with categories ', categoryKeys)
 	//const bbox2 = computeBbox(lonLatObject)
 	const geoJsonBbox = ville.bbox.coordinates[0]
 	const b = geoJsonBbox
 	const bbox = [b[0][1], b[0][0], b[2][1], b[1][0]]
 
+	// fetch Overpass request for each of the requested categories
 	const results = categories?.length
 		? await Promise.all(
 				categories.map((category) => fetchOverpassCategoryRequest(bbox, category, false))
 		  )
 		: []
-
+	// for each category result, add the corresponding category key
+	// return Object {key1: Array result1, key2: Array result2, ...}
 	const quickSearchFeaturesMap = Object.fromEntries(
-		results.map((categoryResults, i) => [categoryNames[i], categoryResults])
+		results.map((categoryResults, i) => [categoryKeys[i], categoryResults])
 	)
 
 	const query = new URLSearchParams(searchParams).toString()
@@ -46,7 +49,7 @@ export default async function Page({ params, searchParams }) {
 					ville.departement.nom
 				).toLowerCase()}`}
 			>
-				⭠ Villes du département {ville.departement.nom}
+				⬅️​ Villes du département {ville.departement.nom}
 			</Link>
 			<header>
 				<h1>Annuaire des lieux de {ville.nom} </h1>
