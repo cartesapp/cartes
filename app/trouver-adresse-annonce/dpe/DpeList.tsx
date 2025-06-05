@@ -33,7 +33,7 @@ export default function DpeList({ dpes: rawDpes, startOpen = true, latLon }) {
 	)
 
 	return (
-		<details open={startOpen ? 'true' : ''}>
+		<details open={startOpen ? true : false}>
 			<summary>Ouvrir la liste des DPE</summary>
 			<Wrapper>
 				<ol>

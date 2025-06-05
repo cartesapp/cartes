@@ -13,11 +13,18 @@ const lonLatDistance = ''
 
 const distance = 5 * 1000
 
+const deserialiseLngLat = (lngLat) => {
+	if (!lngLat) return null
+	const [lng, lat] = lngLat.split('|')
+	return { lng: +lng, lat: +lat }
+}
 export default function Trouver({ searchParams }) {
 	const setSearchParams = useSetSearchParams()
 	const [letter, setLetter] = useState(searchParams['letter'] || '')
 	const [surface, setSurface] = useState(searchParams['surface'] || '')
-	const [lngLat, setLngLat] = useState(null)
+	const [lngLat, setLngLat] = useState(
+		deserialiseLngLat(searchParams['lngLat'])
+	)
 	const [typeBatiment, setTypeBatiment] = useState(
 		searchParams['typeBatiment'] || ''
 	)
@@ -28,19 +35,19 @@ export default function Trouver({ searchParams }) {
 	const handleLetterChange = (e) => {
 		const newLetter = e.target.value
 		setLetter(newLetter)
-		setSearchParams({ letter: newLetter, surface, typeBatiment })
+		setSearchParams({ letter: newLetter })
 	}
 
 	const handleSurfaceChange = (e) => {
 		const newSurface = e.target.value
 		setSurface(newSurface)
-		setSearchParams({ letter, surface: newSurface, typeBatiment })
+		setSearchParams({ surface: newSurface })
 	}
 
 	const handleTypeBatimentChange = (e) => {
 		const newTypeBatiment = e.target.value
 		setTypeBatiment(newTypeBatiment)
-		setSearchParams({ letter, surface, typeBatiment: newTypeBatiment })
+		setSearchParams({ typeBatiment: newTypeBatiment })
 	}
 
 	useEffect(() => {
@@ -74,6 +81,8 @@ export default function Trouver({ searchParams }) {
 	const onMapClick = useCallback(
 		(lngLat) => {
 			setLngLat(lngLat)
+
+			setSearchParams({ lngLat: lngLat.lng + '|' + lngLat.lat })
 		},
 		[setLngLat]
 	)
