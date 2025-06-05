@@ -1,13 +1,32 @@
 import baseCategories from '@/app/categories.yaml'
 import moreCategories from '@/app/moreCategories.yaml'
+import { parameterize } from '@/components/utils/utils'
 
+// Augment category model with key, and handle plural VS singular
+baseCategories.forEach((cat) => {
+	// build plural by remove ( and )
+	cat.plural = cat.plural || cat.name.replace(/[()]/g, '')
+	// build (singular) name by removing all text into brackets
+	cat.name = cat.name.replace(/\([^)]*\)/g, '')
+	// build a key by removing special characters and replacing spaces with "-"
+	cat.key = parameterize(cat.name)
+})
+moreCategories.forEach((cat) => {
+	// build plural by remove ( and )
+	cat.plural = cat.plural || cat.name.replace(/[()]/g, '')
+	// build (singular) name by removing all text into brackets
+	cat.name = cat.name.replace(/\([^)]*\)/g, '')
+	// build a key by removing special characters and replacing spaces with "-"
+	cat.key = parameterize(cat.name)
+})
+
+// remove inactive categories (only "Miellerie" right now)
 export const filteredMoreCategories = moreCategories.filter(
 	(cat) => !cat.inactive
 )
 
+//merge base and more categories
 export const categories = [...baseCategories, ...filteredMoreCategories]
-
-//console.log(categories.map((category) => category.query))
 
 /**
  * Vérifie si un tag OSM (clé, valeur) correspond à une catégorie selon sa requête Overpass
@@ -63,14 +82,24 @@ export function findCategoryForTag(key: string, value: string) {
 	)
 	*/
 
+/**
+ * Get the list of categories matching URL parameters
+ * @param searchParams list of parameters from the URL
+ * @returns array of keys, and array of matching categories
+ */
 export const getCategories = (searchParams) => {
+	// get property "cat" from the parameters
 	const { cat } = searchParams
-	const categoryNames = cat ? cat.split(categorySeparator) : [],
-		categoriesObjects = categoryNames.map((c) =>
-			categories.find((c2) => c2.name === c)
-		)
-
-	return [categoryNames, categoriesObjects]
+	// split cat string by separator to get the list of (potential) keys
+	const categoryKeys = cat ? cat.split(categorySeparator) : [],
+		// then search for categories matching the keys
+		matchingCategories = categoryKeys
+			.map((k) => categories.find((c) => c.key === k))
+			.filter(Boolean)
+	// get keys which are actually matching a category
+	const matchingKeys = matchingCategories.map((c) => c.key)
+	// return the list of true keys and the list of matching categories
+	return [matchingKeys, matchingCategories]
 }
 
 export const categorySeparator = '|'

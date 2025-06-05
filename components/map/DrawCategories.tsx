@@ -9,12 +9,12 @@ export default function ({
 	map,
 }) {
 	const entries = Object.entries(quickSearchFeaturesMap)
-	return entries.map(([categoryName, features]) => {
-		const category = categories.find((cat) => cat.name === categoryName)
+	return entries.map(([categoryKey, features]) => {
+		const category = categories.find((cat) => cat.key === categoryKey)
 		if (!category) return
 		return (
 			<DrawCategory
-				key={category.name}
+				key={category.key}
 				{...{
 					category,
 					features,

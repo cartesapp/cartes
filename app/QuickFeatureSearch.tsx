@@ -26,7 +26,7 @@ const moreCategories = filteredMoreCategories
 
 export function initializeFuse(categories) {
 	return new Fuse(categories, {
-		keys: ['name', 'title', 'query', 'dictionary'],
+		keys: ['name', 'query', 'dictionary'],
 		includeScore: true,
 		ignoreLocation: true,
 		ignoreDiacritics: true,
@@ -48,7 +48,8 @@ export default function QuickFeatureSearch({
 	noPhotos = false,
 	annuaireMode = false,
 }) {
-	const [categoriesSet] = getCategories(searchParams)
+	// get the list of category keys matching the parameters in the URL = active categories
+	const [activeCategoryKeys, activeCategories] = getCategories(searchParams)
 
 	const showMore = searchParams['cat-plus']
 	const hasLieu = searchParams.allez
@@ -88,9 +89,13 @@ export default function QuickFeatureSearch({
 		setSearchParams
 	)
 
+	// delete results which are not matching the active keys (how can this happen?)
+	// returns an array with for each category : [String category key, Array category elements]
+	// TODO (?) : modify CategoryResults to directly use quickSearchFeaturesMap ? and/or add category in quickSearchFeaturesMap ?
 	const resultsEntries = Object.entries(quickSearchFeaturesMap).filter(
-		([k, v]) => categoriesSet.includes(k)
+		([k, v]) => activeCategoryKeys.includes(k)
 	)
+
 	return (
 		<div
 			css={css`
@@ -128,23 +133,23 @@ export default function QuickFeatureSearch({
 							</>
 						)}
 						{filteredCategories.map((category) => {
-							const active = categoriesSet.includes(category.name)
+							const active = activeCategoryKeys.includes(category.key)
 							return (
 								<QuickSearchElement
-									key={category.name}
-									title={category.title || category.name}
+									key={category.key}
+									name={category.name}
 									{...{
 										$clicked: active,
 										$setGoldCladding: category.score < exactThreshold,
 									}}
 								>
-									{active && !quickSearchFeaturesMap[category.name] && (
+									{active && !quickSearchFeaturesMap[category.key] && (
 										<SpinningDiscBorder />
 									)}
 									<Link
 										href={
 											annuaireMode
-												? setSearchParams({ cat: category.name }, true, true)
+												? setSearchParams({ cat: category.key }, true, true)
 												: getNewSearchParamsLink(category)
 										}
 										replace={false}
@@ -189,14 +194,14 @@ export default function QuickFeatureSearch({
 				(annuaireMode && !Object.keys(quickSearchFeaturesMap).length)) && (
 				<MoreCategories
 					getNewSearchParamsLink={getNewSearchParamsLink}
-					categoriesSet={categoriesSet}
+					activeCategoryKeys={activeCategoryKeys}
 					filteredMoreCategories={filteredMoreCategories}
 					doFilter={doFilter}
 					annuaireMode={annuaireMode}
 				/>
 			)}
 
-			{categoriesSet.length > 0 && (
+			{activeCategoryKeys.length > 0 && (
 				<CategoryResults
 					center={center}
 					annuaireMode={annuaireMode}
@@ -207,18 +212,24 @@ export default function QuickFeatureSearch({
 	)
 }
 
+/**
+ * Add or remove a category from the URL parameters list
+ */
 const buildGetNewSearchParams =
 	(searchParams, setSearchParams) => (category) => {
-		const [categories] = getCategories(searchParams)
-		const nextCategories = categories.includes(category.name)
-			? categories.filter((c) => c !== category.name)
-			: [...categories, category.name]
-
+		// get the category keys matching the parameters in URL
+		const [oldKeys] = getCategories(searchParams)
+		// if new category already present, remove its key from the list, else add it to the list
+		const newKeys = oldKeys.includes(category.key)
+			? oldKeys.filter((c) => c !== category.key)
+			: [...oldKeys, category.key]
+		// build new list of search parameters
 		const newSearchParams = {
 			'cat-plus': searchParams['cat-plus'],
-			cat: nextCategories.length
-				? nextCategories.join(categorySeparator)
+			cat: newKeys.length
+				? newKeys.join(categorySeparator)
 				: undefined,
 		}
+		// set the parameters in the URL
 		return setSearchParams(newSearchParams, true, true)
 	}

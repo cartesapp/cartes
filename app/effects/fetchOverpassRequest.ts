@@ -38,16 +38,13 @@ export async function fetchOverpassRequest(
 	//	console.log('OVERPASS2 query:', overpassRequest)
 	const json = await resilientOverpassFetch(query)
 
-	const nodeElements = convertOverpassCategoryResultsToSteps(
-		json,
-		category.name
-	)
+	const nodeElements = convertOverpassCategoryResultsToSteps(json, category.key)
 	return nodeElements
 }
 
 // I suspect this should be handled by a code we already have, with just a loop
 // more
-const convertOverpassCategoryResultsToSteps = (json, categoryName) => {
+const convertOverpassCategoryResultsToSteps = (json, categoryKey) => {
 	const relations = json.elements.filter(
 		(element) => element.type === 'relation'
 	)
@@ -77,7 +74,7 @@ const convertOverpassCategoryResultsToSteps = (json, categoryName) => {
 	})
 	return nodeElements.map((element) => ({
 		...element,
-		categoryName,
+		categoryKey,
 	}))
 }
 
