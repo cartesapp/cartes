@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+'use client'
+import React, { useEffect, useState } from 'react';
 import useSetSearchParams from '../../components/useSetSearchParams';
 
 export default function Trouver({ searchParams }) {
 	const setSearchParams = useSetSearchParams();
-	const [letter, setLetter] = useState(searchParams.get('letter') || '');
-	const [surface, setSurface] = useState(searchParams.get('surface') || '');
+	const [letter, setLetter] = useState(searchParams['letter'] || '');
+	const [surface, setSurface] = useState(searchParams['surface'] || '');
+	const [error, setError] = useState(null)
 
 	const handleLetterChange = (e) => {
 		const newLetter = e.target.value;
@@ -17,6 +19,31 @@ export default function Trouver({ searchParams }) {
 		setSurface(newSurface);
 		setSearchParams({ letter, surface: newSurface });
 	};
+
+	useEffect(()=>{
+
+		const doFetch = async ()=>{
+
+			//conso_5_usages_par_m2_ep
+			//emission_ges_5_usages_par_m2
+			//nom_commune_ban
+			const url = `https://data.ademe.fr/data-fair/api/v1/datasets/dpe03existant/lines?q_mode=simple&qs=etiquette_dpe:+${letter}+AND+geo_distance:${lonLatDistance}+AND+type_batiment:${typeBatiment}`
+
+
+			try {
+			const request = await fetch(url)
+
+			const json = await request.json()
+			}catch(e){
+				setError(e)
+			}
+
+
+
+		}
+
+		doFetch()
+	}, [setError])
 
 	return (
 		<section>
