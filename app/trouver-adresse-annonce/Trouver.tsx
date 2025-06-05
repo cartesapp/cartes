@@ -104,12 +104,12 @@ export default function Trouver({ searchParams }) {
 			<button>
 				<Image src={Logo} alt="Logo de cartes.app" /> Cliquez sur l'endroit le
 				plus probable
+				{lngLat && (
+					<div>
+						📍 {+lngLat.lng.toFixed(2)}, {+lngLat.lat.toFixed(2)}
+					</div>
+				)}
 			</button>
-			{lngLat && (
-				<div>
-					Coordonnées : {+lngLat.lng.toFixed(2)}, {+lngLat.lat.toFixed(2)}
-				</div>
-			)}
 			<MapContainerContainer>
 				<MapContainer ref={mapContainerRef} $mapButtonSize={mapButtonSize} />
 			</MapContainerContainer>
