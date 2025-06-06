@@ -51,10 +51,10 @@ export default function BestConnection({ bestConnection }) {
 }
 
 const Wrapper = styled.section`
-	background: white;
+	background: #ffd7000d;
 	margin: 0.6rem 0;
 	border: 2px solid gold;
-	border-radius: 0.8rem;
+	border-radius: 0.4rem;
 
 	padding: 0.4rem 0.4rem 0;
 	display: flex;
