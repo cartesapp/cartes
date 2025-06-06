@@ -16,7 +16,7 @@ import { styled } from 'next-yak'
 
 const date = initialDate()
 export default function Tests() {
-	const [tests, setTests] = useState(métropoles.slice(0, 10))
+	const [tests, setTests] = useState(métropoles)
 	useEffect(() => {
 		tests.map(async (test) => {
 			const allez = new URLSearchParams(new URL(test.url).search).get('allez')
