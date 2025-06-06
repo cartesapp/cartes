@@ -38,7 +38,7 @@ export default function TransitInstructions({ connection }) {
 						if (notTransitType.includes(leg.mode)) {
 							const { icon, present } = modeToFrench[leg.mode]
 							return (
-								<NoTransitLeg>
+								<NoTransitLeg key={leg.mode + leg.startTime}>
 									<Image
 										src={'/' + icon + '.svg'}
 										width="10"
