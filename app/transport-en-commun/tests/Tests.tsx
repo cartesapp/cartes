@@ -67,7 +67,7 @@ export default function Tests() {
 		<Ol>
 			{tests.map(({ name, url, itineraries, localUrl }) => (
 				<li key={name}>
-					<div>{name}</div>
+					<h2>{name}</h2>
 					{itineraries && itineraries.length ? (
 						<TransitSummaryContent connections={itineraries} date={date} />
 					) : (
@@ -81,7 +81,19 @@ export default function Tests() {
 }
 
 const Ol = styled.ol`
-	li {
+	display: flex;
+	gap: 1rem;
+	flex-wrap: wrap;
+	list-style-type: none;
+	> li {
+		h2 {
+			font-size: 105%;
+			margin: 0;
+		}
+		border-radius: 0.4rem;
 		margin: 0.6rem 0;
+		width: calc(50% - 2rem);
+		background: var(--lightestColor);
+		padding: 0 0.4rem;
 	}
 `
