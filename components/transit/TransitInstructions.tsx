@@ -78,7 +78,7 @@ export default function TransitInstructions({ connection }) {
 						const { intermediateTrops: halts } = leg
 						return (
 							<Transport key={leg.tripId} $transport={leg}>
-								<TransportMoveBlock transport={leg} />
+								<TransportMoveBlock transport={leg} showHeadsign={true} />
 								<Station
 									{...{
 										leg,

@@ -10,7 +10,10 @@ const defaultTransitColor = 'gray'
 //TODO check Lyon's buses : I believe they don't have a specific color. Could be
 //ugly and unhelpful
 
-export default function TransportMoveBlock({ transport }) {
+export default function TransportMoveBlock({
+	transport,
+	showHeadsign = false,
+}) {
 	const name = transport.shortName?.toUpperCase().replace(/TRAM\s?/g, 'T')
 	const background = handleColor(transport.routeColor, defaultTransitColor),
 		color = handleColor(transport.routeTextColor, defaultTransitColor)
@@ -38,6 +41,9 @@ export default function TransportMoveBlock({ transport }) {
 				/>
 			) : (
 				<strong title={name}>{transport.frenchTrainType || name}</strong>
+			)}{' '}
+			{showHeadsign && transport.headsign && (
+				<small>&nbsp;❯ {transport.headsign}</small>
 			)}
 		</Wrapper>
 	)
