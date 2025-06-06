@@ -75,7 +75,11 @@ export default function Tests() {
 						) : (
 							<div>🚫 Rien trouvé</div>
 						))}
-					{localUrl && <Link href={localUrl}>🗺️ Voir sur la carte</Link>}
+					{localUrl && (
+						<small>
+							<Link href={localUrl}>🗺️ Voir sur la carte</Link>
+						</small>
+					)}
 				</li>
 			))}
 		</Ol>
@@ -92,10 +96,16 @@ const Ol = styled.ol`
 			font-size: 105%;
 			margin: 0;
 		}
+		justify-content: space-between;
+		flex-direction: column;
+		display: flex;
 		border-radius: 0.4rem;
 		margin: 0.6rem 0;
 		width: calc(50% - 2rem);
 		background: var(--lightestColor);
-		padding: 0 0.4rem;
+		padding: 0.6rem 0.4rem;
+		small {
+			text-align: right;
+		}
 	}
 `
