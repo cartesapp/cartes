@@ -1,15 +1,11 @@
-import transitIcon from '@/public/transit.svg'
+import { filterTransitLegs } from '@/app/itinerary/transit/motisRequest'
 import { styled } from 'next-yak'
-import Image from 'next/image'
 import BestConnection from './BestConnection'
-import {
-	NoMoreTransitToday,
-	NoTransit,
-	TransitScopeLimit,
-} from './NoTransitMessages'
+import { NoMoreTransitToday, NoTransit } from './NoTransitMessages'
+import { TimelineTransportBlock } from './Transit'
 import TransitLoader from './TransitLoader'
 import findBestConnection from './findBestConnection'
-import { connectionStart, filterNextConnections } from './utils'
+import { filterNextConnections } from './utils'
 
 export default function TransitSummary({ itinerary }) {
 	const data = itinerary.routes.transit
@@ -19,64 +15,101 @@ export default function TransitSummary({ itinerary }) {
 		return (
 			<section>
 				<NoTransit reason={data.reason} solution={data.solution} />
-				<button
-					style={{
-						margin: '0 0 0 auto',
-						display: 'block',
-					}}
-				>
-					→ Choisir une date
-				</button>
 			</section>
 		)
-	if (!data?.connections || !data.connections.length)
+	/* TODO this does not seem to be possible with Motis v2 anymore. The
+	 * itineraries attribute is always there with potentially length === 0
+	 * It doesn't tell us if there's an agency here. But we could use our agency
+	 * plans to check that, quite easily
+	if (!data?.itineraries || !data.itineraries.length)
 		return <TransitScopeLimit />
+		*/
 
-	const nextConnections = filterNextConnections(
-		data.connections,
-		itinerary.date
+	// from now on, itineraries are called connections, Motis v1's term. Not to be
+	// mixed up with our "itinerary" prop
+	return (
+		<TransitSummaryContent
+			connections={data.itineraries}
+			date={itinerary.date}
+		/>
 	)
-	if (nextConnections.length < 1)
-		return <NoMoreTransitToday date={itinerary.date} />
+}
 
-	const firstDate = connectionStart(nextConnections[0]) // We assume Motis orders them by start date, when you start to walk. Could also be intersting to query the first end date
+export const TransitSummaryContent = ({ connections, date }) => {
+	const nextConnections = filterNextConnections(connections, date)
+	/* Not sure this is relevant now in Motis v2 */
+	if (nextConnections.length < 1) return <NoMoreTransitToday date={date} />
+
 	const bestConnection = findBestConnection(nextConnections)
 	if (bestConnection) return <BestConnection bestConnection={bestConnection} />
+
+	console.log('indigo summary', nextConnections)
+	const transitConnections = nextConnections
+			.map((connection) => filterTransitLegs(connection))
+			.filter((item) => item.legs.length > 0)
+			.map((connection) => ({
+				...connection,
+				signature: connectionSignature(connection),
+			})),
+		unique = transitConnections.filter((connection, i1) => {
+			return !transitConnections.find(
+				(connection2, i2) =>
+					i1 !== i2 && connection2.signature === connection.signature
+			)
+		}),
+		found = transitConnections.length > 0
+
+	if (!found)
+		return (
+			<Wrapper>
+				Pas de transport trouvé, et nous ne savons pas pourquoi.
+			</Wrapper>
+		)
+
 	return (
 		<Wrapper>
 			<div>
-				<Image src={transitIcon} alt="Icône transport en commun" />
+				<small>
+					{nextConnections.length} option{nextConnections.length > 1 ? 's' : ''}{' '}
+					de transport en commun
+				</small>
 			</div>
-			<p>Voir les {nextConnections.length} options de transport en commun</p>
+			<div>
+				<ol>
+					{unique.map((connection, i) => (
+						<li key={connection.startTime + connection.duration}>
+							{i > 0 && <span style={{ margin: '0 .4rem' }}>ou</span>}
+							<ol>
+								{filterTransitLegs(connection).legs.map((leg) => (
+									<li key={leg.name + leg.mode}>
+										<TimelineTransportBlock transport={leg} />
+									</li>
+								))}
+							</ol>
+						</li>
+					))}
+				</ol>
+			</div>
 		</Wrapper>
 	)
 }
 
+const connectionSignature = (connection) =>
+	connection.legs.map((leg) => leg.name).join('<|>')
+
 const Wrapper = styled.div`
-	display: flex;
-	align-items: center;
-	flex-wrap: wrap;
-	img {
-		width: 1.6rem;
-		height: auto;
-	}
-	p {
-		margin: 0;
-	}
-	margin: 0.6rem;
-	> div {
-		background: var(--lighterColor);
-		border-radius: 1rem;
-		width: 2rem;
-		height: 2rem;
+	ol {
+		list-style-type: none;
 		display: flex;
 		align-items: center;
-		justify-content: center;
-		margin-right: 0.4rem;
-		img {
-			filter: invert(1);
-			width: 1.8rem;
-			height: auto;
+		flex-wrap: wrap;
+		ol li {
+			margin: 0 0.1rem;
+		}
+		> li {
+			display: flex;
 		}
 	}
+
+	margin: 0.6rem;
 `

@@ -1,9 +1,13 @@
 import { humanDepartureTime } from '../../transport/stop/Route'
-import { dateFromMotis, humanDuration } from './utils'
+import { notTransitType } from './motisRequest'
+import { humanDuration, stamp } from './utils'
 
-const connectionDuration = (connection) =>
-	connection.stops.slice(-1)[0].arrival.time -
-	connection.stops[0].departure.time
+const isDirectTransitConnection = (connection) =>
+	connection.legs.filter((leg) => !notTransitType.includes(leg.mode)).length ===
+	1
+
+export const findConnectionTransit = (connection) =>
+	connection.legs.find((transport) => !notTransitType.includes(transport.mode))
 
 export default function findBestConnection(connections) {
 	console.log('bestConnection connections', connections)
@@ -14,24 +18,21 @@ export default function findBestConnection(connections) {
 	 * */
 	const selected = connections
 		// walk segments don't have trips. We want a direct connection, only one trip
-		.filter((connection) => connection.trips.length === 1)
+		.filter(isDirectTransitConnection)
 		//TODO this selection should probably made using distance, not time. Or both.
 		//it's ok to walk 20 min, and take the train for 10 min, if the train goes at
 		//200 km/h
 		.filter((connection) => {
-			const walking = connection.transports.filter(
-					(transport) => transport.move_type === 'Walk'
+			const walking = connection.legs.filter(
+					(transport) => transport.mode === 'WALK'
 				),
-				walkingTime = walking.reduce((memo, next) => memo + next.seconds, 0)
+				walkingTime = walking.reduce((memo, next) => memo + next.duration, 0)
 
 			return (
 				walkingTime <
 				// experimental, not optimal at all. See note above
 				// TODO compute according to transit/modes/decodeStepModeParams !
-				2 *
-					connection.transports.find(
-						(transport) => transport.move_type === 'Transport'
-					).seconds
+				2 * findConnectionTransit(connection).duration
 			)
 		})
 	console.log('bestConnection selected', selected)
@@ -39,7 +40,7 @@ export default function findBestConnection(connections) {
 
 	const best = selected.reduce((memo, next) => {
 		if (memo === null) return next
-		if (connectionDuration(next) < connectionDuration(memo)) return next
+		if (next.duration < memo.duration) return next
 		return memo
 	}, null)
 
@@ -47,9 +48,8 @@ export default function findBestConnection(connections) {
 		.filter((connection) => bestSignature(connection) === bestSignature(best))
 		.map((connection) => {
 			try {
-				const departure = connection.stops[0].departure.time
-				const date = new Date(departure * 1000)
-				if (date.getTime() < new Date().getTime()) return false
+				const date = new Date(connection.startTime)
+				if (stamp(connection.startTime) < stamp()) return false
 				const humanTime = humanDepartureTime(date, true)
 				return humanTime
 			} catch (e) {
@@ -72,24 +72,20 @@ export default function findBestConnection(connections) {
 	}
 }
 
-export const bestSignature = (connection) => connection.trips[0].id.line_id
+export const bestSignature = (connection) => connection.routeShortName
 
 export const getBestIntervals = (connections, best) => {
 	const bests = connections.filter(
 		(connection) =>
-			connection.trips.length === 1 &&
+			isDirectTransitConnection(connection) &&
 			bestSignature(connection) === bestSignature(best)
 	)
-	const departures = bests.map(
-		(connection) => connection.stops[0].departure.time
-	)
+	const departures = bests.map((connection) => connection.startTime)
 
 	if (departures.length === 1) return 'une fois par jour'
 
-	const dates = departures.map((departure) => dateFromMotis(departure))
-
 	const intervals = departures
-		.map((date, i) => i > 0 && date - departures[i - 1])
+		.map((date, i) => i > 0 && stamp(date) - stamp(departures[i - 1]))
 		.filter(Boolean)
 	const max = Math.max(...intervals)
 

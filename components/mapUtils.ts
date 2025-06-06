@@ -124,3 +124,22 @@ export const useComputeMapPadding = (trackedSnap, searchParams) => {
 		return padding
 	}
 }
+
+//bbox from @turf/bbox
+export const expandBbox = (bbox) => {
+	// Calculate the width and height of the bbox
+	const width = bbox[2] - bbox[0]
+	const height = bbox[3] - bbox[1]
+
+	// Expand the bbox to be twice the height and width
+	const centerX = (bbox[0] + bbox[2]) / 2
+	const centerY = (bbox[1] + bbox[3]) / 2
+
+	const expandedBbox = [
+		centerX - width, // minX
+		centerY - height, // minY
+		centerX + width, // maxX
+		centerY + height, // maxY
+	]
+	return expandedBbox
+}
