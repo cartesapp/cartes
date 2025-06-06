@@ -2,6 +2,7 @@ import getBbox from '@turf/bbox'
 import { useEffect } from 'react'
 import { useLocalStorage } from 'usehooks-ts'
 import { stamp } from '../itinerary/transit/utils'
+import { expandBbox } from '@/components/mapUtils'
 
 export default function useCenterMapOnState(
 	map,
@@ -29,7 +30,26 @@ export default function useCenterMapOnState(
 	useEffect(() => {
 		if (!map || !vers) return
 		if (!(vers.geojson || vers.center)) return
-		if (stepsLength > 1) return
+		if (stepsLength > 1) {
+			const coordinates = state.map((step) =>
+				step.center.geometry.coordinates.map((el) => +el)
+			)
+
+			const lineString = {
+				type: 'Feature',
+				geometry: {
+					type: 'LineString',
+					coordinates,
+				},
+				properties: {},
+			}
+
+			console.log('indigo yaya', lineString)
+			const bbox = getBbox(lineString)
+			map.fitBounds(expandBbox(bbox))
+
+			return
+		}
 
 		const tailoredZoom = //TODO should be defined by the feature's polygon if any
 			/* ['city'].includes(vers.choice.type)
