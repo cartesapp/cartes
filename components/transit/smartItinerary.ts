@@ -230,7 +230,7 @@ export async function smartMotisRequest(
 	}
 	return {
 		state: 'error',
-		reason: `Pas de transport porte à porte trouvé...`,
-		solution: '🔎 Aller plus loin / 🗓️ Changer la date',
+		reason: `Pas de transport immédiat et porte à porte trouvé...`,
+		solution: '🔎 Augmenter le rayon / 🗓️ Choisir la date',
 	}
 }

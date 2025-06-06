@@ -23,11 +23,15 @@ const MessageBlock = ({ message, solution }) => (
 			alt="Icône d'erreur du calcul de transport en commun"
 		/>
 		<div>
-			<p>{message}</p>
-			{solution && <p>👉️ {solution}</p>}
+			<p style={{ fontSize: '90%' }}>{message}</p>
+			{solution && <SolutionButton>{solution}</SolutionButton>}
 		</div>
 	</MessageBlockWrapper>
 )
+const SolutionButton = styled.button`
+	background: var(--lightestColor);
+	padding: 0.2rem 0.4rem;
+`
 
 export const NoTransit = ({ reason, solution }) => {
 	if (reason) return <MessageBlock message={reason} solution={solution} />
