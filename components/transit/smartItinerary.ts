@@ -69,7 +69,8 @@ export const hasSatisfyingTransitItinerary = (
 
 	const has = nextConnections.length > 0,
 		[, speed] = computeDistanceAndSpeed(data, itineraryDistance),
-		hasQuickEnough = has && speed > 10 //TODO To adjust
+		hasQuickEnough = has && speed > 1 //TODO To adjust
+
 	return hasQuickEnough
 }
 
@@ -81,7 +82,6 @@ export async function smartMotisRequest(
 	date,
 	setSearchParams
 ) {
-	console.log('cyan itineraryDistance', itineraryDistance)
 	const json = await computeMotisTrip(start, destination, date, searchParams)
 	if (json.state === 'error') return json
 
@@ -91,6 +91,8 @@ export async function smartMotisRequest(
 		date,
 		itineraryDistance
 	)
+
+	console.log('cyan tests', json, distance, itineraryDistance, hasQuickEnough)
 
 	if (hasQuickEnough) return json
 

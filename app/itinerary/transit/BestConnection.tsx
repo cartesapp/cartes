@@ -14,16 +14,17 @@ export default function BestConnection({ bestConnection }) {
 	const stop = leg.from.name
 
 	const transportType = motisModeCorrespondance[leg.mode]
+	const text = `Il y a un {transportType} optimal !`
 	return (
 		<Wrapper>
 			<Image
 				src="/star-full-gold.svg"
 				alt="Icône d'étoile couleur or pour le trajet optimal"
+				title={text}
 				width="10"
 				height="10"
 			/>
 			<div>
-				<small>Il y a un {transportType} optimal !</small>
 				<p>
 					Le direct
 					<span>
@@ -55,12 +56,12 @@ const Wrapper = styled.section`
 	border: 2px solid gold;
 	border-radius: 0.8rem;
 
-	padding: 0 0.4rem;
+	padding: 0.4rem 0.4rem 0;
 	display: flex;
 	align-items: center;
 	> img {
-		margin: 1rem;
-		width: 1.8rem;
+		margin: 0.7rem 0.8rem 1rem;
+		width: 1.6rem;
 		height: auto;
 	}
 	p {
