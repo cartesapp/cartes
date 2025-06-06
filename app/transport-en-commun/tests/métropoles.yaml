@@ -5,7 +5,7 @@
 - name: Brest
   agence_id: fr-breBIBU
   url: >-
-    https://cartes.app/?allez=Brest%7Cn2207570062%7C-4.4801%7C48.3875-%3EH%C3%B4tel+de+Ville%7Cw42577857%7C-4.4851%7C48.3913&mode=commun
+    https://cartes.app/?allez=Brest|n2207570062|-4.4801|48.3875->Point+sur+la+carte||-4.5001|48.3843
 - name: Clermont-Ferrand
   agence_id: ''
   url: >-
