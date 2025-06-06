@@ -16,7 +16,7 @@ import { styled } from 'next-yak'
 
 const date = initialDate()
 export default function Tests() {
-	const [tests, setTests] = useState(métropoles.slice(0, 3))
+	const [tests, setTests] = useState(métropoles.slice(0, 10))
 	useEffect(() => {
 		tests.map(async (test) => {
 			const allez = new URLSearchParams(new URL(test.url).search).get('allez')
@@ -68,11 +68,13 @@ export default function Tests() {
 			{tests.map(({ name, url, itineraries, localUrl }) => (
 				<li key={name}>
 					<h2>{name}</h2>
-					{itineraries && itineraries.length ? (
-						<TransitSummaryContent connections={itineraries} date={date} />
-					) : (
-						<div>🚫 Rien trouvé</div>
-					)}
+					{itineraries === undefined && <div>Chargement...</div>}
+					{itineraries !== undefined &&
+						(itineraries.length ? (
+							<TransitSummaryContent connections={itineraries} date={date} />
+						) : (
+							<div>🚫 Rien trouvé</div>
+						))}
 					{localUrl && <Link href={localUrl}>🗺️ Voir sur la carte</Link>}
 				</li>
 			))}
