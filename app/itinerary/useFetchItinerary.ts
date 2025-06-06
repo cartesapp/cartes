@@ -195,8 +195,6 @@ export default function useFetchItinerary(searchParams, state, allez) {
 			)
 			return result
 		}
-		//TODO fails is 3rd point is closer to 1st than 2nd, use reduce that sums
-		const itineraryDistance = distance(points[0], points.slice(-1)[0])
 
 		updateRoute('transit', { state: 'loading' })
 
@@ -243,6 +241,7 @@ export default function useFetchItinerary(searchParams, state, allez) {
 		reset: resetItinerary,
 		routes,
 		date,
+		distance: itineraryDistance,
 	}
 	return itinerary
 }

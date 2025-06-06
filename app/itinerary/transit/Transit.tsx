@@ -20,6 +20,7 @@ import TransportMoveBlock from './TransportMoveBlock'
 import findBestConnection from './findBestConnection'
 import { filterNextConnections, humanDuration, stamp } from './utils'
 import { handleColor } from './colors'
+import SlowTransit from './SlowTransit'
 
 /* This is a megacomponent. Don't worry, it'll stay like this until the UX
  * decisions are stabilized. We don't have many users yet */
@@ -85,6 +86,8 @@ const TransitContent = ({ itinerary, searchParams, date }) => {
 			</div>
 			{!chosen ? (
 				<section>
+					<SlowTransit data={data} itineraryDistance={itinerary.distance} />
+
 					{bestConnection && <BestConnection bestConnection={bestConnection} />}
 
 					<TransitTimeline

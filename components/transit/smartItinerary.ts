@@ -33,11 +33,11 @@ import { filterNextConnections } from '@/app/itinerary/transit/utils'
 // This leads to the necessity to make multiple parallel requests and then
 // analyse and summarize the results
 
-const computeDistanceAndSpeed = (json, itineraryDistance) => {
+export const computeDistanceAndSpeed = (json, itineraryDistance) => {
 	const realDistance =
 		json.direct &&
 		json.direct.length &&
-		json.direct[0].legs.reduce((memo, next) => memo + next.distance, 0)
+		json.direct[0].legs.reduce((memo, next) => memo + next.distance, 0) / 1000
 
 	const distance = realDistance || itineraryDistance
 
