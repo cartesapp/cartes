@@ -53,7 +53,14 @@ const computeDistanceAndSpeed = (json, itineraryDistance) => {
 	//would fail by just one minute ! We'd have to analyse the shape of the
 	//transit.
 
-	console.log('cyan unsatisfyingItineraries', json, speed, distance)
+	console.log(
+		'cyan unsatisfyingItineraries',
+		json,
+		speed,
+		' km/h',
+		distance,
+		' km'
+	)
 	return [distance, speed]
 }
 
@@ -67,11 +74,16 @@ export const hasSatisfyingTransitItinerary = (
 	if (!data || !data.itineraries) return false
 	const nextConnections = filterNextConnections(data.itineraries, date)
 
-	const has = nextConnections.length > 0,
-		[, speed] = computeDistanceAndSpeed(data, itineraryDistance),
+	const has = nextConnections.length > 0
+	/* We decided to alert the user about slow transit, but not use it to
+	 * automatically trigger a deep search
+
+	const		[, speed] = computeDistanceAndSpeed(data, itineraryDistance),
 		hasQuickEnough = has && speed > 1 //TODO To adjust
 
 	return hasQuickEnough
+	*/
+	return has
 }
 
 export async function smartMotisRequest(
