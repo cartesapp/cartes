@@ -2,8 +2,10 @@ import { computeDistanceAndSpeed } from '@/components/transit/smartItinerary'
 
 export default function SlowTransit({ data, itineraryDistance }) {
 	const has = data.itineraries?.length > 0,
-		[, speed] = computeDistanceAndSpeed(data, itineraryDistance),
+		[distance, speed] = computeDistanceAndSpeed(data, itineraryDistance),
 		hasQuickEnough = has && speed > 9 //TODO To adjust
+
+	if (distance > 10) return null // in some cases a bus could be way slower but walking but walking would be in 99 % of cases an idea that no one would have. 10 km = 2 hours of walk
 
 	if (hasQuickEnough) return null
 
