@@ -37,7 +37,7 @@
 - name: Nantes
   agence_id: 'fr-pdlNANTES:Operator:1'
   url: >-
-    https://cartes.app/?allez=Nantes%7Cn3486337796%7C-1.5414%7C47.2171-%3EH%C3%B4tel+de+ville+de+Nantes%7Cw142870516%7C-1.5544%7C47.2184&mode=commun
+    https://cartes.app/?allez=Point+sur+la+carte||-1.5419|47.2177->Point+sur+la+carte||-1.5546|47.2187
 - name: Nice
   agence_id: fr-nicelignes-d-azur
   url: >-
