@@ -14,9 +14,7 @@ import useHoverOnMapFeatures from './useHoverOnMapFeatures'
 import useTerrainControl from './useTerrainControl'
 
 import useMapContent from '@/components/map/useMapContent'
-import getBbox from '@turf/bbox'
 import { styled } from 'next-yak'
-import { useLocalStorage } from 'usehooks-ts'
 import CenteredCross from './CenteredCross'
 import MapComponents from './MapComponents'
 import MapCompassArrow from './boussole/MapCompassArrow'
@@ -37,7 +35,7 @@ import useDrawItinerary from './itinerary/useDrawItinerary'
 import { polylineObjectToLineString } from './transport/decodeTransportsData'
 import { addDefaultColor } from './transport/enrichTransportsData'
 import { computeCenterFromBbox } from './utils'
-import { stamp } from './itinerary/transit/utils'
+import useCenterMapOnState from './effects/useCenterMapOnState'
 
 if (process.env.NEXT_PUBLIC_MAPTILER == null) {
 	throw new Error('You have to configure env NEXT_PUBLIC_MAPTILER, see README')
@@ -93,15 +91,6 @@ export default function Map(props) {
 
 	const mapContainerRef = useRef(null)
 	const stepsLength = state.filter((step) => step?.allezValue).length
-	const [autoPitchPreference, setAutoPitchPreference] = useLocalStorage(
-		'autoPitchPreference',
-		null,
-		{
-			initializeWithValue: false,
-		}
-	)
-
-	const autoPitchPreferenceIsNo = autoPitchPreference === 'no'
 
 	const style = useMemo(() => getStyle(styleKey), [styleKey]),
 		styleUrl = style.url
@@ -324,56 +313,7 @@ export default function Map(props) {
 
 	useHoverOnMapFeatures(map)
 
-	/*
-	 *
-	 * Fly to hook
-	 *
-	 * */
-	useEffect(() => {
-		if (!map || !vers) return
-		if (!(vers.geojson || vers.center)) return
-		if (stepsLength > 1) return
-
-		const tailoredZoom = //TODO should be defined by the feature's polygon if any
-			/* ['city'].includes(vers.choice.type)
-			? 12
-			: */
-			Math.max(15, zoom)
-		console.log(
-			'blue',
-			'will fly to in after OSM download from vers marker',
-			vers,
-			tailoredZoom
-		)
-		if (vers.geojson) {
-			const bbox = getBbox(vers.geojson)
-			map.fitBounds(bbox, {
-				maxZoom: 17.5, // We don't want to zoom at door level for a place, just at street level
-			})
-		} else {
-			if (!autoPitchPreferenceIsNo) setAutoPitchPreference(stamp())
-			const auto3d = !autoPitchPreferenceIsNo
-
-			const center = vers.center.geometry.coordinates
-			map.flyTo({
-				center,
-				zoom: tailoredZoom,
-				pitch: autoPitchPreferenceIsNo ? 0 : 40, // pitch in degrees
-				bearing: autoPitchPreferenceIsNo ? 0 : 15, // bearing in degrees
-				// speed and maxDuration could let us zoom less quickly between shops,
-				// but then the animation from town to town wouldn't take place anymore.
-				// This animation lets the user understand the direction of the move.
-				padding,
-			})
-		}
-	}, [
-		map,
-		vers,
-		stepsLength,
-		autoPitchPreferenceIsNo,
-		setAutoPitchPreference,
-		paddingHash,
-	])
+	useCenterMapOnState(map, zoom, vers, stepsLength, state, paddingHash, padding)
 
 	/* TODO Transform this to handle the last itinery point if alone (just a POI url),
 	 * but also to add markers to all the steps of the itinerary */
