@@ -1,3 +1,4 @@
+# URLS here are made to be pasted from using cartes.app, but they will be altered by Tests.tsx e.g. to add planification=oui to calls
 - name: Bordeaux
   agence_id: fr-naqBORDEAUX_METROPOLE
   url: >-
@@ -17,7 +18,7 @@
 - name: Grenoble
   agence_id: fr-grenobleSEM
   url: >-
-    https://cartes.app/?allez=Grenoble|n5070332503|5.7141|45.1913->Point+sur+la+carte||5.7358|45.1868
+    https://cartes.app/?allez=Grenoble|n5070332503|5.7141|45.1913->Point+sur+la+carte||5.7361|45.1869
 - name: Lille
   agence_id: fr-lilleILE
   url: >-

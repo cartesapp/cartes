@@ -39,7 +39,8 @@ export default function Tests() {
 				const json = await computeMotisTrip(
 					{ lng, lat },
 					{ lng: lngB, lat: latB },
-					date
+					date,
+					{ planification: 'oui' }
 				)
 
 				if (json.state === 'error' || !json.itineraries) {
@@ -101,7 +102,7 @@ const Ol = styled.ol`
 		display: flex;
 		border-radius: 0.4rem;
 		margin: 0.6rem 0;
-		width: calc(50% - 2rem);
+		width: calc(50% - 0.6rem);
 		background: var(--lightestColor);
 		padding: 0.6rem 0.4rem;
 		small {
