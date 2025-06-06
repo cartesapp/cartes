@@ -12,6 +12,7 @@ import fetchValhalla from './fetchValhalla'
 import { decodeDate, initialDate } from './transit/utils'
 import { useMemoPointsFromState } from './useDrawItinerary'
 import useSetItineraryModeFromUrl from './useSetItineraryModeFromUrl'
+import useEffectDebugger from '@/components/useEffectDebugger'
 
 export default function useFetchItinerary(searchParams, state, allez) {
 	const setSearchParams = useSetSearchParams()
@@ -132,17 +133,22 @@ export default function useFetchItinerary(searchParams, state, allez) {
 		fetchNonTransitRoutes()
 	}, [points, setRoutes, bikeRouteProfile, mode])
 
+	const hasSatisfying =
+		routes?.transit &&
+		hasSatisfyingTransitItinerary(routes.transit, date, itineraryDistance)
 	const smartSignature =
 		mode === 'transit'
 			? 'auto'
 			: !routes?.transit
 			? 'auto'
-			: hasSatisfyingTransitItinerary(routes.transit, date, itineraryDistance)
+			: hasSatisfying
 			? 'auto'
 			: 'needingAuto'
 
+	console.log('smartSignature', hasSatisfying, routes?.transit)
+
 	const computeTransit = mode == null || mode === 'transit'
-	useEffect(() => {
+	useEffectDebugger(() => {
 		if (points.length < 2) {
 			setRoutes(null)
 			return
