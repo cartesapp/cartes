@@ -31,9 +31,11 @@ export default function useCenterMapOnState(
 		if (!map || !vers) return
 		if (!(vers.geojson || vers.center)) return
 		if (stepsLength > 1) {
-			const coordinates = state.map((step) =>
-				step.center.geometry.coordinates.map((el) => +el)
-			)
+			const coordinates = state
+				.filter((step) => step.center)
+				.map((step) => step.center.geometry.coordinates.map((el) => +el))
+
+			if (coordinates.length < 2) return
 
 			const lineString = {
 				type: 'Feature',
