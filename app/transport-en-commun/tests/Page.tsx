@@ -1,6 +1,7 @@
 import { PresentationWrapper } from '@/app/presentation/UI'
 import StaticPageHeader from '@/components/StaticPageHeader'
 import { css } from 'next-yak'
+import Tests from './Tests'
 
 export const title = 'Tableau de bord de test des transports'
 export const description = `
@@ -20,7 +21,7 @@ export default async function Page() {
 					margin: 2rem 0;
 				`}
 			>
-				Coucou
+				<Tests />
 			</section>
 		</PresentationWrapper>
 	)

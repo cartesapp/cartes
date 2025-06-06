@@ -28,6 +28,7 @@ export async function GET(request: { url: string | URL }) {
 			{ lng: lngB, lat: latB },
 			date
 		)
+
 		if (json.state === 'error' || !json.itineraries) {
 			console.log(json)
 			return new Response(`Motis error`, { status: 500 })
