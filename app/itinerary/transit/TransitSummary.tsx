@@ -27,13 +27,18 @@ export default function TransitSummary({ itinerary }) {
 
 	// from now on, itineraries are called connections, Motis v1's term. Not to be
 	// mixed up with our "itinerary" prop
-	const nextConnections = filterNextConnections(
-		data.itineraries,
-		itinerary.date
+	return (
+		<TransitSummaryContent
+			connections={data.itineraries}
+			date={itinerary.date}
+		/>
 	)
+}
+
+export const TransitSummaryContent = ({ connections, date }) => {
+	const nextConnections = filterNextConnections(connections, date)
 	/* Not sure this is relevant now in Motis v2 */
-	if (nextConnections.length < 1)
-		return <NoMoreTransitToday date={itinerary.date} />
+	if (nextConnections.length < 1) return <NoMoreTransitToday date={date} />
 
 	const bestConnection = findBestConnection(nextConnections)
 	if (bestConnection) return <BestConnection bestConnection={bestConnection} />
@@ -88,6 +93,7 @@ export default function TransitSummary({ itinerary }) {
 		</Wrapper>
 	)
 }
+
 const connectionSignature = (connection) =>
 	connection.legs.map((leg) => leg.name).join('<|>')
 

@@ -9,18 +9,25 @@ import {
 	computeMotisTrip,
 	isNotTransitItinerary,
 } from '@/app/itinerary/transit/motisRequest'
+import { TransitSummaryContent } from '@/app/itinerary/transit/TransitSummary'
+import { getFetchUrlBase } from '@/app/serverUrls'
+import Link from 'next/link'
+import { styled } from 'next-yak'
+
+const date = initialDate()
 export default function Tests() {
 	const [tests, setTests] = useState(métropoles.slice(0, 3))
 	useEffect(() => {
 		tests.map(async (test) => {
-			const allez = test.url.split('allez=')[1].replace('&mode=commun', '')
+			const allez = new URLSearchParams(new URL(test.url).search).get('allez')
 
-			const split = splitAllez(decodeURIComponent(allez))
+			const search = new URL(test.url).search
+			const localUrl = getFetchUrlBase() + '/' + search
+
+			const split = splitAllez(allez)
 
 			const promises = split.map((point) => stepOsmRequest(point))
 			const state = await Promise.all(promises)
-
-			const date = initialDate()
 
 			try {
 				const start = state[0],
@@ -45,7 +52,9 @@ export default function Tests() {
 				)
 				setTests((oldTests) =>
 					oldTests.map((test2) =>
-						test2.name === test.name ? { ...test, itineraries } : test2
+						test2.name === test.name
+							? { ...test, itineraries, localUrl }
+							: test2
 					)
 				)
 			} catch (e) {
@@ -55,13 +64,24 @@ export default function Tests() {
 	}, [setTests])
 	console.log('indigo t', tests)
 	return (
-		<ol>
-			{tests.map(({ name, url, itineraries }) => (
+		<Ol>
+			{tests.map(({ name, url, itineraries, localUrl }) => (
 				<li key={name}>
 					<div>{name}</div>
-					{itineraries && itineraries.length}
+					{itineraries && itineraries.length ? (
+						<TransitSummaryContent connections={itineraries} date={date} />
+					) : (
+						<div>🚫 Rien trouvé</div>
+					)}
+					{localUrl && <Link href={localUrl}>🗺️ Voir sur la carte</Link>}
 				</li>
 			))}
-		</ol>
+		</Ol>
 	)
 }
+
+const Ol = styled.ol`
+	li {
+		margin: 0.6rem 0;
+	}
+`

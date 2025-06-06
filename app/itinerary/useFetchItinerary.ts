@@ -2,7 +2,6 @@ import brouterResultToSegments from '@/components/cycling/brouterResultToSegment
 import computeSafeRatio from '@/components/cycling/computeSafeRatio'
 import {
 	hasSatisfyingTransitItinerary,
-	satisfyingTransitOptions,
 	smartMotisRequest,
 } from '@/components/transit/smartItinerary'
 import useSetSearchParams from '@/components/useSetSearchParams'
@@ -185,6 +184,7 @@ export default function useFetchItinerary(searchParams, state, allez) {
 
 			const start = lonLats[0],
 				destination = lonLats[1]
+
 			const result = await smartMotisRequest(
 				searchParams,
 				itineraryDistance,
