@@ -18,8 +18,13 @@ export default async function () {
 					utilisées pour cartes.app.
 				</p>
 				<StyledList>
-					{data.map((item) => {
-						if (!item) return <p>Un service semble être en panne</p>
+					{data.map((item, index) => {
+						if (!item)
+							return (
+								<ListItem key={'panne' + index}>
+									<p>Un service semble être en panne</p>
+								</ListItem>
+							)
 
 						return (
 							<ListItem key={item.service}>
