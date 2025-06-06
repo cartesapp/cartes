@@ -17,7 +17,7 @@
 - name: Grenoble
   agence_id: fr-grenobleSEM
   url: >-
-    https://cartes.app/?allez=Grenoble%7Cn5070332503%7C5.7141%7C45.1913-%3EH%C3%B4tel+de+ville+de+Grenoble%7Cr80393%7C5.7361%7C45.1864&mode=commun
+    https://cartes.app/?allez=Grenoble|n5070332503|5.7141|45.1913->Point+sur+la+carte||5.7358|45.1868
 - name: Lille
   agence_id: fr-lilleILE
   url: >-
