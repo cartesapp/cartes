@@ -12,6 +12,7 @@ import fetchValhalla from './fetchValhalla'
 import { decodeDate, initialDate } from './transit/utils'
 import { useMemoPointsFromState } from './useDrawItinerary'
 import useSetItineraryModeFromUrl from './useSetItineraryModeFromUrl'
+import useEffectDebugger from '@/components/useEffectDebugger'
 
 export default function useFetchItinerary(searchParams, state, allez) {
 	const setSearchParams = useSetSearchParams()
@@ -45,13 +46,16 @@ export default function useFetchItinerary(searchParams, state, allez) {
 		return memo + segment
 	}, 0)
 
-	/* Routing requests are made here */
 	useEffect(() => {
-		console.log('lightgreen useeffect', serializedPoints, points)
 		if (points.length < 2) {
 			setRoutes(null)
-			return
 		}
+	}, [setRoutes, points])
+
+	/* Routing requests are made here */
+	useEffect(() => {
+		if (points.length < 2) return
+
 		async function fetchBrouterRoute(
 			points,
 			itineraryDistance,
@@ -130,25 +134,24 @@ export default function useFetchItinerary(searchParams, state, allez) {
 			}
 		}
 		fetchNonTransitRoutes()
-	}, [points, setRoutes, bikeRouteProfile, mode])
+	}, [points, bikeRouteProfile, mode])
 
-	const smartSignature =
-		mode === 'transit'
-			? 'auto'
-			: !routes?.transit
-			? 'auto'
-			: hasSatisfyingTransitItinerary(routes.transit, date, itineraryDistance)
-			? 'auto'
-			: 'needingAuto'
+	const hasSatisfying =
+		routes?.transit &&
+		hasSatisfyingTransitItinerary(routes.transit, date, itineraryDistance)
 
-	const computeTransit = mode == null || mode === 'transit'
-	useEffect(() => {
-		if (points.length < 2) {
-			setRoutes(null)
-			return
-		}
+	useEffectDebugger(() => {
+		if (points.length < 2) return
 
+		const computeTransit = mode == null || mode === 'transit'
 		if (!computeTransit) return
+
+		const hasSatisfying =
+			routes?.transit &&
+			hasSatisfyingTransitItinerary(routes.transit, date, itineraryDistance)
+
+		console.log('indigo yoyo', computeTransit, hasSatisfying)
+		if (hasSatisfying) return
 
 		async function fetchTransitRoute(multiplePoints, itineraryDistance, date) {
 			const minTransitDistance = 0.5 // please walk or bike
@@ -200,21 +203,20 @@ export default function useFetchItinerary(searchParams, state, allez) {
 
 		// could be inefficient or insecure to give setRoutes to this function.
 		// Rather give "setRoute(key)", like updateRoute above
-		fetchTransitRoute(points, itineraryDistance, date, setRoutes).then(
-			(transit) => setRoutes((routes) => ({ ...routes, transit }))
+		fetchTransitRoute(points, itineraryDistance, date).then(
+			(transit) => transit && updateRoute('transit', transit)
 		)
 	}, [
+		mode,
 		points,
-		setRoutes,
+		updateRoute,
 		date,
-		computeTransit,
 		searchParams.correspondances,
 		searchParams.debut,
 		searchParams.fin,
 		searchParams.tortue,
 		searchParams.planification,
 		searchParams.auto,
-		smartSignature,
 	])
 
 	const resetItinerary = useCallback(

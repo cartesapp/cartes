@@ -98,15 +98,15 @@ export async function smartMotisRequest(
 	if (json.state === 'error') return json
 
 	const [distance] = computeDistanceAndSpeed(json, itineraryDistance)
-	const hasQuickEnough = hasSatisfyingTransitItinerary(
+	const hasSatisfying = hasSatisfyingTransitItinerary(
 		json,
 		date,
 		itineraryDistance
 	)
 
-	console.log('cyan tests', json, distance, itineraryDistance, hasQuickEnough)
+	console.log('cyan tests', json, distance, itineraryDistance, hasSatisfying)
 
-	if (hasQuickEnough) return json
+	if (hasSatisfying) return json
 
 	if (searchParams.mode === 'commun') {
 		// the initial WALK request to find door-to-door no-bike no-car transit trips
