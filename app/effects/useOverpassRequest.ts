@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react'
-import { fetchOverpassCategoryRequest, fetchSimilarNodes } from './fetchOverpassRequest'
+import {
+	fetchOverpassCategoryRequest,
+	fetchSimilarNodes,
+} from './fetchOverpassRequest'
 
 export default function useOverpassRequest(bbox, categories) {
 	const [features, setFeatures] = useState({})
 
 	useEffect(() => {
 		if (!bbox || !categories) return
-
+		if (categories.length == 0) return
 		categories.map(async (category) => {
 			const nodeElements = await fetchOverpassCategoryRequest(bbox, category)
 
