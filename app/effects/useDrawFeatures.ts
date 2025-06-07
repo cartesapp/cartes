@@ -251,7 +251,7 @@ export default function useDrawFeatures(
 		sources.lines.setData(linesData)
 		sources.outlines.setData(outlinesData)
 		sources.points.setData(pointsData)
-	}, [category, features, showOpenOnly, sources])
+	}, [category, features, showOpenOnly])
 }
 
 const draw = (
