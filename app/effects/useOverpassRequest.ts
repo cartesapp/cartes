@@ -30,14 +30,15 @@ export function useFetchSimilarNodes(step, givenSimilarNodes) {
 	const [similarNodes, setSimilarNodes] = useState(givenSimilarNodes)
 
 	useEffect(() => {
+		if (!step) return
+
 		const doFetch = async () => {
-			if (!step?.osmCode || !step?.center) return
 			const features = await fetchSimilarNodes(step)
 			setSimilarNodes(features)
 		}
 
 		doFetch()
-	}, [step?.osmCode, step?.center])
+	}, [step])
 
 	return similarNodes
 }
