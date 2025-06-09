@@ -4,15 +4,14 @@ import {
 	hasSatisfyingTransitItinerary,
 	smartMotisRequest,
 } from '@/components/transit/smartItinerary'
+import useEffectDebugger from '@/components/useEffectDebugger'
 import useSetSearchParams from '@/components/useSetSearchParams'
-import distance from '@turf/distance'
 import { useCallback, useEffect, useState } from 'react'
 import { modeKeyFromQuery } from './Itinerary'
 import fetchValhalla from './fetchValhalla'
 import { decodeDate, initialDate } from './transit/utils'
 import { useMemoPointsFromState } from './useDrawItinerary'
 import useSetItineraryModeFromUrl from './useSetItineraryModeFromUrl'
-import useEffectDebugger from '@/components/useEffectDebugger'
 
 export default function useFetchItinerary(searchParams, state, allez) {
 	const setSearchParams = useSetSearchParams()
@@ -37,13 +36,8 @@ export default function useFetchItinerary(searchParams, state, allez) {
 		[routes, setRoutes]
 	)
 
-	const [serializedPoints, points] = useMemoPointsFromState(state)
-
-	const itineraryDistance = points.reduce((memo, next, i) => {
-		if (i === points.length - 1) return memo
-		const segment = distance(next, points[i + 1])
-		return memo + segment
-	}, 0)
+	const [serializedPoints, points, itineraryDistance] =
+		useMemoPointsFromState(state)
 
 	useEffect(() => {
 		if (points.length < 2) {
@@ -135,10 +129,6 @@ export default function useFetchItinerary(searchParams, state, allez) {
 		fetchNonTransitRoutes()
 	}, [points, bikeRouteProfile, mode])
 
-	const hasSatisfying =
-		routes?.transit &&
-		hasSatisfyingTransitItinerary(routes.transit, date, itineraryDistance)
-
 	useEffectDebugger(() => {
 		if (points.length < 2) return
 
@@ -146,7 +136,7 @@ export default function useFetchItinerary(searchParams, state, allez) {
 		if (!computeTransit) return
 
 		const hasSatisfying =
-			routes.transit &&
+			routes?.transit &&
 			hasSatisfyingTransitItinerary(routes.transit, date, itineraryDistance)
 
 		console.log('indigo yoyo', computeTransit, hasSatisfying)
@@ -198,7 +188,7 @@ export default function useFetchItinerary(searchParams, state, allez) {
 			return result
 		}
 
-		if (routes.transit?.state !== 'loading') {
+		if (routes?.transit?.state !== 'loading') {
 			updateRoute('transit', { state: 'loading' })
 		}
 

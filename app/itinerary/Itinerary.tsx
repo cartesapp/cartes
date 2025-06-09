@@ -4,12 +4,13 @@ import { styled } from 'next-yak'
 import Link from 'next/link'
 import { useEffect } from 'react'
 import { ContentSection } from '../ContentUI'
-import RouteRésumé from '../RouteRésumé'
+import RouteRésumé, { computeHumanDistance } from '../RouteRésumé'
 import { ModalCloseButton } from '../UI'
 import ClickItineraryInstruction from './ClickItineraryInstruction'
 import Steps from './Steps'
 import Timeline from './Timeline'
 import Transit from './transit/Transit'
+import { useMemoPointsFromState } from './useDrawItinerary'
 
 export const modes = [
 	['cycling', { label: 'Vélo', query: 'velo' }],
@@ -40,11 +41,21 @@ export default function Itinerary({
 		setSnap(1, 'Itinerary')
 	}, [setSnap, itinerary.isItineraryMode])
 
+	const [serializedPoints, points, itineraryDistance] =
+		useMemoPointsFromState(state)
+
 	if (!itinerary.isItineraryMode) return null
 
 	return (
 		<Wrapper>
-			<h1>Itinéraire</h1>
+			<h1>
+				Itinéraire{' '}
+				{points.length > 1 && (
+					<small style={{ fontSize: '60%' }}>
+						de {computeHumanDistance(itineraryDistance * 1000)}
+					</small>
+				)}
+			</h1>
 			<ModalCloseButton title="Fermer l'encart itinéraire" onClick={close} />
 			<Steps
 				{...{

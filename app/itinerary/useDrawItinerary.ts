@@ -1,4 +1,5 @@
 import useSetSearchParams from '@/components/useSetSearchParams'
+import distance from '@turf/distance'
 import { useEffect, useMemo } from 'react'
 import { useMediaQuery } from 'usehooks-ts'
 import { buildAllezPart, removeStatePart } from '../SetDestination'
@@ -276,7 +277,15 @@ export const useMemoPointsFromState = (state) => {
 				}
 			})
 			.filter(Boolean)
-		return [serializedPoints, points]
+		const itineraryDistance = computeItineraryDistance(points)
+		return [serializedPoints, points, itineraryDistance]
 	}, [serializedPoints, stepBeingSearchedIndex])
 	return result
 }
+
+const computeItineraryDistance = (points) =>
+	points.reduce((memo, next, i) => {
+		if (i === points.length - 1) return memo
+		const segment = distance(next, points[i + 1])
+		return memo + segment
+	}, 0)
