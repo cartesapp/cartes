@@ -135,13 +135,6 @@ export default function useFetchItinerary(searchParams, state, allez) {
 		const computeTransit = mode == null || mode === 'transit'
 		if (!computeTransit) return
 
-		const hasSatisfying =
-			routes?.transit &&
-			hasSatisfyingTransitItinerary(routes.transit, date, itineraryDistance)
-
-		console.log('indigo yoyo', computeTransit, hasSatisfying)
-		if (hasSatisfying) return
-
 		async function fetchTransitRoute(multiplePoints, itineraryDistance, date) {
 			const minTransitDistance = 0.5 // please walk or bike
 			if (itineraryDistance < minTransitDistance)
