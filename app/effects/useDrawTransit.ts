@@ -38,7 +38,7 @@ export default function useDrawTransit(map, transit, selectedConnection, date) {
 							geometry,
 							type: 'Feature',
 							properties: {
-								name: next.routeShortName || '',
+								name: next.shortName || '',
 								mode: next.mode,
 								isTransit: !notTransitType.includes(next.mode) ? 'Yes' : 'No',
 								route_color: handleColor(next.routeColor) || '#d3b2ee',
