@@ -201,3 +201,7 @@ export function isLocalStorageAvailable() {
 		return false
 	}
 }
+
+export function delay(ms) {
+	return new Promise((resolve) => setTimeout(resolve, ms))
+}

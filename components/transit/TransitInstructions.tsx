@@ -1,28 +1,29 @@
 import { ModalCloseButton } from '@/app/UI'
 import TransportMoveBlock from '@/app/itinerary/transit/TransportMoveBlock'
-import { formatMotis, humanDuration } from '@/app/itinerary/transit/utils'
+import {
+	formatIsoDate,
+	formatMotis,
+	humanDuration,
+} from '@/app/itinerary/transit/utils'
 import Image from 'next/image'
 import useSetSearchParams from '../useSetSearchParams'
 import {
 	Approach,
 	Arrival,
+	NoTransitLeg,
 	StationWrapper,
 	Transport,
 	Transports,
 	Wrapper,
 } from './TransitInstructionsUI'
+import { notTransitType } from '@/app/itinerary/transit/motisRequest'
 
 export default function TransitInstructions({ connection }) {
 	const setSearchParams = useSetSearchParams()
 	console.log('lightpurple', connection)
-	if (connection.transports.length < 3) return
-	const { transports, stops } = connection
+	const { legs } = connection
+	if (!legs.length) return
 
-	const firstTransitStopIndex = transports[1].trip.range.from,
-		firstTransitStop = stops[firstTransitStopIndex]
-
-	const start = moveTypeToFrench[transports[0].move_type]
-	const end = moveTypeToFrench[transports[transports.length - 1].move_type]
 	return (
 		<Wrapper>
 			<ModalCloseButton
@@ -31,126 +32,118 @@ export default function TransitInstructions({ connection }) {
 				}}
 			/>
 			<h2>Feuille de route</h2>
-			<Approach>
-				<Image
-					src={'/' + start.icon + '.svg'}
-					width="10"
-					height="10"
-					alt={
-						"Icône de l'approche vers le premier arrêt de transport en commun"
-					}
-				/>{' '}
-				{start.verb}{' '}
-				<span>{humanDuration(transports[0].seconds).single.toLowerCase()}</span>{' '}
-				jusqu'à l'arrêt {firstTransitStop.station.name}
-			</Approach>
 			<Transports>
 				<ol>
-					{connection.transports
-						.filter(({ move_type }) => move_type === 'Transport')
-						.map((transport) => {
-							const {
-								trip: {
-									range: { from, to },
-								},
-							} = transport
-							const transportStops = stops.slice(from, to + 1)
-
-							console.log('lightpurple halts', from, to, transportStops, stops)
-
-							const halts =
-								transportStops.length > 2 && transportStops.slice(1, -1)
+					{connection.legs.map((leg, index) => {
+						if (notTransitType.includes(leg.mode)) {
+							const { icon, present } = modeToFrench[leg.mode]
 							return (
-								<Transport key={transport.route_id} $transport={transport}>
-									<TransportMoveBlock transport={transport} />
-									<Station
-										{...{
-											transport,
-											stop: transportStops[0],
-										}}
-									/>
-									{halts && (
-										<details>
-											<summary>
-												{halts.length} arrêts,{' '}
-												<span>
-													{
-														humanDuration(
-															transportStops.slice(-1)[0].arrival.time -
-																transportStops[0].departure.time
-														).single
-													}
-												</span>
-											</summary>
-											<ol
-												style={{
-													marginBottom: '1.6rem',
-												}}
-											>
-												{halts.map((stop, index) => (
-													<li key={stop.station.id}>
-														<Station
-															{...{
-																transport,
-																stop,
-																firstStop: transportStops[0].departure.time,
-															}}
-														/>
-													</li>
-												))}
-											</ol>
-										</details>
+								<NoTransitLeg key={leg.mode + leg.startTime}>
+									<Image
+										src={'/' + icon + '.svg'}
+										width="10"
+										height="10"
+										alt={`Icône du transfert ${
+											index === 0
+												? 'vers le premier arrêt de transport en commun'
+												: index === legs.length - 1
+												? 'de la fin du trajet'
+												: `d'un arrêt de transport à l'autre`
+										}.`}
+									/>{' '}
+									{present}{' '}
+									{index === 0 ? (
+										<>
+											<span>
+												<span>{formatDuration(leg.duration)}</span>
+											</span>{' '}
+											jusqu'à l'arrêt {leg.to.name}
+										</>
+									) : index === legs.length - 1 ? (
+										<>
+											<span>{formatDuration(leg.duration)}</span> jusqu'à votre
+											destination.
+										</>
+									) : (
+										<>
+											<span>
+												<span>{formatDuration(leg.duration)}</span>
+											</span>{' '}
+										</>
 									)}
-									<Station
-										{...{
-											transport,
-											stop: transportStops[transportStops.length - 1],
-											last: true,
-										}}
-									/>
-								</Transport>
+								</NoTransitLeg>
 							)
-						})}
+						}
+
+						const { intermediateTrops: halts } = leg
+						return (
+							<Transport key={leg.tripId} $transport={leg}>
+								<TransportMoveBlock transport={leg} showHeadsign={true} />
+								<Station
+									{...{
+										leg,
+										stop: leg.from,
+									}}
+								/>
+								{halts?.length > 0 && (
+									<details>
+										<summary>
+											{halts.length} arrêts,{' '}
+											<span>{humanDuration(leg.duration).single}</span>
+										</summary>
+										<ol
+											style={{
+												marginBottom: '1.6rem',
+											}}
+										>
+											{halts.map((stop, index) => (
+												<li key={stop.station.id}>
+													<Station
+														{...{
+															leg,
+															stop,
+														}}
+													/>
+												</li>
+											))}
+										</ol>
+									</details>
+								)}
+								<Station
+									{...{
+										leg,
+										stop: leg.to,
+										last: true,
+									}}
+								/>
+							</Transport>
+						)
+					})}
 				</ol>
 			</Transports>
-			<Arrival>
-				<Image
-					src={'/' + end.icon + '.svg'}
-					width="10"
-					height="10"
-					alt={'Icône de la fin du trajet'}
-				/>{' '}
-				{end.verb}{' '}
-				<span>
-					{humanDuration(
-						transports[transports.length - 1].seconds
-					).single.toLowerCase()}
-				</span>{' '}
-				jusqu'à votre destination.
-			</Arrival>
 		</Wrapper>
 	)
 }
-const Station = ({ transport, stop, baseTime = null, last = false }) => {
+const formatDuration = (duration) =>
+	duration < 15
+		? '⚡️ en un éclair'
+		: humanDuration(duration).single.toLowerCase()
+const Station = ({ leg, stop, last = false }) => {
 	return (
 		<StationWrapper $last={last}>
 			<span>
-				<StationDisc color={transport.route_color} last={last} />{' '}
-				<small>{stop.station.name}</small>
+				<StationDisc color={leg.routeColor} last={last} />{' '}
+				<small>{stop.name}</small>
 			</span>
 			<small>
-				{baseTime ? (
-					humanDuration(stop.arrival.time - baseTime).single
-				) : (
-					<span
-						style={{
-							color: 'gray',
-							marginLeft: '0.4rem',
-						}}
-					>
-						{formatMotis(stop.departure?.time || stop.arrival?.time)}
-					</span>
-				)}
+				<span
+					style={{
+						color: 'gray',
+						marginLeft: '0.4rem',
+					}}
+				>
+					{formatIsoDate(stop.scheduledDeparture || stop.scheduledArrival)}
+				</span>
 			</small>
 		</StationWrapper>
 	)
@@ -169,8 +162,8 @@ const StationDisc = ({ color, last }) => (
 	</svg>
 )
 
-const moveTypeToFrench = {
-	Walk: { verb: 'Marchez', icon: 'walking' },
-	Bike: { verb: 'Roulez', icon: 'cycling.svg' },
-	Car: { verb: 'Roulez', icon: 'car.svg' },
+export const modeToFrench = {
+	WALK: { present: 'Marchez', future: 'marcherez', icon: 'walking' },
+	BIKE: { present: 'Roulez', future: 'roulerez', icon: 'cycling' },
+	CAR: { present: 'Roulez', future: 'roulerez', icon: 'car' },
 }

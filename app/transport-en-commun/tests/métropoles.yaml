@@ -1,0 +1,89 @@
+# URLS here are made to be pasted from using cartes.app, but they will be altered by Tests.tsx e.g. to add planification=oui to calls
+- name: Bordeaux
+  agence_id: fr-naqBORDEAUX_METROPOLE
+  url: >-
+    https://cartes.app/?allez=Gare+de+Bordeaux+Saint-Jean%7Cw1163990339%7C-0.5561%7C44.8258-%3EH%C3%B4tel+de+Ville%7Cw197166510%7C-0.5763%7C44.8377&mode=commun
+- name: Brest
+  agence_id: fr-breBIBU
+  url: >-
+    https://cartes.app/?allez=Brest|n2207570062|-4.4801|48.3875->Point+sur+la+carte||-4.5001|48.3843
+- name: Clermont-Ferrand
+  agence_id: ''
+  url: >-
+    https://cartes.app/?allez=Clermont-Ferrand%7Cw783426347%7C3.1012%7C45.7789-%3EH%C3%B4tel+de+Ville%7Cr2264910%7C3.0868%7C45.7797&mode=commun
+- name: Dijon
+  agence_id: fr-dijonfr-dijon-KD
+  url: >-
+    https://cartes.app/?allez=Gare+Dijon+Porte+Neuve%7Cn69264033%7C5.0549%7C47.3228-%3EH%C3%B4tel+de+Ville%7Cw175641504%7C5.0411%7C47.3219&mode=commun
+- name: Grenoble
+  agence_id: fr-grenobleSEM
+  url: >-
+    https://cartes.app/?allez=Grenoble|n5070332503|5.7141|45.1913->Point+sur+la+carte||5.7361|45.1869
+- name: Lille
+  agence_id: fr-lilleILE
+  url: >-
+    https://cartes.app/?allez=Lille-Flandres%7Cn8745537419%7C3.0707%7C50.6364-%3EH%C3%B4tel+de+Ville%7Cr252751%7C3.0713%7C50.6305&mode=commun
+- name: Metz
+  agence_id: fr-metzTAMM
+  url: >-
+    https://cartes.app/?allez=Metz%7Cn4290857026%7C6.1774%7C49.1087-%3EH%C3%B4tel+de+ville+de+Metz%7Cw57707632%7C6.1767%7C49.1197&mode=commun
+- name: Montpellier
+  agence_id: fr-montpellierfr-montpellier-1
+  url: >-
+    https://cartes.app/?allez=Montpellier+Saint-Roch%7Cn1721162711%7C3.8803%7C43.6042-%3EH%C3%B4tel+de+Ville%7Cr6023010%7C3.8966%7C43.5985&mode=commun
+- name: Nancy
+  agence_id: fr-nancySTAN
+  url: >-
+    https://cartes.app/?allez=Nancy%7Cn4290857032%7C6.1738%7C48.6895-%3EH%C3%B4tel+de+ville%7Cr300751%7C6.1839%7C48.6929&mode=commun
+- name: Nantes
+  agence_id: 'fr-pdlNANTES:Operator:1'
+  url: >-
+    https://cartes.app/?allez=Point+sur+la+carte||-1.5419|47.2177->Point+sur+la+carte||-1.5546|47.2187
+- name: Nice
+  agence_id: fr-nicelignes-d-azur
+  url: >-
+    https://cartes.app/?allez=Nice-Ville%7Cn33017158%7C7.2616%7C43.7047-%3EH%C3%B4tel+de+Ville%7Cw137418623%7C7.2715%7C43.6961&mode=commun
+- name: Orléans
+  agence_id: 'fr-cvlORLEANS:Operator:TAO+(Orléans)'
+  url: >-
+    https://cartes.app/?allez=Orl%C3%A9ans%7Cn6960862566%7C1.9047%7C47.9076-%3EH%C3%B4tel+Groslot%2C+actuellement+H%C3%B4tel+de+ville%7Cr14364546%7C1.9080%7C47.9026&mode=commun
+- name: Rennes
+  agence_id: fr-breILLENOO2
+  url: >-
+    https://cartes.app/?allez=Rennes%7Cr54517%7C-1.6800%7C48.1113-%3ERennes%7Cn4250849558%7C-1.6724%7C48.1032&mode=commun
+- name: Rouen
+  agence_id: 'fr-norATOUMOD001:Network:001:LOC'
+  url: >-
+    https://cartes.app/?allez=Rouen+Rive-Droite%7Cn2076751841%7C1.0942%7C49.4492-%3ERouen%7Cw64452295%7C1.1001%7C49.4434&mode=commun
+- name: Saint-Etienne
+  agence_id: fr-saintetiennefr-saintetienne-1
+  url: >-
+    https://cartes.app/?allez=Saint-%C3%89tienne+Ch%C3%A2teaucreux%7Cn2010251922%7C4.3996%7C45.4436-%3EH%C3%B4tel+de+Ville%7Cr5201020%7C4.3871%7C45.4402&mode=commun
+- name: Strasbourg
+  agence_id: fr-strasbourgCTS
+  url: >-
+    https://cartes.app/?allez=Strasbourg%7Cn3069229440%7C7.7339%7C48.5853-%3EH%C3%B4tel+de+Ville%7Cw26306273%7C7.7503%7C48.5847&mode=commun
+- name: Toulon
+  agence_id: fr-toulonfr-toulon-1
+  url: >-
+    https://cartes.app/?allez=Toulon%7Cn3489660893%7C5.9295%7C43.1286-%3EMairie+de+Toulon%7Cw96935290%7C5.9326%7C43.1203&mode=commun
+- name: Toulouse
+  agence_id: 'fr-toulousenetwork:1'
+  url: >-
+    https://cartes.app/?allez=Toulouse-Matabiau%7Cn6132514816%7C1.4542%7C43.6114-%3EH%C3%B4tel+de+Ville+Toulouse%7Cn597192586%7C1.4441%7C43.6044&mode=commun
+- name: Tours
+  agence_id: 'fr-cvlTOURS:Operator:1'
+  url: >-
+    https://cartes.app/?allez=Tours%7Cn4550029282%7C0.6939%7C47.3894-%3EConseil+d%C3%A9partemental+d%27Indre+et+Loire%7Cn4938194222%7C0.6908%7C47.3936&mode=commun
+- name: Paris
+  agence_id: ''
+  url: >-
+    https://cartes.app/?allez=Paris+Gare+du+Nord%7Cn3090733718%7C2.3549%7C48.8803-%3EMairie+du+1er+arrondissement%7Cr538908%7C2.3412%7C48.8600&mode=commun
+- name: Marseille
+  agence_id: fr-marseille-aixRTM
+  url: >-
+    https://cartes.app/?allez=Marseille-Saint-Charles%7Cn4290857022%7C5.3812%7C43.3033-%3EH%C3%B4tel+de+Ville%7Cr6581513%7C5.3672%7C43.2973&mode=commun
+- name: Lyon
+  agence_id: fr-lyon-tclfr-lyon-tcl-1
+  url: >-
+    https://cartes.app/?allez=Lyon+Part-Dieu%7Cn4290857016%7C4.8602%7C45.7605-%3EH%C3%B4tel+de+ville%7Cw1221535523%7C4.8351%7C45.7676&mode=commun

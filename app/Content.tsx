@@ -406,7 +406,7 @@ export default function Content(props) {
 					searchParams,
 					setSnap,
 					close: () => {
-						setSearchParams({ allez: undefined, mode: undefined })
+						itinerary.reset()
 						itinerary.setIsItineraryMode(false)
 					},
 					state,

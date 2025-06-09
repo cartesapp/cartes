@@ -1,13 +1,15 @@
 import useSetSearchParams from '@/components/useSetSearchParams'
 import calendarIcon from '@/public/calendar.svg'
+import closeIcon from '@/public/close-circle-stroke.svg'
+import longueVueIcon from '@/public/longuevue.svg'
+import { styled } from 'next-yak'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 import { useInterval } from 'usehooks-ts'
 import { DialogButton } from '../UI'
-import longueVueIcon from '@/public/longuevue.svg'
-import { styled } from 'next-yak'
 import {
+	CalendarCloseButton,
 	DateInput,
 	NowButton,
 	QuickDateWardButton,
@@ -16,19 +18,26 @@ import {
 import {
 	addMinutes,
 	encodeDate,
+	htmlDatetimeLocalValueFormatter,
 	initialDate,
 	isDateNow,
-	newTimestamp,
+	stamp,
 } from './transit/utils'
 
 // Can be type date (day + hour) or type day
-export default function DateSelector({ date, type = 'date', planification }) {
+export default function DateSelector({
+	date,
+	type = 'date',
+	planification = 'non',
+}) {
 	const [forceShowDateInput, setForceShowDateInput] = useState(false)
 	const defaultDate = initialDate(type)
 	const [localDate, setLocalDate] = useState(date || defaultDate)
 	const setSearchParams = useSetSearchParams()
 
-	console.log('indigo ddate', date, isDateNow(date))
+	const localeDateString = htmlDatetimeLocalValueFormatter(localDate)
+	console.log('indigo ddate', localDate, localeDateString)
+
 	const shouldShowDateInput = forceShowDateInput || !isDateNow(date)
 	const updateDate = (newDate, noPush = true) => {
 		if (!noPush) setLocalDate(newDate)
@@ -62,7 +71,7 @@ export default function DateSelector({ date, type = 'date', planification }) {
 						type={type === 'date' ? 'datetime-local' : 'date'}
 						id="date"
 						name="date"
-						value={localDate}
+						value={localeDateString}
 						min={defaultDate}
 						onChange={(e) => {
 							const value = e.target.value
@@ -86,6 +95,16 @@ export default function DateSelector({ date, type = 'date', planification }) {
 							OK
 						</DialogButton>
 					)}
+
+					<CalendarCloseButton
+						onClick={() => {
+							setSearchParams({ date: undefined })
+							setForceShowDateInput(false)
+						}}
+						title="Revenir à un départ instantané"
+					>
+						<Image src={closeIcon} alt="Icône croix" />
+					</CalendarCloseButton>
 				</>
 			)}
 			{type === 'date' && (
@@ -110,6 +129,7 @@ const PreTripMode = ({ setSearchParams, planification }) => {
 				{ planification: planification === 'oui' ? undefined : 'oui' },
 				true
 			)}
+			title="Activer le mode planification, à l'inverse du départ immédiat"
 		>
 			<PreTripModeImage
 				src={longueVueIcon}
@@ -128,15 +148,15 @@ const PreTripModeImage = styled(Image)`
 `
 
 const UpdateDate = ({ date, updateDate }) => {
-	const [now, setNow] = useState(newTimestamp())
+	const [now, setNow] = useState(stamp())
 
 	useInterval(
 		() => {
-			setNow(newTimestamp())
+			setNow(stamp())
 		},
 		5 * 1000 // every 5 seconds
 	)
-	const isOutdated = now - new Date(date).getTime() / 1000 > 10
+	const isOutdated = now - stamp(date) > 10
 
 	if (!isOutdated) return null
 	return (
@@ -168,10 +188,17 @@ const QuickDateWard = ({ date, updateDate, backOrForth = 'forth' }) => {
 	)
 	console.log('indigo date', date, nextDate)
 	return (
-		<QuickDateWardButton onClick={() => updateDate(nextDate, false)}>
+		<QuickDateWardButton
+			onClick={() => updateDate(nextDate, false)}
+			title={`partir 10 minutes plus ${
+				backOrForth === 'back' ? 'tôt' : 'tard'
+			}`}
+		>
 			<Image
 				src={backOrForth === 'back' ? '/backward-10.svg' : '/forward-10.svg'}
-				alt="Partir 10 minutes plus tôt"
+				alt={`Icône flèche ronde ${
+					backOrForth === 'back' ? '-' : '+'
+				} 10 minutes`}
 				width="10"
 				height="10"
 			/>

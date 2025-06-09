@@ -11,6 +11,7 @@ import { useLocalStorage, useMediaQuery } from 'usehooks-ts'
 import { styles } from '../styles/styles'
 import useGeolocation from './useGeolocation'
 import useMapIcons from './useMapIcons'
+import { stamp } from '../itinerary/transit/utils'
 
 /*
  *
@@ -131,7 +132,7 @@ export default function useAddMap(
 				typeof autoPitchPreference === 'number'
 			if (
 				autoPitchPreferenceIsWaiting &&
-				new Date().getTime() / 1000 - autoPitchPreference < 15 // If the user resets the pitch in less than 15 seconds, we consider it a definitive choice
+				stamp() - autoPitchPreference < 15 // If the user resets the pitch in less than 15 seconds, we consider it a definitive choice
 			)
 				setAutoPitchPreference('no')
 		}

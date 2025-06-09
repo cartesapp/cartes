@@ -1,29 +1,34 @@
 import { styled } from 'next-yak'
 import Image from 'next/image'
 import { TimelineTransportBlock } from './Transit'
-import { nextDeparturesSentence } from './findBestConnection'
-import { routeTypeName } from './transportIcon'
+import {
+	findConnectionTransit,
+	nextDeparturesSentence,
+} from './findBestConnection'
+
+import { motisModeCorrespondance } from '@/components/transit/modeCorrespondance'
 
 export default function BestConnection({ bestConnection }) {
 	console.log('prune best', bestConnection)
-	const transport = bestConnection.best.transports.find((t) => t.trip)
-	const stop = bestConnection.best.stops[transport.move.range.from].station.name
+	const leg = findConnectionTransit(bestConnection.best)
+	const stop = leg.from.name
 
-	const transportType = routeTypeName(transport.route_type)
+	const transportType = motisModeCorrespondance[leg.mode]
+	const text = `Il y a un {transportType} optimal !`
 	return (
 		<Wrapper>
 			<Image
 				src="/star-full-gold.svg"
 				alt="Icône d'étoile couleur or pour le trajet optimal"
+				title={text}
 				width="10"
 				height="10"
 			/>
 			<div>
-				<small>Il y a un {transportType} optimal !</small>
 				<p>
 					Le direct
 					<span>
-						<TimelineTransportBlock transport={transport} />
+						<TimelineTransportBlock transport={leg} />
 					</span>
 					passe {bestConnection.interval} à l'arrêt{' '}
 					<em
@@ -46,17 +51,17 @@ export default function BestConnection({ bestConnection }) {
 }
 
 const Wrapper = styled.section`
-	background: white;
+	background: #ffd7000d;
 	margin: 0.6rem 0;
 	border: 2px solid gold;
-	border-radius: 0.8rem;
+	border-radius: 0.4rem;
 
-	padding: 0 0.4rem;
+	padding: 0.4rem 0.4rem 0;
 	display: flex;
 	align-items: center;
 	> img {
-		margin: 1rem;
-		width: 1.8rem;
+		margin: 0.7rem 0.8rem 1rem;
+		width: 1.6rem;
 		height: auto;
 	}
 	p {

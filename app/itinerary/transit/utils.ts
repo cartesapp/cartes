@@ -1,13 +1,7 @@
 export const filterNextConnections = (connections, date) =>
 	connections.filter(
-		(connection) => connectionStart(connection) > stamp(date) - 60 // motis ontrip requests should not be filtered out
+		(connection) => stamp(connection.startTime) > stamp(date) - 60 // motis ontrip requests should not be filtered out
 	)
-
-export const connectionStart = (connection) =>
-	connection.stops[0].departure.time
-
-export const connectionEnd = (connection) =>
-	connection.stops.slice(-1)[0].arrival.time
 
 export const humanDuration = (seconds) => {
 	if (seconds < 60) {
@@ -50,10 +44,24 @@ export const dateFromMotis = (timestamp) => new Date(timestamp * 1000)
 export const formatMotis = (timestamp) =>
 	startDateFormatter.format(dateFromMotis(timestamp))
 
-export const startDateFormatter = Intl.DateTimeFormat('fr-FR', {
+export const formatIsoDate = (isoDate) =>
+	startDateFormatter.format(new Date(isoDate))
+
+const startDateFormatter = Intl.DateTimeFormat('fr-FR', {
 	hour: 'numeric',
 	minute: 'numeric',
 })
+
+// thanks https://stackoverflow.com/questions/28760254/assign-javascript-date-to-html5-datetime-local-input
+export const htmlDatetimeLocalValueFormatter = (dateString) => {
+	const d = new Date(dateString)
+	const dateTimeLocalValue = new Date(
+		d.getTime() - d.getTimezoneOffset() * 60000
+	)
+		.toISOString()
+		.slice(0, -1)
+	return dateTimeLocalValue
+}
 
 export const datePlusHours = (date, hours) => {
 	const today = new Date(date)
@@ -63,23 +71,22 @@ export const datePlusHours = (date, hours) => {
 
 export const nowStamp = () => Math.round(Date.now() / 1000)
 
-export const stamp = (date) => Math.round(new Date(date).getTime() / 1000)
+export const stamp = (date = undefined) =>
+	Math.round(new Date(date).getTime() / 1000)
 
 export const defaultRouteColor = '#d3b2ee'
 
 export const hours = (num) => num * 60 * 60,
 	minutes = (num) => num * 60
 
-export const initialDate = (type = 'date', givenDate) => {
-	const stringDate = (
-		givenDate ? new Date(givenDate) : new Date()
-	).toLocaleString('fr')
-	const [date, hour] = stringDate.split(' ')
+export const initialDate = (type = 'date', givenDate = null) => {
+	const baseDate = givenDate ? new Date(givenDate) : new Date()
+	const stringDate = baseDate.toISOString()
 
-	const day = date.split('/').reverse().join('-')
+	const day = stringDate.split('T')[0]
 	if (type === 'day') return day
 
-	return day + 'T' + hour.slice(0, -3)
+	return stringDate.slice(0, 16) + 'Z' // we don't want second precision in the URL. Minute is enough for transit user input
 }
 
 export const isDateNow = (date, diff = 5) => {
@@ -91,7 +98,6 @@ export const isDateNow = (date, diff = 5) => {
 	console.log('lightgreen diff in minutes', difference / 60)
 	return difference < 60 * diff // 5 minutes
 }
-export const newTimestamp = () => new Date().getTime() / 1000
 
 export const encodeDate = (date) => date?.replace(/:/, 'h')
 export const decodeDate = (date) => date?.replace(/h/, ':')

@@ -44,3 +44,16 @@ export const QuickDateWardButton = styled.button`
 		vertical-align: middle;
 	}
 `
+
+export const CalendarCloseButton = styled.button`
+	padding: 0;
+	margin: 0;
+	margin-left: 0.2rem;
+	margin-bottom: 0.2rem;
+	img {
+		width: 1.2rem;
+		height: auto;
+		vertical-align: middle;
+		margin-right: 0.1rem;
+	}
+`
