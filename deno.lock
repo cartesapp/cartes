@@ -18,7 +18,6 @@
     "npm:@mapbox/sphericalmercator@2": "2.0.1",
     "npm:@mdx-js/loader@^3.1.0": "3.1.0",
     "npm:@next/eslint-plugin-next@15": "15.3.2",
-    "npm:@next/mdx@15.3.2": "15.3.2_@mdx-js+loader@3.1.0",
     "npm:@octokit/rest@^21.0.2": "21.1.1_@octokit+core@6.1.5",
     "npm:@openstreetmap/id-tagging-schema@6.10.0": "6.10.0",
     "npm:@opentelemetry/api@^1.9.0": "1.9.0",
@@ -1867,16 +1866,6 @@
       "integrity": "sha512-ijVRTXBgnHT33aWnDtmlG+LJD+5vhc9AKTJPquGG5NKXjpKNjc62woIhFtrAcWdBobt8kqjCoaJ0q6sDQoX7aQ==",
       "dependencies": [
         "fast-glob@3.3.1"
-      ]
-    },
-    "@next/mdx@15.3.2_@mdx-js+loader@3.1.0": {
-      "integrity": "sha512-D6lSSbVzn1EiPwrBKG5QzXClcgdqiNCL8a3/6oROinzgZnYSxbVmnfs0UrqygtGSOmgW7sdJJSEOy555DoAwvw==",
-      "dependencies": [
-        "@mdx-js/loader",
-        "source-map@0.7.4"
-      ],
-      "optionalPeers": [
-        "@mdx-js/loader"
       ]
     },
     "@next/swc-darwin-arm64@15.1.7": {
@@ -11597,7 +11586,7 @@
         "npm:@mapbox/sphericalmercator@2",
         "npm:@mdx-js/loader@^3.1.0",
         "npm:@next/eslint-plugin-next@15",
-        "npm:@next/mdx@15.3.2",
+        "npm:@next/mdx@15.1",
         "npm:@octokit/rest@^21.0.2",
         "npm:@openstreetmap/id-tagging-schema@6.10.0",
         "npm:@opentelemetry/api@^1.9.0",
