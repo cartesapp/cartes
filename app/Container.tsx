@@ -186,10 +186,13 @@ export default function Container(props) {
 
 		console.log('brown state char', state)
 		if (
-			state.find(
-				(step) =>
-					step.requestState === 'success' && step.osmCode == chargement.osmCode
-			)
+			state
+				.filter(Boolean)
+				.find(
+					(step) =>
+						step.requestState === 'success' &&
+						step.osmCode == chargement.osmCode
+				)
 		) {
 			setChargement(null)
 		}

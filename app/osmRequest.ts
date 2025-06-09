@@ -144,7 +144,8 @@ const buildGeojsonFromOverpassElement = (element) => {
 		return console.error('OVERPASS Wrong OSM type while reading an element')
 
 	// if relation, recursive call on members
-	if (['multiway', 'relation'].includes(element.type))
+	if (['multiway', 'relation'].includes(element.type)) {
+		console.log('element', element)
 		// TODO maybe need to handle specific cases based on role ?
 		// for example inner and outer in a multipolygon
 		return {
@@ -153,6 +154,7 @@ const buildGeojsonFromOverpassElement = (element) => {
 				buildGeojsonFromOverpassElement(element)
 			),
 		}
+	}
 
 	// if point or way, determine geometry and type
 	var coordinates = []
