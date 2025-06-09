@@ -16,7 +16,7 @@ import useEffectDebugger from '@/components/useEffectDebugger'
 
 export default function useFetchItinerary(searchParams, state, allez) {
 	const setSearchParams = useSetSearchParams()
-	const [routes, setRoutes] = useState(null)
+	const [routes, setRoutes] = useState({})
 	const date = decodeDate(searchParams.date) || initialDate()
 
 	const bikeRouteProfile = searchParams['profil-velo'] || 'safety'
@@ -33,8 +33,7 @@ export default function useFetchItinerary(searchParams, state, allez) {
 	useSetItineraryModeFromUrl(allez, setIsItineraryMode)
 
 	const updateRoute = useCallback(
-		(key, value) =>
-			setRoutes((routes) => ({ ...(routes || {}), [key]: value })),
+		(key, value) => setRoutes((routes) => ({ ...routes, [key]: value })),
 		[routes, setRoutes]
 	)
 
@@ -147,7 +146,7 @@ export default function useFetchItinerary(searchParams, state, allez) {
 		if (!computeTransit) return
 
 		const hasSatisfying =
-			routes?.transit &&
+			routes.transit &&
 			hasSatisfyingTransitItinerary(routes.transit, date, itineraryDistance)
 
 		console.log('indigo yoyo', computeTransit, hasSatisfying)
@@ -199,7 +198,9 @@ export default function useFetchItinerary(searchParams, state, allez) {
 			return result
 		}
 
-		updateRoute('transit', { state: 'loading' })
+		if (routes.transit?.state !== 'loading') {
+			updateRoute('transit', { state: 'loading' })
+		}
 
 		// could be inefficient or insecure to give setRoutes to this function.
 		// Rather give "setRoute(key)", like updateRoute above
