@@ -5,6 +5,7 @@ import { stepOsmRequest } from '../stepOsmRequest'
 // with an osm object if relevant and if it's not been done already
 export default function useOsmRequest(allez, state, setState) {
 	useEffect(() => {
+		console.log('Etienne useEffect de useOsmRequest(allez, )', allez)
 		const asyncStateUpdate = async () => {
 			const newPoints = allez.map((point) => stepOsmRequest(point, state))
 			const newState = await Promise.all(newPoints)

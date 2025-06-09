@@ -10,6 +10,7 @@ export default function useOverpassRequest(bbox, categories) {
 	useEffect(() => {
 		if (!bbox || !categories) return
 		if (categories.length == 0) return
+		console.log('Etienne useEffect de useOverpassRequest(category)', categories)
 		categories.map(async (category) => {
 			const nodeElements = await fetchOverpassCategoryRequest(bbox, category)
 
@@ -31,6 +32,7 @@ export function useFetchSimilarNodes(step, givenSimilarNodes) {
 
 	useEffect(() => {
 		if (!step?.osmCode) return
+		console.log('Etienne useEffect de useFetchSimilarNodes', step?.osmCode)
 		const doFetch = async () => {
 			const features = await fetchSimilarNodes(step)
 			setSimilarNodes(features)

@@ -26,6 +26,7 @@ export default function useDrawFeatures(
 		// on annule si la carte ou les features sont manquants
 		if (!map) return
 		if (!hasFeatures) return
+		console.log('Etienne useEffect n°1 de useDrawFeatures', baseId)
 
 		// on reconstruit le nom de l'icone : l'alias si précisé, sinon le nom du svg
 		const imageFilename = category.icon
@@ -93,6 +94,7 @@ export default function useDrawFeatures(
 		// on annule si carte ou sources ou features pas encore chargés
 		if (!map) return
 		if (!sources) return
+		console.log('Etienne useEffect n°2 de useDrawFeatures', category, features)
 		// je crois que cette condition était problématique et l'enlever n'a que des
 		// avantages
 		//if (!features?.length) return
