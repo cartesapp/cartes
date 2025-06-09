@@ -1,13 +1,15 @@
 import useSetSearchParams from '@/components/useSetSearchParams'
 import calendarIcon from '@/public/calendar.svg'
+import closeIcon from '@/public/close-circle-stroke.svg'
+import longueVueIcon from '@/public/longuevue.svg'
+import { styled } from 'next-yak'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 import { useInterval } from 'usehooks-ts'
 import { DialogButton } from '../UI'
-import longueVueIcon from '@/public/longuevue.svg'
-import { styled } from 'next-yak'
 import {
+	CalendarCloseButton,
 	DateInput,
 	NowButton,
 	QuickDateWardButton,
@@ -16,7 +18,6 @@ import {
 import {
 	addMinutes,
 	encodeDate,
-	formatIsoDate,
 	htmlDatetimeLocalValueFormatter,
 	initialDate,
 	isDateNow,
@@ -94,6 +95,16 @@ export default function DateSelector({
 							OK
 						</DialogButton>
 					)}
+
+					<CalendarCloseButton
+						onClick={() => {
+							setSearchParams({ date: undefined })
+							setForceShowDateInput(false)
+						}}
+						title="Revenir à un départ instantané"
+					>
+						<Image src={closeIcon} alt="Icône croix" />
+					</CalendarCloseButton>
 				</>
 			)}
 			{type === 'date' && (
@@ -118,6 +129,7 @@ const PreTripMode = ({ setSearchParams, planification }) => {
 				{ planification: planification === 'oui' ? undefined : 'oui' },
 				true
 			)}
+			title="Activer le mode planification, à l'inverse du départ immédiat"
 		>
 			<PreTripModeImage
 				src={longueVueIcon}
@@ -176,10 +188,17 @@ const QuickDateWard = ({ date, updateDate, backOrForth = 'forth' }) => {
 	)
 	console.log('indigo date', date, nextDate)
 	return (
-		<QuickDateWardButton onClick={() => updateDate(nextDate, false)}>
+		<QuickDateWardButton
+			onClick={() => updateDate(nextDate, false)}
+			title={`partir 10 minutes plus ${
+				backOrForth === 'back' ? 'tôt' : 'tard'
+			}`}
+		>
 			<Image
 				src={backOrForth === 'back' ? '/backward-10.svg' : '/forward-10.svg'}
-				alt="Partir 10 minutes plus tôt"
+				alt={`Icône flèche ronde ${
+					backOrForth === 'back' ? '-' : '+'
+				} 10 minutes`}
 				width="10"
 				height="10"
 			/>
