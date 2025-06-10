@@ -9,13 +9,12 @@ export default function useDrawSearchResults(map, state) {
 	const vers = state.slice(-1)[0]
 	const results = vers?.results
 
-	const resultsHash = results?.map((el) => el.osmId)
+	const resultsHash = results?.map((el) => el.osmId).join('|')
 
 	useEffect(() => {
 		if (!map) return
 
 		if (!results) return
-		console.log('Etienne useEffect de useDrawSearchResults')
 		const doFetch = async () => {
 			const newFeatures = await combinedOsmFeaturesRequest(results)
 			setFeatures(newFeatures)
@@ -31,6 +30,7 @@ export default function useDrawSearchResults(map, state) {
 
 const category = {
 	name: 'search',
+	key: 'search-result',
 	icon: 'search-result',
 	iconSize: 22,
 }
