@@ -1327,7 +1327,7 @@
   group: Déplacements
   dictionary:
     - stationnement
-  query: '[amenity=parking]'
+  query: '[amenity=parking][access!~"private|no"]'
   icon: parking
 
 - name: Aire(s) de covoiturage
