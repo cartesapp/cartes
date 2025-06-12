@@ -57,7 +57,7 @@ export const osmElementRequest = async (featureType, id) => {
 	*/
 
 	// build the query
-	const query = buildOverpassElementQuery(featureType, id, false)
+	const query = buildOverpassElementQuery(featureType, id, true)
 
 	try {
 		// fetch the query
@@ -215,8 +215,13 @@ export const extendOverpassElement = (element) => {
 	return {
 		type: element.type,
 		id: element.id,
-		osmCode: encodePlace(element.type, element.id), //useless here, should be calculated when needed
+		osmCode: encodePlace(element.type, element.id), //useless here ? should be calculated when needed ?
 		tags: element.tags || {},
+		meta: {
+			timestamp: element.timestamp,
+			user: element.user,
+			uid: element.uid,
+		},
 		//bounds: element.bounds,
 		geojson,
 		center,

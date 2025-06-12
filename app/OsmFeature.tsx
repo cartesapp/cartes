@@ -157,6 +157,7 @@ export default function OsmFeature(props) {
 				</div>
 			)}
 			<Address tags={tags} photonFeature={photonFeature} />
+			{/* display intel about the last changeset of this element */}
 			{tags.uic_ref && (
 				<GareInfo
 					{...{
