@@ -32,7 +32,7 @@ export default function useCenterMapOnState(
 		if (!(vers.geojson || vers.center)) return
 		if (stepsLength > 1) {
 			const coordinates = state
-				.filter((step) => step.center)
+				.filter((step) => step?.center)
 				.map((step) => step.center.geometry.coordinates.map((el) => +el))
 
 			if (coordinates.length < 2) return
@@ -50,12 +50,10 @@ export default function useCenterMapOnState(
 			const bbox = getBbox(lineString)
 
 			try {
-			map.fitBounds(expandBbox(bbox), { padding })
-
+				map.fitBounds(expandBbox(bbox), { padding })
 			} catch (e) {
-                                console.log('Error expanding bbox ? ', bbox)
-                        }
-
+				console.log('Error expanding bbox ? ', bbox)
+			}
 
 			return
 		}
