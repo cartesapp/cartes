@@ -28,6 +28,10 @@ const nextConfig = {
 				protocol: 'https',
 				hostname: 'serveur.cartes.app',
 			},
+			{
+				protocol: 'https',
+				hostname: 'www.openstreetmap.org',
+			},
 		],
 	},
 	eslint: {
