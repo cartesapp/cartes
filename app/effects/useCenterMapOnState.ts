@@ -49,6 +49,9 @@ export default function useCenterMapOnState(
 			console.log('indigo yaya', lineString)
 			const bbox = getBbox(lineString)
 
+			// For some reason, this can crash. I guess the expandBbox function is not
+			// entirely correct ? Non critical #975
+
 			try {
 				map.fitBounds(expandBbox(bbox), { padding })
 			} catch (e) {
