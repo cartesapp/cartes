@@ -197,7 +197,7 @@ export const extendOverpassElement = (element) => {
 	const tags = element.tags || {}
 
 	// Handle the case of the role admin_centre in a type=boundary relation
-	const adminCentre = null
+	let adminCentre = null
 	if (element.type == 'relation' && tags['type'] == 'boundary') {
 		adminCentre = element.members?.find((el) => el.role === 'admin_centre')
 	}
