@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { styled } from 'next-yak'
+import { css, styled } from 'next-yak'
 
 export default function Avatar({ uid }) {
 	const [data, setData] = useState(null)
@@ -17,16 +17,15 @@ export default function Avatar({ uid }) {
 	}, [uid, setData])
 
 	console.log('indigo meta user', data)
-	const href = data?.user?.img?.href
-	if (!href) return null
+	const href = data?.user?.img?.href || '/crayon.svg'
 
 	return (
-		<Wrapper>
+		<Wrapper $has={href !== '/crayon.svg'}>
 			<Image
 				src={href}
 				width="30"
 				height="30"
-				alt={`Image de profil de l'utilisateur`}
+				alt={`Image de profil de l'utilisateur ou crayon si pas d'image`}
 			/>
 		</Wrapper>
 	)
@@ -34,12 +33,20 @@ export default function Avatar({ uid }) {
 
 const Wrapper = styled.span`
 	img {
-		width: 1.4rem;
 		height: auto;
 		vertical-align: middle;
-		border: 2px solid white;
 		border-radius: 2rem;
 		margin-right: 0.2rem;
 		margin-bottom: 0.1rem;
+		${(p) =>
+			p.$has
+				? css`
+						border: 2px solid var(--color);
+						width: 1.4rem;
+				  `
+				: css`
+						border: none;
+						width: 1rem;
+				  `}
 	}
 `
