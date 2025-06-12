@@ -3,6 +3,7 @@ import osmLogo from '@/public/openstreetmap.svg'
 import { styled } from 'next-yak'
 import Image from 'next/image'
 import crayonIcon from '@/public/crayon.svg'
+import Avatar from './OsmAvatar'
 
 export default function OsmLinks({ data }) {
 	const [featureType, id] = decodePlace(data.osmCode)
@@ -16,13 +17,14 @@ export default function OsmLinks({ data }) {
 	}
 	const frenchDate = changesetDate.toLocaleDateString('fr-FR', options)
 
+	console.log('indigo meta', meta)
+
 	return (
 		<Section>
 			<div>
 				{meta && (
 					<small>
-						<Image src={crayonIcon} width="10" height="10" alt="Icône crayon" />
-						mis à jour le {frenchDate} par{' '}
+						mis à jour le {frenchDate} par <Avatar uid={meta.uid} />
 						<a
 							href={`https://www.openstreetmap.org/user/${meta.user}`}
 							target="_blank"
@@ -70,12 +72,12 @@ const Section = styled.section`
 		> small {
 			margin-right: 0.4rem;
 			color: var(--darkerColor);
-		}
-		img {
-			width: 1rem;
-			vertical-align: sub;
-			height: auto;
-			margin-right: 0.2rem;
+			> img {
+				width: 1rem;
+				vertical-align: sub;
+				height: auto;
+				margin-right: 0.2rem;
+			}
 		}
 	}
 `
