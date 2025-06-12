@@ -2,6 +2,7 @@ import { decodePlace } from '@/app/utils'
 import osmLogo from '@/public/openstreetmap.svg'
 import { styled } from 'next-yak'
 import Image from 'next/image'
+import crayonIcon from '@/public/crayon.svg'
 
 export default function OsmLinks({ data }) {
 	const [featureType, id] = decodePlace(data.osmCode)
@@ -20,6 +21,7 @@ export default function OsmLinks({ data }) {
 			<div>
 				{meta && (
 					<small>
+						<Image src={crayonIcon} width="10" height="10" alt="Icône crayon" />
 						mis à jour le {frenchDate} par{' '}
 						<a
 							href={`https://www.openstreetmap.org/user/${meta.user}`}
@@ -68,6 +70,12 @@ const Section = styled.section`
 			margin-right: 0.4rem;
 			color: var(--darkerColor);
 			text-align: right;
+		}
+		img {
+			width: 1rem;
+			vertical-align: sub;
+			height: auto;
+			margin-right: 0.2rem;
 		}
 	}
 `
