@@ -30,7 +30,9 @@ function detect(input, localSearch, zoom, then, setPostalCodeState) {
 	if (!onlyNumbers(input) || input.length !== 5) return
 
 	setPostalCodeState(`Code postal détecté. Chargement...`)
-	overpassRequest(input, then)
+	setTimeout(() => {
+		overpassRequest(input, then)
+	}, 2000)
 }
 
 const detectCodePostal = debounce(1000, detect)
