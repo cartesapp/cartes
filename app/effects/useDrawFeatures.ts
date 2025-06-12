@@ -12,7 +12,6 @@ export default function useDrawFeatures(
 	features,
 	showOpenOnly,
 	category,
-	setOsmFeature = () => null,
 	backgroundColor = colors['color'],
 	invert = false
 ) {
@@ -44,7 +43,6 @@ export default function useDrawFeatures(
 				setSearchParams,
 				setSources,
 				mapImageName,
-				setOsmFeature,
 				category
 			)
 		else {
@@ -60,7 +58,6 @@ export default function useDrawFeatures(
 						setSearchParams,
 						setSources,
 						mapImageName,
-						setOsmFeature,
 						category
 					)
 				},
@@ -90,7 +87,7 @@ export default function useDrawFeatures(
 		}
 
 		return cleanup
-	}, [map, category, baseId, setSources, setOsmFeature, hasFeatures])
+	}, [map, category, baseId, setSources, hasFeatures])
 
 	useEffect(() => {
 		// on annule si carte ou sources ou features pas encore chargés
@@ -251,7 +248,7 @@ export default function useDrawFeatures(
 		sources.lines.setData(linesData)
 		sources.outlines.setData(outlinesData)
 		sources.points.setData(pointsData)
-	}, [category, features, showOpenOnly, sources])
+	}, [category, features, showOpenOnly])
 }
 
 const draw = (
@@ -260,7 +257,6 @@ const draw = (
 	setSearchParams,
 	setSources,
 	mapImageName,
-	setOsmFeature,
 	category
 ) => {
 	if (map.getSource(baseId + 'points')) return
@@ -434,15 +430,6 @@ const draw = (
 				}),
 			200
 		)
-
-		//TODO not sure this works with our osmFeature refacto
-		// on charge les données et on les affiche ?
-		const osmFeature = { ...properties, tags }
-		console.log(
-			'will set OSMfeature after quickSearch marker click, ',
-			osmFeature
-		)
-		setOsmFeature(osmFeature)
 	}
 	map.on('click', onClickHandler)
 

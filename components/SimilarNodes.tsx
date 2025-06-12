@@ -1,6 +1,5 @@
 import { computeHumanDistance } from '@/app/RouteRésumé'
 import { computeBbox, findCategory } from '@/app/effects/fetchOverpassRequest'
-import useOverpassRequest from '@/app/effects/useOverpassRequest'
 import { OpenIndicator, getOh } from '@/app/osm/OpeningHours'
 import { bearing } from '@turf/bearing'
 import turfDistance from '@turf/distance'
@@ -12,19 +11,15 @@ import { capitalise0, sortBy } from './utils/utils'
 export default function SimilarNodes({ node, similarNodes: features }) {
 	const { tags } = node
 
+	//find the category of this node, stop if not found
 	const category = findCategory(tags)
+	if (!category) return null
 
 	const { coordinates } = node.center.geometry
 
 	const [lon, lat] = coordinates
 
 	const bbox = computeBbox({ lon, lat })
-	const [quickSearchFeaturesMap] = useOverpassRequest(
-		bbox,
-		category ? [category] : []
-	)
-
-	if (!category) return null
 
 	const featuresWithDistance =
 		features &&

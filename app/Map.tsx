@@ -211,7 +211,6 @@ export default function Map(props) {
 	const onSearchResultClick = useCallback(
 		(feature) => {
 			setState([...state.slice(0, -1), defaultState.vers])
-			//setOsmFeature(feature) old function, this call seems useless now
 		},
 		[state]
 	)
