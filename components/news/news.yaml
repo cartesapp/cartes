@@ -1,3 +1,13 @@
+- title: 🚍️ Nouvelle version du calculateur d'itinéraires
+  date: 2025-06-09
+  description: |
+
+    Deux nouveautés : 
+      - le calculateur que nous utilisons, Motis, passe de la v1 à la v2
+      - l'interface est mise à jour avec un tas de nouveautés, dont des trajets plus intelligents dans les zones peu denses... c'est à dire l'essentiel de la France ! 
+
+    Toutes les nouveautés sont [expliquées et illustrées ici](https://bsky.app/profile/cartes.app/post/3lr6n2fah222i).
+
 - title: 📐 Affichage des rivières et des rues
   date: 2025-06-05
   description: |
