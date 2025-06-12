@@ -1027,8 +1027,8 @@
     - manège
     - aire de jeu
   query:
-    - '[leisure=playground]'
-    - '[landuse=recreation_ground]'
+    - '[leisure=playground][access!~"private|no"]'
+    - '[landuse=recreation_ground][access!~"private|no"]'
     - '[attraction=carousel]'
   icon: playground
 
@@ -1327,7 +1327,7 @@
   group: Déplacements
   dictionary:
     - stationnement
-  query: '[amenity=parking]'
+  query: '[amenity=parking][access!~"private|no"]'
   icon: parking
 
 - name: Aire(s) de covoiturage
