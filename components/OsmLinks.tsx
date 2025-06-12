@@ -66,10 +66,10 @@ const Section = styled.section`
 	margin-bottom: 0.2rem;
 	> div {
 		margin-bottom: 0.3rem;
+		text-align: right;
 		> small {
 			margin-right: 0.4rem;
 			color: var(--darkerColor);
-			text-align: right;
 		}
 		img {
 			width: 1rem;
