@@ -53,7 +53,7 @@ const startDateFormatter = Intl.DateTimeFormat('fr-FR', {
 })
 
 // thanks https://stackoverflow.com/questions/28760254/assign-javascript-date-to-html5-datetime-local-input
-export const htmlDatetimeLocalValueFormatter = (dateString) => {
+export const htmlDatetimeLocalValueDecoder = (dateString) => {
 	const d = new Date(dateString)
 	const dateTimeLocalValue = new Date(
 		d.getTime() - d.getTimezoneOffset() * 60000
@@ -61,6 +61,14 @@ export const htmlDatetimeLocalValueFormatter = (dateString) => {
 		.toISOString()
 		.slice(0, -1)
 	return dateTimeLocalValue
+}
+
+export const htmlDatetimeLocalValueEncoder = (dateTimeLocalValue) => {
+	const fakeUtcTime = new Date(`${dateTimeLocalValue}Z`)
+	const d = new Date(
+		fakeUtcTime.getTime() + fakeUtcTime.getTimezoneOffset() * 60000
+	)
+	return encodeDate(d.toISOString().slice(0, 16) + 'Z')
 }
 
 export const datePlusHours = (date, hours) => {

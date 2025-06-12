@@ -18,7 +18,8 @@ import {
 import {
 	addMinutes,
 	encodeDate,
-	htmlDatetimeLocalValueFormatter,
+	htmlDatetimeLocalValueDecoder,
+	htmlDatetimeLocalValueEncoder,
 	initialDate,
 	isDateNow,
 	stamp,
@@ -35,7 +36,7 @@ export default function DateSelector({
 	const [localDate, setLocalDate] = useState(date || defaultDate)
 	const setSearchParams = useSetSearchParams()
 
-	const localeDateString = htmlDatetimeLocalValueFormatter(localDate)
+	const localeDateString = htmlDatetimeLocalValueDecoder(localDate)
 	console.log('indigo ddate', localDate, localeDateString)
 
 	const shouldShowDateInput = forceShowDateInput || !isDateNow(date)
@@ -84,7 +85,7 @@ export default function DateSelector({
 							onClick={() =>
 								setSearchParams(
 									type === 'date'
-										? { date: encodeDate(localDate) }
+										? { date: htmlDatetimeLocalValueEncoder(localDate) }
 										: { day: encodeDate(localDate) }
 								)
 							}
