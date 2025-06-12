@@ -1,11 +1,19 @@
 'use client'
 import { useState } from 'react'
 import { styled } from 'next-yak'
-import { initialDate } from './itinerary/transit/utils'
+import {
+	htmlDatetimeLocalValueDecoder,
+	htmlDatetimeLocalValueEncoder,
+	initialDate,
+} from './itinerary/transit/utils'
 
 export default function GareInfo({ nom, uic8 }) {
-	const [date, setDate] = useState(initialDate())
-	console.log(date)
+	const [rawDate, setDate] = useState(initialDate('date'))
+
+	const date = htmlDatetimeLocalValueDecoder(rawDate)
+	const iframeDate = date.slice(0, 16)
+
+	console.log('gareinfo', date)
 	return (
 		<Wrapper>
 			<input
@@ -25,7 +33,7 @@ export default function GareInfo({ nom, uic8 }) {
 			</h2>
 
 			<iframe
-				src={`https://tableau-sncf.vercel.app/station/stop_area:SNCF:${uic8}?date=${date}`}
+				src={`https://tableau-sncf.vercel.app/station/stop_area:SNCF:${uic8}?date=${iframeDate}`}
 			/>
 		</Wrapper>
 	)
