@@ -87,22 +87,61 @@ export const computeBbox = ({ lat, lon }) => [
 	lat + latDiff / 2,
 	lon + lonDiff / 2,
 ]
+/**
+ * Compare tags with category query(or queries) to calculate a match score
+ * @param tags
+ * @returns the category with the best score (or undefined if no match)
+ */
 export const findCategory = (tags) => {
-	const category = allCategories.find(({ query: queryRaw }) => {
-		const query = Array.isArray(queryRaw) ? queryRaw : [queryRaw]
-
-		const test = query.some((queryLine) => {
-			const andConditions = extractOverpassQueryLineAndCondition(queryLine)
-			return andConditions.every((condition) => {
-				return Object.entries(tags).find(
-					([k, v]) => condition.includes(k) && condition.includes(v)
-				)
-			})
+	// map all categories to calculate their match scores
+	var categories = allCategories.map((c) => {
+		// puts query in an array
+		const queries = Array.isArray(c.query) ? c.query : [c.query]
+		// calculate the score of each query line ...
+		const lineScore = queries.map((queryLine) => {
+			// ... by finding the number of k/v pairs that match the queryLine ...
+			const matchTags = Object.entries(tags).filter(
+				([k, v]) => queryLine.includes(k) && queryLine.includes(v)
+			)
+			// ... and counting them
+			return matchTags.length
 		})
-		return test
+		// then the score of a query is the max of its queryLine scores
+		return { ...c, score: Math.max(...lineScore) }
 	})
 
-	return category
+	// calculate max score of all categories
+	const maxScore = Math.max.apply(
+		Math,
+		categories.map((c) => c.score)
+	)
+	// exit if no match
+	if (maxScore == 0) return
+
+	// filter categories on max score
+	categories = categories.filter((c) => c.score == maxScore)
+
+	// if only 1 match, return it
+	if (categories.length == 1) return categories[0]
+
+	// else (same max score for several categories)
+
+	// handle specific cases
+	// Parking : car VS bicycle
+	if (tags.amenity == 'parking')
+		return categories.filter((c) => c.key == 'parking-voiture')[0]
+	if (tags.amenity == 'bicycle_parking')
+		return categories.filter((c) => c.key == 'parking-velo')[0]
+	// TODO handle other specific cases
+
+	// case not handled yet : log it
+	console.log(
+		'findCategory from tags : multiple matchs with same score',
+		categories,
+		tags
+	)
+	// and choose 1 by chance (ahaha)
+	return categories[Math.floor(Math.random() * categories.length)]
 }
 
 const pattern = /\[([^\]]+)\]/g
