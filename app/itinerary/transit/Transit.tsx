@@ -252,12 +252,12 @@ const TimelineTransportBlockWrapper = styled.span`
 // + our own through brouter and valhalla. A refactoring should be done at some
 // point
 export const TimelineTransportBlock = ({ transport }) => {
-	console.log('lightgreen TimelineTransportBlock', transport)
 	const [constraint, setConstraint] = useState('none')
 	const background = transport.routeColor
 		? handleColor(transport.routeColor)
 		: '#d3b2ee'
 
+	console.log('lightgreen TimelineTransportBlock', transport, background)
 	const ref = useRef<HTMLDivElement>(null)
 	const { width = 0, height = 0 } = useResizeObserver({
 		ref,
