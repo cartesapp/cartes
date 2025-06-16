@@ -7,9 +7,10 @@ import {
 	stepModeParamsToMotis,
 } from '@/components/transit/modes'
 import { lightenColor } from '@/components/utils/colors'
-import { distance, point } from '@turf/turf'
+import { booleanContains, distance, point } from '@turf/turf'
 import { handleColor, trainColors } from './colors'
 import { defaultRouteColor, nowStamp, stamp } from './utils'
+import { hexagonePerimeter } from '@/components/transit/hexagoneMotisPerimeter'
 
 export const computeMotisTrip = async (
 	start,
@@ -18,11 +19,33 @@ export const computeMotisTrip = async (
 	searchParams = {}
 ) => {
 	const body = buildRequestBody(start, destination, date, searchParams)
-	console.log('indigo motis body', searchParams)
+	console.log('indigo motis body', searchParams, start, destination)
+
+	const startDestinationLine = {
+		type: 'Feature',
+		geometry: {
+			type: 'LineString',
+			coordinates: [
+				[+start.lng, +start.lat],
+				[+destination.lng, +destination.lat],
+			],
+		},
+		properties: {},
+	}
+
+	console.log('indigo line', startDestinationLine)
+	const isInHexagone = booleanContains(hexagonePerimeter, startDestinationLine)
+	const dynamicServerUrl = isInHexagone
+		? motisServerUrl
+		: `https://api.transitous.org`
+
+	const credits = isInHexagone
+		? 'calculateur de transports de Cartes.app basé sur Motis'
+		: 'calculateur de transports européen Transitous basé sur Motis'
 
 	try {
 		const request = await fetch(
-			motisServerUrl + '/api/v2/plan?' + new URLSearchParams(body).toString(),
+			dynamicServerUrl + '/api/v2/plan?' + new URLSearchParams(body).toString(),
 			{
 				method: 'GET',
 				headers: {
@@ -106,7 +129,7 @@ export const computeMotisTrip = async (
 					/* Temporal aspect */
 
 					const shortName = frenchTrainType || leg.routeShortName
-					return {
+					const result = {
 						...leg,
 						...customAttributes,
 						routeColorDarker: customAttributes.routeColor
@@ -116,6 +139,8 @@ export const computeMotisTrip = async (
 						frenchTrainType,
 						shortName,
 					}
+					console.log('indigo motis', result)
+					return result
 				})
 				/* TODO, useless now, v1 had no duration agregaed value ?
 				const seconds = augmentedLegs.reduce(
@@ -133,6 +158,7 @@ export const computeMotisTrip = async (
 		const augmentedResponse = {
 			...json,
 			itineraries: augmentedItineraries,
+			credits,
 		}
 		return augmentedResponse
 	} catch (e) {

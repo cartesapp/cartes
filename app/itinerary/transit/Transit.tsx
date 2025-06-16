@@ -99,6 +99,7 @@ const TransitContent = ({ itinerary, searchParams, date }) => {
 							from: firstStop,
 							to: lastStop,
 						}}
+						credits={data.credits}
 					/>
 				</section>
 			) : (
@@ -115,6 +116,7 @@ const TransitTimelineWrapper = styled.div`
 		width: ${(p) => p.$width}%;
 		min-width: 100%;
 	}
+	max-height: 30rem;
 `
 const TransitTimeline = ({
 	connections,
@@ -122,6 +124,7 @@ const TransitTimeline = ({
 	connectionsTimeRange,
 	selectedConnection,
 	choix,
+	credits,
 }) => {
 	const setSearchParams = useSetSearchParams()
 
@@ -145,26 +148,48 @@ const TransitTimeline = ({
 	 * range -> total %
 	 * */
 	return (
-		<TransitTimelineWrapper $width={((range * 0.6) / quickest) * 100}>
-			<ul>
-				{connections.map((el, index) => (
-					<Connection
-						key={index}
-						connection={el}
-						endTime={endTime}
-						date={date}
-						selected={+selectedConnection === index}
-						setSelectedConnection={(choix) => setSearchParams({ choix })}
-						index={index}
-						choix={choix}
-						connectionsTimeRange={connectionsTimeRange}
-						relativeWidth={
-							0.6 // by construction, I think it's at least 0.6, so safe for <Line/>
-						}
-					/>
-				))}
-			</ul>
-		</TransitTimelineWrapper>
+		<section>
+			<TransitTimelineWrapper $width={((range * 0.6) / quickest) * 100}>
+				<ul>
+					{connections.map((el, index) => (
+						<Connection
+							key={index}
+							connection={el}
+							endTime={endTime}
+							date={date}
+							selected={+selectedConnection === index}
+							setSelectedConnection={(choix) => setSearchParams({ choix })}
+							index={index}
+							choix={choix}
+							connectionsTimeRange={connectionsTimeRange}
+							relativeWidth={
+								0.6 // by construction, I think it's at least 0.6, so safe for <Line/>
+							}
+						/>
+					))}
+				</ul>
+			</TransitTimelineWrapper>
+			<Credits credits={credits} />
+		</section>
+	)
+}
+
+const Credits = ({ credits }) => {
+	if (!credits) return
+	return (
+		<div>
+			<small
+				style={{
+					fontSize: '65%',
+					color: 'gray',
+					textAlign: 'right',
+					width: '100%',
+					paddingRight: '1rem',
+				}}
+			>
+				Sources : {credits}
+			</small>
+		</div>
 	)
 }
 
@@ -252,12 +277,12 @@ const TimelineTransportBlockWrapper = styled.span`
 // + our own through brouter and valhalla. A refactoring should be done at some
 // point
 export const TimelineTransportBlock = ({ transport }) => {
-	console.log('lightgreen TimelineTransportBlock', transport)
 	const [constraint, setConstraint] = useState('none')
 	const background = transport.routeColor
 		? handleColor(transport.routeColor)
 		: '#d3b2ee'
 
+	console.log('lightgreen TimelineTransportBlock', transport, background)
 	const ref = useRef<HTMLDivElement>(null)
 	const { width = 0, height = 0 } = useResizeObserver({
 		ref,
