@@ -40,8 +40,8 @@ export const computeMotisTrip = async (
 		: `https://api.transitous.org`
 
 	const credits = isInHexagone
-		? 'Calculateur de transports de Cartes.app basé sur Motis'
-		: 'Calculateur de transports européen Transitous basé sur Motis'
+		? 'calculateur de transports de Cartes.app basé sur Motis'
+		: 'calculateur de transports européen Transitous basé sur Motis'
 
 	try {
 		const request = await fetch(

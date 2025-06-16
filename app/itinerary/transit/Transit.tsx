@@ -187,7 +187,7 @@ const Credits = ({ credits }) => {
 					paddingRight: '1rem',
 				}}
 			>
-				{credits}
+				Sources : {credits}
 			</small>
 		</div>
 	)
