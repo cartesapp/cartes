@@ -32,6 +32,10 @@ const nextConfig = {
 				protocol: 'https',
 				hostname: 'www.openstreetmap.org',
 			},
+			{
+				protocol: 'https',
+				hostname: 'www.gravatar.com',
+			},
 		],
 	},
 	eslint: {
