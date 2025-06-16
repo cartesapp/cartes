@@ -39,6 +39,10 @@ export const computeMotisTrip = async (
 		? motisServerUrl
 		: `https://api.transitous.org`
 
+	const credits = isInHexagone
+		? 'Calculateur de transports de Cartes.app basé sur Motis'
+		: 'Calculateur de transports européen Transitous basé sur Motis'
+
 	try {
 		const request = await fetch(
 			dynamicServerUrl + '/api/v2/plan?' + new URLSearchParams(body).toString(),
@@ -154,6 +158,7 @@ export const computeMotisTrip = async (
 		const augmentedResponse = {
 			...json,
 			itineraries: augmentedItineraries,
+			credits,
 		}
 		return augmentedResponse
 	} catch (e) {
