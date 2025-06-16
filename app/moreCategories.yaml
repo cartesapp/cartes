@@ -94,10 +94,7 @@
   dictionary:
     - italien
     - pâtes
-  query:
-    - '[amenity=restaurant][cuisine~"italian|pizza"]'
-    - '[food=pizza]'
-    - '["food:pizza"=yes]'
+  query: '[amenity=restaurant][cuisine~"italian|pizza"]'
   icon: restaurant
 
 - name: (restaurants )libanais
@@ -116,8 +113,7 @@
     - italien
     - pâtes
   query:
-    - '[amenity=restaurant][cuisine~pizza]'
-    - '[food=pizza]'
+    - '[cuisine~pizza]'
     - '["food:pizza"=yes]'
   icon: restaurant-pizza
   icon alias: pizza
