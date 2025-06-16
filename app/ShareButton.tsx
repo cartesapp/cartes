@@ -18,7 +18,7 @@ export default function ShareButton({ osmFeature, geocodedClickedPoint }) {
 	}, [setNavigatorShare])
 
 	const photonFeatures = geocodedClickedPoint?.data?.features,
-		photonFeatureProperties = photonFeatures && photonFeatures[0].properties
+		photonFeatureProperties = photonFeatures && photonFeatures[0]?.properties
 
 	const text =
 		osmFeature?.name ||
