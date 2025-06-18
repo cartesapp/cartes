@@ -1,3 +1,5 @@
+⚠️ Migré sur https://codeberg.org/cartes/web
+
 # Cartes
 
 > Venez discuter du projet sur le [canal matrix](https://matrix.to/#/#cartes:matrix.org) !
